@@ -1,0 +1,214 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+// prisma/schema.prisma
+// prisma/schema.prisma
+// npx prisma db push --force-reset
+// npx prisma migrate dev --name create-user-authentication-table
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                Int                 @id @default(autoincrement())
+  role              String
+  username          String?
+  firstName         String?
+  lastName          String?
+  email             String?             @unique
+  pincode           String?
+  phoneNumber       String?
+  avatar            String?
+  orderCount        Int?
+  hashedPassword    String?
+  address           String?
+  country           String?
+  state             String?
+  city              String?
+  gender            String?
+  age               Int?
+  isPhoneVerified   Boolean             @default(false)
+  isEmailVerified   Boolean             @default(false)
+  carts             Cart[]
+  wishlists         Wishlist[]
+  orders            Order[]
+  shippingAddresses ShippingAddress[]
+  paymentMethods    PaymentMethod[]
+  authentication    UserAuthentication?
+}
+
+model UserAuthentication {
+  id                  Int       @id @default(autoincrement())
+  userId              Int       @unique
+  emailOtp            String?
+  emailExpirationTime DateTime?
+  phoneOtp            String?
+  phoneExpirationTime DateTime?
+  newEmail            String?   @unique
+  isPhoneVerified     Boolean   @default(false)
+  isEmailVerified     Boolean   @default(false)
+  user                User      @relation(fields: [userId], references: [id])
+}
+
+model Admin {
+  id          Int     @id @default(autoincrement())
+  name        String
+  email       String? @unique
+  phoneNumber String?
+}
+
+model Inventory {
+  id                    Int              @id @default(autoincrement())
+  skuId                 String?          @unique
+  images                String[]
+  video                 String?
+  category              Category?        @relation(fields: [categoryId], references: [id])
+  subCategory           SubCategory?     @relation(fields: [subCategoryId], references: [id])
+  quantity              Int?
+  solQuantity           Int?
+  minQuantity           Int?
+  maxQuantity           Int?
+  sellingPrice          Float?
+  costPrice             Float?
+  discountedPrice       Float?
+  discountCount         Int?
+  availability          Boolean?
+  status                InventoryStatus?
+  style                 String?
+  pattern               String?
+  fabric                String?
+  type                  String?
+  size                  String?
+  includedItems         Json?
+  itemDimensions        String?
+  colorVariation        String?
+  extraOptionOutOfStock Boolean?
+  specialFeatures       Json?
+  threadCount           Int?
+  itemWeight            Float?
+  origin                String?
+  extraNote             String?
+  disclaimer            String?
+  careInstructions      String[]
+  categoryId            Int?
+  subCategoryId         Int?
+}
+
+model Category {
+  id            Int           @id @default(autoincrement())
+  categoryName  String
+  description   String?
+  icon          String?
+  subcategories SubCategory[]
+  Inventory     Inventory[]
+}
+
+model SubCategory {
+  id              Int         @id @default(autoincrement())
+  subcategoryName String
+  categoryId      Int
+  description     String?
+  icon            String?
+  category        Category    @relation(fields: [categoryId], references: [id])
+  Inventory       Inventory[]
+}
+
+model Cart {
+  id       Int  @id @default(autoincrement())
+  userId   Int
+  user     User @relation(fields: [userId], references: [id])
+  products Json
+}
+
+model Wishlist {
+  id       Int  @id @default(autoincrement())
+  userId   Int
+  user     User @relation(fields: [userId], references: [id])
+  products Json
+}
+
+model Order {
+  id                Int               @id @default(autoincrement())
+  userId            Int
+  orderID           Int
+  user              User              @relation(fields: [userId], references: [id])
+  productId         Int?
+  trekkingId        Int?
+  giftOption        Boolean?
+  Total             Int
+  shippingAddresses ShippingAddress[]
+  Transaction       Transaction[]
+}
+
+model ShippingAddress {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id])
+  productId    Int?
+  trekkingId   Int?
+  addressLine1 String
+  addressLine2 String?
+  city         String
+  state        String
+  country      String
+  postalCode   String
+  phoneNumber  String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  Order        Order?   @relation(fields: [orderId], references: [id])
+  orderId      Int?
+}
+
+model PaymentMethod {
+  id             Int           @id @default(autoincrement())
+  userId         Int
+  user           User          @relation(fields: [userId], references: [id])
+  cardNumber     String        @db.VarChar(255)
+  cardholderName String
+  expiryDate     String
+  billingAddress Json?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  Transaction    Transaction[]
+}
+
+model Transaction {
+  id              Int               @id @default(autoincrement())
+  orderId         Int
+  order           Order             @relation(fields: [orderId], references: [id])
+  paymentMethodId Int
+  paymentMethod   PaymentMethod     @relation(fields: [paymentMethodId], references: [id])
+  amount          Float
+  status          TransactionStatus
+  transactionDate DateTime
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+model ClientLove {
+  id       Int     @id @default(autoincrement())
+  video    String?
+  text     String?
+  imageUrl String?
+}
+
+enum InventoryStatus {
+  PENDING
+  DISPATCHED
+  SOLD
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
