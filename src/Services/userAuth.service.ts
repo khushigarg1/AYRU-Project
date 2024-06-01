@@ -2,8 +2,8 @@
 
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-// import jwt from "jsonwebtoken";
-// import { sendEmail } from "./mail";
+import jwt from "jsonwebtoken";
+import { sendEmail } from "./mail";
 import { generateRandomNumber } from "../utils/utils";
 import {
   ApiBadRequestError,
@@ -94,6 +94,7 @@ class UserAuthServices {
       throw new ApiInternalServerError("Failed to send email OTP");
     }
   }
+
   ///-------------------------------------------VERIFY EMAIL OTP-----------------------------------------
   async verifyEmailOTP(
     server: FastifyInstance,
@@ -174,6 +175,7 @@ class UserAuthServices {
       return [false];
     }
   }
+
   ///-------------------------------------------SEND PHONE OTP-----------------------------------------
   async sendPhoneOTP(email: string, phoneNumber: string, role: string) {
     if (!email || !phoneNumber || !role) {
@@ -312,6 +314,7 @@ class UserAuthServices {
       throw new ApiBadRequestError("Invalid OTP provided.");
     }
   }
+
   ///--------------------------------------------SET PASSWORD-----------------------------------------
   async setPassword(email: string, role: string, newPassword: string) {
     if (!email || !role || !newPassword) {
@@ -347,6 +350,7 @@ class UserAuthServices {
     }
   }
 
+  // /-------------------------------------------LOGIN USER---------------------------------------
   async loginUser(email: string, password: string) {
     const user = await prisma.user.findUnique({ where: { email: email } });
     if (!user || !user.hashedPassword) {
@@ -367,34 +371,94 @@ class UserAuthServices {
     };
   }
 
-  async signupAdmin(email: string, password: string) {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await prisma.user.create({
-      data: {
-        email,
-        hashedPassword,
-        role: "admin", // Assign the admin role
-      },
-    });
-    return user;
-  }
-
-  async loginAdmin(email: string, password: string) {
-    const user = await prisma.user.findUnique({ where: { email } });
-    if (!user || !user.hashedPassword) {
-      return {
-        user: null,
-        isMatch: false,
-        message: "Firstly create user or set password from settings",
-      };
+  // /-------------------------------------------REWUEST EMAIL CHANGE---------------------------------------
+  async requestEmailChange(
+    server: FastifyInstance,
+    request: FastifyRequest,
+    reply: FastifyReply,
+    newemail: string
+    // id: number
+  ) {
+    if (!newemail) {
+      return reply.code(400).send({ message: "New email is required" });
     }
 
-    const isMatch = await bcrypt.compare(password, user.hashedPassword);
-    return {
-      user,
-      isMatch,
-      message: isMatch ? "Login successful" : "Invalid password",
-    };
+    const id = request.user.id;
+    console.log("id-------", id);
+
+    const token = jwt.sign({ id, email: newemail }, JWT_TOKEN_SECRET, {
+      expiresIn: "1h",
+    });
+
+    const confirmationLink = `https://your-ecommerce-site.com/confirm-email-change?token=${token}`;
+
+    try {
+      await sendEmail(
+        newemail,
+        "Confirm your email change",
+        `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd;">
+        <h1 style="color: #333;">Your E-commerce Site</h1>
+        <p style="font-size: 16px;">Please confirm your email change by clicking on the following link:</p>
+        <a href="${confirmationLink}" style="display: inline-block; padding: 10px 20px; color: #fff; background-color: #007bff; text-decoration: none; border-radius: 5px;">Confirm your email change</a>
+        <p style="font-size: 16px; margin-top: 20px;">If you did not request this email change, please ignore this email.</p>
+        <div style="margin-top: 30px; font-size: 14px;">
+          <p>Thank you,</p>
+            <p>AYRU JAIPUR</p>
+            <p>+91-9785852222</p>
+        </div>
+      </div>
+    `
+      );
+
+      reply.send({
+        accessToken: token,
+        message: "Confirmation email sent. Please check your inbox.",
+      });
+    } catch (error) {
+      throw new ApiInternalServerError("Failed to send confirmation email");
+    }
+  }
+
+  // /-------------------------------------------CONFIRM EMAIL CHANGE---------------------------------------
+  async confirmEmailChange(
+    server: FastifyInstance,
+    request: FastifyRequest,
+    reply: FastifyReply,
+    id: number,
+    newemail: string
+  ) {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id },
+      });
+      if (!user || !user?.userAuthenticationId) {
+        return reply.code(404).send({ message: "User not found" });
+      }
+      const userAuth = await prisma.userAuthentication.findUnique({
+        where: { id: user?.userAuthenticationId },
+      });
+
+      await prisma.user.update({
+        where: { id: id },
+        data: {
+          email: newemail,
+          // isEmailVerified: false
+        },
+      });
+      await prisma.userAuthentication.update({
+        where: { id: user?.userAuthenticationId },
+        data: {
+          newEmail: userAuth?.email,
+          email: newemail,
+          // isEmailVerified: false,
+        },
+      });
+
+      reply.send({ message: "Email updated successfully" });
+    } catch (error) {
+      reply.code(400).send({ message: (error as Error).message });
+    }
   }
   // async getAccessToken(server: FastifyInstance, user: any) {
   //   const token = server.jwt.sign(user, {

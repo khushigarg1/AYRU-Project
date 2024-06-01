@@ -2,25 +2,31 @@ import { FastifyInstance } from "fastify";
 import {
   adminSignup,
   adminLogin,
+  editAdminDetails,
+  changeAdminPasswordHandler,
   // getAccessToken,
-} from "../controllers/adminauth.controller";
-export default async function AuthRoutes(server: FastifyInstance) {
-  // Admin signup
-  server.post("/admin/signup", (request, reply) =>
+} from "../Controllers/adminAuth.controller";
+
+export default async function AdminAuthRoutes(server: FastifyInstance) {
+  server.post("/signup", (request, reply) =>
     adminSignup(server, request, reply)
   );
 
-  // Admin login
-  server.post("/admin/login", (request, reply) =>
-    adminLogin(server, request, reply)
+  server.put(
+    "/editdetail",
+    { onRequest: [server.authenticateAdmin] },
+    (request, reply) => {
+      editAdminDetails(server, request, reply);
+    }
   );
 
-  // Change admin password
-  // server.post<{
-  //   Body: { email: string; currentPassword: string; newPassword: string };
-  // }>(
-  //   "/admin/change-password",
-  //   { onRequest: [server.authenticateAdmin] },
-  //   (request, reply) => changeAdminPasswordHandler(server, request, reply)
-  // );
+  server.post("/login", (request, reply) => adminLogin(server, request, reply));
+
+  server.put<{
+    Body: { email: string; currentPassword: string; newPassword: string };
+  }>(
+    "/change-password",
+    { onRequest: [server.authenticateAdmin] },
+    (request, reply) => changeAdminPasswordHandler(server, request, reply)
+  );
 }

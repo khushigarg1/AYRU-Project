@@ -1,11 +1,11 @@
 import fastify from "fastify";
 import { PrismaClient } from "@prisma/client";
 import aauthMiddleware from "./middleware/auth";
-import AuthRoutes from "./routes/authRoute.routes";
+import AuthRoutes from "./routes/userAuthRoute.routes";
 // import multipart from "@fastify/multipart";
 import fastifyJwt from "@fastify/jwt";
 import cors from "@fastify/cors";
-import UserRoutes from "./routes/user.routes";
+import AdminAuthRoutes from "./routes/adminAuth.route";
 
 const server = fastify({ logger: true });
 const prisma = new PrismaClient();
@@ -30,7 +30,7 @@ server.get("/", function (request, reply) {
   reply.send({ hello: "world" });
 });
 server.register(AuthRoutes, { prefix: "/api/auth" });
-server.register(UserRoutes, { prefix: "/api/user" });
+server.register(AdminAuthRoutes, { prefix: "/api/auth/admin" });
 
 server.listen(3000, (err, address) => {
   if (err) {

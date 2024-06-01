@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-import userAuthServices from "../Services/auth.service";
+import userAuthServices from "../Services/userAuth.service";
 // import {
 //   CreateUser,
 //   CreateAdmin,
@@ -13,6 +13,7 @@ import jwt from "jsonwebtoken";
 const prisma = new PrismaClient();
 const SALT_ROUNDS = 10;
 
+// /-------------------------------------------SEND OTP AT EMAIL---------------------------------------
 export async function sendEmailOTP(
   server: FastifyInstance,
   request: FastifyRequest,
@@ -27,6 +28,7 @@ export async function sendEmailOTP(
   }
 }
 
+// /-------------------------------------------VERIFY EMAIL OTP---------------------------------------
 export async function verifyEmailOTP(
   server: FastifyInstance,
   request: FastifyRequest,
@@ -55,6 +57,7 @@ export async function verifyEmailOTP(
   }
 }
 
+// /-------------------------------------------SEND OTP AT PHONE---------------------------------------
 export async function sendPhoneOTP(
   server: FastifyInstance,
   request: FastifyRequest,
@@ -77,6 +80,7 @@ export async function sendPhoneOTP(
   }
 }
 
+// /-------------------------------------------VERIFY PHONE OTP ---------------------------------------
 export async function verifyPhoneOTP(
   server: FastifyInstance,
   request: FastifyRequest,
@@ -100,6 +104,7 @@ export async function verifyPhoneOTP(
   }
 }
 
+// /-------------------------------------------SET PASSWORD---------------------------------------
 export async function setPassword(
   server: FastifyInstance,
   request: FastifyRequest,
@@ -118,6 +123,7 @@ export async function setPassword(
   }
 }
 
+// /-------------------------------------------USER LOGIN---------------------------------------
 export async function userLogin(
   server: FastifyInstance,
   request: FastifyRequest,
@@ -151,65 +157,59 @@ export async function userLogin(
   reply.send({ accessToken: token, data: user });
 }
 
-// export async function getAccessToken(
-//   server: FastifyInstance,
-//   request: FastifyRequest,
-//   reply: FastifyReply
-// ) {
-//   const user = request.body;
-//   try {
-//     const token = await userAuthServices.getAccessToken(user);
-//     reply.send({ token });
-//   } catch (error) {
-//     reply.code(400).send({ message: (error as Error).message });
-//   }
-// }
+// /-------------------------------------------REQUESTING FOR EMAIL CHANGE---------------------------------------
+export async function requestEmailChange(
+  server: FastifyInstance,
+  request: FastifyRequest,
+  reply: FastifyReply
+  // user: any
+) {
+  const { newemail } = request.body as { newemail: string };
+  // const id = user?.id;
+  try {
+    const response = await userAuthServices.requestEmailChange(
+      server,
+      request,
+      reply,
+      newemail
+      // id
+    );
+    reply.send(response);
+  } catch (error) {
+    reply.code(400).send({ message: (error as Error).message });
+  }
+}
 
-// export async function userSignup(
-//   server: FastifyInstance,
-//   request: FastifyRequest,
-//   reply: FastifyReply
-// ) {
-//   const {
-//     username,
-//     email,
-//     hashedPassword,
-//     phoneNumber,
-//     country,
-//     state,
-//     city,
-//     gender,
-//     age,
-//     role,
-//     firstName,
-//     lastName,
-//   } = request.body as CreateUser["body"];
+// /-------------------------------------------CONFIRM EMAIL CHANGE---------------------------------------
+export async function confirmEmailChange(
+  server: FastifyInstance,
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { token } = request.query as { token: string };
+  if (!token) {
+    return reply.code(400).send({ message: "Token is required" });
+  }
+  console.log("tokennn---", token);
 
-//   const hash = await bcrypt.hash(hashedPassword, SALT_ROUNDS);
-//   const userdata = await prisma.user.create({
-//     data: {
-//       username,
-//       email,
-//       hashedPassword: hash,
-//       phoneNumber,
-//       country,
-//       state,
-//       city,
-//       gender,
-//       age,
-//       role,
-//       firstName,
-//       lastName,
-//     },
-//   });
+  try {
+    const secretKey = process.env.JWT_TOKEN_SECRET;
+    const decoded = server.jwt.verify(token) as {
+      id: number;
+      email: string;
+    };
+    if (!decoded || !decoded.id || !decoded.email) {
+      throw new Error("Invalid token or missing data");
+    }
 
-//   const payload = {
-//     userId: userdata.id,
-//     username: userdata.username,
-//     phoneNumber: userdata.phoneNumber,
-//     role: userdata.role,
-//   };
-
-//   const token = server.jwt.sign(payload);
-//   reply.send({ token });
-// }
+    await userAuthServices.confirmEmailChange(
+      server,
+      request,
+      reply,
+      decoded?.id,
+      decoded.email
+    );
+  } catch (error) {
+    reply.code(400).send({ message: (error as Error).message });
+  }
+}

@@ -13,8 +13,10 @@ import {
   verifyPhoneOTP,
   verifyEmailOTP,
   setPassword,
+  requestEmailChange,
+  confirmEmailChange,
   // getAccessToken,
-} from "../controllers/auth.controller";
+} from "../Controllers/userAuth.controller";
 
 export default async function AuthRoutes(server: FastifyInstance) {
   server.post("/send-email-otp", (request, reply) =>
@@ -47,4 +49,17 @@ export default async function AuthRoutes(server: FastifyInstance) {
   server.post<{ Body: LoginUserBody }>("/user/login", (request, reply) =>
     userLogin(server, request, reply)
   );
+  server.post(
+    "/request-email-change",
+    { onRequest: [server.authenticateUser] },
+    // { preHandler: server.authenticateUser },
+    (request, reply) => {
+      // console.log(request?.user, request);
+
+      requestEmailChange(server, request, reply);
+    }
+  );
+  server.get("/confirm-email-change", (request, reply) => {
+    confirmEmailChange(server, request, reply);
+  });
 }
