@@ -13,11 +13,12 @@ import {
 export default async function UserRoutes(server: FastifyInstance) {
   server.post(
     "/request-email-change",
-    { onRequest: [server.authenticateUser] },
+    // { onRequest: [server.authenticateUser] },
+    { preHandler: [server.authenticateUser] },
     (request, reply) => {
       // console.log(request?.user, request);
 
-      requestEmailChange(server, request, reply, request.user);
+      requestEmailChange(server, request, reply);
     }
   );
   server.get("/confirm-email-change", (request, reply) => {

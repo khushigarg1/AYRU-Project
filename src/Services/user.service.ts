@@ -19,14 +19,14 @@ class UserServices {
     server: FastifyInstance,
     request: FastifyRequest,
     reply: FastifyReply,
-    newemail: string,
-    id: number
+    newemail: string
+    // id: number
   ) {
     if (!newemail) {
       return reply.code(400).send({ message: "New email is required" });
     }
 
-    // const id = request.user.id;
+    const id = request.user.id;
     console.log("id-------", id);
 
     const token = jwt.sign({ id, email: newemail }, JWT_TOKEN_SECRET, {

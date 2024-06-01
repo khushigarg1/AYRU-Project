@@ -1,4 +1,5 @@
 import "fastify";
+import { FastifyRequest } from "fastify";
 
 declare module "fastify" {
   interface FastifyInstance {
@@ -10,6 +11,16 @@ declare module "fastify" {
       request: FastifyRequest,
       reply: FastifyReply
     ) => Promise<void>;
+  }
+  interface FastifyRequest {
+    user: {
+      id?: number;
+      role?: string;
+      email?: string;
+      phoneNumber?: string;
+      isEmailVerified?: boolean;
+      isPhoneVerified?: boolean;
+    };
   }
 }
 

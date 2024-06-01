@@ -11,18 +11,18 @@ const SALT_ROUNDS = 10;
 export async function requestEmailChange(
   server: FastifyInstance,
   request: FastifyRequest,
-  reply: FastifyReply,
-  user: any
+  reply: FastifyReply
+  // user: any
 ) {
   const { newemail } = request.body as { newemail: string };
-  const id = user?.id;
+  // const id = user?.id;
   try {
     const response = await userService.requestEmailChange(
       server,
       request,
       reply,
-      newemail,
-      id
+      newemail
+      // id
     );
     reply.send(response);
   } catch (error) {
