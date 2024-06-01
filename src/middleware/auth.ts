@@ -5,8 +5,8 @@ export default async function authMiddleware(server: FastifyInstance) {
   // User Authentication Middleware
   server.decorate(
     "authenticateUser",
-    async function (req: FastifyRequest, reply: FastifyReply) {
-      const authHeader = req.headers.authorization;
+    async function (request: FastifyRequest, reply: FastifyReply) {
+      const authHeader = request.headers.authorization;
       if (!authHeader) {
         return reply
           .code(401)
@@ -31,7 +31,7 @@ export default async function authMiddleware(server: FastifyInstance) {
         if (decoded.role !== "user") {
           throw new Error("Access denied. Not a user.");
         }
-        req.user = decoded; // Attach user details to the request
+        request.user = decoded;
       } catch (err) {
         return reply.code(401).send({ message: (err as Error).message });
       }
@@ -41,8 +41,8 @@ export default async function authMiddleware(server: FastifyInstance) {
   // Admin Authentication Middleware
   server.decorate(
     "authenticateAdmin",
-    async function (req: FastifyRequest, reply: FastifyReply) {
-      const authHeader = req.headers.authorization;
+    async function (request: FastifyRequest, reply: FastifyReply) {
+      const authHeader = request.headers.authorization;
       if (!authHeader) {
         return reply
           .code(401)
@@ -67,7 +67,7 @@ export default async function authMiddleware(server: FastifyInstance) {
         if (decoded.role !== "admin") {
           throw new Error("Access denied. Not an admin.");
         }
-        req.user = decoded; // Attach user details to the request
+        request.user = decoded;
       } catch (err) {
         return reply.code(401).send({ message: (err as Error).message });
       }

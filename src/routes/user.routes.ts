@@ -15,7 +15,9 @@ export default async function UserRoutes(server: FastifyInstance) {
     "/request-email-change",
     { onRequest: [server.authenticateUser] },
     (request, reply) => {
-      requestEmailChange(server, request, reply);
+      // console.log(request?.user, request);
+
+      requestEmailChange(server, request, reply, request.user);
     }
   );
   server.get("/confirm-email-change", (request, reply) => {

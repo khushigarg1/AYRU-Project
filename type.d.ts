@@ -12,3 +12,12 @@ declare module "fastify" {
     ) => Promise<void>;
   }
 }
+
+// export interface User {
+//   id?: number;
+//   role?: string;
+//   email?: string;
+//   phoneNumber?: string;
+//   isEmailVerified?: boolean;
+//   isPhoneVerified?: boolean;
+// }
