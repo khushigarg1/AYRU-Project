@@ -6,17 +6,14 @@ import {
   LoginAdminBody,
 } from "../schema/auth.schema";
 import {
-  userSignup,
+  // userSignup,
   userLogin,
-  adminSignup,
-  adminLogin,
-  changeAdminPasswordHandler,
   sendEmailOTP,
   sendPhoneOTP,
   verifyPhoneOTP,
   verifyEmailOTP,
   setPassword,
-  getAccessToken,
+  // getAccessToken,
 } from "../controllers/auth.controller";
 
 export default async function AuthRoutes(server: FastifyInstance) {
@@ -37,39 +34,17 @@ export default async function AuthRoutes(server: FastifyInstance) {
     setPassword(server, request, reply);
   });
 
-  server.post("/edit-email", (request, reply) => {
-    editEmail(server, request, reply);
-  });
   // server.post("/get-access-token", (request, reply) =>
   //   getAccessToken(server, request, reply)
   // );
 
-  // // User signup
+  // User signup
   // server.post<{ Body: CreateUserBody }>("/user/signup", (request, reply) =>
   //   userSignup(server, request, reply)
   // );
 
-  // // User login
-  // server.post<{ Body: LoginUserBody }>("/user/login", (request, reply) =>
-  //   userLogin(server, request, reply)
-  // );
-
-  // Admin signup
-  server.post<{ Body: CreateAdminBody }>("/admin/signup", (request, reply) =>
-    adminSignup(server, request, reply)
+  // User login
+  server.post<{ Body: LoginUserBody }>("/user/login", (request, reply) =>
+    userLogin(server, request, reply)
   );
-
-  // Admin login
-  server.post<{ Body: LoginAdminBody }>("/admin/login", (request, reply) =>
-    adminLogin(server, request, reply)
-  );
-
-  // Change admin password
-  // server.post<{
-  //   Body: { email: string; currentPassword: string; newPassword: string };
-  // }>(
-  //   "/admin/change-password",
-  //   { onRequest: [server.authenticateAdmin] },
-  //   (request, reply) => changeAdminPasswordHandler(server, request, reply)
-  // );
 }

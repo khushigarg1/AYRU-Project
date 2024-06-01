@@ -1,52 +1,80 @@
-import fastify, {
-  FastifyInstance,
-  FastifyRequest,
-  FastifyReply,
-} from "fastify";
-import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
-
-const prisma = new PrismaClient();
-const SALT_ROUNDS = 10;
+import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
+import jwt from "jsonwebtoken";
 
 export default async function authMiddleware(server: FastifyInstance) {
-  // server.register(require("fastify-jwt"), {
-  //   secret: "supersecret",
-  // });
-
-  // Authentication for users
+  // User Authentication Middleware
   server.decorate(
     "authenticateUser",
     async function (req: FastifyRequest, reply: FastifyReply) {
+      const authHeader = req.headers.authorization;
+      if (!authHeader) {
+        return reply
+          .code(401)
+          .send({ message: "Authorization header missing" });
+      }
+
+      const token = authHeader.split(" ")[1];
+      if (!token) {
+        return reply.code(401).send({ message: "Token not found" });
+      }
+
       try {
-        await req.jwtVerify();
-        const { role } = req.user as { role: string };
-        if (role !== "user") {
+        const secretKey = process.env.JWT_TOKEN_SECRET;
+        if (!secretKey) {
+          throw new Error("JWT secret key not configured");
+        }
+
+        const decoded = jwt.verify(token, secretKey) as {
+          id: number;
+          role: string;
+        };
+        if (decoded.role !== "user") {
           throw new Error("Access denied. Not a user.");
         }
+        req.user = decoded; // Attach user details to the request
       } catch (err) {
-        reply.send(err);
+        return reply.code(401).send({ message: (err as Error).message });
       }
     }
   );
 
-  // Authentication for admin
+  // Admin Authentication Middleware
   server.decorate(
     "authenticateAdmin",
     async function (req: FastifyRequest, reply: FastifyReply) {
+      const authHeader = req.headers.authorization;
+      if (!authHeader) {
+        return reply
+          .code(401)
+          .send({ message: "Authorization header missing" });
+      }
+
+      const token = authHeader.split(" ")[1];
+      if (!token) {
+        return reply.code(401).send({ message: "Token not found" });
+      }
+
       try {
-        await req.jwtVerify();
-        const { role } = req.user as { role: string };
-        if (role !== "admin") {
+        const secretKey = process.env.JWT_TOKEN_SECRET;
+        if (!secretKey) {
+          throw new Error("JWT secret key not configured");
+        }
+
+        const decoded = jwt.verify(token, secretKey) as {
+          id: number;
+          role: string;
+        };
+        if (decoded.role !== "admin") {
           throw new Error("Access denied. Not an admin.");
         }
+        req.user = decoded; // Attach user details to the request
       } catch (err) {
-        reply.send(err);
+        return reply.code(401).send({ message: (err as Error).message });
       }
     }
   );
 
-  // Route to validate admin token
+  // Routes to validate tokens
   server.get(
     "/validate/admin",
     { onRequest: [server.authenticateAdmin] },
@@ -55,7 +83,6 @@ export default async function authMiddleware(server: FastifyInstance) {
     }
   );
 
-  // Route to validate user token
   server.get(
     "/validate/user",
     { onRequest: [server.authenticateUser] },

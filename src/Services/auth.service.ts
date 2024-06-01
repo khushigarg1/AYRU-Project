@@ -3,7 +3,7 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 // import jwt from "jsonwebtoken";
-import { sendEmail } from "./mail";
+// import { sendEmail } from "./mail";
 import { generateRandomNumber } from "../utils/utils";
 import {
   ApiBadRequestError,
@@ -11,7 +11,7 @@ import {
   ApiUnauthorizedError,
 } from "../errors";
 import { logger } from "../logger";
-import { FastifyInstance } from "fastify";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 
 const prisma = new PrismaClient();
 
@@ -30,30 +30,40 @@ class UserAuthServices {
     }
     let otp = generateRandomNumber(1000, 9999).toString();
     let expirationTime = new Date(Date.now() + 60000 * OTP_EXPIRATION);
-    let existingUser = await prisma.user.findFirst({
+    let existingUser = await prisma.userAuthentication.findFirst({
       where: { email },
     });
 
     if (!existingUser) {
-      existingUser = await prisma.user.create({
+      existingUser = await prisma.userAuthentication.create({
         data: {
           email,
           emailOtp: otp,
           emailExpirationTime: expirationTime,
-          role,
           isEmailVerified: false,
         },
       });
     } else {
-      existingUser = await prisma.user.update({
+      existingUser = await prisma.userAuthentication.update({
         where: { id: existingUser.id },
         data: {
           emailOtp: otp,
           emailExpirationTime: expirationTime,
-          role,
           isEmailVerified: false,
         },
       });
+      let checkUser = await prisma.user.findFirst({
+        where: { userAuthenticationId: existingUser?.id },
+      });
+
+      if (checkUser) {
+        await prisma.user.update({
+          where: { id: checkUser?.id },
+          data: {
+            isEmailVerified: false,
+          },
+        });
+      }
     }
 
     // if (process.env.NODE_ENV === "production" || true) {
@@ -79,7 +89,7 @@ class UserAuthServices {
     // }
     const emailResult = true;
     if (emailResult) {
-      return { message: `OTP sent to your email ${email}` };
+      return { message: `OTP sent to your email ${email}`, data: existingUser };
     } else {
       throw new ApiInternalServerError("Failed to send email OTP");
     }
@@ -98,52 +108,67 @@ class UserAuthServices {
         "Please provide the necessary details properly."
       );
     }
-    const checkUser = await prisma.user.findFirst({
+    let checkUserAuth = await prisma.userAuthentication.findFirst({
+      where: { email },
+    });
+    let checkUser = await prisma.user.findFirst({
       where: { email },
     });
 
-    if (!checkUser) {
+    if (!checkUserAuth) {
       throw new ApiBadRequestError(
         "No user found with provided role, email, and phone number."
       );
     }
 
     if (
-      checkUser?.emailExpirationTime &&
-      new Date(checkUser.emailExpirationTime).getTime() < new Date().getTime()
+      checkUserAuth?.emailExpirationTime &&
+      new Date(checkUserAuth.emailExpirationTime).getTime() <
+        new Date().getTime()
     ) {
       throw new ApiBadRequestError("OTP has expired");
     }
-    if (checkUser.emailOtp == OTP) {
-      await prisma.user.update({
-        where: { id: checkUser.id },
+    if (checkUserAuth.emailOtp == OTP) {
+      checkUserAuth = await prisma.userAuthentication.update({
+        where: { id: checkUserAuth.id },
         data: { isEmailVerified: true },
       });
+      if (!checkUser) {
+        checkUser = await prisma.user.create({
+          data: {
+            role,
+            email,
+            isEmailVerified: true,
+            userAuthenticationId: checkUserAuth?.id,
+          },
+        });
+      }
+      if (checkUser) {
+        checkUser = await prisma.user.update({
+          where: { id: checkUser?.id },
+          data: {
+            isEmailVerified: true,
+          },
+        });
+      }
       const payload = {
         id: checkUser?.id,
         email: checkUser?.email,
-        username: checkUser?.username,
         phoneNumber: checkUser?.phoneNumber,
         role: checkUser?.role,
         isEmailVerified: checkUser?.isEmailVerified,
         isPhoneVerified: checkUser?.isPhoneVerified,
       };
+      console.log("payload---", payload);
 
       const token = server.jwt.sign(payload);
-      // const payload1 = server.jwt.verify(token, {
-      //   secret: process.env.JWT_SECRET,
-      // });
-      // const payload2 = server.jwt.verify(
-      //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcmFtZSI6bnVsbCwicGhvbmVOdW1iZXIiOiI5MTY2NTY0OTA4Iiwicm9sZSI6InVzZXIiLCJpc0VtYWlsVmVyaWZpZWQiOnRydWUsImlzUGhvbmVWZXJpZmllZCI6dHJ1ZSwiaWF0IjoxNzE3MDg5Mjg5fQ.N3xv-6r6vOXuLCECNjTjLTeUiZbUVIke3WnE8qjl30I",
-      //   {
-      //     secret: "heyyy",
-      //   }
-      // );
-      // console.log(payload1, payload2);
-
       return [
         true,
-        { accessToken: token, message: "OTP verified", data: checkUser },
+        {
+          accessToken: token,
+          message: "OTP verified",
+          data: { userdata: checkUser, userauth: checkUserAuth },
+        },
       ];
     } else {
       return [false];
@@ -160,7 +185,7 @@ class UserAuthServices {
     let otp = generateRandomNumber(1000, 9999).toString();
     let expirationTime = new Date(Date.now() + 60000 * OTP_EXPIRATION);
     // if user with email exists or not
-    const existingUserByEmail = await prisma.user.findFirst({
+    const existingUserByEmail = await prisma.userAuthentication.findFirst({
       where: { email },
     });
 
@@ -171,9 +196,11 @@ class UserAuthServices {
     }
 
     // Check if the provided phone number is already in use
-    const existingUserByPhoneNumber = await prisma.user.findFirst({
-      where: { phoneNumber },
-    });
+    const existingUserByPhoneNumber = await prisma.userAuthentication.findFirst(
+      {
+        where: { phoneNumber },
+      }
+    );
 
     if (existingUserByPhoneNumber) {
       // Check if the user with the phone number is the same as the user with the provided email
@@ -184,26 +211,23 @@ class UserAuthServices {
       }
       if (existingUserByPhoneNumber.isPhoneVerified) {
         const existingUser = await prisma.user.findFirst({
-          where: { email, phoneNumber },
+          where: { userAuthenticationId: existingUserByPhoneNumber?.id },
         });
         return {
           message: "Phone number already in use with the same email.",
-          data: {
-            existingUser,
-          },
+          data: existingUser,
         };
       }
     }
 
     // If email is verified, update user with phone number and OTP
     if (existingUserByEmail.isEmailVerified && !existingUserByPhoneNumber) {
-      await prisma.user.update({
+      await prisma.userAuthentication.update({
         where: { id: existingUserByEmail?.id },
         data: {
           phoneNumber,
           phoneOtp: otp,
           phoneExpirationTime: expirationTime,
-          role,
           isPhoneVerified: false,
         },
       });
@@ -230,33 +254,45 @@ class UserAuthServices {
         "Please provide the necessary details properly."
       );
     }
-    const checkUser = await prisma.user.findFirst({
-      where: { phoneNumber, role },
+
+    let checkUserAuth = await prisma.userAuthentication.findFirst({
+      where: { phoneNumber },
     });
 
-    if (!checkUser) {
-      throw new ApiBadRequestError(
-        "No user found with provided role and phone number."
-      );
+    if (!checkUserAuth) {
+      throw new ApiBadRequestError("No user found with provided phone number.");
     }
 
     if (
-      checkUser?.phoneExpirationTime &&
-      new Date(checkUser.phoneExpirationTime).getTime() < new Date().getTime()
+      checkUserAuth?.phoneExpirationTime &&
+      new Date(checkUserAuth.phoneExpirationTime).getTime() <
+        new Date().getTime()
     ) {
       throw new ApiBadRequestError("OTP has expired");
     }
-    console.log(checkUser);
 
-    if (checkUser.phoneOtp === OTP) {
-      await prisma.user.update({
-        where: { id: checkUser.id },
+    if (checkUserAuth.phoneOtp === OTP) {
+      checkUserAuth = await prisma.userAuthentication.update({
+        where: { id: checkUserAuth.id },
         data: { isPhoneVerified: true },
       });
 
+      let checkUser = await prisma.user.findFirst({
+        where: { email: checkUserAuth.email },
+      });
+      if (checkUser && checkUser?.phoneNumber) {
+        checkUser = await prisma.user.update({
+          where: { id: checkUser?.id },
+          data: {
+            role,
+            phoneNumber,
+            isPhoneVerified: true,
+          },
+        });
+      }
+
       const payload = {
         id: checkUser?.id,
-        userame: checkUser?.username,
         email: checkUser?.email,
         phoneNumber: checkUser?.phoneNumber,
         role: checkUser?.role,
@@ -264,7 +300,9 @@ class UserAuthServices {
         isPhoneVerified: checkUser?.isPhoneVerified,
       };
 
-      const token = server.jwt.sign(payload);
+      const token = server.jwt.sign(payload, {
+        expiresIn: JWT_EXPIRATION_TIME,
+      });
       return {
         accessToken: token,
         message: "Phone number verified successfully.",
@@ -274,7 +312,7 @@ class UserAuthServices {
       throw new ApiBadRequestError("Invalid OTP provided.");
     }
   }
-
+  ///--------------------------------------------SET PASSWORD-----------------------------------------
   async setPassword(email: string, role: string, newPassword: string) {
     if (!email || !role || !newPassword) {
       throw new ApiBadRequestError(
@@ -286,10 +324,11 @@ class UserAuthServices {
       const user = await prisma.user.findFirst({
         where: {
           email,
+          isEmailVerified: true,
         },
       });
 
-      if (!user || !user?.isEmailVerified) {
+      if (!user) {
         throw new ApiBadRequestError("user not found or not verified");
       }
 
@@ -308,91 +347,93 @@ class UserAuthServices {
     }
   }
 
-  async getAccessToken(server: FastifyInstance, user: any) {
-    const token = server.jwt.sign(user, {
-      secret: process.env.JWT_TOKEN_SECRET,
-      expiresIn: process.env.JWT_EXPIRATION_TIME,
-    });
-    return token;
+  async loginUser(email: string, password: string) {
+    const user = await prisma.user.findUnique({ where: { email: email } });
+    if (!user || !user.hashedPassword) {
+      return {
+        user: null,
+        isMatch: false,
+        message: "Firstly create user or set password from settings",
+      };
+    }
+
+    const isMatch = await bcrypt.compare(password, user.hashedPassword);
+    return {
+      user,
+      isMatch,
+      message: isMatch
+        ? "Login successful"
+        : "Given email/password combination is invalid",
+    };
   }
+
+  async signupAdmin(email: string, password: string) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await prisma.user.create({
+      data: {
+        email,
+        hashedPassword,
+        role: "admin", // Assign the admin role
+      },
+    });
+    return user;
+  }
+
+  async loginAdmin(email: string, password: string) {
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user || !user.hashedPassword) {
+      return {
+        user: null,
+        isMatch: false,
+        message: "Firstly create user or set password from settings",
+      };
+    }
+
+    const isMatch = await bcrypt.compare(password, user.hashedPassword);
+    return {
+      user,
+      isMatch,
+      message: isMatch ? "Login successful" : "Invalid password",
+    };
+  }
+  // async getAccessToken(server: FastifyInstance, user: any) {
+  //   const token = server.jwt.sign(user, {
+  //     secret: process.env.JWT_TOKEN_SECRET,
+  //     expiresIn: process.env.JWT_EXPIRATION_TIME,
+  //   });
+  //   return token;
+  // }
 }
 
 export default new UserAuthServices();
 
-export async function changeAdminPassword(email, currentPassword, newPassword) {
-  const admin = await prisma.admin.findUnique({ where: { email: email } });
-
-  if (!admin) {
-    throw new Error("Admin not found");
-  }
-
-  const isMatch = await bcrypt.compare(currentPassword, admin.password);
-  if (!isMatch) {
-    throw new Error("Invalid current password");
-  }
-
-  const hash = await bcrypt.hash(newPassword, SALT_ROUNDS);
-
-  const updatedAdmin = await prisma.admin.update({
-    where: { email: email },
-    data: { password: hash },
-  });
-
-  return updatedAdmin;
-}
-
-export async function createUser(data) {
-  const {
-    username,
-    email,
-    password,
-    phoneNumber,
-    country,
-    state,
-    city,
-    gender,
-    age,
-    role,
-  } = data;
-  const hash = await bcrypt.hash(password, SALT_ROUNDS);
-  const user = await prisma.user.create({
-    data: {
-      username,
-      email,
-      password: hash,
-      phoneNumber,
-      country,
-      state,
-      city,
-      gender,
-      age,
-      role,
-    },
-  });
-  return user;
-}
-
-export async function loginUser(email, password) {
-  const user = await prisma.user.findUnique({ where: { email: email } });
-  const isMatch = user && (await bcrypt.compare(password, user.password));
-  return { user, isMatch };
-}
-
-export async function createAdmin(email, password, name, phoneNumber) {
-  const hash = await bcrypt.hash(password, SALT_ROUNDS);
-  const admin = await prisma.admin.create({
-    data: {
-      email,
-      password: hash,
-      name,
-      phoneNumber,
-    },
-  });
-  return admin;
-}
-
-export async function loginAdmin(email, password) {
-  const admin = await prisma.admin.findUnique({ where: { email: email } });
-  const isMatch = admin && (await bcrypt.compare(password, admin.password));
-  return { admin, isMatch };
-}
+// export async function createUser(data) {
+//   const {
+//     username,
+//     email,
+//     password,
+//     phoneNumber,
+//     country,
+//     state,
+//     city,
+//     gender,
+//     age,
+//     role,
+//   } = data;
+//   const hash = await bcrypt.hash(password, SALT_ROUNDS);
+//   const user = await prisma.user.create({
+//     data: {
+//       username,
+//       email,
+//       password: hash,
+//       phoneNumber,
+//       country,
+//       state,
+//       city,
+//       gender,
+//       age,
+//       role,
+//     },
+//   });
+//   return user;
+// }

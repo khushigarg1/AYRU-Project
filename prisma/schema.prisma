@@ -19,51 +19,65 @@ generator client {
 }
 
 model User {
-  id                Int                 @id @default(autoincrement())
-  role              String
-  username          String?
-  firstName         String?
-  lastName          String?
-  email             String?             @unique
-  pincode           String?
-  phoneNumber       String?
-  avatar            String?
-  orderCount        Int?
-  hashedPassword    String?
-  address           String?
-  country           String?
-  state             String?
-  city              String?
-  gender            String?
-  age               Int?
-  isPhoneVerified   Boolean             @default(false)
-  isEmailVerified   Boolean             @default(false)
-  carts             Cart[]
-  wishlists         Wishlist[]
-  orders            Order[]
-  shippingAddresses ShippingAddress[]
-  paymentMethods    PaymentMethod[]
-  authentication    UserAuthentication?
+  id                   Int                 @id @default(autoincrement())
+  role                 String
+  username             String?
+  firstName            String?
+  lastName             String?
+  email                String?             @unique
+  pincode              String?
+  phoneNumber          String?
+  avatar               String?
+  orderCount           Int?
+  hashedPassword       String?
+  address              String?
+  country              String?
+  state                String?
+  city                 String?
+  gender               String?
+  age                  Int?
+  isPhoneVerified      Boolean             @default(false)
+  isEmailVerified      Boolean             @default(false)
+  carts                Cart[]
+  wishlists            Wishlist[]
+  orders               Order[]
+  shippingAddresses    ShippingAddress[]
+  paymentMethods       PaymentMethod[]
+  authentication       UserAuthentication? @relation(fields: [userAuthenticationId], references: [id])
+  userAuthenticationId Int?
 }
 
 model UserAuthentication {
   id                  Int       @id @default(autoincrement())
-  userId              Int       @unique
+  phoneNumber         String?
   emailOtp            String?
   emailExpirationTime DateTime?
   phoneOtp            String?
   phoneExpirationTime DateTime?
-  newEmail            String?   @unique
+  email               String?   @unique
+  newEmail            String?
   isPhoneVerified     Boolean   @default(false)
   isEmailVerified     Boolean   @default(false)
-  user                User      @relation(fields: [userId], references: [id])
+  User                User[]
 }
 
 model Admin {
-  id          Int     @id @default(autoincrement())
-  name        String
-  email       String? @unique
-  phoneNumber String?
+  id                   Int       @id @default(autoincrement())
+  name                 String
+  email                String?   @unique
+  phoneNumber          String?
+  hashedPassword       String
+  role                 String    @default("admin")
+  isActive             Boolean   @default(true)
+  isEmailVerified      Boolean   @default(false)
+  emailVerificationOtp String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  lastLoginAt          DateTime?
+  failedLoginAttempts  Int       @default(0)
+  accountLockedUntil   DateTime?
+
+  @@map("admins")
 }
 
 model Inventory {
