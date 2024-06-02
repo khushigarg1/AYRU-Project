@@ -15,10 +15,19 @@ import {
   setPassword,
   requestEmailChange,
   confirmEmailChange,
+  getAllUsers,
+  getUser,
   // getAccessToken,
 } from "../Controllers/userAuth.controller";
 
 export default async function AuthRoutes(server: FastifyInstance) {
+  server.get("/", (request, reply) => getAllUsers(server, request, reply));
+
+  server.get(
+    "/:id",
+    { onRequest: [server?.authenticateUser] },
+    (request, reply) => getUser(server, request, reply)
+  );
   server.post("/send-email-otp", (request, reply) =>
     sendEmailOTP(server, request, reply)
   );

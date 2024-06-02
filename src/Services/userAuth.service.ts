@@ -315,7 +315,7 @@ class UserAuthServices {
     }
   }
 
-  ///--------------------------------------------SET PASSWORD-----------------------------------------
+  ///--------------------------------------------SET PASSWORD/EDIT PASSWORD-----------------------------------------
   async setPassword(email: string, role: string, newPassword: string) {
     if (!email || !role || !newPassword) {
       throw new ApiBadRequestError(
@@ -459,6 +459,16 @@ class UserAuthServices {
     } catch (error) {
       reply.code(400).send({ message: (error as Error).message });
     }
+  }
+
+  // /-------------------------------------------GET ALL USERS---------------------------------------
+  async getAllUsers() {
+    return await prisma.user.findMany();
+  }
+
+  // /-------------------------------------------GET USER BY---------------------------------------
+  async getUserById(id: number) {
+    return await prisma.user.findUnique({ where: { id } });
   }
   // async getAccessToken(server: FastifyInstance, user: any) {
   //   const token = server.jwt.sign(user, {

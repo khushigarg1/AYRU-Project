@@ -104,7 +104,7 @@ export async function verifyPhoneOTP(
   }
 }
 
-// /-------------------------------------------SET PASSWORD---------------------------------------
+// /-------------------------------------------SET PASSWORD /EDIT PASSWORD---------------------------------------
 export async function setPassword(
   server: FastifyInstance,
   request: FastifyRequest,
@@ -211,5 +211,34 @@ export async function confirmEmailChange(
     );
   } catch (error) {
     reply.code(400).send({ message: (error as Error).message });
+  }
+}
+
+// /-------------------------------------------GET ALL USERS---------------------------------------
+export async function getAllUsers(
+  server: FastifyInstance,
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const user = await userAuthServices.getAllUsers();
+  reply.send({ data: user });
+}
+
+export async function getUser(
+  server: FastifyInstance,
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { id } = request.params as any;
+
+  if (id != request?.user?.id) {
+    throw new ApiUnauthorizedError("Access denied for the requested user.");
+  }
+  const user = await userAuthServices.getUserById(Number(id));
+
+  if (!user) {
+    reply.code(404).send({ message: "User not found" });
+  } else {
+    reply.send({ data: user });
   }
 }

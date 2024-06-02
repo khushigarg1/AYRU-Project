@@ -64,6 +64,7 @@ export default async function authMiddleware(server: FastifyInstance) {
           id: number;
           role: string;
         };
+
         if (decoded.role !== "admin") {
           throw new Error("Access denied. Not an admin.");
         }

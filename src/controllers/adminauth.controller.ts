@@ -138,3 +138,31 @@ export async function changeAdminPasswordHandler(
     reply.code(400).send({ message: (error as Error).message });
   }
 }
+
+export async function getAllAdmins(
+  server: FastifyInstance,
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const admins = await AdminAuthServices.getAdmins();
+  reply.send({ data: admins });
+}
+
+export async function getAdmin(
+  server: FastifyInstance,
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { id } = request.params as any;
+
+  if (id != request?.user?.id) {
+    throw new ApiUnauthorizedError("Access denied for the requested user.");
+  }
+  const admin = await AdminAuthServices.getAdminById(Number(id));
+
+  if (!admin) {
+    reply.code(404).send({ message: "Admin is not created. Please signup" });
+  } else {
+    reply.send({ data: admin });
+  }
+}
