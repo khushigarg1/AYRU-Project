@@ -6,6 +6,12 @@ import AuthRoutes from "./routes/userAuthRoute.routes";
 import fastifyJwt from "@fastify/jwt";
 import cors from "@fastify/cors";
 import AdminAuthRoutes from "./routes/adminAuth.route";
+import CategoryRoutes from "./routes/category.route";
+import SubCategoryRoutes from "./routes/subCategory.route";
+import fastifyMultipart from "@fastify/multipart";
+import path from "path";
+import fs from "fs";
+import ClientLoveRoutes from "./routes/clientLove.route";
 
 const server = fastify({ logger: true });
 const prisma = new PrismaClient();
@@ -24,13 +30,23 @@ server.register(fastifyJwt, {
 
 // server.register(aauthMiddleware);
 aauthMiddleware(server);
-// server.register(multipart);
+
+server.register(fastifyMultipart);
+server.register(require("@fastify/static"), {
+  root: path.join(__dirname, "uploads"),
+  prefix: "/uploads/",
+});
 server.register(cors, {});
+
+//------------------------------routes plugin/register---------------
 server.get("/", function (request, reply) {
   reply.send({ hello: "world" });
 });
 server.register(AuthRoutes, { prefix: "/api/auth" });
 server.register(AdminAuthRoutes, { prefix: "/api/auth/admin" });
+server.register(CategoryRoutes, { prefix: "/api" });
+server.register(SubCategoryRoutes, { prefix: "/api" });
+server.register(ClientLoveRoutes, { prefix: "/api" });
 
 server.listen(3000, (err, address) => {
   if (err) {

@@ -120,6 +120,7 @@ model Category {
   categoryName  String
   description   String?
   icon          String?
+  visible       Boolean?      @default(true)
   subcategories SubCategory[]
   Inventory     Inventory[]
 }
@@ -130,6 +131,7 @@ model SubCategory {
   categoryId      Int
   description     String?
   icon            String?
+  visible         Boolean     @default(true)
   category        Category    @relation(fields: [categoryId], references: [id])
   Inventory       Inventory[]
 }
