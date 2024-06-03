@@ -78,41 +78,83 @@ model Admin {
   accountLockedUntil   DateTime?
 }
 
+model Flat {
+  id          Int        @id @default(autoincrement())
+  name        String     @unique
+  size        String
+  Inventory   Inventory? @relation(fields: [inventoryId], references: [id])
+  inventoryId Int?
+}
+
+model Fitted {
+  id               Int                @id @default(autoincrement())
+  name             String
+  FittedDimensions FittedDimensions[]
+  Inventory        Inventory?         @relation(fields: [inventoryId], references: [id])
+  inventoryId      Int?
+}
+
+model FittedDimensions {
+  id         Int    @id @default(autoincrement())
+  fitted     Fitted @relation(fields: [fittedId], references: [id])
+  fittedId   Int
+  dimensions String
+}
+
+model Color {
+  id        Int     @id @default(autoincrement())
+  name      String
+  colorCode String
+  image     String?
+}
+
+model CustomFittedInventory {
+  id        Int         @id @default(autoincrement())
+  name      String
+  Inventory Inventory[]
+}
+
 model Inventory {
-  id                    Int              @id @default(autoincrement())
-  skuId                 String?          @unique
-  images                String[]
-  video                 String?
-  category              Category?        @relation(fields: [categoryId], references: [id])
-  subCategory           SubCategory?     @relation(fields: [subCategoryId], references: [id])
-  quantity              Int?
-  solQuantity           Int?
-  minQuantity           Int?
-  maxQuantity           Int?
-  sellingPrice          Float?
-  costPrice             Float?
-  discountedPrice       Float?
-  discountCount         Int?
-  availability          Boolean?
-  status                InventoryStatus?
-  style                 String?
-  pattern               String?
-  fabric                String?
-  type                  String?
-  size                  String?
-  includedItems         Json?
-  itemDimensions        String?
-  colorVariation        String?
-  extraOptionOutOfStock Boolean?
-  specialFeatures       Json?
-  threadCount           Int?
-  itemWeight            Float?
-  origin                String?
-  extraNote             String?
-  disclaimer            String?
-  careInstructions      String[]
-  categoryId            Int?
-  subCategoryId         Int?
+  id                      Int                    @id @default(autoincrement())
+  productName             String?
+  skuId                   String?                @unique
+  images                  String[]
+  video                   String?
+  quantity                Int?
+  soldQuantity            Int?
+  minQuantity             Int?
+  maxQuantity             Int?
+  sellingPrice            Float?
+  costPrice               Float?
+  discountedPrice         Float?
+  discountCount           Int?
+  availability            Boolean?
+  status                  InventoryStatus?
+  style                   String?
+  pattern                 String?
+  fabric                  String?
+  type                    String?
+  size                    String?
+  includedItems           Json?
+  itemDimensions          String?
+  colorVariation          String?
+  extraOptionOutOfStock   Boolean?
+  specialFeatures         Json?
+  threadCount             Int?
+  itemWeight              Float?
+  origin                  String?
+  extraNote               String?
+  disclaimer              String?
+  careInstructions        String[]
+  categoryId              Int?
+  subCategoryId           Int?
+  category                Category?              @relation(fields: [categoryId], references: [id])
+  subCategory             SubCategory?           @relation(fields: [subCategoryId], references: [id])
+  colors                  Int[]
+  flats                   Flat[]
+  fitteds                 Fitted[]
+  customFittedInventory   CustomFittedInventory? @relation(fields: [customFittedInventoryId], references: [id])
+  customFittedInventoryId Int?
 }
 
 model Category {
@@ -150,15 +192,31 @@ model Wishlist {
   products Json
 }
 
+model OrderItem {
+  id         Int     @id @default(autoincrement())
+  orderId    Int
+  order      Order   @relation(fields: [orderId], references: [id])
+  trekkingId Int?
+  typeName   String
+  dimensions String?
+  colorId    Int?
+  colorname  String?
+  customName String?
+  width      Float?
+  length     Float?
+  height     Float?
+}
+
 model Order {
   id                Int               @id @default(autoincrement())
   userId            Int
   orderID           Int
   user              User              @relation(fields: [userId], references: [id])
-  productId         Int?
   trekkingId        Int?
   giftOption        Boolean?
   Total             Int
+  productId         Int?
+  items             OrderItem[]
   shippingAddresses ShippingAddress[]
   Transaction       Transaction[]
 }

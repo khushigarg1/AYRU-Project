@@ -1,4 +1,4 @@
-import fastify from "fastify";
+import fastify, { FastifyInstance } from "fastify";
 import { PrismaClient } from "@prisma/client";
 import aauthMiddleware from "./middleware/auth";
 import AuthRoutes from "./routes/userAuthRoute.routes";
@@ -8,14 +8,17 @@ import cors from "@fastify/cors";
 import AdminAuthRoutes from "./routes/adminAuth.route";
 import CategoryRoutes from "./routes/category.route";
 import SubCategoryRoutes from "./routes/subCategory.route";
-import fastifyMultipart from "@fastify/multipart";
+import multipart from "@fastify/multipart";
 import path from "path";
 import fs from "fs";
 import ClientLoveRoutes from "./routes/clientLove.route";
+import { getImage } from "../config/multerConfig";
+const fileUpload = require("fastify-file-upload");
 
 const server = fastify({ logger: true });
 const prisma = new PrismaClient();
 
+server.register(fileUpload);
 // Check if JWT_TOKEN_SECRET is defined
 const jwtSecret = process.env.JWT_TOKEN_SECRET;
 if (!jwtSecret) {
@@ -31,7 +34,7 @@ server.register(fastifyJwt, {
 // server.register(aauthMiddleware);
 aauthMiddleware(server);
 
-server.register(fastifyMultipart);
+server.register(multipart);
 server.register(require("@fastify/static"), {
   root: path.join(__dirname, "uploads"),
   prefix: "/uploads/",
@@ -42,6 +45,11 @@ server.register(cors, {});
 server.get("/", function (request, reply) {
   reply.send({ hello: "world" });
 });
+// server.post("/upload", async (request, reply) => uploadImage(request, reply));
+export default async function routes(server: FastifyInstance) {
+  server.get("/image/:imageUrl", getImage);
+}
+
 server.register(AuthRoutes, { prefix: "/api/auth" });
 server.register(AdminAuthRoutes, { prefix: "/api/auth/admin" });
 server.register(CategoryRoutes, { prefix: "/api" });

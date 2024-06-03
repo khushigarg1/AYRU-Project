@@ -2,8 +2,9 @@ import { FastifyInstance } from "fastify";
 import {
   addClientLove,
   deleteClientLove,
-  getClientLoves,
+  getAllClientLoves,
   getClientLoveById,
+  // getImage,
   updateClientLove,
 } from "../Controllers/clientLove.controller";
 
@@ -14,19 +15,20 @@ export default async function ClientLoveRoutes(server: FastifyInstance) {
     (request, reply) => addClientLove(server, request, reply)
   );
   server.get("/clientLoves", (request, reply) =>
-    getClientLoves(server, request, reply)
+    getAllClientLoves(request, reply)
   );
   server.get("/clientLove/:id", (request, reply) =>
-    getClientLoveById(server, request, reply)
+    getClientLoveById(request, reply)
   );
   server.put(
     "/clientLove/:id",
     { onRequest: [server.authenticateAdmin] },
-    (request, reply) => updateClientLove(server, request, reply)
+    (request, reply) => updateClientLove(request, reply)
   );
   server.delete(
     "/clientLove/:id",
     { onRequest: [server.authenticateAdmin] },
-    (request, reply) => deleteClientLove(server, request, reply)
+    (request, reply) => deleteClientLove(request, reply)
   );
+  // server.get("/images/:imageUrl", (request, reply) => getImage(request, reply));
 }

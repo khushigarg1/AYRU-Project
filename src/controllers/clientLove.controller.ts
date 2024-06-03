@@ -1,6 +1,7 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { ClientLoveService } from "../Services/clientLove.service";
-
+import fs from "fs";
+import path from "path";
 const clientLoveService = new ClientLoveService();
 
 export async function addClientLove(
@@ -8,13 +9,8 @@ export async function addClientLove(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  console.log(request);
-
   try {
-    const clientLove = await clientLoveService.addClientLove(
-      request.body,
-      request.files()
-    );
+    const clientLove = await clientLoveService.addClientLove(request.body);
     reply.send({
       message: "ClientLove created successfully",
       data: clientLove,
@@ -24,47 +20,44 @@ export async function addClientLove(
   }
 }
 
-export async function getClientLoves(
-  server: FastifyInstance,
+export async function getAllClientLoves(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
   try {
-    const clientLoves = await clientLoveService.getClientLoves();
-    reply.send({
-      message: "ClientLoves retrieved successfully",
-      data: clientLoves,
-    });
+    const clientLoves = await clientLoveService.getAllClientLoves();
+    reply.send({ data: clientLoves });
   } catch (error) {
     reply.code(400).send({ message: (error as Error).message });
   }
 }
 
 export async function getClientLoveById(
-  server: FastifyInstance,
   request: FastifyRequest,
   reply: FastifyReply
 ) {
+  const { id } = request.params as any;
   try {
-    const { id } = request.params as any;
     const clientLove = await clientLoveService.getClientLoveById(Number(id));
-    reply.send({ data: clientLove });
+    if (!clientLove) {
+      reply.code(404).send({ message: "ClientLove not found" });
+    } else {
+      reply.send({ data: clientLove });
+    }
   } catch (error) {
-    reply.code(404).send({ message: (error as Error).message });
+    reply.code(400).send({ message: (error as Error).message });
   }
 }
 
 export async function updateClientLove(
-  server: FastifyInstance,
   request: FastifyRequest,
   reply: FastifyReply
 ) {
+  const { id } = request.params as any;
   try {
-    const { id } = request.params as any;
     const clientLove = await clientLoveService.updateClientLove(
       Number(id),
-      request.body,
-      request.files
+      request.body
     );
     reply.send({
       message: "ClientLove updated successfully",
@@ -76,18 +69,28 @@ export async function updateClientLove(
 }
 
 export async function deleteClientLove(
-  server: FastifyInstance,
   request: FastifyRequest,
   reply: FastifyReply
 ) {
+  const { id } = request.params as any;
   try {
-    const { id } = request.params as any;
-    const clientLove = await clientLoveService.deleteClientLove(Number(id));
-    reply.send({
-      message: "ClientLove deleted successfully",
-      data: clientLove,
-    });
+    await clientLoveService.deleteClientLove(Number(id));
+    reply.send({ message: "ClientLove deleted successfully" });
   } catch (error) {
     reply.code(400).send({ message: (error as Error).message });
   }
 }
+
+// export async function getImage(request: FastifyRequest, reply: FastifyReply) {
+//   const { imageUrl } = request.params as any;
+//   const imagePath = path.join(__dirname, "../uploads/images", imageUrl);
+//   console.log("imagepath-----------", imagePath);
+
+//   if (fs.existsSync(imagePath)) {
+//     const imageData = fs.readFileSync(imagePath);
+//     reply.header("Content-Type", "image/jpeg");
+//     reply.send(imageData);
+//   } else {
+//     reply.code(404).send({ message: "Image not found" });
+//   }
+// }
