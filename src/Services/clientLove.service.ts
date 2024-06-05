@@ -6,7 +6,7 @@ import {
   deleteImageFromS3,
   saveFile,
   uploadImageToS3,
-} from "../../config/multerConfig";
+} from "../../config/awsfunction";
 
 const prisma = new PrismaClient();
 const isProduction = process.env.NODE_ENV === "production";
@@ -55,6 +55,7 @@ export class ClientLoveService {
 
     return clientLove;
   }
+
   async getAllClientLoves() {
     return await prisma.clientLove.findMany();
   }

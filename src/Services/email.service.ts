@@ -15,7 +15,7 @@ const transporter = SMTPTransport.createTransport({
   debug: true,
 });
 
-export async function sendResetEmail(email, resetToken) {
+export async function sendResetEmail(email: any, resetToken: any) {
   const resetLink = `http://your-frontend-url/reset-password?token=${resetToken}`;
   const mailOptions = {
     from: "khushigarg.64901@gmail.com",

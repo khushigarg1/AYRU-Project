@@ -1,0 +1,37 @@
+export interface InventoryAttributes {
+  productName: string;
+  skuId?: string;
+  quantity: number;
+  soldQuantity?: number;
+  minQuantity?: number;
+  maxQuantity?: number;
+  sellingPrice?: number;
+  costPrice?: number;
+  discountedPrice?: number;
+  discountCount?: number;
+  availability?: boolean;
+  weight?: number;
+  status?: "PENDING" | "DISPATCHED" | "SOLD";
+  style?: string;
+  pattern?: string;
+  fabric?: string;
+  type?: string;
+  size?: string;
+  includedItems?: any;
+  itemDimensions?: string;
+  colorVariation?: string;
+  extraOptionOutOfStock?: boolean;
+  specialFeatures?: any;
+  threadCount?: number;
+  itemWeight?: number;
+  origin?: string;
+  extraNote?: string;
+  disclaimer?: string;
+  careInstructions?: string[];
+  categoryId?: number;
+  subCategoryId?: number;
+  colors?: number[];
+  flatIds?: number[];
+  fittedIds?: number[];
+  customFittedIds?: number[];
+}

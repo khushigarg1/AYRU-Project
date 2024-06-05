@@ -79,19 +79,17 @@ model Admin {
 }
 
 model Flat {
-  id          Int        @id @default(autoincrement())
-  name        String     @unique
+  id          Int             @id @default(autoincrement())
+  name        String          @unique
   size        String
-  Inventory   Inventory? @relation(fields: [inventoryId], references: [id])
-  inventoryId Int?
+  inventories InventoryFlat[]
 }
 
 model Fitted {
   id               Int                @id @default(autoincrement())
   name             String
   FittedDimensions FittedDimensions[]
-  Inventory        Inventory?         @relation(fields: [inventoryId], references: [id])
-  inventoryId      Int?
+  inventories      InventoryFitted[]
 }
 
 model FittedDimensions {
@@ -102,59 +100,92 @@ model FittedDimensions {
 }
 
 model Color {
-  id        Int     @id @default(autoincrement())
+  id        Int    @id @default(autoincrement())
   name      String
   colorCode String
-  image     String?
 }
 
-model CustomFittedInventory {
-  id        Int         @id @default(autoincrement())
-  name      String
-  Inventory Inventory[]
+model CustomFitted {
+  id                    Int                     @id @default(autoincrement())
+  name                  String
+  CustomFittedInventory CustomFittedInventory[]
+}
+
+model Media {
+  id          Int       @id @default(autoincrement())
+  url         String
+  type        String // Can be 'image' or 'video'
+  inventoryId Int
+  Inventory   Inventory @relation(fields: [inventoryId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Inventory {
-  id                      Int                    @id @default(autoincrement())
-  productName             String?
-  skuId                   String?                @unique
-  images                  String[]
-  video                   String?
-  quantity                Int?
-  soldQuantity            Int?
-  minQuantity             Int?
-  maxQuantity             Int?
-  sellingPrice            Float?
-  costPrice               Float?
-  discountedPrice         Float?
-  discountCount           Int?
-  availability            Boolean?
-  status                  InventoryStatus?
-  style                   String?
-  pattern                 String?
-  fabric                  String?
-  type                    String?
-  size                    String?
-  includedItems           Json?
-  itemDimensions          String?
-  colorVariation          String?
-  extraOptionOutOfStock   Boolean?
-  specialFeatures         Json?
-  threadCount             Int?
-  itemWeight              Float?
-  origin                  String?
-  extraNote               String?
-  disclaimer              String?
-  careInstructions        String[]
-  categoryId              Int?
-  subCategoryId           Int?
-  category                Category?              @relation(fields: [categoryId], references: [id])
-  subCategory             SubCategory?           @relation(fields: [subCategoryId], references: [id])
-  colors                  Int[]
-  flats                   Flat[]
-  fitteds                 Fitted[]
-  customFittedInventory   CustomFittedInventory? @relation(fields: [customFittedInventoryId], references: [id])
-  customFittedInventoryId Int?
+  id                    Int                     @id @default(autoincrement())
+  productName           String?
+  skuId                 String?                 @unique
+  quantity              Int?
+  soldQuantity          Int?
+  minQuantity           Int?
+  maxQuantity           Int?
+  sellingPrice          Float?
+  costPrice             Float?
+  discountedPrice       Float?
+  discountCount         Int?
+  availability          Boolean?
+  weight                Float?
+  productstatus         ProductStatus?
+  status                InventoryStatus?
+  style                 String?
+  pattern               String?
+  fabric                String?
+  type                  String?
+  size                  String?
+  includedItems         Json?
+  itemDimensions        String?
+  colorVariation        String?
+  extraOptionOutOfStock Boolean?
+  specialFeatures       Json?
+  threadCount           Int?
+  itemWeight            Float?
+  origin                String?
+  extraNote             String?
+  disclaimer            String?
+  careInstructions      String[]
+  categoryId            Int?
+  subCategoryId         Int?
+  colors                Int[]
+  InventoryFlat         InventoryFlat[]
+  InventoryFitted       InventoryFitted[]
+  customFittedInventory CustomFittedInventory[]
+  Media                 Media[]
+  category              Category?               @relation(fields: [categoryId], references: [id])
+  subCategory           SubCategory?            @relation(fields: [subCategoryId], references: [id])
+}
+
+model CustomFittedInventory {
+  id             Int          @id @default(autoincrement())
+  customFittedId Int
+  inventoryId    Int
+  Inventory      Inventory    @relation(fields: [inventoryId], references: [id])
+  customFitted   CustomFitted @relation(fields: [customFittedId], references: [id])
+}
+
+model InventoryFlat {
+  id          Int       @id @default(autoincrement())
+  inventoryId Int
+  flatId      Int
+  Inventory   Inventory @relation(fields: [inventoryId], references: [id])
+  Flat        Flat      @relation(fields: [flatId], references: [id])
+}
+
+model InventoryFitted {
+  id          Int       @id @default(autoincrement())
+  inventoryId Int
+  fittedId    Int
+  Inventory   Inventory @relation(fields: [inventoryId], references: [id])
+  Fitted      Fitted    @relation(fields: [fittedId], references: [id])
 }
 
 model Category {
@@ -277,6 +308,11 @@ enum InventoryStatus {
   PENDING
   DISPATCHED
   SOLD
+}
+
+enum ProductStatus {
+  DRAFT
+  PUBLISHED
 }
 
 enum TransactionStatus {
