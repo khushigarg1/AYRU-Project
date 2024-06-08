@@ -45,6 +45,8 @@ model User {
   paymentMethods       PaymentMethod[]
   authentication       UserAuthentication? @relation(fields: [userAuthenticationId], references: [id])
   userAuthenticationId Int?
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
 }
 
 model UserAuthentication {
@@ -59,6 +61,8 @@ model UserAuthentication {
   isPhoneVerified     Boolean   @default(false)
   isEmailVerified     Boolean   @default(false)
   User                User[]
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 }
 
 model Admin {
@@ -83,6 +87,8 @@ model Flat {
   name        String          @unique
   size        String
   inventories InventoryFlat[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
 }
 
 model Fitted {
@@ -90,31 +96,41 @@ model Fitted {
   name             String             @unique
   FittedDimensions FittedDimensions[]
   inventories      InventoryFitted[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
 }
 
 model FittedDimensions {
-  id         Int    @id @default(autoincrement())
-  fitted     Fitted @relation(fields: [fittedId], references: [id])
-  fittedId   Int
-  dimensions String
+  id                Int              @id @default(autoincrement())
+  fitted            Fitted           @relation(fields: [fittedId], references: [id])
+  fittedId          Int
+  dimensions        String
+  InventoryFitted   InventoryFitted? @relation(fields: [inventoryFittedId], references: [id])
+  inventoryFittedId Int?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
 }
 
 model Color {
-  id        Int    @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   name      String
   colorCode String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model CustomFitted {
   id                    Int                     @id @default(autoincrement())
   name                  String
   CustomFittedInventory CustomFittedInventory[]
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
 }
 
 model Media {
   id          Int       @id @default(autoincrement())
   url         String
-  type        String // Can be 'image' or 'video'
+  type        String
   inventoryId Int
   Inventory   Inventory @relation(fields: [inventoryId], references: [id])
   createdAt   DateTime  @default(now())
@@ -155,13 +171,26 @@ model Inventory {
   careInstructions      String[]
   categoryId            Int?
   subCategoryId         Int?
-  colors                Int[]
+  colors                Colors[]
   InventoryFlat         InventoryFlat[]
   InventoryFitted       InventoryFitted[]
   customFittedInventory CustomFittedInventory[]
   Media                 Media[]
   category              Category?               @relation(fields: [categoryId], references: [id])
   subCategory           SubCategory?            @relation(fields: [subCategoryId], references: [id])
+  ProductInventory      ProductInventory[]
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+}
+
+model Colors {
+  id          Int        @id @default(autoincrement())
+  name        String
+  hexcode     String
+  Inventory   Inventory? @relation(fields: [inventoryId], references: [id])
+  inventoryId Int?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 }
 
 model CustomFittedInventory {
@@ -170,6 +199,8 @@ model CustomFittedInventory {
   inventoryId    Int
   Inventory      Inventory    @relation(fields: [inventoryId], references: [id])
   customFitted   CustomFitted @relation(fields: [customFittedId], references: [id])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 }
 
 model InventoryFlat {
@@ -178,14 +209,51 @@ model InventoryFlat {
   flatId      Int
   Inventory   Inventory @relation(fields: [inventoryId], references: [id])
   Flat        Flat      @relation(fields: [flatId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model InventoryFitted {
-  id          Int       @id @default(autoincrement())
-  inventoryId Int
-  fittedId    Int
-  Inventory   Inventory @relation(fields: [inventoryId], references: [id])
-  Fitted      Fitted    @relation(fields: [fittedId], references: [id])
+  id               Int                @id @default(autoincrement())
+  fittedId         Int
+  inventoryId      Int
+  Inventory        Inventory          @relation(fields: [inventoryId], references: [id])
+  Fitted           Fitted             @relation(fields: [fittedId], references: [id])
+  fittedDimensions FittedDimensions[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+}
+
+model Product {
+  id               Int                @id @default(autoincrement())
+  name             String
+  sizes            SizeChart[]
+  ProductInventory ProductInventory[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+}
+
+model SizeChart {
+  id               Int                @id @default(autoincrement())
+  name             String
+  width            String
+  height           String
+  productId        Int
+  product          Product            @relation(fields: [productId], references: [id])
+  ProductInventory ProductInventory[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+}
+
+model ProductInventory {
+  id            Int         @id @default(autoincrement())
+  selectedSizes SizeChart[]
+  productId     Int
+  product       Product     @relation(fields: [productId], references: [id])
+  inventoryId   Int?
+  inventory     Inventory?  @relation(fields: [inventoryId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 }
 
 model Category {
@@ -196,6 +264,8 @@ model Category {
   visible       Boolean?      @default(true)
   subcategories SubCategory[]
   Inventory     Inventory[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 }
 
 model SubCategory {
@@ -207,26 +277,32 @@ model SubCategory {
   visible         Boolean     @default(true)
   category        Category    @relation(fields: [categoryId], references: [id])
   Inventory       Inventory[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
 }
 
 model Cart {
-  id       Int  @id @default(autoincrement())
-  userId   Int
-  user     User @relation(fields: [userId], references: [id])
-  products Json
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  products  Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Wishlist {
-  id       Int  @id @default(autoincrement())
-  userId   Int
-  user     User @relation(fields: [userId], references: [id])
-  products Json
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  products  Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model OrderItem {
-  id         Int     @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   orderId    Int
-  order      Order   @relation(fields: [orderId], references: [id])
+  order      Order    @relation(fields: [orderId], references: [id])
   trekkingId Int?
   typeName   String
   dimensions String?
@@ -236,6 +312,8 @@ model OrderItem {
   width      Float?
   length     Float?
   height     Float?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Order {
@@ -250,6 +328,8 @@ model Order {
   items             OrderItem[]
   shippingAddresses ShippingAddress[]
   Transaction       Transaction[]
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
 }
 
 model ShippingAddress {
@@ -298,10 +378,12 @@ model Transaction {
 }
 
 model ClientLove {
-  id       Int     @id @default(autoincrement())
-  video    String?
-  text     String?
-  imageUrl String?
+  id        Int      @id @default(autoincrement())
+  video     String?
+  text      String?
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum InventoryStatus {
