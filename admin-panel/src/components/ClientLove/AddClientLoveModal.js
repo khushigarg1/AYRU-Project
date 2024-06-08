@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Box, Button, Modal, TextField, Typography } from "@mui/material";
-import { CloudUpload } from "@mui/icons-material";
+import { Box, Button, IconButton, Modal, TextField, Typography } from "@mui/material";
+import { CloudUpload, Delete } from "@mui/icons-material";
 import api from "@/api";
 import Cookies from "js-cookie";
 import ErrorSnackbar from "@/src/components/errorcomp";
@@ -33,6 +33,13 @@ export default function ClientLoveModal({ open, handleClose, refresh }) {
     setFormData((prevState) => ({
       ...prevState,
       image: null
+    }));
+  };
+
+  const handleRemoveVideo = () => {
+    setFormData((prevState) => ({
+      ...prevState,
+      video: null
     }));
   };
 
@@ -90,6 +97,15 @@ export default function ClientLoveModal({ open, handleClose, refresh }) {
         }}
       >
         <Typography variant="h6" mb={2}>Add Client Love</Typography>
+
+        {formDataVal.image && (
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <Typography mb={1}>{formDataVal?.image?.name}</Typography>
+            <IconButton color="error" onClick={handleRemoveImage}>
+              <Delete />
+            </IconButton>
+          </Box>
+        )}
         <Button
           variant="contained"
           component="label"
@@ -106,15 +122,14 @@ export default function ClientLoveModal({ open, handleClose, refresh }) {
             onChange={handleChange}
           />
         </Button>
-        {formDataVal.image && (
-          <Button
-            variant="outlined"
-            color="error"
-            onClick={handleRemoveImage}
-            sx={{ mb: 2 }}
-          >
-            Remove Image
-          </Button>
+
+        {formDataVal.video && (
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <Typography mb={1}>{formDataVal?.video?.name}</Typography>
+            <IconButton color="error" onClick={handleRemoveVideo}>
+              <Delete />
+            </IconButton>
+          </Box>
         )}
         <Button
           variant="contained"
@@ -123,7 +138,7 @@ export default function ClientLoveModal({ open, handleClose, refresh }) {
           fullWidth
           sx={{ mb: 2 }}
         >
-          Upload Video
+          {formDataVal.video ? formDataVal.video.name : "Upload Video"}
           <input
             type="file"
             name="video"

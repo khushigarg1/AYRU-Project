@@ -82,7 +82,7 @@ export default function Home() {
   return (
     <Container>
       <Box my={4}>
-        <Typography variant="h4" mb={2}>Edit Admin Details</Typography>
+        <Typography variant="h5" mb={2}>Edit Admin Details</Typography>
         <TextField
           name="email"
           label="Email"

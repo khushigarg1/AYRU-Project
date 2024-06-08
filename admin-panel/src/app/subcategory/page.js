@@ -65,7 +65,7 @@ export default function Home() {
         valueGetter: (params) => params.row.category?.categoryName || "",
         width: 150,
       },
-      { field: "visible", headerName: "Visible", width: 70 },
+      { field: "visible", headerName: "Visible", width: 120 },
       {
         field: "actions",
         headerName: "Actions",
@@ -157,7 +157,7 @@ export default function Home() {
     <>
       <Container disableGutters maxWidth="fixed">
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-          <Typography variant="h4">SubCategories</Typography>
+          <Typography variant="h5">SubCategories</Typography>
           <Button
             variant="contained"
             color="primary"

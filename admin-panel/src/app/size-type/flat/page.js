@@ -129,7 +129,7 @@ export default function Home() {
     <>
       <Container disableGutters maxWidth="fixed">
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-          <Typography variant="h4">Flat List</Typography>
+          <Typography variant="h5">Flat List</Typography>
           <Button
             onClick={handleAddFlatOpen}
             variant="contained"
@@ -141,7 +141,7 @@ export default function Home() {
               // bottom: 20,
             }}
           >
-            Create Flat
+            NEW
           </Button>
         </Box>
         <Box sx={{ height: "80vh" }}>

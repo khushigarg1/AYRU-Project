@@ -23,23 +23,19 @@ import MailIcon from "@mui/icons-material/Mail";
 import LogoutIcon from "@mui/icons-material/Logout";
 import CategoryIcon from '@mui/icons-material/Category';
 import CategoryTwoToneIcon from '@mui/icons-material/CategoryTwoTone';
-import Groups2Icon from "@mui/icons-material/Groups2";
-import Diversity2Icon from "@mui/icons-material/Diversity2";
 import SettingsIcon from "@mui/icons-material/Settings";
 import React, { useState } from "react";
-import { pink, red } from "@mui/material/colors";
 import { ThemeProvider } from "@emotion/react";
 import { useAuth } from "../contexts/auth";
 import { Avatar, Button, Collapse } from "@mui/material";
 import LoginForm from "./LoginForm";
-import Image from "next/image";
 import Link from "next/link";
-import { ExpandLess, ExpandMore, HeatPumpRounded, KingBed, NightShelter, PersonPinCircleOutlined } from "@mui/icons-material";
+import { ExpandLess, ExpandMore, HeatPumpRounded, InventoryOutlined, KingBed, NightShelter, PersonPinCircleOutlined } from "@mui/icons-material";
 import BedIcon from '@mui/icons-material/Bed';
 import BedRoundedIcon from '@mui/icons-material/BedRounded';
-import BedOutlinedIcon from '@mui/icons-material/BedOutlined';
-
-// import logo from "@public/images"
+import AspectRatioIcon from '@mui/icons-material/AspectRatio';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 const drawerWidth = 240;
 
@@ -272,7 +268,7 @@ export default function PageNav({ children }) {
                     justifyContent: "center",
                   }}
                 >
-                  <NightShelter />
+                  <AspectRatioIcon />
                 </ListItemIcon>
                 <ListItemText primary="Size Type" sx={{ opacity: open ? 1 : 0 }} />
                 {open && (nestedOpen ? <ExpandLess /> : <ExpandMore />)}
@@ -344,10 +340,40 @@ export default function PageNav({ children }) {
                         justifyContent: "center",
                       }}
                     >
-                      <HeatPumpRounded />
+                      <FavoriteIcon />
                     </ListItemIcon>
                     <ListItemText
                       primary={"Client Love"}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+              <Link href="/inventory">
+                <ListItem
+                  key={"Inventory"}
+                  onClick={() => setOpenTab("Options".toLowerCase())}
+                  disablePadding
+                  sx={{ display: "block" }}
+                >
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <InventoryOutlined />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={"Inventory"}
                       sx={{ opacity: open ? 1 : 0 }}
                     />
                   </ListItemButton>
@@ -374,7 +400,7 @@ export default function PageNav({ children }) {
                         justifyContent: "center",
                       }}
                     >
-                      <PersonPinCircleOutlined />
+                      <AccountBoxIcon />
                     </ListItemIcon>
                     <ListItemText
                       primary={"AdminDetails"}

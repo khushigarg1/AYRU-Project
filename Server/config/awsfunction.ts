@@ -152,15 +152,41 @@ export async function getImage(request: FastifyRequest, reply: FastifyReply) {
 function determineContentType(key: string): string {
   const extension = key.split(".").pop()?.toLowerCase();
   switch (extension) {
+    // Images
     case "jpg":
     case "jpeg":
       return "image/jpeg";
     case "png":
       return "image/png";
+    case "gif":
+      return "image/gif";
+    case "bmp":
+      return "image/bmp";
+    case "tiff":
+      return "image/tiff";
+    case "webp":
+      return "image/webp";
+    case "heif":
+    case "heic":
+      return "image/heif";
+
+    // Videos
     case "mp4":
       return "video/mp4";
-    case "heif":
-      return "image/heif";
+    case "mov":
+      return "video/quicktime";
+    case "avi":
+      return "video/x-msvideo";
+    case "mkv":
+      return "video/x-matroska";
+    case "wmv":
+      return "video/x-ms-wmv";
+    case "flv":
+      return "video/x-flv";
+    case "3gp":
+      return "video/3gpp";
+    case "webm":
+      return "video/webm";
     default:
       return "application/octet-stream";
   }

@@ -129,7 +129,7 @@ export default function Home() {
     <>
       <Container disableGutters maxWidth="fixed">
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-          <Typography variant="h4">Custom Fitted List</Typography>
+          <Typography variant="h5">Custom Fitted List</Typography>
           <Button
             onClick={handleAddCustomFittedOpen}
             variant="contained"
@@ -140,7 +140,7 @@ export default function Home() {
               right: 20,
             }}
           >
-            Create Custom Fitted
+            NEW
           </Button>
         </Box>
         <Box sx={{ height: "80vh" }}>

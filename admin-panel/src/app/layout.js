@@ -14,24 +14,45 @@ import { AuthProvider } from "../contexts/auth";
 import Head from "next/head";
 
 const materialTheme = createTheme({
+  // palette: {
+  //   mode: "light",
+  //   primary: {
+  //     main: "#ff4081",
+  //     light: "#f8bbd0",
+  //     dark: "#f50057",
+  //     contrastText: "#f5f5f5",
+  //   },
+  //   secondary: {
+  //     main: "#fce4ec",
+  //     dark: "#e57373",
+  //     contrastText: '#000000',
+  //   },
+  //   divider: "rgba(0,0,0,0.24)",
+  //   background: {
+  //     paper: "#ffebee",
+  //   },
+  // },
   palette: {
     mode: "light",
     primary: {
-      main: "#ff4081",
-      light: "#f8bbd0",
-      dark: "#f50057",
-      contrastText: "#f5f5f5",
+      main: "#FFD54F", // Yellow
+      light: "#FFE082",
+      dark: "#FFC107",
+      contrastText: "#212121", // Dark text for contrast
     },
     secondary: {
-      main: "#fce4ec",
-      dark: "#e57373",
-      contrastText: '#000000',
+      main: "#FF8A65", // Orange
+      light: "#FFAB91",
+      dark: "#E64A19",
+      contrastText: "#000000", // Black text for contrast
     },
-    divider: "rgba(0,0,0,0.24)",
+    divider: "rgba(0,0,0,0.12)", // Lighter divider color
     background: {
-      paper: "#ffebee",
+      paper: "#FFF9C4", // Light yellow background
     },
   },
+
+
   breakpoints: {
     values: {
       xs: 0,

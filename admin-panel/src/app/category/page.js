@@ -66,7 +66,7 @@ export default function Home() {
         field: "visible",
         headerName: "Visible",
         valueGetter: (params) => (params.row.visible ? "Yes" : "No"),
-        width: 80,
+        width: 120,
       },
       {
         field: "actions",
@@ -154,7 +154,7 @@ export default function Home() {
     <>
       <Container disableGutters maxWidth="fixed">
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-          <Typography variant="h4">Categories</Typography>
+          <Typography variant="h5">Categories</Typography>
           <Button
             onClick={handleAddUserOpen}
             variant="contained"

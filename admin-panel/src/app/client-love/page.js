@@ -188,7 +188,7 @@ export default function ClientLove() {
   return (
     <Container disableGutters maxWidth="fixed">
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-        <Typography variant="h4">Client Love</Typography>
+        <Typography variant="h5">Client Love</Typography>
         <Button
           onClick={handleOpenModal}
           variant="contained"
@@ -196,7 +196,7 @@ export default function ClientLove() {
           startIcon={<AddIcon />}
           sx={{ position: "fixed", right: 20 }}
         >
-          Add Client Love
+          NEW
         </Button>
       </Box>
       <Box sx={{ height: "80vh" }}>
