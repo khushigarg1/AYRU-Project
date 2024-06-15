@@ -4,35 +4,57 @@ import {
   getImageFromS3,
   uploadImageToS3,
   uploadVideoToS3,
-} from "../../config/awsfunction";
-import { ApiBadRequestError } from "../errors";
+} from "../../../config/awsfunction";
+import { ApiBadRequestError } from "../../errors";
+import {
+  InventoryAttributes,
+  InventoryUpdateAttributes,
+} from "../../schema/inventory.schema";
 
 const prisma = new PrismaClient();
 
 export class InventoryService {
   async uploadMedias(data: any) {
     try {
-      const imageUploadPromises = data?.images
-        ?.filter((file: any) => file.mimetype.startsWith("image"))
-        .map((image: any) => uploadImageToS3(image));
+      console.log(data);
 
-      const videoUploadPromises = data?.video
-        ?.filter((file: any) => file.mimetype.startsWith("video"))
-        .map((video: any) => uploadVideoToS3(video));
+      let imageUploadPromises = [];
+      let videoUploadPromises = [];
 
+      // Handle multiple images
+      if (Array.isArray(data.images)) {
+        imageUploadPromises = data.images
+          .filter((file: any) => file.mimetype.startsWith("image"))
+          .map((image: any) => uploadImageToS3(image));
+
+        videoUploadPromises = data.images
+          .filter((file: any) => file.mimetype.startsWith("video"))
+          .map((video: any) => uploadVideoToS3(video));
+      }
+      // Handle single image
+      else if (data.images && data.images.mimetype.startsWith("image")) {
+        imageUploadPromises.push(uploadImageToS3(data.images));
+      }
+      // Handle single video
+      else if (data.images && data.images.mimetype.startsWith("video")) {
+        videoUploadPromises.push(uploadVideoToS3(data.images));
+      }
+
+      // Upload images and videos concurrently
       const [imageResults, videoResults] = await Promise.all([
         Promise.all(imageUploadPromises),
-        videoUploadPromises ? Promise.all(videoUploadPromises) : [],
+        Promise.all(videoUploadPromises),
       ]);
 
+      // Combine results of both image and video uploads
       const allResults = [...imageResults, ...videoResults];
 
+      // Create media entries in the database
       const mediaCreatePromises = allResults.map((result, index) => {
         const url = result?.key;
-        const isImage = data?.images?.some(
-          (file: any, idx: number) =>
-            idx === index && file.mimetype.startsWith("image")
-        );
+        const isImage = Array.isArray(data.images)
+          ? index < imageResults.length // Check index against length of image uploads
+          : data.images.mimetype.startsWith("image");
 
         return prisma.media.create({
           data: {
@@ -43,6 +65,7 @@ export class InventoryService {
         });
       });
 
+      // Execute all media creation promises
       const mediaEntries = await Promise.all(mediaCreatePromises);
       return mediaEntries;
     } catch (error) {
@@ -92,7 +115,7 @@ export class InventoryService {
       });
 
       if (mediaToDelete.length === 0) {
-        throw new ApiBadRequestError("Media not found");
+        return [];
       }
 
       await prisma.media.deleteMany({
@@ -112,18 +135,62 @@ export class InventoryService {
     }
   }
 
+  async createInventory(data: InventoryAttributes) {
+    if (
+      !data.productName ||
+      !data.skuId
+      // ||
+      // data.categoryId === undefined ||
+      // data.subCategoryId === undefined
+    ) {
+      console.log();
+      throw new ApiBadRequestError("Please fill all required fields!!");
+    }
+
+    const existingEntry = await prisma.inventory.findFirst({
+      where: { skuId: data.skuId },
+    });
+
+    if (existingEntry) {
+      throw new ApiBadRequestError(
+        "SKUID should be different, it already exists."
+      );
+    }
+
+    return await prisma.inventory.create({
+      data: {
+        productName: data.productName,
+        skuId: data.skuId,
+        categoryId: data?.categoryId,
+        subCategoryId: data?.subCategoryId,
+      },
+    });
+  }
+
   async getInventories() {
     const inventory = await prisma.inventory.findMany({
       include: {
         InventoryFlat: { include: { Flat: true } },
+        customFittedInventory: { include: { customFitted: true } },
         InventoryFitted: {
           include: {
             Fitted: {
               include: { FittedDimensions: true },
             },
+            fittedDimensions: true,
           },
         },
-        customFittedInventory: { include: { customFitted: true } },
+        ProductInventory: {
+          include: {
+            product: {
+              include: { sizes: true },
+            },
+            selectedSizes: true,
+          },
+        },
+        ColorVariations: { include: { Color: true } },
+        relatedInventories: true,
+        relatedByInventories: true,
         Media: true,
       },
     });
@@ -144,17 +211,181 @@ export class InventoryService {
       where: { id: Number(id) },
       include: {
         InventoryFlat: { include: { Flat: true } },
+        customFittedInventory: { include: { customFitted: true } },
         InventoryFitted: {
           include: {
             Fitted: {
               include: { FittedDimensions: true },
             },
+            fittedDimensions: true,
           },
         },
-        customFittedInventory: { include: { customFitted: true } },
+        ProductInventory: {
+          include: {
+            product: {
+              include: { sizes: true },
+            },
+            selectedSizes: true,
+          },
+        },
+        ColorVariations: { include: { Color: true } },
+        relatedInventories: true,
+        relatedByInventories: true,
         Media: true,
       },
     });
+    return inventory;
+  }
+  async updateInventory(id: number, data: InventoryUpdateAttributes) {
+    const {
+      productName,
+      skuId,
+      quantity,
+      soldQuantity,
+      minQuantity,
+      maxQuantity,
+      sellingPrice,
+      costPrice,
+      discountedPrice,
+      discountCount,
+      availability,
+      weight,
+      productstatus,
+      status,
+      style,
+      pattern,
+      fabric,
+      type,
+      size,
+      includedItems,
+      itemDimensions,
+      colorVariation,
+      extraOptionOutOfStock,
+      specialFeatures,
+      threadCount,
+      itemWeight,
+      origin,
+      extraNote,
+      disclaimer,
+      careInstructions,
+      categoryId,
+      subCategoryId,
+      flatIds,
+      fittedIds,
+      customFittedIds,
+      sizecharts,
+      colorIds,
+      relatedInventoriesIds,
+    } = data;
+
+    const deleteManyOptions = { where: { inventoryId: id } };
+
+    await prisma.inventoryFitted.deleteMany(deleteManyOptions);
+    await prisma.inventoryFlat.deleteMany(deleteManyOptions);
+    await prisma.customFittedInventory.deleteMany(deleteManyOptions);
+    await prisma.productInventory.deleteMany(deleteManyOptions);
+    await prisma.colorVariation.deleteMany(deleteManyOptions);
+
+    const inventory = await prisma.inventory.update({
+      where: { id },
+      data: {
+        productName,
+        skuId,
+        quantity,
+        soldQuantity,
+        minQuantity,
+        maxQuantity,
+        sellingPrice,
+        costPrice,
+        discountedPrice,
+        discountCount,
+        availability,
+        weight,
+        productstatus,
+        status,
+        style,
+        pattern,
+        fabric,
+        type,
+        size,
+        includedItems,
+        itemDimensions,
+        colorVariation,
+        extraOptionOutOfStock,
+        specialFeatures,
+        threadCount,
+        itemWeight,
+        origin,
+        extraNote,
+        disclaimer,
+        careInstructions,
+        categoryId,
+        subCategoryId,
+        InventoryFlat: {
+          create: flatIds?.map((flatId) => ({ flatId })) || [],
+        },
+        InventoryFitted: {
+          create:
+            fittedIds?.map((fitted) => ({
+              fittedId: fitted?.fittedId,
+              fittedDimensions: {
+                connect: fitted.fittedDimensions.map((dimensionId) => ({
+                  id: dimensionId,
+                })),
+              },
+            })) || [],
+        },
+        customFittedInventory: {
+          create:
+            customFittedIds?.map((customFittedId) => ({ customFittedId })) ||
+            [],
+        },
+        ProductInventory: {
+          create:
+            sizecharts?.map((sizechart) => ({
+              productId: sizechart.productId,
+              selectedSizes: {
+                connect: sizechart.selectedSizes.map((sizeId) => ({
+                  id: sizeId,
+                })),
+              },
+            })) || [],
+        },
+        ColorVariations: {
+          create: colorIds?.map((colorId) => ({ colorId })) || [],
+        },
+        relatedInventories: {
+          set:
+            relatedInventoriesIds?.map((relatedId) => ({ id: relatedId })) ||
+            [],
+        },
+      },
+      include: {
+        InventoryFlat: { include: { Flat: true } },
+        customFittedInventory: { include: { customFitted: true } },
+        InventoryFitted: {
+          include: {
+            Fitted: {
+              include: { FittedDimensions: true },
+            },
+            fittedDimensions: true,
+          },
+        },
+        ProductInventory: {
+          include: {
+            product: {
+              include: { sizes: true },
+            },
+            selectedSizes: true,
+          },
+        },
+        ColorVariations: { include: { Color: true } },
+        relatedInventories: true,
+        relatedByInventories: true,
+        Media: true,
+      },
+    });
+
     return inventory;
   }
 }

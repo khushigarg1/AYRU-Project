@@ -5,24 +5,18 @@ import AuthRoutes from "./routes/userAuthRoute.routes";
 // import multipart from "@fastify/multipart";
 import fastifyJwt from "@fastify/jwt";
 import cors from "@fastify/cors";
-import AdminAuthRoutes from "./routes/adminAuth.route";
-import CategoryRoutes from "./routes/category.route";
-import SubCategoryRoutes from "./routes/subCategory.route";
 import multipart from "@fastify/multipart";
 import path from "path";
 import fs from "fs";
-import ClientLoveRoutes from "./routes/clientLove.route";
 import { getImage } from "../config/awsfunction";
-import flatRoutes from "./routes/sizetype/flat.route";
-import fittedRoutes from "./routes/sizetype/fitted.route";
-import customFittedRoutes from "./routes/sizetype/customFitted.route";
-import inventoryRoutes from "./routes/inventory.route";
+import registerRoutes from "./routes";
 const fileUpload = require("fastify-file-upload");
 
 const server = fastify({ logger: true });
 const prisma = new PrismaClient();
 
 server.register(fileUpload);
+
 // Check if JWT_TOKEN_SECRET is defined
 const jwtSecret = process.env.JWT_TOKEN_SECRET;
 if (!jwtSecret) {
@@ -53,16 +47,7 @@ server.get("/", function (request, reply) {
 // export default async function routes(server: FastifyInstance) {
 server.get("/api/image/:imageUrl", getImage);
 // }
-
-server.register(AuthRoutes, { prefix: "/api/auth" });
-server.register(AdminAuthRoutes, { prefix: "/api/auth/admin" });
-server.register(CategoryRoutes, { prefix: "/api" });
-server.register(SubCategoryRoutes, { prefix: "/api" });
-server.register(ClientLoveRoutes, { prefix: "/api" });
-server.register(flatRoutes, { prefix: "/api/flat" });
-server.register(fittedRoutes, { prefix: "/api/fitted" });
-server.register(customFittedRoutes, { prefix: "/api/customfitted" });
-server.register(inventoryRoutes, { prefix: "/api/inventory" });
+registerRoutes(server);
 
 server.listen(8080, (err, address) => {
   if (err) {

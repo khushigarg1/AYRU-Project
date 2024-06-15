@@ -16,7 +16,7 @@ import {
   TableHead,
   TableRow,
   TablePagination,
-  TextField // Import TextField for search input
+  TextField
 } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import { DataGrid, GridDeleteIcon } from "@mui/x-data-grid";
@@ -41,7 +41,7 @@ export default function HomePage() {
   const [selectedFitted, setSelectedFitted] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [searchTerm, setSearchTerm] = useState(""); // State for search term
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleAddFittedOpen = () => setAddFittedOpen(true);
   const handleAddFittedClose = () => setAddFittedOpen(false);

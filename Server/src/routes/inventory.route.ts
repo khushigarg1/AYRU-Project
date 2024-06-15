@@ -8,7 +8,7 @@ import {
   uploadMedia,
   getallMedia,
   deleteMedia,
-} from "../Controllers/inventory.controller";
+} from "../Controllers/Inventory/inventory.controller";
 
 export default async function inventoryRoutes(server: FastifyInstance) {
   server.post("/", { onRequest: [server.authenticateAdmin] }, createInventory);

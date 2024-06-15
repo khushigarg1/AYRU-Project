@@ -101,22 +101,13 @@ model Fitted {
 }
 
 model FittedDimensions {
-  id                Int              @id @default(autoincrement())
-  fitted            Fitted           @relation(fields: [fittedId], references: [id])
-  fittedId          Int
-  dimensions        String
-  InventoryFitted   InventoryFitted? @relation(fields: [inventoryFittedId], references: [id])
-  inventoryFittedId Int?
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
-}
-
-model Color {
-  id        Int      @id @default(autoincrement())
-  name      String
-  colorCode String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              Int               @id @default(autoincrement())
+  fitted          Fitted            @relation(fields: [fittedId], references: [id])
+  fittedId        Int
+  dimensions      String
+  InventoryFitted InventoryFitted[] @relation(name: "InventoryFittedToFittedDimensions")
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
 }
 
 model CustomFitted {
@@ -171,7 +162,7 @@ model Inventory {
   careInstructions      String[]
   categoryId            Int?
   subCategoryId         Int?
-  colors                Colors[]
+  color                 Color[]
   InventoryFlat         InventoryFlat[]
   InventoryFitted       InventoryFitted[]
   customFittedInventory CustomFittedInventory[]
@@ -179,18 +170,32 @@ model Inventory {
   category              Category?               @relation(fields: [categoryId], references: [id])
   subCategory           SubCategory?            @relation(fields: [subCategoryId], references: [id])
   ProductInventory      ProductInventory[]
+  ColorVariations       ColorVariation[]
+  relatedInventories    Inventory[]             @relation("InventoryToInventory")
+  relatedByInventories  Inventory[]             @relation("InventoryToInventory")
   createdAt             DateTime                @default(now())
-  updatedAt             DateTime                @updatedAt
+  updatedAt             DateTime                @default(now())
 }
 
-model Colors {
-  id          Int        @id @default(autoincrement())
-  name        String
-  hexcode     String
-  Inventory   Inventory? @relation(fields: [inventoryId], references: [id])
-  inventoryId Int?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+model ColorVariation {
+  id          Int       @id @default(autoincrement())
+  inventoryId Int
+  colorId     Int
+  Inventory   Inventory @relation(fields: [inventoryId], references: [id])
+  Color       Color     @relation(fields: [colorId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
+}
+
+model Color {
+  id              Int              @id @default(autoincrement())
+  name            String
+  colorCode       String
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  ColorVariations ColorVariation[]
+  Inventory       Inventory?       @relation(fields: [inventoryId], references: [id])
+  inventoryId     Int?
 }
 
 model CustomFittedInventory {
@@ -219,7 +224,7 @@ model InventoryFitted {
   inventoryId      Int
   Inventory        Inventory          @relation(fields: [inventoryId], references: [id])
   Fitted           Fitted             @relation(fields: [fittedId], references: [id])
-  fittedDimensions FittedDimensions[]
+  fittedDimensions FittedDimensions[] @relation(name: "InventoryFittedToFittedDimensions")
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
 }
@@ -240,14 +245,14 @@ model SizeChart {
   height           String
   productId        Int
   product          Product            @relation(fields: [productId], references: [id])
-  ProductInventory ProductInventory[]
+  ProductInventory ProductInventory[] @relation(name: "ProductInventoryToSizeChart")
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
 }
 
 model ProductInventory {
   id            Int         @id @default(autoincrement())
-  selectedSizes SizeChart[]
+  selectedSizes SizeChart[] @relation(name: "ProductInventoryToSizeChart")
   productId     Int
   product       Product     @relation(fields: [productId], references: [id])
   inventoryId   Int?
