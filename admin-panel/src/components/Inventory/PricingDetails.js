@@ -14,6 +14,7 @@ const PricingDetailsForm = ({ inventory, onSave, onCancel }) => {
 
   const handleChange = (e, field) => {
     const { value } = e.target;
+
     if (!(/^\d*\.?\d*$/.test(value))) {
       setFieldErrors((prevErrors) => ({
         ...prevErrors,

@@ -176,7 +176,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           <Grid item xs={12}>
             <div>
               <Typography variant="subtitle1">Included Items:</Typography>
-              {editedProduct.includedItems.map((item, index) => (
+              {editedProduct.includedItems?.map((item, index) => (
                 <div style={{ marginLeft: "10%", display: "flex", flexDirection: "row", alignItems: "center" }} key={index}>
                   <Typography>{item}</Typography>
                   <Button color="secondary" onClick={() => handleRemoveItem(index)} sx={{ ml: 1 }}>
@@ -199,7 +199,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           </Grid>
           <Grid item xs={12} spacing={0}>
             <Typography variant="subtitle1">Item Dimensions:</Typography>
-            {editedProduct.itemDimensions.map((dimension, index) => (
+            {editedProduct.itemDimensions?.map((dimension, index) => (
               <div key={index} style={{ marginLeft: '10%', display: 'flex', alignItems: 'center' }}>
                 <Typography>{dimension}</Typography>
                 <Button
@@ -235,7 +235,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           </Grid>
           <Grid item xs={12}>
             <Typography variant="subtitle1">Special Features:</Typography>
-            {editedProduct.specialFeatures.map((item, index) => (
+            {editedProduct.specialFeatures?.map((item, index) => (
               <div key={index} style={{ marginLeft: '10%', display: 'flex', alignItems: 'center' }}>
                 <Typography>{item}</Typography>
                 <Button
@@ -323,13 +323,13 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           </Grid>
           <Grid item xs={12}>
             <Typography><strong>Included Items:</strong></Typography>
-            {editedProduct.includedItems.map((item, index) => (
+            {editedProduct.includedItems?.map((item, index) => (
               <Typography style={{ marginLeft: "10%" }} key={index}>{item}</Typography>
             ))}
           </Grid>
           <Grid item xs={12}>
             <Typography><strong>Item Dimensions:</strong></Typography>
-            {editedProduct.itemDimensions.map((item, index) => (
+            {editedProduct.itemDimensions?.map((item, index) => (
               <Typography style={{ marginLeft: "10%" }} key={index}>{item}</Typography>
             ))}
           </Grid>
@@ -339,7 +339,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           <Grid item xs={12}>
             <Typography><strong>Special Features:</strong>
             </Typography>
-            {editedProduct.specialFeatures.map((item, index) => (
+            {editedProduct.specialFeatures?.map((item, index) => (
               <Typography style={{ marginLeft: "10%" }} key={index}>{item}</Typography>
             ))}
           </Grid>

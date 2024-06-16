@@ -11,6 +11,7 @@ import ProductDetailsForm from '@/src/components/Inventory/ProductDetailsform';
 import PricingDetailsForm from '@/src/components/Inventory/PricingDetails';
 import ProductInformation from '@/src/components/Inventory/ProductInformation';
 import AdditionalInfo from '@/src/components/Inventory/AdditionalInfo';
+import SizeChartComponent from '@/src/components/Inventory/sizeType';
 
 const HomePage = ({ params }) => {
   const router = useRouter();
@@ -195,6 +196,19 @@ const HomePage = ({ params }) => {
         </AccordionSummary>
         <AccordionDetails>
           <ProductInformation
+            inventory={inventory}
+            onSave={handleSaveProductDetails}
+            onCancel={handleCancelProductDetails}
+          />
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography>Size Details</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <SizeChartComponent
             inventory={inventory}
             onSave={handleSaveProductDetails}
             onCancel={handleCancelProductDetails}
