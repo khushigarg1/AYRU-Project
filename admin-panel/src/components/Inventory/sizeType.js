@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Grid, Checkbox, Select, MenuItem, InputLabel, FormControl, ListItemText, Link } from '@mui/material';
+import { Typography, Button, Grid, Checkbox, Select, MenuItem, InputLabel, FormControl, ListItemText } from '@mui/material';
 import { DeleteForever } from '@mui/icons-material';
 import api from '@/api';
 
@@ -109,7 +109,7 @@ const SizeChartComponent = ({ inventory, onSave, onCancel }) => {
           <Grid item xs={12}>
             <FormControl fullWidth variant="outlined" margin="normal">
               <InputLabel id="color-label">Colors</InputLabel>
-              {/* <Select
+              <Select
                 labelId="color-label"
                 multiple
                 value={Array.isArray(data.colorIds) ? data.colorIds : []}
@@ -119,23 +119,6 @@ const SizeChartComponent = ({ inventory, onSave, onCancel }) => {
                 {colors?.map((color) => (
                   <MenuItem key={color.id} value={color.id}>
                     <Checkbox checked={data.colorIds?.includes(color.id)} />
-                    <ListItemText primary={color.name} />
-                  </MenuItem>
-                ))} */}
-              <Select
-                labelId="color-label"
-                multiple
-                value={data.ColorVariations.map((cv) => cv.colorId)}
-                onChange={(e) => handleChange(e, 'colorIds')}
-                renderValue={(selected) =>
-                  selected
-                    .map((colorId) => colors.find((color) => color.id === colorId)?.name)
-                    .join(', ')
-                }
-              >
-                {colors.map((color) => (
-                  <MenuItem key={color.id} value={color.id}>
-                    <Checkbox checked={data.ColorVariations.some((cv) => cv.colorId === color.id)} />
                     <ListItemText primary={color.name} />
                   </MenuItem>
                 ))}
@@ -148,17 +131,13 @@ const SizeChartComponent = ({ inventory, onSave, onCancel }) => {
               <Select
                 labelId="flat-label"
                 multiple
-                value={data.InventoryFlat.map((invFlat) => invFlat.flatId)}
+                value={Array.isArray(data.flatIds) ? data.flatIds : []}
                 onChange={(e) => handleChange(e, 'flatIds')}
-                renderValue={(selected) =>
-                  selected
-                    .map((flatId) => flats.find((flat) => flat.id === flatId)?.name)
-                    .join(', ')
-                }
+                renderValue={(selected) => selected.join(', ')}
               >
-                {flats.map((flat) => (
+                {flats?.map((flat) => (
                   <MenuItem key={flat.id} value={flat.id}>
-                    <Checkbox checked={data.InventoryFlat.some((invFlat) => invFlat.flatId === flat.id)} />
+                    <Checkbox checked={data.flatIds?.includes(flat.id)} />
                     <ListItemText primary={flat.name} />
                   </MenuItem>
                 ))}
@@ -332,43 +311,19 @@ const SizeChartComponent = ({ inventory, onSave, onCancel }) => {
           <Grid item xs={12}>
             <Typography variant="h6">Fitted:</Typography>
             {data.InventoryFitted?.map((fitted, index) => (
-              <div key={index}>
-                <Typography>{fitted?.Fitted?.name}</Typography>
-                {fitted?.fittedDimensions?.map((dimension, dimindex) => (
-                  <Typography ml={6} key={dimindex} variant="body2">
-                    {dimension.dimensions}
-                  </Typography>
-                ))}
-              </div>
+              <Typography key={index}>{fitted.fittedId}</Typography>
             ))}
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h6">Size Charts:</Typography>
             {data.ProductInventory?.map((sizechart, index) => (
-              <div key={index}>
-                <Typography variant="subtitle1">{sizechart?.product?.name}</Typography>
-                {sizechart?.product?.sizes?.map((size, sizeIndex) => (
-                  <Typography ml={6} key={sizeIndex} variant="body2">
-                    {size.name}
-                  </Typography>
-                ))}
-              </div>
+              <Typography key={index}>{sizechart.productId}</Typography>
             ))}
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h6">Related Inventories:</Typography>
             {data.relatedInventories?.map((inventory, index) => (
-              <Typography>
-
-                <Link
-                  key={index}
-                  href={`${process.env.REACT_APP_BASE_URL}/inventory/${inventory?.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {`${inventory?.productName} :- ${process.env.REACT_APP_BASE_URL}/inventory/${inventory?.id}`}
-                </Link>
-              </Typography>
+              <Typography key={index}>{relatedInventories.find(inv => inv.id === inventory)?.name}</Typography>
             ))}
           </Grid>
           <Grid item xs={12}>
