@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Box, Accordion, AccordionSummary, AccordionDetails, Typography, Button, IconButton, Modal } from '@mui/material';
+import { Box, Accordion, AccordionSummary, AccordionDetails, Typography, Button, IconButton, Modal, Grid } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useRouter } from 'next/navigation';
 import api from '@/api';
@@ -22,6 +22,7 @@ const HomePage = ({ params }) => {
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
+  const [Editadditional, setEditAdditional] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -107,6 +108,11 @@ const HomePage = ({ params }) => {
   if (!inventory) {
     return <Typography>Loading...</Typography>;
   }
+
+
+  const handleEditToggle = () => {
+    setEditAdditional(!Editadditional);
+  };
 
   return (
     <Box p={0}>
@@ -208,11 +214,77 @@ const HomePage = ({ params }) => {
           <Typography>Size Details</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <SizeChartComponent
-            inventory={inventory}
-            onSave={handleSaveProductDetails}
-            onCancel={handleCancelProductDetails}
-          />
+          {Editadditional ? (
+            <SizeChartComponent
+              inventory={inventory}
+              onSave={handleSaveProductDetails}
+              onCancel={handleCancelProductDetails}
+              Editadditional={handleEditToggle}
+            />) :
+            (
+              <>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">Colors:</Typography>
+                    {inventory.ColorVariations?.map((color) => (
+                      <Typography key={color}>{color?.Color?.name}</Typography>
+                    ))}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">Flats:</Typography>
+                    {inventory.InventoryFlat?.map((flat) => (
+                      <Typography key={flat}>{flat?.Flat?.name}</Typography>
+                    ))}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">Custom Fitted:</Typography>
+                    {inventory.customFittedInventory?.map((custom) => (
+                      <Typography key={custom}>{custom?.customFitted?.name}</Typography>
+                    ))}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">Fitted:</Typography>
+                    {inventory.InventoryFitted?.map((fitted, index) => (
+                      <div key={index}>
+                        <Typography>{fitted?.Fitted?.name}</Typography>
+                        {fitted?.fittedDimensions?.map((dimension, dimindex) => (
+                          <Typography ml={8} key={dimindex} variant="body2">
+                            {dimension.dimensions}
+                          </Typography>
+                        ))}
+                      </div>
+                    ))}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">Size Charts:</Typography>
+                    {inventory.ProductInventory?.map((sizechart, index) => (
+                      <div key={index}>
+                        <Typography variant="subtitle1">
+                          {sizechart?.product?.name}
+                        </Typography>
+                        {sizechart?.product?.sizes?.map((size, sizeIndex) => (
+                          <Typography ml={8} key={sizeIndex} variant="body2">
+                            {`${size.name}:- Width: ${size.width}, Height: ${size.height}`}
+                          </Typography>
+                        ))}
+                      </div>
+                    ))}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">Related Inventories:</Typography>
+                    {inventory.relatedInventories?.map((inventory, index) => (
+                      <Typography key={index}>{`${inventory?.id} ${inventory?.productName}`}</Typography>
+                    ))}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button variant="contained" color="primary" onClick={handleEditToggle}>
+                      Edit
+                    </Button>
+                  </Grid>
+                </Grid>
+              </>
+            )
+          }
         </AccordionDetails>
       </Accordion>
 
