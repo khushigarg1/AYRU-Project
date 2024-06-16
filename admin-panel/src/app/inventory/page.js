@@ -74,8 +74,8 @@ const HomePage = () => {
   const columns = isMobile ? [
     { field: "productName", headerName: "Product Name", width: 150 },
     { field: "skuId", headerName: "SKU ID", width: 150 },
-    { field: "quantity", headerName: "Quantity", width: 100 },
-    { field: "sellingPrice", headerName: "Selling Price", width: 100 },
+    { field: "quantity", headerName: "Quantity", width: 130 },
+    { field: "sellingPrice", headerName: "Selling Price", width: 150 },
     { field: "categoryId", headerName: "Category", width: 150, renderCell: (params) => getCategoryName(params.row.categoryId) },
     { field: "subCategoryId", headerName: "Subcategory", width: 150, renderCell: (params) => getSubcategoryName(params.row.categoryId, params.row.subCategoryId) },
     {

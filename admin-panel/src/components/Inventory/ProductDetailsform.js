@@ -96,7 +96,7 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={0}>
       {editMode ? (
         <>
           <Grid item xs={12}>
@@ -231,6 +231,9 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
           </Grid>
           <Grid item xs={12}>
             <Typography><strong>Subcategory:</strong> {getSubcategoryNameById(inventory.subCategoryId)}</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography><strong>Status:</strong> {inventory?.status}</Typography>
           </Grid>
           <Grid item xs={12}>
             <Button variant="contained" color="primary" onClick={handleEditToggle}>

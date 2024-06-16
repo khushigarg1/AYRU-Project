@@ -76,6 +76,9 @@ const closedMixin = (theme) => ({
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
+  [theme.breakpoints.down("sm")]: {
+    display: 'none',
+  },
 });
 
 const DrawerHeader = styled("div")(({ theme }) => ({
