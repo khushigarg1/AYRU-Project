@@ -22,7 +22,7 @@ const InventoryDetailsPage = () => {
   const fetchInventory = async () => {
     try {
       const response = await api.get(`/inventory/${id}`);
-      setInventory(response.data);
+      setInventory(response?.data);
     } catch (error) {
       console.error("Error fetching inventory:", error);
     }
@@ -80,25 +80,25 @@ const InventoryDetailsPage = () => {
           <Typography>Product Details</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {editMode.productDetails ? (
+          {editMode?.productDetails ? (
             <>
               <TextField
                 label="Product Name"
-                value={inventory.productName}
+                value={inventory?.productName}
                 onChange={(e) => handleChange(e, 'productName')}
                 fullWidth
                 margin="normal"
               />
               <TextField
                 label="SKU ID"
-                value={inventory.skuId}
+                value={inventory?.skuId}
                 onChange={(e) => handleChange(e, 'skuId')}
                 fullWidth
                 margin="normal"
               />
               <TextField
                 label="Quantity"
-                value={inventory.quantity}
+                value={inventory?.quantity}
                 onChange={(e) => handleChange(e, 'quantity')}
                 fullWidth
                 margin="normal"
@@ -111,9 +111,9 @@ const InventoryDetailsPage = () => {
             </>
           ) : (
             <>
-              <Typography>Product Name: {inventory.productName}</Typography>
-              <Typography>SKU ID: {inventory.skuId}</Typography>
-              <Typography>Quantity: {inventory.quantity}</Typography>
+              <Typography>Product Name: {inventory?.productName}</Typography>
+              <Typography>SKU ID: {inventory?.skuId}</Typography>
+              <Typography>Quantity: {inventory?.quantity}</Typography>
               {/* Add other product details fields */}
               <Button variant="outlined" color="primary" onClick={() => handleEditToggle('productDetails')} sx={{ mt: 2 }}>
                 Edit
@@ -129,18 +129,18 @@ const InventoryDetailsPage = () => {
           <Typography>Statuses</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {editMode.statuses ? (
+          {editMode?.statuses ? (
             <>
               <TextField
                 label="Product Status"
-                value={inventory.productstatus}
+                value={inventory?.productstatus}
                 onChange={(e) => handleChange(e, 'productstatus')}
                 fullWidth
                 margin="normal"
               />
               <TextField
                 label="Status"
-                value={inventory.status}
+                value={inventory?.status}
                 onChange={(e) => handleChange(e, 'status')}
                 fullWidth
                 margin="normal"
@@ -151,8 +151,8 @@ const InventoryDetailsPage = () => {
             </>
           ) : (
             <>
-              <Typography>Product Status: {inventory.productstatus}</Typography>
-              <Typography>Status: {inventory.status}</Typography>
+              <Typography>Product Status: {inventory?.productstatus}</Typography>
+              <Typography>Status: {inventory?.status}</Typography>
               <Button variant="outlined" color="primary" onClick={() => handleEditToggle('statuses')} sx={{ mt: 2 }}>
                 Edit
               </Button>
@@ -168,10 +168,10 @@ const InventoryDetailsPage = () => {
         </AccordionSummary>
         <AccordionDetails>
           <ImageUploader onUpload={handleImageUpload} />
-          {inventory.images && inventory.images.map((image) => (
-            <Box key={image.id} display="flex" alignItems="center" mt={2}>
-              <img src={image.url} alt={image.altText} width="100" />
-              <IconButton onClick={() => handleImageDelete(image.id)}>-</IconButton>
+          {inventory?.images && inventory?.images?.map((image) => (
+            <Box key={image?.id} display="flex" alignItems="center" mt={2}>
+              <img src={image.url} alt={image?.altText} width="100" />
+              <IconButton onClick={() => handleImageDelete(image?.id)}>-</IconButton>
             </Box>
           ))}
         </AccordionDetails>
@@ -183,11 +183,11 @@ const InventoryDetailsPage = () => {
           <Typography>Pricing</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {editMode.pricing ? (
+          {editMode?.pricing ? (
             <>
               <TextField
                 label="Selling Price"
-                value={inventory.sellingPrice}
+                value={inventory?.sellingPrice}
                 onChange={(e) => handleChange(e, 'sellingPrice')}
                 fullWidth
                 margin="normal"
@@ -195,7 +195,7 @@ const InventoryDetailsPage = () => {
               />
               <TextField
                 label="Cost Price"
-                value={inventory.costPrice}
+                value={inventory?.costPrice}
                 onChange={(e) => handleChange(e, 'costPrice')}
                 fullWidth
                 margin="normal"
@@ -203,7 +203,7 @@ const InventoryDetailsPage = () => {
               />
               <TextField
                 label="Discounted Price"
-                value={inventory.discountedPrice}
+                value={inventory?.discountedPrice}
                 onChange={(e) => handleChange(e, 'discountedPrice')}
                 fullWidth
                 margin="normal"
@@ -216,9 +216,9 @@ const InventoryDetailsPage = () => {
             </>
           ) : (
             <>
-              <Typography>Selling Price: ${inventory.sellingPrice}</Typography>
-              <Typography>Cost Price: ${inventory.costPrice}</Typography>
-              <Typography>Discounted Price: ${inventory.discountedPrice}</Typography>
+              <Typography>Selling Price: ${inventory?.sellingPrice}</Typography>
+              <Typography>Cost Price: ${inventory?.costPrice}</Typography>
+              <Typography>Discounted Price: ${inventory?.discountedPrice}</Typography>
               {/* Add other pricing fields */}
               <Button variant="outlined" color="primary" onClick={() => handleEditToggle('pricing')} sx={{ mt: 2 }}>
                 Edit
@@ -234,25 +234,25 @@ const InventoryDetailsPage = () => {
           <Typography>Extra Details</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {editMode.extraDetails ? (
+          {editMode?.extraDetails ? (
             <>
               <TextField
                 label="Style"
-                value={inventory.style}
+                value={inventory?.style}
                 onChange={(e) => handleChange(e, 'style')}
                 fullWidth
                 margin="normal"
               />
               <TextField
                 label="Pattern"
-                value={inventory.pattern}
+                value={inventory?.pattern}
                 onChange={(e) => handleChange(e, 'pattern')}
                 fullWidth
                 margin="normal"
               />
               <TextField
                 label="Fabric"
-                value={inventory.fabric}
+                value={inventory?.fabric}
                 onChange={(e) => handleChange(e, 'fabric')}
                 fullWidth
                 margin="normal"
@@ -264,9 +264,9 @@ const InventoryDetailsPage = () => {
             </>
           ) : (
             <>
-              <Typography>Style: {inventory.style}</Typography>
-              <Typography>Pattern: {inventory.pattern}</Typography>
-              <Typography>Fabric: {inventory.fabric}</Typography>
+              <Typography>Style: {inventory?.style}</Typography>
+              <Typography>Pattern: {inventory?.pattern}</Typography>
+              <Typography>Fabric: {inventory?.fabric}</Typography>
               {/* Add other extra details fields */}
               <Button variant="outlined" color="primary" onClick={() => handleEditToggle('extraDetails')} sx={{ mt: 2 }}>
                 Edit

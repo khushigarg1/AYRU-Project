@@ -92,6 +92,7 @@ export const deleteInventory = async (
         where: { inventoryId: Number(id) },
       });
       await inventoryService.deleteInventoryMedia(Number(id));
+      await inventoryService.deleteSizeChartMedia(Number(id));
       await prisma.inventory.delete({
         where: { id: Number(id) },
       });

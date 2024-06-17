@@ -6,27 +6,27 @@ const ImageUploader = ({ onUpload }) => {
   const [files, setFiles] = useState([]);
 
   const handleFileChange = (e) => {
-    const selectedFiles = Array.from(e.target.files); // Convert FileList to array
+    const selectedFiles = Array.from(e.target.files);
     console.log(selectedFiles);
     setFiles(selectedFiles);
   };
 
   const handleUpload = () => {
     if (files.length > 0) {
-      onUpload(files); // Pass all selected files to onUpload
-      setFiles([]); // Clear selected files after upload
+      onUpload(files);
+      setFiles([]);
     }
   };
 
   return (
     <div>
       <input
-        accept="image/*, video/*" // Accept both images and videos
+        accept="image/*, video/*"
         style={{ display: 'none' }}
         id="contained-button-file"
         type="file"
         onChange={handleFileChange}
-        multiple // Allow multiple file selection
+        multiple
       />
       <label htmlFor="contained-button-file">
         <IconButton component="span">

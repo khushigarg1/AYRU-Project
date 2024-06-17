@@ -51,6 +51,7 @@ registerRoutes(server);
 
 server.listen(8080, (err, address) => {
   if (err) {
+    server.log.error(err);
     console.error(err);
     process.exit(1);
   }
@@ -62,7 +63,6 @@ server.listen(8080, (err, address) => {
 //     await server.listen({ port: process.env.PORT, host: "0.0.0.0" });
 //   } catch (err) {
 //     // console.log(err);
-//     server.log.error(err);
 //     // process.exit(1)
 //   }
 // };

@@ -32,10 +32,10 @@ const PricingDetailsForm = ({ inventory, onSave, onCancel }) => {
   const handleSave = () => {
     const parsedPricingDetails = {
       ...editedPricingDetails,
-      sellingPrice: parseFloat(editedPricingDetails.sellingPrice),
-      costPrice: parseFloat(editedPricingDetails.costPrice),
-      discountedPrice: parseFloat(editedPricingDetails.discountedPrice),
-      discountCount: parseInt(editedPricingDetails.discountCount),
+      sellingPrice: parseFloat(editedPricingDetails?.sellingPrice),
+      costPrice: parseFloat(editedPricingDetails?.costPrice),
+      discountedPrice: parseFloat(editedPricingDetails?.discountedPrice),
+      discountCount: parseInt(editedPricingDetails?.discountCount),
     };
     onSave(parsedPricingDetails);
     setEditMode(false);
@@ -70,53 +70,53 @@ const PricingDetailsForm = ({ inventory, onSave, onCancel }) => {
           <Grid item xs={12}>
             <TextField
               label="Selling Price"
-              value={editedPricingDetails.sellingPrice}
+              value={editedPricingDetails?.sellingPrice}
               onChange={(e) => handleChange(e, 'sellingPrice')}
               fullWidth
               variant="standard"
               margin="normal"
               type="text"
-              error={fieldErrors.sellingPrice !== ''}
-              helperText={fieldErrors.sellingPrice}
+              error={fieldErrors?.sellingPrice !== ''}
+              helperText={fieldErrors?.sellingPrice}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               label="Cost Price"
-              value={editedPricingDetails.costPrice}
+              value={editedPricingDetails?.costPrice}
               onChange={(e) => handleChange(e, 'costPrice')}
               fullWidth
               variant="standard"
               margin="normal"
               type="text"
-              error={fieldErrors.costPrice !== ''}
-              helperText={fieldErrors.costPrice}
+              error={fieldErrors?.costPrice !== ''}
+              helperText={fieldErrors?.costPrice}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               label="Discounted Price"
-              value={editedPricingDetails.discountedPrice}
+              value={editedPricingDetails?.discountedPrice}
               onChange={(e) => handleChange(e, 'discountedPrice')}
               fullWidth
               variant="standard"
               margin="normal"
               type="text"
-              error={fieldErrors.discountedPrice !== ''}
-              helperText={fieldErrors.discountedPrice}
+              error={fieldErrors?.discountedPrice !== ''}
+              helperText={fieldErrors?.discountedPrice}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               label="Discount Count"
-              value={editedPricingDetails.discountCount}
+              value={editedPricingDetails?.discountCount}
               onChange={(e) => handleChange(e, 'discountCount')}
               fullWidth
               variant="standard"
               margin="normal"
               type="text"
-              error={fieldErrors.discountCount !== ''}
-              helperText={fieldErrors.discountCount}
+              error={fieldErrors?.discountCount !== ''}
+              helperText={fieldErrors?.discountCount}
             />
           </Grid>
           <Grid item xs={12}>

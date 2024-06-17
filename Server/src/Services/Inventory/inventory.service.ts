@@ -73,7 +73,6 @@ export class InventoryService {
       throw new Error("Failed to process media upload: " + error);
     }
   }
-
   async getallMedia(id: number) {
     const media = await prisma.media.findMany({
       where: {
@@ -135,6 +134,35 @@ export class InventoryService {
     }
   }
 
+  async deleteSizeChartMedia(id: number) {
+    try {
+      const sizeChartMediaToDelete = await prisma.sizeChartMedia.findMany({
+        where: {
+          inventoryId: id,
+        },
+      });
+
+      if (sizeChartMediaToDelete.length === 0) {
+        return [];
+      }
+
+      await prisma.sizeChartMedia.deleteMany({
+        where: {
+          inventoryId: id,
+        },
+      });
+
+      for (const media of sizeChartMediaToDelete) {
+        await deleteImageFromS3(media.url);
+      }
+
+      return sizeChartMediaToDelete;
+    } catch (error) {
+      console.error("Error deleting size chart media:", error);
+      throw new Error("Failed to delete size chart media");
+    }
+  }
+
   async createInventory(data: InventoryAttributes) {
     if (
       !data.productName ||
@@ -163,6 +191,7 @@ export class InventoryService {
         skuId: data.skuId,
         categoryId: data?.categoryId,
         subCategoryId: data?.subCategoryId,
+        status: "PENDING",
       },
     });
   }
@@ -192,6 +221,7 @@ export class InventoryService {
         relatedInventories: true,
         relatedByInventories: true,
         Media: true,
+        SizeChartMedia: true,
       },
     });
     return inventory;
@@ -232,11 +262,14 @@ export class InventoryService {
         relatedInventories: true,
         relatedByInventories: true,
         Media: true,
+        SizeChartMedia: true,
       },
     });
     return inventory;
   }
   async updateInventory(id: number, data: InventoryUpdateAttributes) {
+    console.log(id, data);
+
     const {
       productName,
       skuId,
@@ -273,7 +306,8 @@ export class InventoryService {
       flatIds,
       fittedIds,
       customFittedIds,
-      sizecharts,
+      others,
+      // sizecharts,
       colorIds,
       relatedInventoriesIds,
     } = data;
@@ -283,8 +317,9 @@ export class InventoryService {
     await prisma.inventoryFitted.deleteMany(deleteManyOptions);
     await prisma.inventoryFlat.deleteMany(deleteManyOptions);
     await prisma.customFittedInventory.deleteMany(deleteManyOptions);
-    await prisma.productInventory.deleteMany(deleteManyOptions);
+    // await prisma.productInventory.deleteMany(deleteManyOptions);
     await prisma.colorVariation.deleteMany(deleteManyOptions);
+    console.log("heyyy");
 
     const inventory = await prisma.inventory.update({
       where: { id },
@@ -321,6 +356,7 @@ export class InventoryService {
         careInstructions,
         categoryId,
         subCategoryId,
+        others,
         InventoryFlat: {
           create: flatIds?.map((flatId) => ({ flatId })) || [],
         },
@@ -340,17 +376,17 @@ export class InventoryService {
             customFittedIds?.map((customFittedId) => ({ customFittedId })) ||
             [],
         },
-        ProductInventory: {
-          create:
-            sizecharts?.map((sizechart) => ({
-              productId: sizechart.productId,
-              selectedSizes: {
-                connect: sizechart.selectedSizes.map((sizeId) => ({
-                  id: sizeId,
-                })),
-              },
-            })) || [],
-        },
+        // ProductInventory: {
+        //   create:
+        //     sizecharts?.map((sizechart) => ({
+        //       productId: sizechart.productId,
+        //       selectedSizes: {
+        //         connect: sizechart.selectedSizes.map((sizeId) => ({
+        //           id: sizeId,
+        //         })),
+        //       },
+        //     })) || [],
+        // },
         ColorVariations: {
           create: colorIds?.map((colorId) => ({ colorId })) || [],
         },
@@ -371,20 +407,21 @@ export class InventoryService {
             fittedDimensions: true,
           },
         },
-        ProductInventory: {
-          include: {
-            product: {
-              include: { sizes: true },
-            },
-            selectedSizes: true,
-          },
-        },
+        // ProductInventory: {
+        //   include: {
+        //     product: {
+        //       include: { sizes: true },
+        //     },
+        //     selectedSizes: true,
+        //   },
+        // },
         ColorVariations: { include: { Color: true } },
         relatedInventories: true,
         relatedByInventories: true,
         Media: true,
       },
     });
+    console.log(inventory);
 
     return inventory;
   }
