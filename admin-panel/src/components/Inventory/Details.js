@@ -5,7 +5,7 @@ const GroupDetails = ({ details }) => {
   return (
     <Grid container spacing={2}>
       {/* Name */}
-      <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Grid item xs={12} sm={6} md={6} lg={4}>
         <Typography variant="h6" color="primary">
           Name:
         </Typography>
@@ -13,7 +13,7 @@ const GroupDetails = ({ details }) => {
       </Grid>
 
       {/* Status */}
-      <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Grid item xs={12} sm={6} md={6} lg={4}>
         <Typography variant="h6" color="primary">
           Status:
         </Typography>
@@ -21,7 +21,7 @@ const GroupDetails = ({ details }) => {
       </Grid>
 
       {/* Product Status */}
-      <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Grid item xs={12} sm={6} md={6} lg={4}>
         <Typography variant="h6" color="primary">
           Product Status:
         </Typography>
@@ -29,15 +29,23 @@ const GroupDetails = ({ details }) => {
       </Grid>
 
       {/* Quantity */}
-      <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Grid item xs={12} sm={6} md={6} lg={4}>
         <Typography variant="h6" color="primary">
           Quantity:
         </Typography>
         <Typography variant="body1">{details.quantity}</Typography>
       </Grid>
 
+      {/* Sold Quantity */}
+      <Grid item xs={12} sm={6} md={6} lg={4}>
+        <Typography variant="h6" color="primary">
+          Sold Quantity:
+        </Typography>
+        <Typography variant="body1">{details.soldQuantity}</Typography>
+      </Grid>
+
       {/* Selling Price */}
-      <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Grid item xs={12} sm={6} md={6} lg={4}>
         <Typography variant="h6" color="primary">
           Selling Price:
         </Typography>
@@ -45,7 +53,7 @@ const GroupDetails = ({ details }) => {
       </Grid>
 
       {/* Cost Price */}
-      <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Grid item xs={12} sm={6} md={6} lg={4}>
         <Typography variant="h6" color="primary">
           Cost Price:
         </Typography>
@@ -53,7 +61,7 @@ const GroupDetails = ({ details }) => {
       </Grid>
 
       {/* Discounted Price */}
-      <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Grid item xs={12} sm={6} md={6} lg={4}>
         <Typography variant="h6" color="primary">
           Discounted Price:
         </Typography>
@@ -61,7 +69,7 @@ const GroupDetails = ({ details }) => {
       </Grid>
 
       {/* Availability */}
-      <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Grid item xs={12} sm={6} md={6} lg={4}>
         <Typography variant="h6" color="primary">
           Availability:
         </Typography>
@@ -69,7 +77,7 @@ const GroupDetails = ({ details }) => {
       </Grid>
 
       {/* Extra Option Out of Stock */}
-      <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Grid item xs={12} sm={6} md={6} lg={4}>
         <Typography variant="h6" color="primary">
           Extra Option Out of Stock:
         </Typography>
