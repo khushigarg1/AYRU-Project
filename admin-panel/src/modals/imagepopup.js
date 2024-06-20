@@ -7,6 +7,7 @@ import { IMAGE_MODAL_STYLE, IMAGE_STYLE, CLOSE_ICON_STYLE } from '../styles/comm
 import { ZoomIn, ZoomOut } from '@mui/icons-material';
 
 const ImagePopup = ({ imageUrl, onClose }) => {
+  console.log(imageUrl);
   const [zoomLevel, setZoomLevel] = useState(1);
 
   const handleZoomIn = () => {
@@ -35,13 +36,12 @@ const ImagePopup = ({ imageUrl, onClose }) => {
             transform: `scale(${zoomLevel})`,
           }}
         />
-        <Box sx={{ position: 'absolute', left: '10px', bottom: '10px' }}>
-          <IconButton onClick={handleZoomOut} style={{ color: 'white' }}>
+
+        <Box sx={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', bottom: '10px', display: 'flex', justifyContent: 'space-between', width: '60px' }}>
+          <IconButton onClick={handleZoomOut} style={{ color: 'white', backgroundColor: 'transparent', width: '30px', height: '30px' }}>
             <ZoomOut />
           </IconButton>
-        </Box>
-        <Box sx={{ position: 'absolute', right: '10px', bottom: '10px' }}>
-          <IconButton onClick={handleZoomIn} style={{ color: 'white' }}>
+          <IconButton onClick={handleZoomIn} style={{ color: 'white', backgroundColor: 'transparent', width: '30px', height: '30px' }}>
             <ZoomIn />
           </IconButton>
         </Box>

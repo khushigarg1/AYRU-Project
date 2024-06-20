@@ -33,7 +33,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import { useAuth } from "../contexts/auth";
 import LoginForm from "./LoginForm";
 import Link from "next/link";
-import { CancelRounded } from "@mui/icons-material";
+import { CancelRounded, Home } from "@mui/icons-material";
 
 const drawerWidth = 240;
 
@@ -72,6 +72,7 @@ const closedMixin = (theme) => ({
   }),
   overflowX: "hidden",
   width: 0,
+  borderRight: "none",
   [theme.breakpoints.up("sm")]: {
     width: 0,
   },
@@ -143,9 +144,9 @@ export default function PageNav({ children }) {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", padding: "0px" }}>
       <CssBaseline />
-      <AppBar style={{ top: "44px" }} position="fixed" open={open && isAuthenticated}>
+      <AppBar style={{ top: "50px" }} position="fixed" open={open && isAuthenticated}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -186,7 +187,37 @@ export default function PageNav({ children }) {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
+        <List style={{ padding: "0px" }}>
+          <Link href="/">
+            <ListItem
+              key={"Cycles"}
+              onClick={() => setOpenTab("Cycles".toLowerCase())}
+              disablePadding
+              sx={{ display: "block" }}
+            >
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Home />
+                </ListItemIcon>
+                <ListItemText
+                  primary={"Home"}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+              </ListItemButton>
+            </ListItem>
+          </Link>
           <Link href="/category">
             <ListItem
               key={"Cycles"}
@@ -347,7 +378,7 @@ export default function PageNav({ children }) {
           </ListItem>
         )}
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
         <DrawerHeader />
         {children}
       </Box>

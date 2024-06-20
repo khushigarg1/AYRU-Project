@@ -82,6 +82,25 @@ model Admin {
   accountLockedUntil   DateTime?
 }
 
+model CustomerSideData {
+  id              Int      @id @default(autoincrement())
+  marqueeText     String
+  extraNote       String?
+  additionalText1 String?
+  additionalText2 String?
+  additionalText3 String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model CustomerSideImage {
+  id        Int      @id @default(autoincrement())
+  imageUrl  String
+  type      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Flat {
   id          Int             @id @default(autoincrement())
   name        String          @unique
