@@ -39,7 +39,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 const MarqueeContainer = styled('div')(({ theme }) => ({
-  backgroundColor: "#f8b408",
+  backgroundColor: theme.palette.background.contrast,
   color: theme.palette.primary.contrastText,
   padding: "10px 2px",
   overflow: "hidden",
@@ -138,6 +138,3 @@ const Marquee = ({ text }) => {
 };
 
 export default Marquee;
-
-// Usage example
-// <Marquee text="Big Sale - Up to 50% off on selected items! | Free shipping on orders over $50 | New arrivals are here, check them out" />

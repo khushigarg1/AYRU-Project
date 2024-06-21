@@ -25,8 +25,11 @@
     "notistack": "^3.0.1",
     "react": "^18",
     "react-dom": "^18",
+    "react-material-ui-carousel": "^3.4.2",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.23.1",
     "react-slick": "^0.30.2",
+    "react-swipeable": "^7.0.1",
     "skeleton": "^0.1.2",
     "slick-carousel": "^1.8.1",
     "swr": "^2.2.4"

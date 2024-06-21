@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import Carousel from 'react-material-ui-carousel';
 import { Box, Button, styled } from '@mui/material';
 import api from '../../api';
-
-const Dot = styled('div')(({ theme, active }) => ({
-  height: '10px',
-  width: '10px',
-  backgroundColor: active ? theme.palette.primary.main : theme.palette.grey[400],
-  borderRadius: '50%',
-  display: 'inline-block',
-  margin: '0 5px',
-  cursor: 'pointer',
-}));
+import { ArrowCircleUpOutlined } from '@mui/icons-material';
 
 const OverlayText = styled('div')(({ theme }) => ({
   position: 'absolute',
-  top: '70%',
+  top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   color: 'white',
@@ -67,7 +59,7 @@ const LargeText = styled('span')(({ theme }) => ({
 const StyledButton = styled(Button)({
   backgroundColor: 'white',
   color: 'black',
-  padding: '15px 40px',
+  padding: '15px 30px',
   marginTop: '20px',
   textTransform: 'uppercase',
   letterSpacing: '1px',
@@ -80,18 +72,8 @@ const StyledButton = styled(Button)({
 
 const StyledImage = styled('img')(({ theme }) => ({
   width: '100%',
+  height: '90vh',
   objectFit: 'cover',
-  opacity: 1,
-  height: '500px',
-  [theme.breakpoints.up('sm')]: {
-    height: '500px',
-  },
-  [theme.breakpoints.up('md')]: {
-    height: '500px',
-  },
-  [theme.breakpoints.up('lg')]: {
-    height: '800px',
-  },
 }));
 
 const ImageCarousel = () => {
@@ -101,14 +83,6 @@ const ImageCarousel = () => {
   useEffect(() => {
     fetchImages();
   }, []);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 2000);
-
-    return () => clearInterval(timer);
-  }, [images]);
 
   const fetchImages = async () => {
     const type = "main";
@@ -122,30 +96,50 @@ const ImageCarousel = () => {
     }
   };
 
-  const handleDotClick = (index) => {
-    setCurrentIndex(index);
-  };
-
   return (
-    <Box sx={{ marginTop: "2.5rem", width: '100%', position: 'relative', padding: "0px", overflowX: "hidden", backgroundColor: "transparent" }}>
+    <Box >
       {images.length > 0 && (
-        <Box sx={{ width: '100%', textAlign: 'center', position: 'relative' }}>
-          <StyledImage
-            src={`${api.defaults.baseURL}image/${images[currentIndex].imageUrl}`}
-            alt={`Slide ${currentIndex}`}
-          />
-          <OverlayText>
-            <NormalText>Explore Handcrafted Beauty With</NormalText>
-            <LargeText>AYRU JAIPUR</LargeText>
-            <StyledButton>Shop Now</StyledButton>
-          </OverlayText>
-        </Box>
+        <Carousel
+          autoPlay={true}
+          interval={3000}
+          animation="slide"
+          navButtonsAlwaysVisible={true}
+          navButtonsProps={{
+            style: {
+              backgroundColor: 'transparent',
+              borderRadius: 0
+            }
+          }}
+          navButtonsWrapperProps={{
+            style: {
+              bottom: '0',
+              top: 'unset'
+            }
+          }}
+          indicators={true}
+          indicatorContainerProps={{
+            style: {
+              position: 'absolute',
+              bottom: '20px',
+            }
+          }}
+          height="600px"
+        >
+          {images.map((image, index) => (
+            <Box key={index} sx={{ position: 'relative', height: '100vh' }}>
+              <StyledImage
+                src={`${api.defaults.baseURL}image/${image.imageUrl}`}
+                alt={`Slide ${index}`}
+              />
+              <OverlayText>
+                <NormalText>Explore Handcrafted Beauty With</NormalText>
+                <LargeText>AYRU JAIPUR</LargeText>
+                <StyledButton>Shop Now</StyledButton>
+              </OverlayText>
+            </Box>
+          ))}
+        </Carousel>
       )}
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-        {images.map((_, index) => (
-          <Dot key={index} active={index === currentIndex} onClick={() => handleDotClick(index)} />
-        ))}
-      </Box>
     </Box>
   );
 };

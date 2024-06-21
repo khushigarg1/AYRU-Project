@@ -36,6 +36,7 @@ const materialTheme = createTheme({
     divider: "rgba(0,0,0,0.12)",
     background: {
       paper: "#FFF9C4",
+      contrast: "#f8b408"
     },
   },
   breakpoints: {
