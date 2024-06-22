@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Carousel from 'react-material-ui-carousel';
-import { Box, Button, styled } from '@mui/material';
+import { Box, Button, styled, useMediaQuery, useTheme } from '@mui/material';
 import api from '../../api';
-import { ArrowCircleUpOutlined } from '@mui/icons-material';
+import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
 
 const OverlayText = styled('div')(({ theme }) => ({
   position: 'absolute',
-  top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   color: 'white',
@@ -18,10 +17,9 @@ const OverlayText = styled('div')(({ theme }) => ({
   flexDirection: 'column',
   gap: '10px',
   backgroundColor: 'transparent',
-  display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: '90%',
+  width: '80%',
   [theme.breakpoints.up('md')]: {
     width: '80%',
   },
@@ -57,14 +55,18 @@ const LargeText = styled('span')(({ theme }) => ({
 }));
 
 const StyledButton = styled(Button)({
+  fontFamily: "Montserrat, sans-serif",
   backgroundColor: 'white',
   color: 'black',
-  padding: '15px 30px',
+  padding: '7px 15px',
   marginTop: '20px',
   textTransform: 'uppercase',
   letterSpacing: '1px',
-  fontSize: "1.1rem",
-  borderRadius: "15px",
+  fontSize: "0.7rem",
+  borderRadius: "5px",
+  letterSpacing: "2px",
+  fontWeight: "500",
+  boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.4)",
   '&:hover': {
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
   },
@@ -74,11 +76,14 @@ const StyledImage = styled('img')(({ theme }) => ({
   width: '100%',
   height: '90vh',
   objectFit: 'cover',
+  transition: 'transform 0.5s ease-in-out',
 }));
 
 const ImageCarousel = () => {
   const [images, setImages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     fetchImages();
@@ -97,7 +102,7 @@ const ImageCarousel = () => {
   };
 
   return (
-    <Box >
+    <Box>
       {images.length > 0 && (
         <Carousel
           autoPlay={true}
@@ -107,15 +112,27 @@ const ImageCarousel = () => {
           navButtonsProps={{
             style: {
               backgroundColor: 'transparent',
-              borderRadius: 0
+              borderRadius: 0,
+              color: '#F5F5F5',
+              opacity: "0.5"
             }
           }}
           navButtonsWrapperProps={{
             style: {
-              bottom: '0',
-              top: 'unset'
+              bottom: '0 !important',
+              top: 'unset !important',
+              '&:nth-of-type(1)': {
+                left: '-15px !important',
+                marginLeft: "5px"
+              },
+              '&:nth-of-type(2)': {
+                right: '-15px !important',
+                marginRight: "5px"
+              },
             }
           }}
+          NextIcon={<ArrowForwardIos />}
+          PrevIcon={<ArrowBackIos />}
           indicators={true}
           indicatorContainerProps={{
             style: {
@@ -123,18 +140,17 @@ const ImageCarousel = () => {
               bottom: '20px',
             }
           }}
-          height="600px"
+          height={isMobile ? "600px" : "800px"}
         >
           {images.map((image, index) => (
             <Box key={index} sx={{ position: 'relative', height: '100vh' }}>
               <StyledImage
                 src={`${api.defaults.baseURL}image/${image.imageUrl}`}
                 alt={`Slide ${index}`}
+                style={{ transform: `translateX(${currentIndex * -100}%)`, height: isMobile ? "90%" : "120%" }}
               />
-              <OverlayText>
-                <NormalText>Explore Handcrafted Beauty With</NormalText>
-                <LargeText>AYRU JAIPUR</LargeText>
-                <StyledButton>Shop Now</StyledButton>
+              <OverlayText style={{ top: isMobile ? "70%" : "60%", fontSize: "1.2rem" }}>
+                <StyledButton style={{ fontSize: isMobile ? "0.7rem" : "1rem" }}>Shop Now</StyledButton>
               </OverlayText>
             </Box>
           ))}

@@ -10,15 +10,15 @@ const MainContainer = styled('div')(({ theme }) => ({
 }));
 
 const NoteContainer = styled('div')(({ theme }) => ({
-  fontFamily: 'serif',
+  fontFamily: theme.palette.typography.fontFamily,
   backgroundColor: theme.palette.background.paper,
   color: theme.palette.text.primary,
   padding: '20px',
   borderRadius: '8px',
   textAlign: 'center',
-  boxShadow: theme.shadows[2],
-  fontSize: '1.2rem',
-  border: '2px dotted black',
+  boxShadow: theme.shadows[0],
+  fontSize: '1rem',
+  // border: '2px dotted black',
   minHeight: '130px',
   display: 'flex',
   alignItems: 'center',
@@ -30,15 +30,15 @@ const NoteContainer = styled('div')(({ theme }) => ({
   whiteSpace: 'normal',
   wordWrap: 'break-word',
   [theme.breakpoints.up('sm')]: {
-    fontSize: '1.4rem',
+    fontSize: '1rem',
     padding: '30px',
   },
   [theme.breakpoints.up('md')]: {
-    fontSize: '1.6rem',
+    fontSize: '1.2rem',
     padding: '40px',
   },
   [theme.breakpoints.up('lg')]: {
-    fontSize: '1.8rem',
+    fontSize: '1.4rem',
     padding: '50px',
   },
   '@media (max-width: 600px)': {
@@ -81,8 +81,6 @@ export const Note = () => {
     <MainContainer>
       <NoteContainer>
         {notetext || "Loading..."}
-        {/* Replace <Link> with <a> to avoid nesting <a> within <a> */}
-        <ViewDetailsLink href="/details">View Details</ViewDetailsLink>
       </NoteContainer>
     </MainContainer>
   );

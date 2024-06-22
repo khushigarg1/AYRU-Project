@@ -1,37 +1,3 @@
-// import React from "react";
-// import { useTheme, styled } from "@mui/material/styles";
-
-// const MarqueeContainer = styled('div')(({ theme }) => ({
-//   backgroundColor: "#f8b408",
-//   color: theme.palette.primary.contrastText,
-//   padding: "10px 0",
-//   overflow: "hidden",
-//   whiteSpace: "nowrap",
-//   position: "relative",
-// }));
-
-// const MarqueeText = styled('div')({
-//   display: "inline-block",
-//   paddingLeft: "100%", // Start the text from the right side
-//   animation: "marquee 10s linear infinite", // Adjust timing to your needs
-//   "@keyframes marquee": {
-//     "0%": { transform: "translateX(0)" },
-//     "100%": { transform: "translateX(-100%)" },
-//   },
-// });
-
-// const Marquee = ({ text }) => {
-//   const theme = useTheme();
-
-//   return (
-//     <MarqueeContainer theme={theme}>
-//       <MarqueeText>{text}</MarqueeText>
-//       <MarqueeText>{text}</MarqueeText>
-//     </MarqueeContainer>
-//   );
-// };
-
-// export default Marquee;
 import React, { useState, useEffect } from "react";
 import { useTheme, styled } from "@mui/material/styles";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -39,11 +5,12 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 const MarqueeContainer = styled('div')(({ theme }) => ({
+  // backgroundColor: "#FFD54F",
   backgroundColor: theme.palette.background.contrast,
   color: theme.palette.primary.contrastText,
   padding: "10px 2px",
   overflow: "hidden",
-  position: "fixed",
+  // position: "fixed",
   top: 0,
   left: 0,
   width: "100%",
@@ -55,13 +22,13 @@ const MarqueeContainer = styled('div')(({ theme }) => ({
 }));
 
 const MarqueeText = styled('div')(({ theme }) => ({
-  fontFamily: 'serif',
+  fontFamily: theme.palette.typography.fontFamily,
   flex: 1,
-  textAlign: 'center',
+  // textAlign: 'center',
   transition: "opacity 0.5s ease",
   whiteSpace: "normal",
   padding: "0px",
-  fontSize: "1rem",
+  fontSize: "0.9em",
   maxHeight: "2.4rem",
   display: 'flex',
   alignItems: 'center',

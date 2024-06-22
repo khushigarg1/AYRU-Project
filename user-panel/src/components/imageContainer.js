@@ -94,14 +94,14 @@ const OverlayButton = styled(Button)(({ theme }) => ({
   position: 'absolute',
   bottom: '10%',
   left: '50%',
-  fontFamily: "serif",
+  fontFamily: theme.palette.typography.fontFamily,
   fontSize: "0.7rem",
   transform: 'translateX(-50%)',
   minWidth: "142px",
   backgroundColor: theme.palette.background.contrast,
   color: theme.palette.primary.contrastText,
   '&:hover': {
-    backgroundColor: theme.palette.primary.dark,
+    // backgroundColor: theme.palette.primary.dark,
   },
 }));
 

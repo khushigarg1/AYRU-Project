@@ -14,6 +14,7 @@ import { AuthProvider } from "../contexts/auth";
 import Marquee from "@/components/marquee";
 import api from "../../api";
 
+
 const materialTheme = createTheme({
   palette: {
     mode: "light",
@@ -35,8 +36,13 @@ const materialTheme = createTheme({
     },
     divider: "rgba(0,0,0,0.12)",
     background: {
+      // primary: "#fcc73d",
+      primary: "#FFD54F",
       paper: "#FFF9C4",
-      contrast: "#f8b408"
+      contrast: "#fcc73d"
+    },
+    typography: {
+      fontFamily: "'serif', sans-serif",
     },
   },
   breakpoints: {

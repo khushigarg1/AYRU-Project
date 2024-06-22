@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme, styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -33,8 +33,8 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import { useAuth } from "../contexts/auth";
 import LoginForm from "./LoginForm";
 import Link from "next/link";
-import { CancelRounded, Home } from "@mui/icons-material";
-
+import { CancelRounded, Home, SearchSharp } from "@mui/icons-material";
+// import AppBar from "./AppBar";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -89,22 +89,45 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
+// const StyledAppBar = styled(MuiAppBar, {
+//   shouldForwardProp: (prop) => prop !== "open",
+// })(({ theme, open }) => ({
+//   zIndex: theme.zIndex.drawer + 1,
+//   transition: theme.transitions.create(["width", "margin"], {
+//     easing: theme.transitions.easing.sharp,
+//     duration: theme.transitions.duration.leavingScreen,
+//   }),
+//   ...(open && {
+//     marginLeft: drawerWidth,
+//     // width: `calc(100% - ${drawerWidth}px)`,
+//     transition: theme.transitions.create(["width", "margin"], {
+//       easing: theme.transitions.easing.sharp,
+//       duration: theme.transitions.duration.enteringScreen,
+//     }),
+//   }),
+//   height: "65px",
+//   '&.scrolled': {
+//     position: "fixed",
+//     top: '0px',
+//     backgroundColor: theme.palette.background.contrast
+//   },
+// }));
+
+const StyledAppBar = styled(MuiAppBar)(({ theme }) => ({
+  top: 0,
+  // height: '65px',
+  display: 'flex',
+  justifyContent: 'center',
+  boxShadow: 'none',
+  transition: 'top 0.3s',
+  '&.scrolled': {
+    top: 0,
+    position: "fixed",
+    backgroundColor: theme.palette.background.contrast,
+  },
+  backgroundColor: "white",
+  position: "sticky",
   zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(["width", "margin"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    // width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
 }));
 
 const Drawer = styled(MuiDrawer, {
@@ -142,28 +165,44 @@ export default function PageNav({ children }) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  useEffect(() => {
+    const handleScroll = () => {
+      const appBar = document.querySelector('#app-bar');
+      if (window.scrollY > 50) {
+        appBar.classList.add('scrolled');
+      } else {
+        appBar.classList.remove('scrolled');
+      }
+    };
 
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   return (
-    <Box sx={{ display: "flex", padding: "0px" }}>
+    <Box sx={{ display: "flex", padding: "0px", flexDirection: "column" }}>
       <CssBaseline />
-      <AppBar style={{ top: "50px" }} position="fixed" open={open && isAuthenticated}>
-        <Toolbar>
+      <StyledAppBar id="app-bar">
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', overflow: "hidden" }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            sx={{
-              marginRight: 5,
-              // ...(open && { display: "none" }),
-            }}
+            sx={{ marginRight: 1 }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+          <IconButton
+            sx={{ marginRight: 2 }}
+          >
+            <SearchSharp />
+          </IconButton>
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, textAlign: 'center', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
             AYRU JAIPUR
           </Typography>
-          <IconButton color="inherit">
+          <IconButton color="inherit" sx={{ marginLeft: 'auto' }}>
             <Badge badgeContent={4} color="error">
               <ShoppingCartIcon />
             </Badge>
@@ -174,21 +213,16 @@ export default function PageNav({ children }) {
             </Badge>
           </IconButton>
         </Toolbar>
-      </AppBar>
+      </StyledAppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {/* {theme.direction === "rtl" ? (
-                  <ChevronRightIcon />
-                ) : (
-                  <ChevronLeftIcon />
-                )} */}
             <CancelRounded />
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List style={{ padding: "0px" }}>
-          <Link href="/">
+          {/* <Link href="/">
             <ListItem
               key={"Cycles"}
               onClick={() => setOpenTab("Cycles".toLowerCase())}
@@ -217,7 +251,7 @@ export default function PageNav({ children }) {
                 />
               </ListItemButton>
             </ListItem>
-          </Link>
+          </Link> */}
           <Link href="/category">
             <ListItem
               key={"Cycles"}
@@ -378,16 +412,10 @@ export default function PageNav({ children }) {
           </ListItem>
         )}
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-        <DrawerHeader />
+      <Box component="main" sx={{ flexGrow: 1, p: 0, minHeight: "100vh" }}>
+        {/* <DrawerHeader /> */}
         {children}
       </Box>
-
-      {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-          <DrawerHeader />
-          <LoginForm />
-        </Box> */}
-
     </Box>
   );
 }
