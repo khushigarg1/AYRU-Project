@@ -33,6 +33,8 @@ const materialTheme = createTheme({
     text: {
       primary: "#212121", // Adjust primary text color
       secondary: "#000000", // Adjust secondary text color
+      text: "#fcc73d",
+      font: "Montserrat, sans-serif"
     },
     divider: "rgba(0,0,0,0.12)",
     background: {
@@ -42,7 +44,7 @@ const materialTheme = createTheme({
       contrast: "#fcc73d"
     },
     typography: {
-      fontFamily: "'serif', sans-serif",
+      fontFamily: "serif, sans-serif",
     },
   },
   breakpoints: {
@@ -78,7 +80,7 @@ export default function RootLayout({ children }) {
         <title>Admin</title>
         <link rel="icon" href="/images/AppIcon.png" type="image/x-icon" />
       </head>
-      <body style={{ padding: "0px", fontFamily: "sans-serif" }}>
+      <body style={{ padding: "0px", fontFamily: "sans-serif", overflowX: "hidden" }}>
         <ThemeProvider theme={{ [THEME_ID]: materialTheme }}>
           <AuthProvider>
             <Marquee text={marqueeText} />

@@ -2,11 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import api from '../../api';
 import Link from 'next/link';
+import Image from 'next/image';
+import WebpImage from "../../public/images/blog1.webp";
+import { useMediaQuery, useTheme } from '@mui/material';
+
 
 const MainContainer = styled('div')(({ theme }) => ({
   marginTop: "10px",
-  padding: '20px',
+  padding: '20px 40px',
   backgroundColor: theme.palette.background.paper,
+  position: "relative"
 }));
 
 const NoteContainer = styled('div')(({ theme }) => ({
@@ -64,6 +69,9 @@ const ViewDetailsLink = styled('a')(({ theme }) => ({
 export const Note = () => {
   const [notetext, setnoteText] = useState("");
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   useEffect(() => {
     const fetchNoteText = async () => {
       try {
@@ -79,9 +87,11 @@ export const Note = () => {
 
   return (
     <MainContainer>
+      <Image src={WebpImage} alt="Left Image" width={70} height={40} style={{ position: 'absolute', left: '-8px', top: isMobile ? "75%" : "65%", transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto', opacity: "0.7" }} />
       <NoteContainer>
         {notetext || "Loading..."}
       </NoteContainer>
+      <Image src={WebpImage} alt="Right Image" width={70} height={40} style={{ position: 'absolute', right: '-8px', top: isMobile ? "75%" : "65%", transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto', opacity: "0.7" }} />
     </MainContainer>
   );
 };

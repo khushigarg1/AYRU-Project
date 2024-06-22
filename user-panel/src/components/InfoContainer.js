@@ -7,10 +7,6 @@ import HandymanIcon from '@mui/icons-material/Handyman';
 import HomeIcon from '@mui/icons-material/Home';
 import Carousel from 'react-material-ui-carousel';
 import { Handyman, Language, VolunteerActivism } from '@mui/icons-material';
-import QualityImage from "../../public/images/quality.png";
-import Image from 'next/image';
-import WebpImage from "../../public/images/blog1.webp";
-
 
 const InfoIcons = {
   cotton: <CheckCircleOutlineIcon fontSize="large" />,
@@ -59,52 +55,37 @@ export const InfoComponent = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <>
-      <Box sx={{ padding: 1, marginTop: 1, borderRadius: 2, color: theme.palette.text.primary, display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', overflow: 'hidden' }}>
-        <Carousel
-          autoPlay={true}
-          interval={2000}
-          animation="slide"
-          indicators={false}
-          cycleNavigation={true}
-          sx={{
-            width: '100%',
-            maxWidth: '800px',
-          }}
-        >
-          {slides.map((slide, index) => (
-            <Box key={index} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 2, width: '100%', boxSizing: 'border-box' }}>
-              <Grid container alignItems="center" spacing={2}>
-                <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'center' }}>
-                  {slide.icon}
-                </Grid>
-                <Grid item xs={10} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                  <Typography variant="h6" gutterBottom style={{ marginBottom: "0px" }}>
-                    {slide.title}
-                  </Typography>
-                  <Typography variant="body1">
-                    {slide.description}
-                  </Typography>
-                </Grid>
+    <Box sx={{ padding: 1, marginTop: 1, borderRadius: 2, color: theme.palette.text.primary, display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', overflow: 'hidden' }}>
+      <Carousel
+        autoPlay={true}
+        interval={2000}
+        animation="slide"
+        indicators={false}
+        cycleNavigation={true}
+        sx={{
+          width: '100%',
+          maxWidth: '800px',
+        }}
+      >
+        {slides.map((slide, index) => (
+          <Box key={index} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 2, width: '100%', boxSizing: 'border-box' }}>
+            <Grid container alignItems="center" spacing={2}>
+              <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'center' }}>
+                {slide.icon}
               </Grid>
-            </Box>
-          ))}
-        </Carousel>
-      </Box>
-      <Box sx={{ display: 'flex', paddingX: "50px", justifyContent: 'center', marginTop: 1, position: 'relative', width: '100%', backgroundColor: theme.palette.background.paper }}>
-        <Image src={WebpImage} alt="Left Image" width={100} height={100} style={{ position: 'absolute', left: '-8px', top: isMobile ? "80%" : "65%", transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto' }} />
-        <Paper sx={{ padding: 2, textAlign: 'center', maxWidth: '800px', boxShadow: "none", fontFamily: theme.palette.typography.fontFamily }}>
-          <Image src={QualityImage} alt="Premium Quality" width={50} height={50} style={{ maxWidth: '60%', height: 'auto', margin: 'auto' }} />
-          <Typography variant="h6" gutterBottom={!isMobile}>
-            Premium Quality
-          </Typography>
-          <Typography variant="body1" style={{ fontSize: "90%" }}>
-            We prioritize the finest, high-quality, and pleasant products, that you can trust.
-          </Typography>
-        </Paper>
-        <Image src={WebpImage} alt="Right Image" width={100} height={100} style={{ position: 'absolute', right: '-8px', top: isMobile ? "80%" : "65%", transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto' }} />
-      </Box>
-    </>
+              <Grid item xs={10} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <Typography variant="h6" gutterBottom style={{ marginBottom: "0px" }}>
+                  {slide.title}
+                </Typography>
+                <Typography variant="body1">
+                  {slide.description}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Box>
+        ))}
+      </Carousel>
+    </Box>
   );
 };
 

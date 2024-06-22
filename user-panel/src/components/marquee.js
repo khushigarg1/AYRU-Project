@@ -4,6 +4,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
+import { useMediaQuery } from "@mui/material";
 const MarqueeContainer = styled('div')(({ theme }) => ({
   // backgroundColor: "#FFD54F",
   backgroundColor: theme.palette.background.contrast,
@@ -28,7 +29,6 @@ const MarqueeText = styled('div')(({ theme }) => ({
   transition: "opacity 0.5s ease",
   whiteSpace: "normal",
   padding: "0px",
-  fontSize: "0.9em",
   maxHeight: "2.4rem",
   display: 'flex',
   alignItems: 'center',
@@ -57,6 +57,7 @@ const NavButton = styled('button')(({ theme }) => ({
 
 const Marquee = ({ text }) => {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const points = text.split('|').map(point => point.trim());
   const [currentIndex, setCurrentIndex] = useState(0);
   const [fade, setFade] = useState(false);
@@ -92,7 +93,7 @@ const Marquee = ({ text }) => {
       </NavButton>
       <div style={{ position: 'relative', flex: 1, padding: "0" }}>
         <HiddenMarqueeText>{points[(currentIndex - 1 + points.length) % points.length]}</HiddenMarqueeText>
-        <MarqueeText style={{ opacity: fade ? 0 : 1 }}>
+        <MarqueeText style={{ opacity: fade ? 0 : 1, fontSize: isMobile ? "0.9em" : "1.2em" }}>
           {points[currentIndex]}
         </MarqueeText>
         <HiddenMarqueeText>{points[(currentIndex + 1) % points.length]}</HiddenMarqueeText>
