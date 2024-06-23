@@ -28,6 +28,33 @@ export const createInventory = async (
   }
 };
 
+export const getInventoriesByCategory = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const { categoryId, subCategoryId } = request.query as {
+    categoryId: string;
+    subCategoryId?: string;
+  };
+
+  if (!categoryId) {
+    reply.status(400).send({ error: "Category ID is required" });
+    return;
+  }
+
+  try {
+    const inventories = await inventoryService.getInventoriesByCategory(
+      Number(categoryId),
+      subCategoryId ? Number(subCategoryId) : undefined
+    );
+    reply.send({ data: inventories });
+  } catch (error) {
+    reply
+      .status(500)
+      .send({ error: "Failed to fetch inventories", details: error });
+  }
+};
+
 export const getInventories = async (
   request: FastifyRequest,
   reply: FastifyReply

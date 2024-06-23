@@ -39,48 +39,51 @@ const ClientLoveCarousel = () => {
           autoPlay={true}
           interval={2000}
           animation="slide"
-          navButtonsAlwaysVisible={false}
+          navButtonsAlwaysVisible={!isMobile}
           indicators={false}
         >
-          {groupedClientLoves.map((group, index) => (
-            <Box key={index} display="flex" justifyContent="center" sx={{ gap: 2 }} style={{ backgroundColor: theme.palette.background.paper }}>
-              {group.map((item, idx) => (
-                <Card key={idx} sx={{
-                  width: isMobile ? "350px" : "500px",
-                  height: isMobile ? "600px" : "600px",
-                  padding: "0px 10px",
-                  backgroundColor: "transparent",
-                  boxShadow: "none",
-                  // borderRadius: "35px",
-                  display: 'flex',
-                  flexDirection: 'column'
-                }}>
-                  <Box sx={{ position: 'relative', flexGrow: 1 }}>
-                    <CardMedia
-                      component="img"
-                      image={`${api.defaults.baseURL}image/${item.imageUrl}`}
-                      alt={`Slide ${idx}`}
-                      sx={{
-                        objectFit: 'contain',
-                        width: '100%',
-                        height: '100%',
-                        backgroundColor: theme.palette.background.paper,
-                        // borderRadius: "35px"
-                      }}
-                    />
-                  </Box>
-                  <CardContent sx={{ backgroundColor: theme.palette.background.paper }}>
-                    <Typography variant="body1" component="div">
-                      {item?.text}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              ))}
-            </Box>
-          ))}
+          {
+            groupedClientLoves.map((group, index) => (
+              <Box key={index} display="flex" justifyContent="center" sx={{ gap: 2 }} style={{ backgroundColor: theme.palette.background.paper, padding: "3px 0px" }}>
+                {group.map((item, idx) => (
+                  <Card key={idx} sx={{
+                    width: isMobile ? "350px" : "500px",
+                    height: isMobile ? "600px" : "600px",
+                    padding: "0px 10px",
+                    backgroundColor: "transparent",
+                    boxShadow: "none",
+                    // borderRadius: "35px",
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }}>
+                    <Box sx={{ position: 'relative', flexGrow: 1 }}>
+                      <CardMedia
+                        component="img"
+                        image={`${api.defaults.baseURL}image/${item.imageUrl}`}
+                        alt={`Slide ${idx}`}
+                        sx={{
+                          objectFit: 'contain',
+                          width: '100%',
+                          height: '100%',
+                          backgroundColor: theme.palette.background.paper,
+                          // borderRadius: "35px"
+                        }}
+                      />
+                    </Box>
+                    <CardContent sx={{ backgroundColor: theme.palette.background.paper }}>
+                      <Typography variant="body1" component="div">
+                        {item?.text}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                ))}
+              </Box>
+            ))
+          }
         </Carousel>
-      )}
-    </Box>
+      )
+      }
+    </Box >
   );
 };
 

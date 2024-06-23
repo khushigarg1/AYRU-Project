@@ -45,15 +45,9 @@ const Footer = () => {
             <IconButton aria-label="Facebook" color="inherit">
               <Facebook />
             </IconButton>
-            {/* <IconButton aria-label="Twitter" color="inherit">
-              <Twitter />
-            </IconButton> */}
             <IconButton aria-label="Instagram" color="inherit">
               <Instagram />
             </IconButton>
-            {/* <IconButton aria-label="LinkedIn" color="inherit">
-              <LinkedIn />
-            </IconButton> */}
           </Grid>
 
           {/* Footer Column 4 */}

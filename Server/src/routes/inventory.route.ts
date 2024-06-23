@@ -8,6 +8,7 @@ import {
   uploadMedia,
   getallMedia,
   deleteMedia,
+  getInventoriesByCategory,
 } from "../Controllers/Inventory/inventory.controller";
 import {
   handleUploadChartMedia,
@@ -17,6 +18,7 @@ import {
 export default async function inventoryRoutes(server: FastifyInstance) {
   server.post("/", { onRequest: [server.authenticateAdmin] }, createInventory);
   server.get("/", getInventories);
+  server.get("/category", getInventoriesByCategory);
   server.get("/:id", getInventoryById);
   server.put(
     "/:id",

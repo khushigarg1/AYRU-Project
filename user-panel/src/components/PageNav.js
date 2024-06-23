@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { useTheme, styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -16,25 +15,18 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import CategoryIcon from "@mui/icons-material/Category";
-import SettingsIcon from "@mui/icons-material/Settings";
-import LogoutIcon from "@mui/icons-material/Logout";
-import AspectRatioIcon from "@mui/icons-material/AspectRatio";
-import BedIcon from "@mui/icons-material/Bed";
-import BedRoundedIcon from "@mui/icons-material/BedRounded";
-import KingBed from "@mui/icons-material/KingBed";
-import { Badge, Avatar, Collapse, Button } from "@mui/material";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import Collapse from "@mui/material/Collapse";
+import { Badge } from "@mui/material";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useAuth } from "../contexts/auth";
-import LoginForm from "./LoginForm";
 import Link from "next/link";
-import { CancelRounded, Home, SearchSharp } from "@mui/icons-material";
-// import AppBar from "./AppBar";
+import { CancelRounded } from "@mui/icons-material";
+import api from "../../api";
+
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -89,33 +81,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-// const StyledAppBar = styled(MuiAppBar, {
-//   shouldForwardProp: (prop) => prop !== "open",
-// })(({ theme, open }) => ({
-//   zIndex: theme.zIndex.drawer + 1,
-//   transition: theme.transitions.create(["width", "margin"], {
-//     easing: theme.transitions.easing.sharp,
-//     duration: theme.transitions.duration.leavingScreen,
-//   }),
-//   ...(open && {
-//     marginLeft: drawerWidth,
-//     // width: `calc(100% - ${drawerWidth}px)`,
-//     transition: theme.transitions.create(["width", "margin"], {
-//       easing: theme.transitions.easing.sharp,
-//       duration: theme.transitions.duration.enteringScreen,
-//     }),
-//   }),
-//   height: "65px",
-//   '&.scrolled': {
-//     position: "fixed",
-//     top: '0px',
-//     backgroundColor: theme.palette.background.contrast
-//   },
-// }));
-
 const StyledAppBar = styled(MuiAppBar)(({ theme }) => ({
   top: 0,
-  // height: '65px',
   display: 'flex',
   justifyContent: 'center',
   boxShadow: 'none',
@@ -152,7 +119,7 @@ export default function PageNav({ children }) {
   const { isAuthenticated, isLoading, logout, openTab, setOpenTab } = useAuth();
   const theme = useTheme();
   const [open, setOpen] = useState(isAuthenticated);
-  const [nestedOpen, setNestedOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const handleNestedClick = () => {
     setNestedOpen(!nestedOpen);
@@ -180,6 +147,72 @@ export default function PageNav({ children }) {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await api.get('/categories');
+      setCategories(response.data.data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
+
+  const handleClickCategory = (categoryId, hasSubcategories) => {
+    if (hasSubcategories) {
+      const updatedCategories = categories.map((category) => {
+        if (category.id === categoryId) {
+          return { ...category, open: !category.open };
+        } else {
+          return category;
+        }
+      });
+      setCategories(updatedCategories);
+    } else {
+      // Navigate to specific path when there are no subcategories
+      console.log("Navigate to specific path for category:", categoryId);
+    }
+  };
+
+  const NestedList = ({ category }) => {
+    const nestedOpen = category.open || false;
+
+    return (
+      <React.Fragment key={category.id}>
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => handleClickCategory(category.id, !!category.subcategories)}>
+            <ListItemText primary={category.categoryName} />
+            {category.subcategories && (
+              nestedOpen ? <ExpandLess /> : <ExpandMore />
+            )}
+          </ListItemButton>
+        </ListItem>
+        <Collapse in={nestedOpen} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {category.subcategories.map((subcategory) => (
+              <ListItem
+                key={subcategory.id}
+                disablePadding
+                sx={{ display: "block" }}
+              >
+                <Link href={`/shop?categoryId=${category.id}&subcategoryId=${subcategory.id}`}>
+                  <ListItemButton
+                    onClick={() => handleClickCategory(category.id, false)}
+                    sx={{ pl: 4 }}
+                  >
+                    <ListItemText primary={subcategory.subcategoryName} />
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+            ))}
+          </List>
+        </Collapse>
+      </React.Fragment>
+    );
+  };
+
   return (
     <Box sx={{ display: "flex", padding: "0px", flexDirection: "column" }}>
       <CssBaseline />
@@ -192,12 +225,7 @@ export default function PageNav({ children }) {
             edge="start"
             sx={{ marginRight: 1 }}
           >
-            <MenuIcon />
-          </IconButton>
-          <IconButton
-            sx={{ marginRight: 2 }}
-          >
-            <SearchSharp />
+            {open ? <ChevronLeftIcon /> : <MenuIcon />}
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, textAlign: 'center', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
             AYRU JAIPUR
@@ -236,15 +264,6 @@ export default function PageNav({ children }) {
                   px: 2.5,
                 }}
               >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Home />
-                </ListItemIcon>
                 <ListItemText
                   primary={"Home"}
                   sx={{ opacity: open ? 1 : 0 }}
@@ -252,10 +271,10 @@ export default function PageNav({ children }) {
               </ListItemButton>
             </ListItem>
           </Link>
-          <Link href="/category">
+          <Link href="/shop">
             <ListItem
-              key={"Cycles"}
-              onClick={() => setOpenTab("Cycles".toLowerCase())}
+              key={"Shop"}
+              onClick={() => setOpenTab("Shop".toLowerCase())}
               disablePadding
               sx={{ display: "block" }}
             >
@@ -266,122 +285,27 @@ export default function PageNav({ children }) {
                   px: 2.5,
                 }}
               >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  <CategoryIcon />
-                </ListItemIcon>
                 <ListItemText
-                  primary={"Categories"}
+                  primary={"Shop"}
                   sx={{ opacity: open ? 1 : 0 }}
                 />
               </ListItemButton>
             </ListItem>
           </Link>
-          <ListItemButton
-            onClick={handleNestedClick}
-            sx={{
-              justifyContent: open ? "initial" : "center",
-              px: 2.5,
-              pl: 2.5,
-            }}
-          >
-            <ListItemIcon
-              sx={{
-                minWidth: 0,
-                mr: open ? 3 : "auto",
-                justifyContent: "center",
-              }}
-            >
-              <AspectRatioIcon />
-            </ListItemIcon>
-            <ListItemText primary="Size Type" sx={{ opacity: open ? 1 : 0 }} />
-            {open && (nestedOpen ? <ExpandLess /> : <ExpandMore />)}
-          </ListItemButton>
-          <Collapse in={nestedOpen} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <Link href="/size-type/flat">
-                <ListItemButton sx={{ pl: open ? 4 : 2.5, justifyContent: open ? "initial" : "center" }}>
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <BedIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Flat" sx={{ opacity: open ? 1 : 0 }} />
+          {categories.map((category) => (
+            category.subcategories ? (
+              <NestedList key={category.id} category={category} />
+            ) : (
+              <ListItem key={category.id} disablePadding>
+                <ListItemButton onClick={() => handleClickCategory(category.id, false)}>
+                  <ListItemText primary={category.categoryName} />
                 </ListItemButton>
-
-              </Link>
-              <Link href="/size-type/fitted">
-                <ListItemButton sx={{ pl: open ? 4 : 2.5, justifyContent: open ? "initial" : "center" }}>
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <BedRoundedIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Fitted" sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              </Link>
-              <Link href="/size-type/custom-fitted">
-                <ListItemButton sx={{ pl: open ? 4 : 2.5, justifyContent: open ? "initial" : "center" }}>
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <KingBed />
-                  </ListItemIcon>
-                  <ListItemText primary="Custom Fitted" sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              </Link>
-            </List>
-          </Collapse>
-          <Link href="/options">
-            <ListItem
-              key={"Options"}
-              onClick={() => setOpenTab("Options".toLowerCase())}
-              disablePadding
-              sx={{ display: "block" }}
-            >
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary={"Options"}
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </ListItem>
-          </Link>
+              </ListItem>
+            )
+          ))}
         </List>
         <Divider />
-        {open && (
+        {isAuthenticated && (
           <ListItem
             key={"Logout"}
             onClick={() => logout()}
@@ -395,15 +319,6 @@ export default function PageNav({ children }) {
                 px: 2.5,
               }}
             >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <LogoutIcon />
-              </ListItemIcon>
               <ListItemText
                 primary={"Logout"}
                 sx={{ opacity: open ? 1 : 0 }}
@@ -413,7 +328,6 @@ export default function PageNav({ children }) {
         )}
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 0, minHeight: "100vh" }}>
-        {/* <DrawerHeader /> */}
         {children}
       </Box>
     </Box>
