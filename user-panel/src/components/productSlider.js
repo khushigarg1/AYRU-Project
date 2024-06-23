@@ -12,7 +12,6 @@ export const ProductSlider = ({ products }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const itemsPerPage = isMobile ? 2 : 5;
 
-  // Slice the products array to show only the first 10 products
   const slicedProducts = products.slice(0, 10);
 
   const settings = {
@@ -61,7 +60,7 @@ export const ProductSlider = ({ products }) => {
           display: 'inline-block',
           margin: '0 5px',
         }}
-        className="slick-dot" // Ensure this class is added
+        className="slick-dot"
       ></Box>
     ),
   };
@@ -86,9 +85,15 @@ export const ProductSlider = ({ products }) => {
                 </IconButton>
                 <CardMedia
                   component="img"
-                  height={isMobile ? 200 : 400}
+                  // height={isMobile ? 200 : 400}
                   image={product.Media && product.Media.length > 0 ? `${api.defaults.baseURL}image/${product.Media[0].url}` : '/fallback_image_url'}
                   alt={product.productName}
+                  sx={{
+                    objectFit: 'contain',
+                    // maxHeight: isMobile ? "200px" : "400px"
+                    height: isMobile ? "200px" : "400px",
+                    maxHeight: "100%",
+                  }}
                 />
                 <CardContent sx={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
                   <Typography gutterBottom variant="body1" component="div">

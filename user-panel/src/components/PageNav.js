@@ -222,7 +222,7 @@ export default function PageNav({ children }) {
         </DrawerHeader>
         <Divider />
         <List style={{ padding: "0px" }}>
-          {/* <Link href="/">
+          <Link href="/">
             <ListItem
               key={"Cycles"}
               onClick={() => setOpenTab("Cycles".toLowerCase())}
@@ -251,7 +251,7 @@ export default function PageNav({ children }) {
                 />
               </ListItemButton>
             </ListItem>
-          </Link> */}
+          </Link>
           <Link href="/category">
             <ListItem
               key={"Cycles"}

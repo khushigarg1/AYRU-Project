@@ -12,6 +12,7 @@ import "./app.css"
 import { ProductSlider } from '@/components/productSlider';
 import ClientLoveCarousel from '@/components/clientLove';
 import Footer from '@/components/Footer';
+import { FeedbackComponent } from '@/components/Extra/FeedbackComponent';
 
 const Home = ({ openTab }) => {
 
@@ -39,6 +40,7 @@ const Home = ({ openTab }) => {
       <ProductSlider products={products} />
       <Quality />
       <CraftedWithLove />
+      <FeedbackComponent />
       <ClientLoveCarousel />
       <Footer />
     </Box>

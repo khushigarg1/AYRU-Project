@@ -74,7 +74,7 @@ const StyledButton = styled(Button)({
 
 const StyledImage = styled('img')(({ theme }) => ({
   width: '100%',
-  height: '90vh',
+  height: '80vh',
   objectFit: 'cover',
   transition: 'transform 0.5s ease-in-out',
 }));
@@ -119,14 +119,15 @@ const ImageCarousel = () => {
           }}
           navButtonsWrapperProps={{
             style: {
-              bottom: '0 !important',
-              top: 'unset !important',
+              bottom: '0',
+              top: 'unset',
+              zIndex: 2,
               '&:nth-of-type(1)': {
-                left: '-15px !important',
+                left: isMobile ? '-15px !important' : "0px",
                 marginLeft: "5px"
               },
               '&:nth-of-type(2)': {
-                right: '-15px !important',
+                right: isMobile ? '-15px !important' : "0px",
                 marginRight: "5px"
               },
             }

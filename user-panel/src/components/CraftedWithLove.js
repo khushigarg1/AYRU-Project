@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Tab, Tabs, Typography, Grid, Card, CardContent, CardMedia, useTheme, useMediaQuery } from '@mui/material';
-import { useRouter } from 'next/navigation'; // Correct import for Next.js useRouter
-import api from '../../api'; // Assuming this imports axios instance with baseURL
+import { useRouter } from 'next/navigation';
+import api from '../../api';
 
 export const CraftedWithLove = () => {
   const theme = useTheme();
   const router = useRouter();
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(0); // Default to first category
+  const [selectedCategory, setSelectedCategory] = useState(0);
   const [categoryInventory, setCategoryInventory] = useState([]);
   const [loadMoreUrl, setLoadMoreUrl] = useState(null);
 
@@ -18,7 +18,6 @@ export const CraftedWithLove = () => {
       try {
         const response = await api.get('/categories/visible');
         setCategories(response.data.data);
-        // Fetch initial inventory for the default category (assuming first category initially)
         setCategoryInventory(response.data.data[selectedCategory]?.Inventory.slice(0, 4));
         setLoadMoreUrl(`/category/${response.data.data[selectedCategory]?.id}`);
       } catch (error) {
@@ -27,7 +26,7 @@ export const CraftedWithLove = () => {
     };
 
     fetchVisibleCategories();
-  }, []); // Empty dependency array ensures this runs only once on component mount
+  }, []);
 
   const handleCategoryChange = (event, newValue) => {
     setSelectedCategory(newValue);
@@ -64,16 +63,22 @@ export const CraftedWithLove = () => {
         ))}
       </Tabs>
       {selectedCategory !== null && (
-        <Box sx={{ width: '100%', mt: 4 }}>
+        <Box sx={{ width: isMobile ? '100%' : "80%", mt: 4 }}>
           <Grid container spacing={2}>
             {categoryInventory.map((item) => (
               <Grid item key={item.id} xs={6} sm={6} md={4} lg={3}>
                 <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: "transparent", p: 0 }}>
                   <CardMedia
                     component="img"
-                    height="250"
+                    // height="250"
                     image={item.Media && item.Media.length > 0 ? `${api.defaults.baseURL}image/${item.Media[0].url}` : '/fallback_image_url'}
                     alt={item.productName}
+
+                    sx={{
+                      objectFit: 'contain',
+                      height: "250px",
+                      maxHeight: "100%",
+                    }}
                   />
                   <CardContent sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", }}>
                     <Typography gutterBottom variant="body1" component="div" sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>

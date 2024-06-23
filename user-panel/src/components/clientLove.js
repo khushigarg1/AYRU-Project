@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Carousel from 'react-material-ui-carousel';
-import { Box, Card, CardContent, CardMedia, Typography, styled, useMediaQuery, useTheme } from '@mui/material';
-import api from '../../api';
+import { Box, Card, CardContent, CardMedia, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
+import api from '../../api';
 
 const ClientLoveCarousel = () => {
   const [clientLoves, setClientLoves] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -23,61 +22,61 @@ const ClientLoveCarousel = () => {
     }
   };
 
+  const groupedClientLoves = [];
+  for (let i = 0; i < clientLoves.length; i += isMobile ? 1 : 2) {
+    groupedClientLoves.push(clientLoves.slice(i, i + (isMobile ? 1 : 2)));
+  }
+
   return (
-    <Box sx={{ marginTop: "4%", marginBottom: "4%" }}>
+    <Box sx={{ width: isMobile ? "100%" : "70%", margin: "0 auto", marginBottom: "4%", marginTop: "4%" }}>
+      <Box style={{ width: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Typography variant={isMobile ? 'h4' : 'h3'} sx={{ mb: 4, color: theme.palette.text.text }}>
+          Client Love
+        </Typography>
+      </Box>
       {clientLoves.length > 0 && (
         <Carousel
           autoPlay={true}
-          interval={3000}
+          interval={2000}
           animation="slide"
-          navButtonsAlwaysVisible={true}
-          navButtonsProps={{
-            style: {
-              backgroundColor: 'transparent',
-              borderRadius: 0,
-              color: '#F5F5F5',
-              opacity: "0.5"
-            }
-          }}
-          navButtonsWrapperProps={{
-            style: {
-              bottom: '20px',
-              top: 'unset !important',
-              '&:nth-of-type(1)': {
-                left: '20px',
-              },
-              '&:nth-of-type(2)': {
-                right: '20px',
-              },
-            }
-          }}
-          NextIcon={<ArrowForwardIos />}
-          PrevIcon={<ArrowBackIos />}
+          navButtonsAlwaysVisible={false}
           indicators={false}
         >
-          {clientLoves.map((item, index) => (
-            // <Box key={index} sx={{ position: 'relative', height: 'auto' }}>
-            //   <StyledImage
-            //     src={`${api.defaults.baseURL}image/${item.imageUrl}`}
-            //     alt={`Slide ${index}`}
-            //   />
-            //   <OverlayText>
-            //     <LargeText>{item.text}</LargeText>
-            //   </OverlayText>
-            // </Box>
-            <Card  >
-              <CardMedia
-                component="img"
-                height={isMobile ? 250 : 400}
-                image={`${api.defaults.baseURL}image/${item.imageUrl}`}
-                alt={`Slide ${index}`}
-              />
-              <CardContent sx={{ height: "20%", overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'wrap' }}>
-                <Typography gutterBottom variant="body1" component="div">
-                  {item?.text}
-                </Typography>
-              </CardContent>
-            </Card>
+          {groupedClientLoves.map((group, index) => (
+            <Box key={index} display="flex" justifyContent="center" sx={{ gap: 2 }} style={{ backgroundColor: theme.palette.background.paper }}>
+              {group.map((item, idx) => (
+                <Card key={idx} sx={{
+                  width: isMobile ? "350px" : "500px",
+                  height: isMobile ? "600px" : "600px",
+                  padding: "0px 10px",
+                  backgroundColor: "transparent",
+                  boxShadow: "none",
+                  // borderRadius: "35px",
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}>
+                  <Box sx={{ position: 'relative', flexGrow: 1 }}>
+                    <CardMedia
+                      component="img"
+                      image={`${api.defaults.baseURL}image/${item.imageUrl}`}
+                      alt={`Slide ${idx}`}
+                      sx={{
+                        objectFit: 'contain',
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: theme.palette.background.paper,
+                        // borderRadius: "35px"
+                      }}
+                    />
+                  </Box>
+                  <CardContent sx={{ backgroundColor: theme.palette.background.paper }}>
+                    <Typography variant="body1" component="div">
+                      {item?.text}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              ))}
+            </Box>
           ))}
         </Carousel>
       )}

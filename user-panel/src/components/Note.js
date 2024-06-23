@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import api from '../../api';
 import Link from 'next/link';
 import Image from 'next/image';
-import WebpImage from "../../public/images/blog1.webp";
+import WebpImage from "../../public/images/blog2.webp";
 import { useMediaQuery, useTheme } from '@mui/material';
 
 
@@ -59,10 +59,10 @@ const ViewDetailsLink = styled('a')(({ theme }) => ({
   fontSize: '1rem',
   fontWeight: 'bold',
   borderBottom: '2px solid black',
-  paddingBottom: '2px', // Adjust padding to space the border from text
+  paddingBottom: '2px',
   transition: 'border-bottom 0.3s ease',
   '&:hover': {
-    borderBottomColor: theme.palette.primary.main, // Example of changing color on hover
+    borderBottomColor: theme.palette.primary.main,
   },
 }));
 
@@ -87,11 +87,11 @@ export const Note = () => {
 
   return (
     <MainContainer>
-      <Image src={WebpImage} alt="Left Image" width={70} height={40} style={{ position: 'absolute', left: '-8px', top: isMobile ? "75%" : "65%", transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto', opacity: "0.7" }} />
+      <Image src={WebpImage} alt="Left Image" width={75} height={40} style={{ position: 'absolute', left: '-8px', top: isMobile ? "75%" : "70%", transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto', opacity: "1" }} />
       <NoteContainer>
         {notetext || "Loading..."}
       </NoteContainer>
-      <Image src={WebpImage} alt="Right Image" width={70} height={40} style={{ position: 'absolute', right: '-8px', top: isMobile ? "75%" : "65%", transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto', opacity: "0.7" }} />
+      <Image src={WebpImage} alt="Right Image" width={75} height={40} style={{ position: 'absolute', right: '-8px', top: isMobile ? "75%" : "70%", transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto', opacity: "1" }} />
     </MainContainer>
   );
 };

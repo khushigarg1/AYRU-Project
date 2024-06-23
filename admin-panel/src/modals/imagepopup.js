@@ -26,7 +26,9 @@ const ImagePopup = ({ imageUrl, onClose }) => {
       onClose={onClose}
       style={{ backdropFilter: "blur(5px)" }}
     >
-      <Box sx={{ ...IMAGE_MODAL_STYLE }}>
+      <Box sx={{
+        ...IMAGE_MODAL_STYLE,
+      }}>
         <CloseIcon style={{ ...CLOSE_ICON_STYLE }} onClick={onClose} />
         <img
           src={imageUrl}
@@ -34,6 +36,8 @@ const ImagePopup = ({ imageUrl, onClose }) => {
           style={{
             ...IMAGE_STYLE,
             transform: `scale(${zoomLevel})`,
+            maxWidth: '90vw',
+            maxHeight: '90vh',
           }}
         />
 

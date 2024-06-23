@@ -1,5 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import { deleteImageFromS3, uploadImageToS3 } from "../../config/awsfunction";
+import {
+  deleteImageFromS3,
+  uploadImageToS3,
+  uploadVideoToS3,
+} from "../../config/awsfunction";
 import { ApiBadRequestError } from "../errors";
 
 const prisma = new PrismaClient();
@@ -54,18 +58,30 @@ export class CustomerSideDataService {
       console.log(data);
 
       let imageUploadPromises = [];
+      let videoUploadPromises = [];
+
       const type = data.type;
 
       if (Array.isArray(data.images)) {
         imageUploadPromises = data.images
           .filter((file: any) => file.mimetype.startsWith("image"))
           .map((image: any) => uploadImageToS3(image));
+
+        videoUploadPromises = data.images
+          .filter((file: any) => file.mimetype.startsWith("video"))
+          .map((video: any) => uploadVideoToS3(video));
       } else if (data.images && data.images.mimetype.startsWith("image")) {
         imageUploadPromises.push(uploadImageToS3(data.images));
+      } else if (data.images && data.images.mimetype.startsWith("video")) {
+        videoUploadPromises.push(uploadVideoToS3(data.images));
       }
-      const imageResults = await Promise.all(imageUploadPromises);
+      const [imageResults, videoResults] = await Promise.all([
+        Promise.all(imageUploadPromises),
+        Promise.all(videoUploadPromises),
+      ]);
+      const allResults = [...imageResults, ...videoResults];
 
-      const mediaCreatePromises = imageResults.map((result) => {
+      const mediaCreatePromises = allResults.map((result) => {
         const url = result?.key;
 
         return prisma.customerSideImage.create({

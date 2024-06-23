@@ -40,20 +40,20 @@ const Footer = () => {
           {/* Footer Column 3 */}
           <Grid item xs={12} md={3}>
             <Typography variant="h6" gutterBottom>
-              Connect with Us
+              Follow Us
             </Typography>
             <IconButton aria-label="Facebook" color="inherit">
               <Facebook />
             </IconButton>
-            <IconButton aria-label="Twitter" color="inherit">
+            {/* <IconButton aria-label="Twitter" color="inherit">
               <Twitter />
-            </IconButton>
+            </IconButton> */}
             <IconButton aria-label="Instagram" color="inherit">
               <Instagram />
             </IconButton>
-            <IconButton aria-label="LinkedIn" color="inherit">
+            {/* <IconButton aria-label="LinkedIn" color="inherit">
               <LinkedIn />
-            </IconButton>
+            </IconButton> */}
           </Grid>
 
           {/* Footer Column 4 */}
