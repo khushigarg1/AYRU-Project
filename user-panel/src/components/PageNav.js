@@ -26,18 +26,21 @@ import { useAuth } from "../contexts/auth";
 import Link from "next/link";
 import { CancelRounded } from "@mui/icons-material";
 import api from "../../api";
+import logo from "../../public/images/logo.png"
+import Image from "next/image";
+
 
 const drawerWidth = 240;
-
+const appBarHeight = 64;
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
-    flexGrow: 1,
+    // flexGrow: 1,
     padding: theme.spacing(3),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: `-${drawerWidth}px`,
+    // marginTop: open ? `${appBarHeight}px` : "0",
     ...(open && {
       transition: theme.transitions.create("margin", {
         easing: theme.transitions.easing.easeOut,
@@ -92,6 +95,9 @@ const StyledAppBar = styled(MuiAppBar)(({ theme }) => ({
     position: "fixed",
     backgroundColor: theme.palette.background.contrast,
   },
+  '&.logoscroller': {
+    backgroundColor: theme.palette.background.contrast,
+  },
   backgroundColor: "white",
   position: "sticky",
   zIndex: theme.zIndex.drawer + 1,
@@ -120,7 +126,7 @@ export default function PageNav({ children }) {
   const theme = useTheme();
   const [open, setOpen] = useState(isAuthenticated);
   const [categories, setCategories] = useState([]);
-
+  const [scrolledstate, setScrolledstate] = useState(false);
   const handleNestedClick = () => {
     setNestedOpen(!nestedOpen);
   };
@@ -135,10 +141,15 @@ export default function PageNav({ children }) {
   useEffect(() => {
     const handleScroll = () => {
       const appBar = document.querySelector('#app-bar');
+      const logo = document.querySelector('#logo-img');
       if (window.scrollY > 50) {
         appBar.classList.add('scrolled');
+        logo.classList.add('logoscroller');
+        setScrolledstate(true);
       } else {
         appBar.classList.remove('scrolled');
+        logo.classList.remove('logoscroller')
+        setScrolledstate(false);
       }
     };
 
@@ -227,9 +238,15 @@ export default function PageNav({ children }) {
           >
             {open ? <ChevronLeftIcon /> : <MenuIcon />}
           </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, textAlign: 'center', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
+
+          <Image src={logo} alt="Logo" id="logo-img" width={110} height={40} style={{
+            position: 'absolute',
+            left: '50%',
+            transform: 'translateX(-50%)',
+          }} />
+          {/* <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, textAlign: 'center', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
             AYRU JAIPUR
-          </Typography>
+          </Typography> */}
           <IconButton color="inherit" sx={{ marginLeft: 'auto' }}>
             <Badge badgeContent={4} color="error">
               <ShoppingCartIcon />
@@ -327,9 +344,12 @@ export default function PageNav({ children }) {
           </ListItem>
         )}
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 0, minHeight: "100vh" }}>
+      <Main component="main" sx={{
+        flexGrow: 1, p: 0, minHeight: "100vh", marginTop: scrolledstate ? "64px" : "0px",
+        transition: "margin-top 0.6s ease"
+      }}>
         {children}
-      </Box>
+      </Main>
     </Box>
   );
 }
