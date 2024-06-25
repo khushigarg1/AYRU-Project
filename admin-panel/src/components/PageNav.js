@@ -30,7 +30,7 @@ import { useAuth } from "../contexts/auth";
 import { Avatar, Button, Collapse } from "@mui/material";
 import LoginForm from "./LoginForm";
 import Link from "next/link";
-import { ColorLens, ExpandLess, ExpandMore, HeatPumpRounded, InventoryOutlined, KingBed, NightShelter, PersonPinCircleOutlined } from "@mui/icons-material";
+import { ColorLens, ExpandLess, ExpandMore, HeatPumpRounded, InventoryOutlined, KingBed, NightShelter, PermMediaOutlined, PersonPinCircleOutlined } from "@mui/icons-material";
 import BedIcon from '@mui/icons-material/Bed';
 import BedRoundedIcon from '@mui/icons-material/BedRounded';
 import AspectRatioIcon from '@mui/icons-material/AspectRatio';
@@ -472,13 +472,44 @@ export default function PageNav({ children }) {
                   </ListItemButton>
                 </ListItem>
               </Link>
+
               <ListItem
-                key={"Options"}
+                key={"CustomerMedia"}
                 onClick={() => setOpenTab("Options".toLowerCase())}
                 disablePadding
                 sx={{ display: "block" }}
               >
-                <Link href="/options">
+                <Link href="/customermedia">
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <PermMediaOutlined />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={"CustomerMedia"}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+              <ListItem
+                key={"CustomerSideTexts"}
+                onClick={() => setOpenTab("Options".toLowerCase())}
+                disablePadding
+                sx={{ display: "block" }}
+              >
+                <Link href="/customerside">
                   <ListItemButton
                     sx={{
                       minHeight: 48,
@@ -496,7 +527,7 @@ export default function PageNav({ children }) {
                       <SettingsIcon />
                     </ListItemIcon>
                     <ListItemText
-                      primary={"Options"}
+                      primary={"CustomerSideTexts"}
                       sx={{ opacity: open ? 1 : 0 }}
                     />
                   </ListItemButton>

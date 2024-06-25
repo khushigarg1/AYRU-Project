@@ -1,0 +1,31 @@
+/* App.css */
+.slick-prev,
+.slick-next {
+  z-index: 1;
+}
+
+.slick-dots {
+  bottom: -30px;
+}
+
+.slick-dots li button:before {
+  font-size: 12px;
+  color: #000;
+}
+
+.slick-dots li.slick-active button:before {
+  color: #ff0000; /* Change this color to your desired active dot color */
+}
+/* slider.css */
+.slick-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #000;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.slick-active .slick-dot {
+  background-color: #b5b1b1d1; /* Active dot color */
+}

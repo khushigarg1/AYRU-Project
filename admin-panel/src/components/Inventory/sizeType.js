@@ -5,12 +5,12 @@ import api from '@/api';
 
 const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => {
   const [data, setData] = useState({
-    ...inventory, colorIds: inventory.ColorVariations?.map((cv) => cv.colorId),
-    flatIds: inventory.InventoryFlat?.map((fv) => fv.flatId),
-    customFittedIds: inventory.customFittedInventory?.map((cfv) => cfv.customFittedId),
-    fittedIds: inventory.InventoryFitted?.map((fv) => ({ fittedId: fv.fittedId, fittedDimensions: fv.fittedDimensions?.map((fvd) => fvd?.id) })),
-    sizecharts: inventory.ProductInventory?.map((scv) => ({ productId: scv.productId, selectedSizes: scv.selectedSizes?.map((scd) => scd?.id) })),
-    relatedInventoriesIds: inventory.relatedInventories.map(inv => inv.id)
+    ...inventory, colorIds: inventory?.ColorVariations?.map((cv) => cv?.colorId),
+    flatIds: inventory?.InventoryFlat?.map((fv) => fv?.flatId),
+    customFittedIds: inventory?.customFittedInventory?.map((cfv) => cfv?.customFittedId),
+    fittedIds: inventory?.InventoryFitted?.map((fv) => ({ fittedId: fv?.fittedId, fittedDimensions: fv?.fittedDimensions?.map((fvd) => fvd?.id) })),
+    // sizecharts: inventory?.ProductInventory?.map((scv) => ({ productId: scv?.productId, selectedSizes: scv?.selectedSizes?.map((scd) => scd?.id) })),
+    relatedInventoriesIds: inventory?.relatedInventories.map(inv => inv.id)
   });
 
   const [colors, setColors] = useState([]);
@@ -24,7 +24,7 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
   const [newflatIds, setNewFlatIds] = useState([]);
   const [newcustomFittedIds, setNewCustomFittedIds] = useState([]);
   const [newFitted, setNewFitted] = useState({ fittedId: '', fittedDimensions: [] });
-  const [newSizeChart, setNewSizeChart] = useState({ productId: '', selectedSizes: [] });
+  // const [newSizeChart, setNewSizeChart] = useState({ productId: '', selectedSizes: [] });
   const [newrelatedInventoriesIds, setNewRelatedInventoriesIds] = useState([]);
 
   useEffect(() => {
@@ -32,14 +32,14 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
     fetchData('/flat', setFlats);
     fetchData('/customfitted', setCustomFitteds);
     fetchData('/fitted', setFitteds);
-    fetchData('/sizechart', setProducts);
+    // fetchData('/sizechart', setProducts);
     fetchData('/inventory', setRelatedInventories);
   }, []);
 
   const fetchData = async (endpoint, setter) => {
     try {
       const response = await api.get(`${endpoint}`);
-      setter(response.data.data);
+      setter(response?.data?.data);
     } catch (error) {
       console.error(`Failed to fetch data from ${endpoint}:`, error);
     }
@@ -65,25 +65,25 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
 
   const getNames = (selectedIds, items) => {
     return selectedIds.map((id) => {
-      const item = items.find((item) => item.id === id);
-      return item ? item.name : '';
+      const item = items?.find((item) => item?.id === id);
+      return item ? item?.name : '';
     }).join(', ');
   };
 
   const getInventoryNames = (selectedIds, items) => {
-    return selectedIds.map((id) => {
-      const item = items.find((item) => item.id === id);
-      return item ? `${item.id} ${item.productName}` : '';
+    return selectedIds?.map((id) => {
+      const item = items?.find((item) => item?.id === id);
+      return item ? `${item.id} ${item?.productName}` : '';
     }).join(', ');
   };
 
   const getFittedInfo = (fittedId, fittedDimensions) => {
-    const fitted = fitteds.find(f => f.id === fittedId);
+    const fitted = fitteds?.find(f => f?.id === fittedId);
     if (fitted) {
-      const fittedName = fitted.name;
-      const dimensionNames = fitted.FittedDimensions
-        .filter(dim => fittedDimensions.includes(dim.id))
-        .map(dim => dim.dimensions)
+      const fittedName = fitted?.name;
+      const dimensionNames = fitted?.FittedDimensions
+        .filter(dim => fittedDimensions?.includes(dim?.id))
+        .map(dim => dim?.dimensions)
         .join(', ');
       return `${fittedName}: ${dimensionNames}`;
     }
@@ -92,16 +92,16 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
 
   //-------------------------------------------For Fittted Item
   const getFittedName = (fittedId) => {
-    const fitted = fitteds.find(f => f.id === fittedId);
-    return fitted ? fitted.name : '';
+    const fitted = fitteds?.find(f => f?.id === fittedId);
+    return fitted ? fitted?.name : '';
   };
 
   const getDimensionNames = (fittedId, fittedDimensions) => {
-    const fitted = fitteds.find(f => f.id === fittedId);
+    const fitted = fitteds?.find(f => f?.id === fittedId);
     if (fitted) {
-      const dimensionNames = fitted.FittedDimensions
-        .filter(dim => fittedDimensions.includes(dim.id))
-        .map(dim => dim.dimensions)
+      const dimensionNames = fitted?.FittedDimensions
+        .filter(dim => fittedDimensions?.includes(dim?.id))
+        .map(dim => dim?.dimensions)
         .join(', ');
       return dimensionNames;
     }
@@ -127,58 +127,58 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
     setData((prev) => ({
       ...prev,
       fittedIds: [
-        ...prev.fittedIds,
-        { fittedId: newFitted.fittedId, fittedDimensions: newFitted.fittedDimensions },
+        ...prev?.fittedIds,
+        { fittedId: newFitted?.fittedId, fittedDimensions: newFitted?.fittedDimensions },
       ],
     }));
     setNewFitted({ fittedId: '', fittedDimensions: [] });
   };
   //-------------------------------------------For Proiduct/Sizechart Item
 
-  const handleSizeChartChange = (event, field) => {
-    if (field === 'productId') {
-      setNewSizeChart((prev) => ({
-        ...prev,
-        [field]: event.target.value,
-        selectedSizes: [], // Reset selected sizes when product changes
-      }));
-    } else if (field === 'selectedSizes') {
-      setNewSizeChart((prev) => ({
-        ...prev,
-        [field]: event.target.value,
-      }));
-    }
-  };
+  // const handleSizeChartChange = (event, field) => {
+  //   if (field === 'productId') {
+  //     setNewSizeChart((prev) => ({
+  //       ...prev,
+  //       [field]: event.target.value,
+  //       selectedSizes: [], // Reset selected sizes when product changes
+  //     }));
+  //   } else if (field === 'selectedSizes') {
+  //     setNewSizeChart((prev) => ({
+  //       ...prev,
+  //       [field]: event.target.value,
+  //     }));
+  //   }
+  // };
 
-  const addNewSizeChart = () => {
-    setData((prev) => ({
-      ...prev,
-      sizecharts: [
-        ...prev.sizecharts,
-        { productId: newSizeChart.productId, selectedSizes: newSizeChart.selectedSizes },
-      ],
-    }));
-    setNewSizeChart({ productId: '', selectedSizes: [] });
-  };
+  // const addNewSizeChart = () => {
+  //   setData((prev) => ({
+  //     ...prev,
+  //     sizecharts: [
+  //       ...prev.sizecharts,
+  //       { productId: newSizeChart.productId, selectedSizes: newSizeChart.selectedSizes },
+  //     ],
+  //   }));
+  //   setNewSizeChart({ productId: '', selectedSizes: [] });
+  // };
 
-  const getProductNames = (productId) => {
-    const product = products.find(p => p.id === productId);
-    return product ? product.name : '';
-  };
+  // const getProductNames = (productId) => {
+  //   const product = products.find(p => p.id === productId);
+  //   return product ? product.name : '';
+  // };
 
-  const getSelectedSizes = (selectedSizes) => {
-    return selectedSizes.map(sizeId => {
-      const sizeDetails = products.flatMap(p => p.sizes).find(s => s.id === sizeId);
-      return sizeDetails ? `${sizeDetails.name} - Width: ${sizeDetails.width}, Height: ${sizeDetails.height}` : '';
-    }).join(', ');
-  };
+  // const getSelectedSizes = (selectedSizes) => {
+  //   return selectedSizes.map(sizeId => {
+  //     const sizeDetails = products.flatMap(p => p.sizes).find(s => s.id === sizeId);
+  //     return sizeDetails ? `${sizeDetails.name} - Width: ${sizeDetails.width}, Height: ${sizeDetails.height}` : '';
+  //   }).join(', ');
+  // };
 
-  const getSelectedSizeNames = (selectedSizes) => {
-    return selectedSizes.map(sizeId => {
-      const size = products.flatMap(p => p.sizes).find(s => s.id === sizeId);
-      return size ? `${size.name} - Width: ${size.width}, Height: ${size.height}` : '';
-    }).join(', ');
-  };
+  // const getSelectedSizeNames = (selectedSizes) => {
+  //   return selectedSizes.map(sizeId => {
+  //     const size = products.flatMap(p => p.sizes).find(s => s.id === sizeId);
+  //     return size ? `${size.name} - Width: ${size.width}, Height: ${size.height}` : '';
+  //   }).join(', ');
+  // };
 
   return (
     <Grid container spacing={0}>
@@ -188,14 +188,14 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
           <Select
             labelId="color-label"
             multiple
-            value={data.colorIds || []}
+            value={data?.colorIds || []}
             onChange={(e) => handleChange(e, 'colorIds')}
             renderValue={(selected) => getNames(selected, colors)}
           >
-            {colors.map((color) => (
-              <MenuItem key={color.id} value={color.id}>
-                <Checkbox checked={data.colorIds?.includes(color.id)} />
-                <ListItemText primary={color.name} />
+            {colors?.map((color) => (
+              <MenuItem key={color?.id} value={color?.id}>
+                <Checkbox checked={data?.colorIds?.includes(color?.id)} />
+                <ListItemText primary={color?.name} />
               </MenuItem>
             ))}
           </Select>
@@ -203,18 +203,18 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
       </Grid>
       <Grid item xs={12}>
         <FormControl fullWidth variant="outlined" margin="normal">
-          <InputLabel id="flat-label">Flats</InputLabel>
+          <InputLabel id="flat-label">Flat</InputLabel>
           <Select
             labelId="flat-label"
             multiple
-            value={data.flatIds || []}
+            value={data?.flatIds || []}
             onChange={(e) => handleChange(e, 'flatIds')}
             renderValue={(selected) => getNames(selected, flats)}
           >
-            {flats.map((flat) => (
-              <MenuItem key={flat.id} value={flat.id}>
-                <Checkbox checked={data.flatIds?.includes(flat.id)} />
-                <ListItemText primary={flat.name} />
+            {flats?.map((flat) => (
+              <MenuItem key={flat?.id} value={flat?.id}>
+                <Checkbox checked={data?.flatIds?.includes(flat?.id)} />
+                <ListItemText primary={flat?.name} />
               </MenuItem>
             ))}
           </Select>
@@ -226,14 +226,14 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
           <Select
             labelId="customFitted-label"
             multiple
-            value={data.customFittedIds || []}
+            value={data?.customFittedIds || []}
             onChange={(e) => handleChange(e, 'customFittedIds')}
             renderValue={(selected) => getNames(selected, customFitteds)}
           >
-            {customFitteds.map((customfitted) => (
-              <MenuItem key={customfitted.id} value={customfitted.id}>
-                <Checkbox checked={data.customFittedIds?.includes(customfitted.id)} />
-                <ListItemText primary={customfitted.name} />
+            {customFitteds?.map((customfitted) => (
+              <MenuItem key={customfitted?.id} value={customfitted?.id}>
+                <Checkbox checked={data?.customFittedIds?.includes(customfitted?.id)} />
+                <ListItemText primary={customfitted?.name} />
               </MenuItem>
             ))}
           </Select>
@@ -241,9 +241,9 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
       </Grid>
       <Grid item xs={12}>
         <Typography variant="subtitle1">Fitted:</Typography>
-        {data.fittedIds?.map((fitted, index) => (
+        {data?.fittedIds?.map((fitted, index) => (
           <div key={index} style={{ display: 'flex', marginBottom: '10px' }}>
-            <Typography>{getFittedInfo(fitted.fittedId, fitted.fittedDimensions)}</Typography>
+            <Typography>{getFittedInfo(fitted?.fittedId, fitted?.fittedDimensions)}</Typography>
             <Button
               color="secondary"
               onClick={() => handleRemoveItem('fittedIds', index)}
@@ -256,13 +256,13 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
           <InputLabel id="new-fitted-label">Fitted Items</InputLabel>
           <Select
             labelId="new-fitted-label"
-            value={newFitted.fittedId}
+            value={newFitted?.fittedId}
             onChange={(e) => handleFittedChange(e, 'fittedId')}
             renderValue={(selected) => getFittedName(selected)}
           >
-            {fitteds.map((fitted) => (
-              <MenuItem key={fitted.id} value={fitted.id}>
-                <ListItemText primary={fitted.name} />
+            {fitteds?.map((fitted) => (
+              <MenuItem key={fitted?.id} value={fitted?.id}>
+                <ListItemText primary={fitted?.name} />
               </MenuItem>
             ))}
           </Select>
@@ -272,14 +272,14 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
           <Select
             labelId="new-fitted-dimensions-label"
             multiple
-            value={newFitted.fittedDimensions}
+            value={newFitted?.fittedDimensions}
             onChange={(e) => handleFittedChange(e, 'fittedDimensions')}
             renderValue={(selected) => getDimensionNames(newFitted.fittedId, selected)}
           >
-            {fitteds.find(f => f.id === newFitted.fittedId)?.FittedDimensions.map((dim) => (
-              <MenuItem key={dim.id} value={dim.id}>
-                <Checkbox checked={newFitted.fittedDimensions.includes(dim.id)} />
-                <ListItemText primary={dim.dimensions} />
+            {fitteds?.find(f => f?.id === newFitted?.fittedId)?.FittedDimensions?.map((dim) => (
+              <MenuItem key={dim?.id} value={dim?.id}>
+                <Checkbox checked={newFitted?.fittedDimensions?.includes(dim?.id)} />
+                <ListItemText primary={dim?.dimensions} />
               </MenuItem>
             ))}
           </Select>
@@ -289,7 +289,7 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
         </Button>
       </Grid>
 
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Typography variant="subtitle1">Product Inventory:</Typography>
         {data.sizecharts?.map((product, index) => (
           <div key={index} style={{ marginBottom: '10px' }}>
@@ -344,7 +344,7 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
         <Button variant="contained" color="primary" onClick={addNewSizeChart} sx={{ mt: 2 }}>
           Add Product Inventory
         </Button>
-      </Grid>
+      </Grid> */}
 
       <Grid item xs={12}>
         <FormControl fullWidth variant="outlined" margin="normal">
@@ -352,14 +352,14 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
           <Select
             labelId="relatedInventories-label"
             multiple
-            value={data.relatedInventoriesIds || []}
+            value={data?.relatedInventoriesIds || []}
             onChange={(e) => handleChange(e, 'relatedInventoriesIds')}
             renderValue={(selected) => getInventoryNames(selected, relatedInventories)}
           >
-            {relatedInventories.map((inventory) => (
-              <MenuItem key={inventory.id} value={inventory.id}>
-                <Checkbox checked={data.relatedInventoriesIds?.includes(inventory.id)} />
-                <ListItemText primary={`${inventory.id} ${inventory.productName}`} />
+            {relatedInventories?.map((inventory) => (
+              <MenuItem key={inventory?.id} value={inventory?.id}>
+                <Checkbox checked={data?.relatedInventoriesIds?.includes(inventory?.id)} />
+                <ListItemText primary={`${inventory?.id} ${inventory?.productName}`} />
               </MenuItem>
             ))}
           </Select>

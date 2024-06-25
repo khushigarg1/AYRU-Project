@@ -1,0 +1,23 @@
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+/* globals.css */
+
+/* Hide scrollbars for all elements */
+body,
+html {
+  overflow-x: hidden;
+  scrollbar-width: none; /* For Firefox */
+}
+
+body::-webkit-scrollbar,
+html::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}

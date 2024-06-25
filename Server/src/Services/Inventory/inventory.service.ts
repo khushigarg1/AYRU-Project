@@ -73,7 +73,6 @@ export class InventoryService {
       throw new Error("Failed to process media upload: " + error);
     }
   }
-
   async getallMedia(id: number) {
     const media = await prisma.media.findMany({
       where: {
@@ -135,6 +134,35 @@ export class InventoryService {
     }
   }
 
+  async deleteSizeChartMedia(id: number) {
+    try {
+      const sizeChartMediaToDelete = await prisma.sizeChartMedia.findMany({
+        where: {
+          inventoryId: id,
+        },
+      });
+
+      if (sizeChartMediaToDelete.length === 0) {
+        return [];
+      }
+
+      await prisma.sizeChartMedia.deleteMany({
+        where: {
+          inventoryId: id,
+        },
+      });
+
+      for (const media of sizeChartMediaToDelete) {
+        await deleteImageFromS3(media.url);
+      }
+
+      return sizeChartMediaToDelete;
+    } catch (error) {
+      console.error("Error deleting size chart media:", error);
+      throw new Error("Failed to delete size chart media");
+    }
+  }
+
   async createInventory(data: InventoryAttributes) {
     if (
       !data.productName ||
@@ -163,6 +191,7 @@ export class InventoryService {
         skuId: data.skuId,
         categoryId: data?.categoryId,
         subCategoryId: data?.subCategoryId,
+        status: "PENDING",
       },
     });
   }
@@ -180,18 +209,19 @@ export class InventoryService {
             fittedDimensions: true,
           },
         },
-        ProductInventory: {
-          include: {
-            product: {
-              include: { sizes: true },
-            },
-            selectedSizes: true,
-          },
-        },
+        // ProductInventory: {
+        //   include: {
+        //     product: {
+        //       include: { sizes: true },
+        //     },
+        //     selectedSizes: true,
+        //   },
+        // },
         ColorVariations: { include: { Color: true } },
         relatedInventories: true,
         relatedByInventories: true,
         Media: true,
+        SizeChartMedia: true,
       },
     });
     return inventory;
@@ -220,23 +250,26 @@ export class InventoryService {
             fittedDimensions: true,
           },
         },
-        ProductInventory: {
-          include: {
-            product: {
-              include: { sizes: true },
-            },
-            selectedSizes: true,
-          },
-        },
+        // ProductInventory: {
+        //   include: {
+        //     product: {
+        //       include: { sizes: true },
+        //     },
+        //     selectedSizes: true,
+        //   },
+        // },
         ColorVariations: { include: { Color: true } },
         relatedInventories: true,
         relatedByInventories: true,
         Media: true,
+        SizeChartMedia: true,
       },
     });
     return inventory;
   }
   async updateInventory(id: number, data: InventoryUpdateAttributes) {
+    console.log(id, data);
+
     const {
       productName,
       skuId,
@@ -273,7 +306,8 @@ export class InventoryService {
       flatIds,
       fittedIds,
       customFittedIds,
-      sizecharts,
+      others,
+      // sizecharts,
       colorIds,
       relatedInventoriesIds,
     } = data;
@@ -283,8 +317,9 @@ export class InventoryService {
     await prisma.inventoryFitted.deleteMany(deleteManyOptions);
     await prisma.inventoryFlat.deleteMany(deleteManyOptions);
     await prisma.customFittedInventory.deleteMany(deleteManyOptions);
-    await prisma.productInventory.deleteMany(deleteManyOptions);
+    // await prisma.productInventory.deleteMany(deleteManyOptions);
     await prisma.colorVariation.deleteMany(deleteManyOptions);
+    console.log("heyyy");
 
     const inventory = await prisma.inventory.update({
       where: { id },
@@ -321,6 +356,7 @@ export class InventoryService {
         careInstructions,
         categoryId,
         subCategoryId,
+        others,
         InventoryFlat: {
           create: flatIds?.map((flatId) => ({ flatId })) || [],
         },
@@ -340,17 +376,17 @@ export class InventoryService {
             customFittedIds?.map((customFittedId) => ({ customFittedId })) ||
             [],
         },
-        ProductInventory: {
-          create:
-            sizecharts?.map((sizechart) => ({
-              productId: sizechart.productId,
-              selectedSizes: {
-                connect: sizechart.selectedSizes.map((sizeId) => ({
-                  id: sizeId,
-                })),
-              },
-            })) || [],
-        },
+        // ProductInventory: {
+        //   create:
+        //     sizecharts?.map((sizechart) => ({
+        //       productId: sizechart.productId,
+        //       selectedSizes: {
+        //         connect: sizechart.selectedSizes.map((sizeId) => ({
+        //           id: sizeId,
+        //         })),
+        //       },
+        //     })) || [],
+        // },
         ColorVariations: {
           create: colorIds?.map((colorId) => ({ colorId })) || [],
         },
@@ -371,179 +407,64 @@ export class InventoryService {
             fittedDimensions: true,
           },
         },
-        ProductInventory: {
-          include: {
-            product: {
-              include: { sizes: true },
-            },
-            selectedSizes: true,
-          },
-        },
+        // ProductInventory: {
+        //   include: {
+        //     product: {
+        //       include: { sizes: true },
+        //     },
+        //     selectedSizes: true,
+        //   },
+        // },
         ColorVariations: { include: { Color: true } },
         relatedInventories: true,
         relatedByInventories: true,
         Media: true,
       },
     });
+    console.log(inventory);
 
     return inventory;
   }
+
+  async getInventoriesByCategory(categoryId: number, subCategoryId?: number) {
+    if (!categoryId) {
+      throw new ApiBadRequestError("Category ID is required");
+    }
+
+    const whereClause = {
+      categoryId: categoryId,
+      ...(subCategoryId && { subCategoryId: subCategoryId }),
+    };
+
+    const inventories = await prisma.inventory.findMany({
+      where: whereClause,
+      include: {
+        InventoryFlat: { include: { Flat: true } },
+        customFittedInventory: { include: { customFitted: true } },
+        InventoryFitted: {
+          include: {
+            Fitted: {
+              include: { FittedDimensions: true },
+            },
+            fittedDimensions: true,
+          },
+        },
+        // ProductInventory: {
+        //   include: {
+        //     product: {
+        //       include: { sizes: true },
+        //     },
+        //     selectedSizes: true,
+        //   },
+        // },
+        ColorVariations: { include: { Color: true } },
+        relatedInventories: true,
+        relatedByInventories: true,
+        Media: true,
+        SizeChartMedia: true,
+      },
+    });
+
+    return inventories;
+  }
 }
-
-// export const createInventory = async (dataa: InventoryAttributes) => {
-//   // try {
-//   console.log(dataa);
-
-//   const inventory = await prisma.inventory.create({
-//     data: {
-//       ...dataa,
-//       // category: { connect: { id: data.categoryId } },
-//       // subCategory: { connect: { id: data.subCategoryId } },
-//       InventoryFlat: {
-//         create: dataa.flatIds?.map((flatId) => ({ flatId })),
-//       },
-//       InventoryFitted: {
-//         create: dataa.fittedIds?.map((fittedId) => ({ fittedId })),
-//       },
-//       customFittedInventory: {
-//         create: dataa.customFittedIds?.map((customFittedId) => ({
-//           customFittedId,
-//         })),
-//       },
-//     },
-//     include: {
-//       InventoryFlat: { include: { Flat: true } },
-//       InventoryFitted: {
-//         include: {
-//           Fitted: {
-//             include: { FittedDimensions: true },
-//           },
-//         },
-//       },
-//       customFittedInventory: { include: { customFitted: true } },
-//       Media: true,
-//     },
-//   });
-//   return inventory;
-//   // } catch (error) {
-//   //   console.error("Error creating inventory:", error);
-//   //   throw new ApiBadRequestError("Failed to create inventory");
-//   // }
-// };
-
-// export const getInventories = async () => {
-//   try {
-//     const inventories = await prisma.inventory.findMany({
-//       include: {
-//         InventoryFlat: { include: { Flat: true } },
-//         InventoryFitted: {
-//           include: {
-//             Fitted: {
-//               include: { FittedDimensions: true },
-//             },
-//           },
-//         },
-//         customFittedInventory: { include: { customFitted: true } },
-//         Media: true,
-//       },
-//     });
-//     return inventories;
-//   } catch (error) {
-//     throw new ApiBadRequestError("Failed to fetch inventories");
-//   }
-// };
-
-// export const getInventoryById = async (id: number) => {
-//   try {
-//     const inventory = await prisma.inventory.findUnique({
-//       where: { id },
-//       include: {
-//         InventoryFlat: { include: { Flat: true } },
-//         InventoryFitted: {
-//           include: {
-//             Fitted: {
-//               include: { FittedDimensions: true },
-//             },
-//           },
-//         },
-//         customFittedInventory: { include: { customFitted: true } },
-//         Media: true,
-//       },
-//     });
-//     if (!inventory) {
-//       throw new Api404Error("Inventory not found");
-//     }
-//     return inventory;
-//   } catch (error) {
-//     throw new ApiBadRequestError("Failed to fetch inventory");
-//   }
-// };
-
-// export const updateInventory = async (
-//   id: number,
-//   data: InventoryAttributes
-// ) => {
-//   try {
-//     await prisma.inventoryFlat.deleteMany({
-//       where: { inventoryId: id },
-//     });
-//     await prisma.inventoryFitted.deleteMany({
-//       where: { inventoryId: id },
-//     });
-
-//     const inventory = await prisma.inventory.update({
-//       where: { id },
-//       data: {
-//         ...data,
-//         InventoryFlat: {
-//           create: data.flatIds?.map((flatId) => ({ flatId })),
-//         },
-//         InventoryFitted: {
-//           create: data.fittedIds?.map((fittedId) => ({ fittedId })),
-//         },
-//         customFittedInventory: {
-//           create: data.customFittedIds?.map((customFittedId) => ({
-//             customFittedId,
-//           })),
-//         },
-//       },
-//       include: {
-//         InventoryFlat: { include: { Flat: true } },
-//         InventoryFitted: {
-//           include: {
-//             Fitted: {
-//               include: { FittedDimensions: true },
-//             },
-//           },
-//         },
-//         customFittedInventory: { include: { customFitted: true } },
-//         Media: true,
-//       },
-//     });
-//     return inventory;
-//   } catch (error) {
-//     throw new ApiBadRequestError("Failed to update inventory");
-//   }
-// };
-
-// export const deleteInventory = async (id: number) => {
-//   try {
-//     await prisma.$transaction(async (prisma) => {
-//       await prisma.inventoryFlat.deleteMany({
-//         where: { inventoryId: id },
-//       });
-//       await prisma.inventoryFitted.deleteMany({
-//         where: { inventoryId: id },
-//       });
-//       await prisma.customFittedInventory.deleteMany({
-//         where: { inventoryId: id },
-//       });
-
-//       await prisma.inventory.delete({
-//         where: { id },
-//       });
-//     });
-//   } catch (error) {
-//     throw new ApiBadRequestError("Failed to delete inventory");
-//   }
-// };

@@ -18,7 +18,7 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
     const fetchCategories = async () => {
       try {
         const response = await api.get('/categories');
-        setCategories(response.data.data);
+        setCategories(response?.data?.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -28,37 +28,41 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
   }, []);
 
   useEffect(() => {
-    if (editedInventory.categoryId) {
-      const selectedCategory = categories.find(cat => cat.id === editedInventory.categoryId);
+    if (editedInventory?.categoryId) {
+      const selectedCategory = categories?.find(cat => cat?.id === editedInventory?.categoryId);
       if (selectedCategory) {
-        setSubcategories(selectedCategory.subcategories);
+        setSubcategories(selectedCategory?.subcategories);
       } else {
         setSubcategories([]);
       }
     } else {
       setSubcategories([]);
     }
-  }, [editedInventory.categoryId, categories]);
+  }, [editedInventory?.categoryId, categories]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    let parsedValue = value;
+
     if (name === 'quantity' || name === 'minQuantity' || name === 'maxQuantity') {
       if (!(/^\d+$/.test(value))) {
         setFieldErrors(prevErrors => ({
           ...prevErrors,
           [name]: 'Please enter a valid numeric value.',
         }));
+        return;
       } else {
         setFieldErrors(prevErrors => ({
           ...prevErrors,
           [name]: '',
         }));
+        parsedValue = parseInt(value, 10);
       }
     }
 
     setEditedInventory(prev => ({
       ...prev,
-      [name]: value,
+      [name]: parsedValue,
     }));
   };
 
@@ -86,13 +90,13 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
   };
 
   const getCategoryNameById = (categoryId) => {
-    const category = categories.find(cat => cat.id === categoryId);
-    return category ? category.categoryName : '';
+    const category = categories?.find(cat => cat?.id === categoryId);
+    return category ? category?.categoryName : '';
   };
 
   const getSubcategoryNameById = (subCategoryId) => {
-    const subcategory = subcategories.find(subcat => subcat.id === subCategoryId);
-    return subcategory ? subcategory.subcategoryName : '';
+    const subcategory = subcategories?.find(subcat => subcat?.id === subCategoryId);
+    return subcategory ? subcategory?.subcategoryName : '';
   };
 
   return (
@@ -103,7 +107,7 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
             <TextField
               label="Product Name"
               name="productName"
-              value={editedInventory.productName}
+              value={editedInventory?.productName}
               onChange={handleChange}
               fullWidth
               variant="outlined"
@@ -114,7 +118,7 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
             <TextField
               label="SKU ID"
               name="skuId"
-              value={editedInventory.skuId}
+              value={editedInventory?.skuId}
               onChange={handleChange}
               fullWidth
               variant="outlined"
@@ -125,49 +129,49 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
             <TextField
               label="Quantity"
               name="quantity"
-              value={editedInventory.quantity}
+              value={editedInventory?.quantity}
               onChange={handleChange}
               fullWidth
               variant="outlined"
               margin="normal"
               type="text"
-              error={fieldErrors.quantity !== ''}
-              helperText={fieldErrors.quantity}
+              error={fieldErrors?.quantity !== ''}
+              helperText={fieldErrors?.quantity}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               label="Min Quantity"
               name="minQuantity"
-              value={editedInventory.minQuantity}
+              value={editedInventory?.minQuantity}
               onChange={handleChange}
               fullWidth
               variant="outlined"
               margin="normal"
               type="text"
-              error={fieldErrors.minQuantity !== ''}
-              helperText={fieldErrors.minQuantity}
+              error={fieldErrors?.minQuantity !== ''}
+              helperText={fieldErrors?.minQuantity}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               label="Max Quantity"
               name="maxQuantity"
-              value={editedInventory.maxQuantity}
+              value={editedInventory?.maxQuantity}
               onChange={handleChange}
               fullWidth
               variant="outlined"
               margin="normal"
               type="text"
-              error={fieldErrors.maxQuantity !== ''}
-              helperText={fieldErrors.maxQuantity}
+              error={fieldErrors?.maxQuantity !== ''}
+              helperText={fieldErrors?.maxQuantity}
             />
           </Grid>
           <Grid item xs={12}>
             <Select
               label="Category"
               name="categoryId"
-              value={editedInventory.categoryId}
+              value={editedInventory?.categoryId}
               onChange={handleChange}
               fullWidth
               variant="outlined"
@@ -175,8 +179,8 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
             >
               <MenuItem value="">Select Category</MenuItem>
               {categories?.map((category) => (
-                <MenuItem key={category.id} value={category.id}>
-                  {category.categoryName}
+                <MenuItem key={category?.id} value={category?.id}>
+                  {category?.categoryName}
                 </MenuItem>
               ))}
             </Select>
@@ -185,17 +189,17 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
             <Select
               label="Subcategory"
               name="subCategoryId"
-              value={editedInventory.subCategoryId}
+              value={editedInventory?.subCategoryId}
               onChange={handleChange}
               fullWidth
               variant="outlined"
               margin="normal"
-              disabled={!editedInventory.categoryId}
+              disabled={!editedInventory?.categoryId}
             >
               <MenuItem value="">Select Subcategory</MenuItem>
               {subcategories?.map((subcategory) => (
-                <MenuItem key={subcategory.id} value={subcategory.id}>
-                  {subcategory.subcategoryName}
+                <MenuItem key={subcategory?.id} value={subcategory?.id}>
+                  {subcategory?.subcategoryName}
                 </MenuItem>
               ))}
             </Select>
@@ -212,25 +216,25 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
       ) : (
         <>
           <Grid item xs={12}>
-            <Typography><strong>Product Name:</strong> {inventory.productName}</Typography>
+            <Typography><strong>Product Name:</strong> {inventory?.productName}</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography><strong>SKU ID:</strong> {inventory.skuId}</Typography>
+            <Typography><strong>SKU ID:</strong> {inventory?.skuId}</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography><strong>Quantity:</strong> {inventory.quantity}</Typography>
+            <Typography><strong>Quantity:</strong> {inventory?.quantity}</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography><strong>Min Quantity:</strong> {inventory.minQuantity}</Typography>
+            <Typography><strong>Min Quantity:</strong> {inventory?.minQuantity}</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography><strong>Max Quantity:</strong> {inventory.maxQuantity}</Typography>
+            <Typography><strong>Max Quantity:</strong> {inventory?.maxQuantity}</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography><strong>Category:</strong> {getCategoryNameById(inventory.categoryId)}</Typography>
+            <Typography><strong>Category:</strong> {getCategoryNameById(inventory?.categoryId)}</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography><strong>Subcategory:</strong> {getSubcategoryNameById(inventory.subCategoryId)}</Typography>
+            <Typography><strong>Subcategory:</strong> {getSubcategoryNameById(inventory?.subCategoryId)}</Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography><strong>Status:</strong> {inventory?.status}</Typography>

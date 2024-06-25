@@ -47,17 +47,17 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
   };
 
   const handleAddNewItem = () => {
-    if (newItem.trim() !== '') {
+    if (newItem?.trim() !== '') {
       setEditedProduct((prev) => ({
         ...prev,
-        includedItems: [...prev.includedItems, newItem.trim()],
+        includedItems: [...(prev?.includedItems || []), newItem?.trim()],
       }));
       setNewItem('');
     }
   };
 
   const handleRemoveItem = (index) => {
-    const newItems = editedProduct.includedItems.filter((item, i) => i !== index);
+    const newItems = editedProduct?.includedItems?.filter((item, i) => i !== index);
     setEditedProduct((prev) => ({
       ...prev,
       includedItems: newItems,
@@ -65,17 +65,18 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
   };
 
   const handleAddNewFeature = () => {
-    if (newFeature.trim() !== '') {
+    if (newFeature?.trim() !== '') {
       setEditedProduct((prev) => ({
         ...prev,
-        specialFeatures: [...prev.specialFeatures, newFeature.trim()],
+        specialFeatures: [...(prev?.specialFeatures || []), newFeature?.trim()],
+
       }));
       setNewFeature('');
     }
   };
 
   const handleRemoveFeature = (index) => {
-    const newFeatures = editedProduct.specialFeatures.filter((item, i) => i !== index);
+    const newFeatures = editedProduct?.specialFeatures?.filter((item, i) => i !== index);
     setEditedProduct((prev) => ({
       ...prev,
       specialFeatures: newFeatures,
@@ -83,17 +84,17 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
   };
 
   const handleAddNewDimension = () => {
-    if (newDimension.trim() !== '') {
+    if (newDimension?.trim() !== '') {
       setEditedProduct((prev) => ({
         ...prev,
-        itemDimensions: [...prev.itemDimensions, newDimension.trim()],
+        itemDimensions: [...(prev?.itemDimensions || []), newDimension?.trim()],
       }));
       setNewDimension('');
     }
   };
 
   const handleRemoveDimension = (index) => {
-    const newDimensions = editedProduct.itemDimensions.filter((item, i) => i !== index);
+    const newDimensions = editedProduct?.itemDimensions?.filter((item, i) => i !== index);
     setEditedProduct((prev) => ({
       ...prev,
       itemDimensions: newDimensions,
@@ -107,7 +108,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           <Grid item xs={12}>
             <TextField
               label="Weight"
-              value={editedProduct.weight}
+              value={editedProduct?.weight}
               onChange={(e) => handleChange(e, 'weight')}
               fullWidth
               variant="outlined"
@@ -119,7 +120,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           <Grid item xs={12}>
             <TextField
               label="Style"
-              value={editedProduct.style}
+              value={editedProduct?.style}
               onChange={(e) => handleChange(e, 'style')}
               fullWidth
               variant="outlined"
@@ -129,7 +130,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           <Grid item xs={12}>
             <TextField
               label="Pattern"
-              value={editedProduct.pattern}
+              value={editedProduct?.pattern}
               onChange={(e) => handleChange(e, 'pattern')}
               fullWidth
               variant="outlined"
@@ -139,7 +140,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           <Grid item xs={12}>
             <TextField
               label="Fabric"
-              value={editedProduct.fabric}
+              value={editedProduct?.fabric}
               onChange={(e) => handleChange(e, 'fabric')}
               fullWidth
               variant="outlined"
@@ -149,7 +150,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           <Grid item xs={12}>
             <TextField
               label="Type"
-              value={editedProduct.type}
+              value={editedProduct?.type}
               onChange={(e) => handleChange(e, 'type')}
               fullWidth
               variant="outlined"
@@ -162,7 +163,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
               <Select
                 labelId="size-label"
                 id="size"
-                value={editedProduct.size}
+                value={editedProduct?.size}
                 onChange={(e) => handleChange(e, 'size')}
                 label="Size"
               >
@@ -176,7 +177,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           <Grid item xs={12}>
             <div>
               <Typography variant="subtitle1">Included Items:</Typography>
-              {editedProduct.includedItems?.map((item, index) => (
+              {editedProduct?.includedItems?.map((item, index) => (
                 <div style={{ marginLeft: "10%", display: "flex", flexDirection: "row", alignItems: "center" }} key={index}>
                   <Typography>{item}</Typography>
                   <Button color="secondary" onClick={() => handleRemoveItem(index)} sx={{ ml: 1 }}>
@@ -199,7 +200,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           </Grid>
           <Grid item xs={12} spacing={0}>
             <Typography variant="subtitle1">Item Dimensions:</Typography>
-            {editedProduct.itemDimensions?.map((dimension, index) => (
+            {editedProduct?.itemDimensions?.map((dimension, index) => (
               <div key={index} style={{ marginLeft: '10%', display: 'flex', alignItems: 'center' }}>
                 <Typography>{dimension}</Typography>
                 <Button
@@ -226,7 +227,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           <Grid item xs={12}>
             <TextField
               label="Color Variation"
-              value={editedProduct.colorVariation}
+              value={editedProduct?.colorVariation}
               onChange={(e) => handleChange(e, 'colorVariation')}
               fullWidth
               variant="outlined"
@@ -235,7 +236,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           </Grid>
           <Grid item xs={12}>
             <Typography variant="subtitle1">Special Features:</Typography>
-            {editedProduct.specialFeatures?.map((item, index) => (
+            {editedProduct?.specialFeatures?.map((item, index) => (
               <div key={index} style={{ marginLeft: '10%', display: 'flex', alignItems: 'center' }}>
                 <Typography>{item}</Typography>
                 <Button
@@ -262,7 +263,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           <Grid item xs={12}>
             <TextField
               label="Thread Count"
-              value={editedProduct.threadCount}
+              value={editedProduct?.threadCount}
               onChange={(e) => handleChange(e, 'threadCount')}
               fullWidth
               variant="outlined"
@@ -270,10 +271,10 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
               type="number"
             />
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <TextField
               label="Item Weight"
-              value={editedProduct.itemWeight}
+              value={editedProduct?.itemWeight}
               onChange={(e) => handleChange(e, 'itemWeight')}
               fullWidth
               variant="outlined"
@@ -281,12 +282,22 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
               type="number"
               InputProps={{ inputProps: { step: 0.1 } }}
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12}>
             <TextField
               label="Origin"
-              value={editedProduct.origin}
+              value={editedProduct?.origin}
               onChange={(e) => handleChange(e, 'origin')}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Others"
+              value={editedProduct?.others}
+              onChange={(e) => handleChange(e, 'others')}
               fullWidth
               variant="outlined"
               margin="normal"
@@ -304,53 +315,56 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
       ) : (
         <>
           <Grid item xs={12}>
-            <Typography><strong>Weight:</strong> {editedProduct.weight}</Typography>
+            <Typography><strong>Weight:</strong> {editedProduct?.weight}</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography><strong>Style:</strong> {editedProduct.style}</Typography>
+            <Typography><strong>Style:</strong> {editedProduct?.style}</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography><strong>Pattern:</strong> {editedProduct.pattern}</Typography>
+            <Typography><strong>Pattern:</strong> {editedProduct?.pattern}</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography><strong>Fabric:</strong> {editedProduct.fabric}</Typography>
+            <Typography><strong>Fabric:</strong> {editedProduct?.fabric}</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography><strong>Type:</strong> {editedProduct.type}</Typography>
+            <Typography><strong>Type:</strong> {editedProduct?.type}</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography><strong>Size:</strong> {editedProduct.size}</Typography>
+            <Typography><strong>Size:</strong> {editedProduct?.size}</Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography><strong>Included Items:</strong></Typography>
-            {editedProduct.includedItems?.map((item, index) => (
+            {editedProduct?.includedItems?.map((item, index) => (
               <Typography style={{ marginLeft: "10%" }} key={index}>{item}</Typography>
             ))}
           </Grid>
           <Grid item xs={12}>
             <Typography><strong>Item Dimensions:</strong></Typography>
-            {editedProduct.itemDimensions?.map((item, index) => (
+            {editedProduct?.itemDimensions?.map((item, index) => (
               <Typography style={{ marginLeft: "10%" }} key={index}>{item}</Typography>
             ))}
           </Grid>
           <Grid item xs={12}>
-            <Typography><strong>Color Variation:</strong> {editedProduct.colorVariation}</Typography>
+            <Typography><strong>Color Variation:</strong> {editedProduct?.colorVariation}</Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography><strong>Special Features:</strong>
             </Typography>
-            {editedProduct.specialFeatures?.map((item, index) => (
+            {editedProduct?.specialFeatures?.map((item, index) => (
               <Typography style={{ marginLeft: "10%" }} key={index}>{item}</Typography>
             ))}
           </Grid>
           <Grid item xs={12}>
-            <Typography><strong>Thread Count:</strong> {editedProduct.threadCount}</Typography>
+            <Typography><strong>Thread Count:</strong> {editedProduct?.threadCount}</Typography>
+          </Grid>
+          {/* <Grid item xs={12}>
+            <Typography><strong>Item Weight:</strong> {editedProduct?.itemWeight}</Typography>
+          </Grid> */}
+          <Grid item xs={12}>
+            <Typography><strong>Origin:</strong> {editedProduct?.origin}</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography><strong>Item Weight:</strong> {editedProduct.itemWeight}</Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography><strong>Origin:</strong> {editedProduct.origin}</Typography>
+            <Typography><strong>Others:</strong> {editedProduct?.others}</Typography>
           </Grid>
           <Grid item xs={12}>
             <Button variant="contained" color="primary" onClick={handleEditToggle}>

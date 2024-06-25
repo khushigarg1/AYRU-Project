@@ -13,7 +13,8 @@ import ProductInformation from '@/src/components/Inventory/ProductInformation';
 import AdditionalInfo from '@/src/components/Inventory/AdditionalInfo';
 import SizeChartComponent from '@/src/components/Inventory/sizeType';
 import GroupDetails from '@/src/components/Inventory/Details';
-import { Padding } from '@mui/icons-material';
+import { CloudUpload, DeleteForever, Padding } from '@mui/icons-material';
+import { GridDeleteIcon } from '@mui/x-data-grid';
 
 const HomePage = ({ params }) => {
   const router = useRouter();
@@ -25,6 +26,7 @@ const HomePage = ({ params }) => {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
   const [Editadditional, setEditAdditional] = useState(false);
+  const [sizeChartImage, setSizeChartImage] = useState(null);
 
   useEffect(() => {
     if (id) {
@@ -37,6 +39,7 @@ const HomePage = ({ params }) => {
       const response = await api.get(`/inventory/${id}`);
       console.log(response.data);
       setInventory(response?.data?.data);
+      setSizeChartImage(response?.data?.data?.SizeChartMedia[0]?.url || null);
     } catch (error) {
       console.error("Error fetching inventory:", error);
     }
@@ -116,32 +119,70 @@ const HomePage = ({ params }) => {
     setEditAdditional(!Editadditional);
   };
 
-
-
-  const handleToggleAvailability = async (event) => {
-    try {
-      await api.put(`/inventory/${id}`, { availability: event.target.checked });
-      fetchInventory();
-    } catch (error) {
-      console.error("Error updating availability:", error);
-    }
+  const formatInventoryData = (inventory) => {
+    return {
+      ...inventory,
+      colorIds: inventory.ColorVariations?.map((cv) => cv.colorId),
+      flatIds: inventory.InventoryFlat?.map((fv) => fv.flatId),
+      customFittedIds: inventory.customFittedInventory?.map((cfv) => cfv.customFittedId),
+      fittedIds: inventory.InventoryFitted?.map((fv) => ({ fittedId: fv.fittedId, fittedDimensions: fv.fittedDimensions?.map((fvd) => fvd?.id) })),
+      // sizecharts: inventory.ProductInventory?.map((scv) => ({ productId: scv.productId, selectedSizes: scv.selectedSizes?.map((scd) => scd?.id) })),
+      relatedInventoriesIds: inventory.relatedInventories.map(inv => inv.id)
+    };
   };
 
-  const handleToggleExtraOptionOutOfStock = async (event) => {
+  const updateInventory = async (id, updates, inventory) => {
     try {
-      await api.put(`/inventory/${id}`, { extraOptionOutOfStock: event.target.checked });
+      const formattedInventory = formatInventoryData(inventory);
+      await api.put(`/inventory/${id}`, { ...formattedInventory, ...updates });
       fetchInventory();
     } catch (error) {
-      console.error("Error updating extra option out of stock:", error);
+      console.error("Error updating inventory:", error);
     }
   };
+  const handleToggleAvailability = (event) => {
+    updateInventory(id, { availability: event.target.checked }, inventory);
+  };
 
-  const handleProductStatusChange = async (event) => {
+  const handleToggleExtraOptionOutOfStock = (event) => {
+    updateInventory(id, { extraOptionOutOfStock: event.target.checked }, inventory);
+  };
+
+  const handleProductStatusChange = (event) => {
+    updateInventory(id, { productstatus: event.target.value }, inventory);
+  };
+
+  //-----------------sizechart image
+
+  const handleChange = (event) => {
+    const { name, value, files } = event.target;
+    if (files) {
+      handleSizeChartImageUpload(files[0]);
+    }
+
+  };
+  const handleSizeChartImageUpload = async (file) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('inventoryId', id);
+
     try {
-      await api.put(`/inventory/${id}`, { productstatus: event.target.value });
+      await api.post(`/inventory/chart/upload/${id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       fetchInventory();
     } catch (error) {
-      console.error("Error updating product status:", error);
+      console.error('Error uploading size chart image:', error);
+    }
+  };
+  const handleSizeChartImageDelete = async () => {
+    try {
+      await api.delete(`/inventory/chart/${id}`);
+      fetchInventory();
+    } catch (error) {
+      console.error('Error deleting size chart image:', error);
     }
   };
 
@@ -151,6 +192,68 @@ const HomePage = ({ params }) => {
         <GroupDetails details={inventory} />
       </Paper>
       <Box mt={2} p={0}>
+
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography>Upload Size Chart Image</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Box display="flex" flexDirection="column" alignItems="center">
+              {sizeChartImage ? (
+                <Box position="relative">
+                  <img
+                    src={`${api.defaults.baseURL}image/${sizeChartImage}`}
+                    alt="Size Chart Image"
+                    width={200}
+                    height={200}
+                    style={{ borderRadius: '8px', cursor: 'pointer' }}
+                    onClick={() => handleOpenImageModal(`${api.defaults.baseURL}image/${sizeChartImage}`)}
+                  />
+                  <IconButton
+                    onClick={handleSizeChartImageDelete}
+                    sx={{
+                      width: '10px',
+                      height: '10px',
+                      position: 'absolute',
+                      top: -10,
+                      right: -10,
+                      backgroundColor: 'red',
+                      borderRadius: '50%',
+                      '&:hover': {
+                        backgroundColor: 'red',
+                        color: 'white',
+                      },
+                    }}
+                  >
+                    -
+                  </IconButton>
+                </Box>
+              ) : (
+                // <ImageUploader onUpload={handleSizeChartImageUpload} />
+
+                <>
+                  < Button
+                    variant="contained"
+                    component="label"
+                    startIcon={<CloudUpload />}
+                    fullWidth
+                    sx={{ mb: 2 }}
+                  >
+                    {/* {formDataVal.image ? formDataVal.image.name : "Upload Image"} */}
+                    <input
+                      type="file"
+                      name="image"
+                      accept="image/*"
+                      hidden
+                      onChange={handleChange}
+                    />
+                  </Button>
+                </>
+              )}
+            </Box>
+          </AccordionDetails>
+        </Accordion>
+
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography>Upload Images and Videos</Typography>
@@ -290,7 +393,7 @@ const HomePage = ({ params }) => {
                         </div>
                       ))}
                     </Grid>
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                       <Typography variant="h6">Size Charts:</Typography>
                       {inventory.ProductInventory?.map((sizechart, index) => (
                         <div key={index}>
@@ -304,7 +407,7 @@ const HomePage = ({ params }) => {
                           ))}
                         </div>
                       ))}
-                    </Grid>
+                    </Grid> */}
                     <Grid item xs={12}>
                       <Typography variant="h6">Related Inventories:</Typography>
                       {inventory.relatedInventories?.map((inventory, index) => (
@@ -391,7 +494,7 @@ const HomePage = ({ params }) => {
             <VideoPopup open={videoModalOpen} videoUrl={selectedVideoUrl} onClose={() => setVideoModalOpen(false)} />
           </Box>
         </Modal>
-      </Box>
+      </Box >
     </>
   );
 };

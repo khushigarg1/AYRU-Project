@@ -69,57 +69,56 @@ export class ClientLoveService {
   }
 
   async updateClientLove(id: number, data: any) {
-    const updateData: any = {};
+    let existingClientLove = await prisma.clientLove.findUnique({
+      where: { id },
+      select: { imageUrl: true, video: true, text: true },
+    });
 
-    // console.log(data?.image);
-    if (data.text) {
-      updateData.text = data.text;
+    if (!existingClientLove) {
+      throw new Error(`ClientLove with id ${id} not found.`);
     }
 
     if (data.image) {
       if (process.env.NODE_ENV === "production") {
-        const existingClientLove = await prisma.clientLove.findUnique({
-          where: { id },
-          select: { imageUrl: true },
-        });
-        console.log(existingClientLove?.imageUrl);
-
-        if (existingClientLove && existingClientLove.imageUrl) {
+        if (existingClientLove.imageUrl) {
           await deleteImageFromS3(existingClientLove.imageUrl);
         }
 
-        const { key, imageUrl } = await uploadImageToS3(data.image);
-        updateData.imageUrl = key;
+        const { key } = await uploadImageToS3(data.image);
+        existingClientLove.imageUrl = key;
       } else {
         const imageFileName = await saveFile(data.image, "uploads/images");
-        updateData.imageUrl = `/uploads/images/${imageFileName}`;
+        existingClientLove.imageUrl = `/uploads/images/${imageFileName}`;
       }
     }
 
-    if (data && data.video !== "null") {
+    if (data.video && data.video !== "null") {
       if (process.env.NODE_ENV === "production") {
-        const existingClientLove = await prisma.clientLove.findUnique({
-          where: { id },
-          select: { video: true },
-        });
-
-        if (existingClientLove && existingClientLove.video) {
+        if (existingClientLove.video) {
           await deleteImageFromS3(existingClientLove.video);
         }
 
-        const { key, imageUrl } = await uploadImageToS3(data.video);
-        updateData.video = key;
+        const { key } = await uploadImageToS3(data.video);
+        existingClientLove.video = key;
       } else {
         const videoFileName = await saveFile(data.video, "uploads/videos");
-        updateData.video = `/uploads/videos/${videoFileName}`;
+        existingClientLove.video = `/uploads/videos/${videoFileName}`;
       }
     }
-    console.log(updateData);
 
-    return await prisma.clientLove.update({
+    if (data.text) {
+      existingClientLove.text = data.text;
+    }
+    const updatedClientLove = await prisma.clientLove.update({
       where: { id },
-      data: updateData,
+      data: {
+        text: existingClientLove.text,
+        imageUrl: existingClientLove.imageUrl || null,
+        video: existingClientLove.video || null,
+      },
     });
+
+    return updatedClientLove;
   }
 
   async deleteClientLove(id: number) {

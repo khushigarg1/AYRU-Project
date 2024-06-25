@@ -17,7 +17,36 @@ export class CategoryService {
 
   async getCategories() {
     const categories = await prisma.category.findMany({
-      include: { subcategories: true, Inventory: true },
+      include: {
+        subcategories: true,
+        Inventory: {
+          include: {
+            InventoryFlat: { include: { Flat: true } },
+            customFittedInventory: { include: { customFitted: true } },
+            InventoryFitted: {
+              include: {
+                Fitted: {
+                  include: { FittedDimensions: true },
+                },
+                fittedDimensions: true,
+              },
+            },
+            // ProductInventory: {
+            //   include: {
+            //     product: {
+            //       include: { sizes: true },
+            //     },
+            //     selectedSizes: true,
+            //   },
+            // },
+            ColorVariations: { include: { Color: true } },
+            relatedInventories: true,
+            relatedByInventories: true,
+            Media: true,
+            SizeChartMedia: true,
+          },
+        },
+      },
     });
     return categories;
   }
@@ -80,7 +109,33 @@ export class CategoryService {
         subcategories: {
           where: { visible: true },
         },
-        Inventory: true,
+        Inventory: {
+          include: {
+            InventoryFlat: { include: { Flat: true } },
+            customFittedInventory: { include: { customFitted: true } },
+            InventoryFitted: {
+              include: {
+                Fitted: {
+                  include: { FittedDimensions: true },
+                },
+                fittedDimensions: true,
+              },
+            },
+            // ProductInventory: {
+            //   include: {
+            //     product: {
+            //       include: { sizes: true },
+            //     },
+            //     selectedSizes: true,
+            //   },
+            // },
+            ColorVariations: { include: { Color: true } },
+            relatedInventories: true,
+            relatedByInventories: true,
+            Media: true,
+            SizeChartMedia: true,
+          },
+        },
       },
     });
     return visibleCategories;

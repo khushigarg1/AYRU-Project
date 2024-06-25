@@ -82,6 +82,25 @@ model Admin {
   accountLockedUntil   DateTime?
 }
 
+model CustomerSideData {
+  id              Int      @id @default(autoincrement())
+  marqueeText     String
+  extraNote       String?
+  additionalText1 String?
+  additionalText2 String?
+  additionalText3 String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model CustomerSideImage {
+  id        Int      @id @default(autoincrement())
+  imageUrl  String
+  type      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Flat {
   id          Int             @id @default(autoincrement())
   name        String          @unique
@@ -128,6 +147,15 @@ model Media {
   updatedAt   DateTime  @updatedAt
 }
 
+model SizeChartMedia {
+  id          Int       @id @default(autoincrement())
+  url         String
+  inventoryId Int
+  Inventory   Inventory @relation(fields: [inventoryId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
 model Inventory {
   id                    Int                     @id @default(autoincrement())
   productName           String?
@@ -159,6 +187,7 @@ model Inventory {
   origin                String?
   extraNote             String?
   disclaimer            String?
+  others                String?
   careInstructions      String[]
   categoryId            Int?
   subCategoryId         Int?
@@ -167,6 +196,10 @@ model Inventory {
   InventoryFitted       InventoryFitted[]
   customFittedInventory CustomFittedInventory[]
   Media                 Media[]
+  Cart                  Cart[]
+  Order                 Order[]
+  Wishlist              Wishlist[]
+  SizeChartMedia        SizeChartMedia[]
   category              Category?               @relation(fields: [categoryId], references: [id])
   subCategory           SubCategory?            @relation(fields: [subCategoryId], references: [id])
   ProductInventory      ProductInventory[]
@@ -229,6 +262,7 @@ model InventoryFitted {
   updatedAt        DateTime           @updatedAt
 }
 
+//extra sizechart 
 model Product {
   id               Int                @id @default(autoincrement())
   name             String
@@ -261,6 +295,7 @@ model ProductInventory {
   updatedAt     DateTime    @updatedAt
 }
 
+//extra sizechart 
 model Category {
   id            Int           @id @default(autoincrement())
   categoryName  String
@@ -287,21 +322,28 @@ model SubCategory {
 }
 
 model Cart {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  products  Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int        @id @default(autoincrement())
+  userId      Int
+  user        User       @relation(fields: [userId], references: [id])
+  inventoryId Int?
+  inventory   Inventory? @relation(fields: [inventoryId], references: [id])
+  quantity    Int        @default(1)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@unique([userId, inventoryId])
 }
 
 model Wishlist {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  products  Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int        @id @default(autoincrement())
+  userId      Int
+  user        User       @relation(fields: [userId], references: [id])
+  inventoryId Int?
+  inventory   Inventory? @relation(fields: [inventoryId], references: [id])
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@unique([userId, inventoryId])
 }
 
 model OrderItem {
@@ -329,7 +371,8 @@ model Order {
   trekkingId        Int?
   giftOption        Boolean?
   Total             Int
-  productId         Int?
+  inventoryId       Int?
+  inventory         Inventory?        @relation(fields: [inventoryId], references: [id])
   items             OrderItem[]
   shippingAddresses ShippingAddress[]
   Transaction       Transaction[]

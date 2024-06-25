@@ -6,6 +6,5 @@ export default function Home({ openTab }) {
     <Typography paragraph>
       HEllo {openTab}
     </Typography>
-
   );
 }

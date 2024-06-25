@@ -35,6 +35,7 @@ export interface InventoryUpdateAttributes {
   origin?: string;
   extraNote?: string;
   disclaimer?: string;
+  others?: string;
   careInstructions?: string[];
   categoryId?: number;
   subCategoryId?: number;
@@ -44,10 +45,10 @@ export interface InventoryUpdateAttributes {
     fittedDimensions: number[];
   }[];
   customFittedIds?: number[];
-  sizecharts?: {
-    productId: number;
-    selectedSizes: number[];
-  }[];
+  // sizecharts?: {
+  //   productId: number;
+  //   selectedSizes: number[];
+  // }[];
   colorIds?: number[];
   relatedInventoriesIds?: number[];
   createdAt?: Date;

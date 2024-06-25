@@ -43,15 +43,16 @@ export async function uploadImageToS3(file: {
 }
 
 export async function uploadVideoToS3(file: {
-  filename: string;
+  name: string;
   data: Readable;
 }): Promise<{ key: string; videoUrl: string }> {
   try {
     const params: AWS.S3.PutObjectRequest = {
       Bucket: BUCKET_NAME!,
-      Key: Date.now() + "-" + file.filename,
+      Key: Date.now() + "-" + file.name,
       Body: file.data,
     };
+    console.log(params);
 
     const uploadResult: ManagedUpload.SendData = await s3
       .upload(params)

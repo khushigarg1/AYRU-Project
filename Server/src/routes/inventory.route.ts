@@ -8,11 +8,17 @@ import {
   uploadMedia,
   getallMedia,
   deleteMedia,
+  getInventoriesByCategory,
 } from "../Controllers/Inventory/inventory.controller";
-
+import {
+  handleUploadChartMedia,
+  handleDeleteChartMedia,
+  handleGetChartMedia,
+} from "../Controllers/Inventory/sizechartmedia.controller";
 export default async function inventoryRoutes(server: FastifyInstance) {
   server.post("/", { onRequest: [server.authenticateAdmin] }, createInventory);
   server.get("/", getInventories);
+  server.get("/category", getInventoriesByCategory);
   server.get("/:id", getInventoryById);
   server.put(
     "/:id",
@@ -34,5 +40,17 @@ export default async function inventoryRoutes(server: FastifyInstance) {
     "/media/:id",
     { onRequest: [server.authenticateAdmin] },
     deleteMedia
+  );
+  /*-----------------size chart media-------------*/
+  server.post(
+    "/chart/upload/:id",
+    { onRequest: [server.authenticateAdmin] },
+    handleUploadChartMedia
+  );
+  server.get("/chart/:id", handleGetChartMedia);
+  server.delete(
+    "/chart/:id",
+    { onRequest: [server.authenticateAdmin] },
+    handleDeleteChartMedia
   );
 }

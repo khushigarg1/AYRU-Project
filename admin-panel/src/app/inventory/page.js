@@ -10,6 +10,7 @@ import ErrorSnackbar from "@/src/components/errorcomp";
 import CreateInventoryModal from "@/src/components/Inventory/createInventoryModal";
 import AddIcon from "@mui/icons-material/Add";
 import Link from "next/link";
+import { DeleteForever } from "@mui/icons-material";
 
 const HomePage = () => {
   const theme = useTheme();
@@ -72,40 +73,78 @@ const HomePage = () => {
   };
 
   const columns = isMobile ? [
+    { field: "id", headerName: "ID", width: 80 },
     { field: "productName", headerName: "Product Name", width: 150 },
     { field: "skuId", headerName: "SKU ID", width: 150 },
     { field: "quantity", headerName: "Quantity", width: 130 },
+    { field: "soldQuantity", headerName: "Sold Quantity", width: 130 },
     { field: "sellingPrice", headerName: "Selling Price", width: 150 },
     { field: "categoryId", headerName: "Category", width: 150, renderCell: (params) => getCategoryName(params.row.categoryId) },
     { field: "subCategoryId", headerName: "Subcategory", width: 150, renderCell: (params) => getSubcategoryName(params.row.categoryId, params.row.subCategoryId) },
+    { field: "status", headerName: "Status", width: 120 },
+    { field: "productstatus", headerName: "Product Status", width: 120 },
+    { field: "availability", headerName: "Availability", width: 100, type: 'boolean' },
+    { field: "extraOptionOutOfStock", headerName: "Out of Stock", width: 100, type: 'boolean' },
     {
       field: "actions",
       headerName: "Actions",
       renderCell: (params) => (
-        <Link href={`/inventory/${params.row.id}`} passHref>
-          <Button color="primary">Know More</Button>
-        </Link>
+        <Box>
+          <Link href={`/inventory/${params.row.id}`} passHref>
+            <Button color="primary">Know More</Button>
+          </Link>
+          <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button>
+        </Box>
       ),
-      width: 150
+      width: 180
     }
   ] : [
+    { field: "id", headerName: "ID", width: 80 },
     { field: "productName", headerName: "Product Name", width: 150 },
     { field: "skuId", headerName: "SKU ID", width: 150 },
     { field: "quantity", headerName: "Quantity", width: 100 },
+    { field: "soldQuantity", headerName: "Sold Quantity", width: 150 },
     { field: "sellingPrice", headerName: "Selling Price", width: 100 },
     { field: "categoryId", headerName: "Category", width: 150, renderCell: (params) => getCategoryName(params.row.categoryId) },
     { field: "subCategoryId", headerName: "Subcategory", width: 150, renderCell: (params) => getSubcategoryName(params.row.categoryId, params.row.subCategoryId) },
+    { field: "status", headerName: "Status", width: 150 },
+    { field: "productstatus", headerName: "Product Status", width: 150 },
+    { field: "availability", headerName: "Availability", width: 100, type: 'boolean' },
+    { field: "extraOptionOutOfStock", headerName: "Out of Stock", width: 100, type: 'boolean' },
     {
       field: "actions",
       headerName: "Actions",
       renderCell: (params) => (
-        <Link href={`/inventory/${params.row.id}`} passHref>
-          <Button color="primary">Know More</Button>
-        </Link>
+        <Box>
+          <Link href={`/inventory/${params.row.id}`} passHref>
+            <Button color="primary">Know More</Button>
+          </Link>
+          <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button>
+        </Box>
       ),
-      width: 150
+      width: 180
     }
   ];
+  const handleDelete = async (id) => {
+    setLoading(true);
+    const token = Cookies.get("token");
+    api.defaults.headers.Authorization = `Bearer ${token}`;
+    try {
+      await api.delete(`/inventory/${id}`, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "type": "formData"
+        }
+      });
+      setError({ open: true, severity: 'success', message: 'Inventory item deleted successfully' });
+      fetchInventories();
+    } catch (error) {
+      console.error('Error deleting inventory:', error);
+      setError({ open: true, message: 'Error deleting inventory' });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Container disableGutters maxWidth="fixed">
