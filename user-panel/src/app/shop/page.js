@@ -111,7 +111,7 @@ const ShopPage = () => {
       <Box sx={{
         display: 'flex', paddingX: "50px", justifyContent: 'center',
         alignItems: 'center', marginTop: 1, position: 'relative', width: '100%',
-        height: '120px', backgroundColor: theme.palette.background.paper
+        height: '130px', backgroundColor: theme.palette.background.paper
       }}>
         <Image src={WebpImage} alt="Left Image" width={100} height={100} style={{ position: 'absolute', left: '-8px', top: '50%', transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto' }} />
         <Paper sx={{ padding: 2, textAlign: 'center', maxWidth: '800px', boxShadow: "none", fontFamily: theme.palette.typography.fontFamily }}>

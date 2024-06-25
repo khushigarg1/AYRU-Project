@@ -30,7 +30,7 @@ import logo from "../../public/images/logo.png"
 import Image from "next/image";
 
 
-const drawerWidth = 240;
+const drawerWidth = 270;
 const appBarHeight = 64;
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({

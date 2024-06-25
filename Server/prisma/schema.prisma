@@ -196,6 +196,9 @@ model Inventory {
   InventoryFitted       InventoryFitted[]
   customFittedInventory CustomFittedInventory[]
   Media                 Media[]
+  Cart                  Cart[]
+  Order                 Order[]
+  Wishlist              Wishlist[]
   SizeChartMedia        SizeChartMedia[]
   category              Category?               @relation(fields: [categoryId], references: [id])
   subCategory           SubCategory?            @relation(fields: [subCategoryId], references: [id])
@@ -259,6 +262,7 @@ model InventoryFitted {
   updatedAt        DateTime           @updatedAt
 }
 
+//extra sizechart 
 model Product {
   id               Int                @id @default(autoincrement())
   name             String
@@ -291,6 +295,7 @@ model ProductInventory {
   updatedAt     DateTime    @updatedAt
 }
 
+//extra sizechart 
 model Category {
   id            Int           @id @default(autoincrement())
   categoryName  String
@@ -317,21 +322,28 @@ model SubCategory {
 }
 
 model Cart {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  products  Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int        @id @default(autoincrement())
+  userId      Int
+  user        User       @relation(fields: [userId], references: [id])
+  inventoryId Int?
+  inventory   Inventory? @relation(fields: [inventoryId], references: [id])
+  quantity    Int        @default(1)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@unique([userId, inventoryId])
 }
 
 model Wishlist {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  products  Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int        @id @default(autoincrement())
+  userId      Int
+  user        User       @relation(fields: [userId], references: [id])
+  inventoryId Int?
+  inventory   Inventory? @relation(fields: [inventoryId], references: [id])
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@unique([userId, inventoryId])
 }
 
 model OrderItem {
@@ -359,7 +371,8 @@ model Order {
   trekkingId        Int?
   giftOption        Boolean?
   Total             Int
-  productId         Int?
+  inventoryId       Int?
+  inventory         Inventory?        @relation(fields: [inventoryId], references: [id])
   items             OrderItem[]
   shippingAddresses ShippingAddress[]
   Transaction       Transaction[]

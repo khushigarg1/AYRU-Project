@@ -112,9 +112,9 @@ export const deleteInventory = async (
       await prisma.customFittedInventory.deleteMany({
         where: { inventoryId: Number(id) },
       });
-      await prisma.productInventory.deleteMany({
-        where: { inventoryId: Number(id) },
-      });
+      // await prisma.productInventory.deleteMany({
+      //   where: { inventoryId: Number(id) },
+      // });
       await prisma.colorVariation.deleteMany({
         where: { inventoryId: Number(id) },
       });

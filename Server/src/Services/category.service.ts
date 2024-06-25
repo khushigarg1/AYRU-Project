@@ -31,14 +31,14 @@ export class CategoryService {
                 fittedDimensions: true,
               },
             },
-            ProductInventory: {
-              include: {
-                product: {
-                  include: { sizes: true },
-                },
-                selectedSizes: true,
-              },
-            },
+            // ProductInventory: {
+            //   include: {
+            //     product: {
+            //       include: { sizes: true },
+            //     },
+            //     selectedSizes: true,
+            //   },
+            // },
             ColorVariations: { include: { Color: true } },
             relatedInventories: true,
             relatedByInventories: true,
@@ -121,14 +121,14 @@ export class CategoryService {
                 fittedDimensions: true,
               },
             },
-            ProductInventory: {
-              include: {
-                product: {
-                  include: { sizes: true },
-                },
-                selectedSizes: true,
-              },
-            },
+            // ProductInventory: {
+            //   include: {
+            //     product: {
+            //       include: { sizes: true },
+            //     },
+            //     selectedSizes: true,
+            //   },
+            // },
             ColorVariations: { include: { Color: true } },
             relatedInventories: true,
             relatedByInventories: true,

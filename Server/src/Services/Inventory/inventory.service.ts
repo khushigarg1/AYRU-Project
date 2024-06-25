@@ -209,14 +209,14 @@ export class InventoryService {
             fittedDimensions: true,
           },
         },
-        ProductInventory: {
-          include: {
-            product: {
-              include: { sizes: true },
-            },
-            selectedSizes: true,
-          },
-        },
+        // ProductInventory: {
+        //   include: {
+        //     product: {
+        //       include: { sizes: true },
+        //     },
+        //     selectedSizes: true,
+        //   },
+        // },
         ColorVariations: { include: { Color: true } },
         relatedInventories: true,
         relatedByInventories: true,
@@ -250,14 +250,14 @@ export class InventoryService {
             fittedDimensions: true,
           },
         },
-        ProductInventory: {
-          include: {
-            product: {
-              include: { sizes: true },
-            },
-            selectedSizes: true,
-          },
-        },
+        // ProductInventory: {
+        //   include: {
+        //     product: {
+        //       include: { sizes: true },
+        //     },
+        //     selectedSizes: true,
+        //   },
+        // },
         ColorVariations: { include: { Color: true } },
         relatedInventories: true,
         relatedByInventories: true,
@@ -449,14 +449,14 @@ export class InventoryService {
             fittedDimensions: true,
           },
         },
-        ProductInventory: {
-          include: {
-            product: {
-              include: { sizes: true },
-            },
-            selectedSizes: true,
-          },
-        },
+        // ProductInventory: {
+        //   include: {
+        //     product: {
+        //       include: { sizes: true },
+        //     },
+        //     selectedSizes: true,
+        //   },
+        // },
         ColorVariations: { include: { Color: true } },
         relatedInventories: true,
         relatedByInventories: true,
