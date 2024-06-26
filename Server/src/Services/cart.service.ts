@@ -1,0 +1,205 @@
+// services/CartService.ts
+import { PrismaClient } from "@prisma/client";
+import { ApiBadRequestError, Api404Error } from "../errors";
+
+const prisma = new PrismaClient();
+
+export class CartService {
+  async addToCart(userId: number, inventoryId: number, quantity: number) {
+    try {
+      const cartItem = await prisma.cart.create({
+        data: {
+          userId,
+          inventoryId,
+          quantity,
+        },
+      });
+      return cartItem;
+    } catch (error: any) {
+      throw new ApiBadRequestError(error);
+    }
+  }
+
+  async removeFromCart(userId: number, cartItemId: number) {
+    const cartItem = await prisma.cart.delete({
+      where: {
+        id: cartItemId,
+        userId,
+      },
+    });
+    if (!cartItem) {
+      throw new Api404Error("Cart item not found");
+    }
+  }
+
+  async updateCart(userId: number, cartItemId: number, quantity: number) {
+    try {
+      const updatedCartItem = await prisma.cart.update({
+        where: {
+          id: cartItemId,
+          userId,
+        },
+        data: {
+          quantity,
+        },
+      });
+      return updatedCartItem;
+    } catch (error: any) {
+      throw new ApiBadRequestError(error);
+    }
+  }
+
+  async getUserCart(userId: number) {
+    const userCart = await prisma.cart.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        user: true,
+        inventory: {
+          include: {
+            InventoryFlat: { include: { Flat: true } },
+            customFittedInventory: { include: { customFitted: true } },
+            InventoryFitted: {
+              include: {
+                Fitted: {
+                  include: { FittedDimensions: true },
+                },
+                fittedDimensions: true,
+              },
+            },
+            ColorVariations: { include: { Color: true } },
+            relatedInventories: true,
+            relatedByInventories: true,
+            Media: true,
+            SizeChartMedia: true,
+          },
+        },
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
+
+    let totalPrice = 0;
+    const populatedUserCart = userCart.map((cartItem) => {
+      const inventory = cartItem.inventory;
+      if (
+        inventory &&
+        inventory.discountedPrice !== null &&
+        inventory.discountedPrice !== undefined
+      ) {
+        totalPrice += inventory.discountedPrice;
+      } else if (
+        inventory &&
+        inventory.costPrice !== null &&
+        inventory.costPrice !== undefined &&
+        (inventory.discountedPrice == null ||
+          inventory.discountedPrice == undefined)
+      ) {
+        totalPrice += inventory.costPrice;
+      }
+    });
+
+    return { userCart, totalPrice: totalPrice };
+  }
+
+  // async getAllCart() {
+  //   const userCart = await prisma.cart.findMany({
+  //     include: {
+  //       user: true,
+  //       inventory: {
+  //         include: {
+  //           InventoryFlat: { include: { Flat: true } },
+  //           customFittedInventory: { include: { customFitted: true } },
+  //           InventoryFitted: {
+  //             include: {
+  //               Fitted: {
+  //                 include: { FittedDimensions: true },
+  //               },
+  //               fittedDimensions: true,
+  //             },
+  //           },
+  //           ColorVariations: { include: { Color: true } },
+  //           relatedInventories: true,
+  //           relatedByInventories: true,
+  //           Media: true,
+  //           SizeChartMedia: true,
+  //         },
+  //       },
+  //     },
+  //     orderBy: {
+  //       updatedAt: "desc",
+  //     },
+  //   });
+  //   return userCart;
+  // }
+  async getAllCart() {
+    const userCart = await prisma.cart.findMany({
+      include: {
+        user: true,
+        inventory: {
+          include: {
+            InventoryFlat: { include: { Flat: true } },
+            customFittedInventory: { include: { customFitted: true } },
+            InventoryFitted: {
+              include: {
+                Fitted: {
+                  include: { FittedDimensions: true },
+                },
+                fittedDimensions: true,
+              },
+            },
+            ColorVariations: { include: { Color: true } },
+            relatedInventories: true,
+            relatedByInventories: true,
+            Media: true,
+            SizeChartMedia: true,
+          },
+        },
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
+
+    // Calculate total number of products and count by category
+    let totalProducts = 0;
+    const categoryCounts: Record<number, number> = {};
+
+    userCart.forEach((cartItem) => {
+      const inventory = cartItem.inventory;
+      if (inventory) {
+        totalProducts++;
+
+        // Counting category occurrences
+        const categoryId = inventory.categoryId;
+        if (categoryId) {
+          if (categoryCounts[categoryId]) {
+            categoryCounts[categoryId]++;
+          } else {
+            categoryCounts[categoryId] = 1;
+          }
+        }
+      }
+    });
+
+    let maxCategoryCount = 0;
+    let maxCategoryName = "";
+
+    for (const categoryId in categoryCounts) {
+      if (categoryCounts[categoryId] > maxCategoryCount) {
+        maxCategoryCount = categoryCounts[categoryId];
+        maxCategoryName = `Category ID: ${categoryId}`;
+      }
+    }
+
+    return {
+      userCart,
+      totalProducts,
+      categoryCounts,
+      maxCategoryName,
+      maxCategoryCount,
+    };
+  }
+}

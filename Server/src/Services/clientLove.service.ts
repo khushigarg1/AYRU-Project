@@ -60,7 +60,11 @@ export class ClientLoveService {
   }
 
   async getAllClientLoves() {
-    return await prisma.clientLove.findMany();
+    return await prisma.clientLove.findMany({
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
   }
 
   async getClientLoveById(id: number) {

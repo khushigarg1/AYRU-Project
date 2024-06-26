@@ -26,6 +26,9 @@ export class SubCategoryService {
   async getSubCategories() {
     const subCategories = await prisma.subCategory.findMany({
       include: { category: true, Inventory: true },
+      orderBy: {
+        updatedAt: "desc",
+      },
     });
     return subCategories;
   }

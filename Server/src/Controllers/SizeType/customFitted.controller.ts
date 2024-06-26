@@ -28,7 +28,11 @@ export const getCustomFitted = async (
   reply: FastifyReply
 ) => {
   try {
-    const customFitted = await prisma.customFitted.findMany();
+    const customFitted = await prisma.customFitted.findMany({
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
     reply.send({ data: customFitted });
   } catch (error) {
     reply.send(error);

@@ -129,7 +129,11 @@ class AdminAuthServices {
 
   // /-------------------------------------------GET ALL ADMIN---------------------------------------
   async getAdmins() {
-    return await prisma.admin.findMany();
+    return await prisma.admin.findMany({
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
   }
 
   // /-------------------------------------------GET ADMIN BY ID---------------------------------------

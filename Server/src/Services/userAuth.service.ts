@@ -282,7 +282,9 @@ class UserAuthServices {
       let checkUser = await prisma.user.findFirst({
         where: { email: checkUserAuth.email },
       });
-      if (checkUser && checkUser?.phoneNumber) {
+      console.log(checkUser);
+
+      if (checkUser) {
         checkUser = await prisma.user.update({
           where: { id: checkUser?.id },
           data: {
@@ -463,7 +465,11 @@ class UserAuthServices {
 
   // /-------------------------------------------GET ALL USERS---------------------------------------
   async getAllUsers() {
-    return await prisma.user.findMany();
+    return await prisma.user.findMany({
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
   }
 
   // /-------------------------------------------GET USER BY---------------------------------------

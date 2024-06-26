@@ -26,7 +26,11 @@ export class ColorService {
   }
 
   async getColors() {
-    const colors = await prisma.color.findMany();
+    const colors = await prisma.color.findMany({
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
     return colors;
   }
 

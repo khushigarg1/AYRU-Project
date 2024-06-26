@@ -39,6 +39,9 @@ class FittedService {
   async getFitteds() {
     return prisma.fitted.findMany({
       include: { FittedDimensions: true },
+      orderBy: {
+        updatedAt: "desc",
+      },
     });
   }
 

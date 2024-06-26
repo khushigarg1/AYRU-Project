@@ -34,7 +34,11 @@ class FlatService {
   }
 
   async getFlats() {
-    return prisma.flat.findMany();
+    return prisma.flat.findMany({
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
   }
 
   async getFlatById(id: number) {

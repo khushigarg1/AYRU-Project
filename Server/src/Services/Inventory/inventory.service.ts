@@ -78,6 +78,9 @@ export class InventoryService {
       where: {
         inventoryId: id,
       },
+      orderBy: {
+        updatedAt: "desc",
+      },
     });
     console.log(media);
 
@@ -111,6 +114,9 @@ export class InventoryService {
         where: {
           inventoryId: id,
         },
+        orderBy: {
+          updatedAt: "desc",
+        },
       });
 
       if (mediaToDelete.length === 0) {
@@ -139,6 +145,9 @@ export class InventoryService {
       const sizeChartMediaToDelete = await prisma.sizeChartMedia.findMany({
         where: {
           inventoryId: id,
+        },
+        orderBy: {
+          updatedAt: "desc",
         },
       });
 
@@ -222,6 +231,9 @@ export class InventoryService {
         relatedByInventories: true,
         Media: true,
         SizeChartMedia: true,
+      },
+      orderBy: {
+        updatedAt: "desc",
       },
     });
     return inventory;
@@ -462,6 +474,10 @@ export class InventoryService {
         relatedByInventories: true,
         Media: true,
         SizeChartMedia: true,
+      },
+
+      orderBy: {
+        updatedAt: "desc",
       },
     });
 

@@ -47,6 +47,9 @@ export class CategoryService {
           },
         },
       },
+      orderBy: {
+        updatedAt: "desc",
+      },
     });
     return categories;
   }
@@ -82,6 +85,9 @@ export class CategoryService {
   async deleteCategory(id: number, cascade: boolean = false) {
     const subcategories = await prisma.subCategory.findMany({
       where: { categoryId: id },
+      orderBy: {
+        updatedAt: "desc",
+      },
     });
 
     if (subcategories.length > 0) {
@@ -136,6 +142,9 @@ export class CategoryService {
             SizeChartMedia: true,
           },
         },
+      },
+      orderBy: {
+        updatedAt: "desc",
       },
     });
     return visibleCategories;

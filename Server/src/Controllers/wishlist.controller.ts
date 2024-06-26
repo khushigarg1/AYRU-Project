@@ -1,7 +1,8 @@
 // controllers/wishlistController.ts
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { PrismaClient } from "@prisma/client";
-import { WishlistService } from "../Services/wishlist.services";
+import { WishlistService } from "../Services/wishlist.service";
+import { ApiUnauthorizedError } from "../errors";
 const prisma = new PrismaClient();
 const wishlistService = new WishlistService();
 
@@ -18,6 +19,10 @@ export async function addToWishlist(
   reply: FastifyReply
 ) {
   try {
+    const { userId } = request.body as any;
+    if (userId != request.user.id) {
+      throw new ApiUnauthorizedError("Access denied for the requested user.");
+    }
     const wishlistItem = await wishlistService.addToWishlist(request.body);
     reply.code(201).send({ success: true, data: wishlistItem });
   } catch (error) {
@@ -29,7 +34,7 @@ export async function getAllWishlists(
   reply: FastifyReply
 ) {
   try {
-    const wishlists = await prisma.wishlist.findMany();
+    const wishlists = await wishlistService.getAllWishlists();
     reply.code(200).send({ success: true, data: wishlists });
   } catch (error) {
     reply.code(500).send({ success: false, error: error });
@@ -41,13 +46,12 @@ export async function getWishlistByUserId(
   reply: FastifyReply
 ) {
   const { userId } = request.params as any;
+  if (userId != request?.user?.id) {
+    throw new ApiUnauthorizedError("Access denied for the requested user.");
+  }
 
   try {
-    const wishlists = await prisma.wishlist.findMany({
-      where: {
-        userId,
-      },
-    });
+    const wishlists = await wishlistService.getWishlistByUserId(Number(userId));
     reply.code(200).send({ success: true, data: wishlists });
   } catch (error) {
     reply.code(500).send({ success: false, error: error });
@@ -61,26 +65,18 @@ export async function deleteWishlist(
   const { wishlistId } = request.params as any;
 
   try {
-    await prisma.wishlist.delete({
-      where: {
-        id: wishlistId,
-      },
-    });
+    const wishlistItem = await wishlistService.getWishlistById(
+      Number(wishlistId)
+    );
+    if (wishlistItem.userId != request.user.id) {
+      throw new ApiUnauthorizedError("Access denied for the requested user.");
+    }
+
+    await wishlistService.deleteWishlist(Number(wishlistId));
+
     reply
       .code(200)
       .send({ success: true, message: "Wishlist item deleted successfully" });
-  } catch (error) {
-    reply.code(500).send({ success: false, error: error });
-  }
-}
-
-export async function countAllWishlists(
-  request: FastifyRequest,
-  reply: FastifyReply
-) {
-  try {
-    const count = await prisma.wishlist.count();
-    reply.code(200).send({ success: true, count });
   } catch (error) {
     reply.code(500).send({ success: false, error: error });
   }
