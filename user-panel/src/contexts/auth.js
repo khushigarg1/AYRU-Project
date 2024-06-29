@@ -1,51 +1,3 @@
-// import React, { createContext, useState, useContext, useEffect } from 'react';
-// import Cookies from 'js-cookie';
-// import api from '../../api';
-// import LoginForm from '@/components/Authentication/LoginForm';
-// import SignUpForm from '@/components/Authentication/SignupForm';
-// const AuthContext = createContext({});
-
-// export const AuthProvider = ({ children }) => {
-//   const [user, setUser] = useState(null);
-//   const [loading, setLoading] = useState(true);
-//   const [openTab, setOpenTab] = useState("none");
-//   const [authModalOpen, setAuthModalOpen] = useState(false);
-//   const [authStep, setAuthStep] = useState('login');
-
-//   const logout = () => {
-//     Cookies.remove('token');
-//     setUser(null);
-//     delete api.defaults.headers.Authorization;
-//     // window.location.pathname = '/login';
-//   };
-
-//   const openAuthModal = () => setAuthModalOpen(true);
-//   const closeAuthModal = () => setAuthModalOpen(false);
-
-//   const switchToSignUp = () => setAuthStep('signup');
-//   const switchToLogin = () => setAuthStep('login');
-//   return (
-//     <AuthContext.Provider value={{ isAuthenticated: !!user, user, setUser, loading, logout, openTab, setOpenTab, openAuthModal, closeAuthModal }}>
-//       {authModalOpen ? (
-//         authStep === 'login' ? <LoginForm switchToSignUp={switchToSignUp} /> : <SignUpForm switchToLogin={switchToLogin} />
-//       )
-//         : (children)}
-//     </AuthContext.Provider>
-//   );
-// };
-
-// export const ProtectRoute = ({ children }) => {
-//   const { isAuthenticated, loading } = useAuth();
-//   console.log(window.location.pathname);
-//   if (loading || (!isAuthenticated && window.location.pathname !== '/login')) {
-//     return <LoginForm />;
-//   }
-//   return children;
-// };
-
-// export const useAuth = () => useContext(AuthContext);
-
-
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
@@ -74,6 +26,7 @@ export const AuthProvider = ({ children }) => {
   const [authStep, setAuthStep] = useState('login');
   const router = useRouter();
   const [openTab, setOpenTab] = useState("none");
+  const [wishlistCount, setWishlistCount] = useState(0);
 
   useEffect(() => {
     async function loadUserFromCookies() {
@@ -108,9 +61,8 @@ export const AuthProvider = ({ children }) => {
 
   const switchToSignUp = () => setAuthStep('signup');
   const switchToLogin = () => setAuthStep('login');
-
   return (
-    <AuthContext.Provider value={{ isAuthenticated: !!user, user, setUser, loading, logout, setOpenTab, openAuthModal, closeAuthModal }}>
+    <AuthContext.Provider value={{ isAuthenticated: !!user, user, setUser, loading, logout, setOpenTab, openAuthModal, closeAuthModal, setWishlistCount, wishlistCount }}>
       {authModalOpen ? (
         authStep === 'login' ? <LoginForm switchToSignUp={switchToSignUp} /> : <SignUpForm switchToLogin={switchToLogin} />
       )

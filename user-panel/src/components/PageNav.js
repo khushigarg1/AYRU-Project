@@ -122,7 +122,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function PageNav({ children }) {
-  const { isAuthenticated, isLoading, logout, openTab, setOpenTab } = useAuth();
+  const { isAuthenticated, isLoading, logout, openTab, setOpenTab, wishlistCount } = useAuth();
   const theme = useTheme();
   const [open, setOpen] = useState(isAuthenticated);
   const [categories, setCategories] = useState([]);
@@ -253,7 +253,7 @@ export default function PageNav({ children }) {
             </Badge>
           </IconButton>
           <IconButton color="inherit">
-            <Badge badgeContent={10} color="error">
+            <Badge badgeContent={wishlistCount} color="error">
               <FavoriteIcon />
             </Badge>
           </IconButton>
