@@ -68,7 +68,8 @@ export async function deleteWishlist(
     const wishlistItem = await wishlistService.getWishlistById(
       Number(wishlistId)
     );
-    if (wishlistItem.userId != request.user.id) {
+
+    if (wishlistItem.userId !== request.user.id) {
       throw new ApiUnauthorizedError("Access denied for the requested user.");
     }
 

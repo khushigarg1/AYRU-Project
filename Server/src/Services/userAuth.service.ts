@@ -310,7 +310,7 @@ class UserAuthServices {
       return {
         accessToken: token,
         message: "Phone number verified successfully.",
-        data: checkUser,
+        data: { userdata: checkUser, userauth: checkUserAuth },
       };
     } else {
       throw new ApiBadRequestError("Invalid OTP provided.");

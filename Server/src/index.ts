@@ -49,7 +49,7 @@ server.get("/api/image/:imageUrl", getImage);
 // }
 registerRoutes(server);
 
-server.listen(8080, (err, address) => {
+server.listen({ port: 8080 }, (err, address) => {
   if (err) {
     server.log.error(err);
     console.error(err);

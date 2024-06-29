@@ -200,4 +200,16 @@ export class WishlistService {
       throw new ApiBadRequestError(error?.message);
     }
   }
+
+  async deleteWishlist(wishlistId: number) {
+    try {
+      await prisma.wishlist.delete({
+        where: {
+          id: wishlistId,
+        },
+      });
+    } catch (error: any) {
+      throw new ApiBadRequestError(error?.message);
+    }
+  }
 }

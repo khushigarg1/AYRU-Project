@@ -67,7 +67,8 @@ export const FeedbackComponent = () => {
             BEDDING BY ALTAIRE HOMES
           </Typography>
           <Typography variant="body1" style={{ textAlign: "center" }}>
-            Discover Altaire Homes, where comfort embraces luxury in a symphony of artistry. Handmade and block-printed, our home linens weave stories using the finest organic cotton. Timeless designs, bespoke to your heart's desire, elevate your haven to an artful sanctuary. Unwind in pure poetic elegance, cradled by our artisanal creations.
+            The Journey of AYRU JAIPUR began in 2020 during the challenging times of COVID-19, and we are proud to be rooted exclusively in Jaipur, a city we fall more in love with each day. Drawing inspiration from the everyday happiness found in Jaipur’s vibrant streets, rich colors, intricate patterns, and lively sounds, we create interwoven stories and styles that define our unique aesthetic.
+            We are committed to supporting artisan livelihoods and maintaining exceptional quality in all our products.
           </Typography>
         </Box>
         {!firstMedia && (

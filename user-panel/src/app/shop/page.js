@@ -1,5 +1,6 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { Grid, Select, MenuItem, FormControl, InputLabel, Box, Paper, Typography, useTheme } from '@mui/material';
 import api from '../../../api';
 import InventoryItem from '@/components/Inventory/InventoryItem';
@@ -21,19 +22,16 @@ const ShopPage = () => {
   const theme = useTheme();
 
   useEffect(() => {
-    if (categoryId) {
-      setSelectedCategory(categoryId);
-    }
-    if (subcategoryId) {
-      setSelectedSubcategory(subcategoryId);
-    }
-    fetchCategories();
-  }, [categoryId, subcategoryId]);
-
-  useEffect(() => {
-    fetchAllInventory();
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    if (categoryId || subcategoryId) {
+      fetchCategories();
+    } else {
+      fetchAllInventory();
+    }
+  }, [categoryId, subcategoryId]);
 
   const fetchCategories = async () => {
     try {
@@ -43,10 +41,12 @@ const ShopPage = () => {
         const selectedCategoryData = response.data.data.find(cat => cat.id === parseInt(categoryId));
         if (selectedCategoryData) {
           setSubcategories(selectedCategoryData.subcategories);
-          setCategoryName(selectedCategoryData.categoryName); // Set categoryName based on categoryId
+          setCategoryName(selectedCategoryData.categoryName);
         }
       }
-      fetchInventory(categoryId, subcategoryId);
+      if (categoryId || subcategoryId) {
+        fetchInventory(categoryId, subcategoryId);
+      }
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
@@ -54,10 +54,10 @@ const ShopPage = () => {
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategory(categoryId);
-    setSelectedSubcategory(null);
+    setSelectedSubcategory('');
 
     if (categoryId === '') {
-      setCategoryName('')
+      setCategoryName('All Categories');
       fetchAllInventory();
     } else {
       const selectedCategoryData = categories.find(cat => cat.id === parseInt(categoryId));
@@ -65,7 +65,7 @@ const ShopPage = () => {
         setCategoryName(selectedCategoryData.categoryName);
         setSubcategories(selectedCategoryData.subcategories);
       }
-      fetchInventory(categoryId, selectedSubcategory);
+      fetchInventory(categoryId, null);
     }
   };
 
@@ -87,7 +87,6 @@ const ShopPage = () => {
 
     api.get(url, { params })
       .then(response => {
-        console.log(response.data.data);
         setInventory(response.data.data);
       })
       .catch(error => {
@@ -96,9 +95,9 @@ const ShopPage = () => {
   };
 
   const fetchAllInventory = () => {
+    setCategoryName('All Categories');
     api.get('/inventory')
       .then(response => {
-        console.log(response.data.data);
         setInventory(response.data.data);
       })
       .catch(error => {
@@ -123,7 +122,7 @@ const ShopPage = () => {
               fontWeight: 'bold'
             }}
           >
-            {categoryName ? categoryName : 'All Categories'}
+            {categoryName}
           </Typography>
         </Paper>
         <Image src={WebpImage} alt="Right Image" width={100} height={100} style={{ position: 'absolute', right: '-8px', top: '50%', transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto' }} />

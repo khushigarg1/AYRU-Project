@@ -218,6 +218,9 @@ export class InventoryService {
             fittedDimensions: true,
           },
         },
+        category: true,
+        subCategory: true,
+        Wishlist: true,
         // ProductInventory: {
         //   include: {
         //     product: {
@@ -270,6 +273,9 @@ export class InventoryService {
         //     selectedSizes: true,
         //   },
         // },
+        category: true,
+        subCategory: true,
+        Wishlist: true,
         ColorVariations: { include: { Color: true } },
         relatedInventories: true,
         relatedByInventories: true,
@@ -419,6 +425,9 @@ export class InventoryService {
             fittedDimensions: true,
           },
         },
+        category: true,
+        subCategory: true,
+        Wishlist: true,
         // ProductInventory: {
         //   include: {
         //     product: {
@@ -461,6 +470,9 @@ export class InventoryService {
             fittedDimensions: true,
           },
         },
+        category: true,
+        subCategory: true,
+        Wishlist: true,
         // ProductInventory: {
         //   include: {
         //     product: {

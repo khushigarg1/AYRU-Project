@@ -25,21 +25,23 @@ const materialTheme = createTheme({
       contrastText: "#212121",
     },
     secondary: {
-      main: "#FF8A65",
+      main: "#fcc73d",
       light: "#FFAB91",
-      dark: "#E64A19",
+      dark: "#FFD54F",
       contrastText: "#000000",
     },
     text: {
       primary: "#212121",
       secondary: "#000000",
       text: "#fcc73d",
-      font: "Montserrat, sans-serif", contrastText: "#212121",
+      font: "Montserrat, sans-serif",
+      contrastText: "#212121",
     },
     divider: "rgba(0,0,0,0.12)",
     background: {
       // primary: "#fcc73d",
       primary: "#FFD54F",
+      secondary: "#fcc73d",
       paper: "#FFF9C4",
       contrast: "#fcc73d"
     },
