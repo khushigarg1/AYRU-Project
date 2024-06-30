@@ -1,5 +1,5 @@
 module.exports = {
   env: {
-    REACT_APP_BASE_URL: 'http://localhost:3000',
+    REACT_APP_BASE_URL: 'http://localhost:4000',
   },
 }

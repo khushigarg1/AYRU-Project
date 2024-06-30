@@ -42,7 +42,13 @@ const LoginForm = ({ switchToSignUp }) => {
         setSnackbarSeverity('success');
         setSnackbarOpen(true);
         const token = response?.data?.accessToken;
-        Cookies.set('token', token, { expires: 365 });
+        // Cookies.set('token', token, { expires: 365 });
+
+        const expirationDate = new Date(new Date().getTime() + 5 * 60 * 1000); // 5 minutes from now
+
+        // Set the cookie with a 5-minute expiration
+        Cookies.set('token', token, { expires: expirationDate });
+
         console.log(token);
         api.defaults.headers.Authorization = `Bearer ${token}`;
         const { data: user } = await api.get(`auth/${response?.data?.data.userdata.id}`);
@@ -70,7 +76,13 @@ const LoginForm = ({ switchToSignUp }) => {
         setSnackbarSeverity('success');
         setSnackbarOpen(true);
         const token = response?.data?.accessToken;
-        Cookies.set('token', token, { expires: 365 });
+        // Cookies.set('token', token, { expires: 365 });
+
+        const expirationDate = new Date(new Date().getTime() + 5 * 60 * 1000); // 5 minutes from now
+
+        // Set the cookie with a 5-minute expiration
+        Cookies.set('token', token, { expires: expirationDate });
+
         api.defaults.headers.Authorization = `Bearer ${token}`;
         const { data: user } = await api.get(`auth/${response?.data?.data?.id}`);
         setUser(user);

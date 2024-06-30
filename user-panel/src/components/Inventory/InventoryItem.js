@@ -89,7 +89,8 @@ const InventoryItem = ({ item }) => {
         )}
         <CardMedia
           component="img"
-          image={`${api.defaults.baseURL}image/${item.Media[0].url}`}
+          image={`${api.defaults.baseURL}image/${item?.Media[0]?.url}`}
+          // image={"https://ayru-jaipur.s3.ap-south-1.amazonaws.com/1719728584132-1681210423276-Magarpatta.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAXQI4DHNFFJZ44EFQ%2F20240630%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240630T085117Z&X-Amz-Expires=900&X-Amz-Signature=8eea213abd2e69937bccfc57540603d4efb553518633c6fdf16f63cf1e7fdcba&X-Amz-SignedHeaders=host&x-id=GetObject"}
           height="200"
           alt={item.productName}
         />

@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import {
   deleteImageFromS3,
-  getImageFromS3,
   uploadImageToS3,
   uploadVideoToS3,
 } from "../../../config/awsfunction";
@@ -51,7 +50,7 @@ export class InventoryService {
 
       // Create media entries in the database
       const mediaCreatePromises = allResults.map((result, index) => {
-        const url = result?.key;
+        const url = result?.URL;
         const isImage = Array.isArray(data.images)
           ? index < imageResults.length // Check index against length of image uploads
           : data.images.mimetype.startsWith("image");
