@@ -71,7 +71,7 @@ export const CraftedWithLove = () => {
                   <CardMedia
                     component="img"
                     // height="250"
-                    image={item.Media && item.Media.length > 0 ? `${api.defaults.baseURL}image/${item.Media[0].url}` : '/fallback_image_url'}
+                    image={item.Media && item.Media.length > 0 ? `https://ayru-jaipur.s3.amazonaws.com/${item.Media[0].url}` : '/fallback_image_url'}
                     alt={item.productName}
 
                     sx={{

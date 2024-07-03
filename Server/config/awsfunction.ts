@@ -16,6 +16,7 @@ import * as path from "path";
 import * as util from "util";
 import { ManagedUpload } from "aws-sdk/clients/s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import mime from "mime-types";
 
 const AWS_REGION = process.env.P_AWS_REGION as string;
 const ACCESS_KEY_ID = process.env.P_AWS_ACCESS_KEY_ID as string;
@@ -45,12 +46,14 @@ export async function uploadImageToS3(file: { name: string; data: Readable }) {
       secretAccessKey: SECRET_ACCESS_KEY,
     },
   });
-
+  const contentType = mime.lookup(file.name) || "application/octet-stream";
   try {
     const params: PutObjectCommandInput = {
       Bucket: BUCKET_NAME,
       Key: `${Date.now()}-${file.name}`,
       Body: file.data,
+      // ACL: "public-read",
+      ContentType: contentType,
     };
 
     const uploadResult = await s3Client.send(new PutObjectCommand(params));
@@ -84,11 +87,14 @@ export async function uploadVideoToS3(file: { name: string; data: Readable }) {
       secretAccessKey: SECRET_ACCESS_KEY,
     },
   });
+  const contentType = mime.lookup(file.name) || "application/octet-stream";
+
   try {
     const params: PutObjectCommandInput = {
       Bucket: BUCKET_NAME,
       Key: `${Date.now()}-${file.name}`,
       Body: file.data,
+      ContentType: contentType,
     };
 
     const uploadResult = await s3Client.send(new PutObjectCommand(params));
@@ -168,70 +174,19 @@ export async function getImage(
       Key: key,
     });
 
-    const url = await getSignedUrl(s3Client, command);
-
+    const { Bucket, Key } = (command as any).input;
+    const url = `https://${Bucket}.s3.amazonaws.com/${Key}`;
     reply.send(url);
-
-    // const getObjectParams: GetObjectCommandInput = {
+    // const command = new GetObjectCommand({
     //   Bucket: BUCKET_NAME,
     //   Key: key,
-    // };
+    // });
 
-    // const command = new GetObjectCommand(getObjectParams);
-    // const response = await s3Client.send(command);
+    // const url = await getSignedUrl(s3Client, command);
 
-    // if (response.Body) {
-    //   const contentType = determineContentType(key);
-    //   reply.header("Content-Type", contentType);
-    //   (response.Body as Readable).pipe(reply.raw);
-    // } else {
-    //   throw new Error("Empty response body");
-    // }
+    // reply.send({ url: url });
   } catch (error) {
     console.error("Error fetching image from S3:", error);
     reply.code(404).send({ message: "Image not found" });
-  }
-}
-
-function determineContentType(key: string): string {
-  const extension = key.split(".").pop()?.toLowerCase();
-  switch (extension) {
-    // Images
-    case "jpg":
-    case "jpeg":
-      return "image/jpeg";
-    case "png":
-      return "image/png";
-    case "gif":
-      return "image/gif";
-    case "bmp":
-      return "image/bmp";
-    case "tiff":
-      return "image/tiff";
-    case "webp":
-      return "image/webp";
-    case "heif":
-    case "heic":
-      return "image/heif";
-
-    // Videos
-    case "mp4":
-      return "video/mp4";
-    case "mov":
-      return "video/quicktime";
-    case "avi":
-      return "video/x-msvideo";
-    case "mkv":
-      return "video/x-matroska";
-    case "wmv":
-      return "video/x-ms-wmv";
-    case "flv":
-      return "video/x-flv";
-    case "3gp":
-      return "video/3gpp";
-    case "webm":
-      return "video/webm";
-    default:
-      return "application/octet-stream";
   }
 }

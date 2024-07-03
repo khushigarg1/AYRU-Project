@@ -50,10 +50,10 @@ export class InventoryService {
 
       // Create media entries in the database
       const mediaCreatePromises = allResults.map((result, index) => {
-        const url = result?.URL;
+        const url = result?.key;
         const isImage = Array.isArray(data.images)
-          ? index < imageResults.length // Check index against length of image uploads
-          : data.images.mimetype.startsWith("image");
+          ? index < imageResults?.length
+          : data.images?.mimetype?.startsWith("image");
 
         return prisma.media.create({
           data: {

@@ -49,12 +49,12 @@ export const FeedbackComponent = () => {
               {firstMedia.imageUrl.endsWith('.mp4') ? (
                 <video
                   controls
-                  src={`${api.defaults.baseURL}image/${firstMedia.imageUrl}`}
+                  src={`https://ayru-jaipur.s3.amazonaws.com/${firstMedia.imageUrl}`}
                   style={{ maxWidth: '20em', maxHeight: '25em', borderRadius: '8px', marginBottom: '10px', backgroundColor: "transparent" }}
                 />
               ) : (
                 <img
-                  src={`${api.defaults.baseURL}image/${firstMedia.imageUrl}`}
+                  src={`https://ayru-jaipur.s3.amazonaws.com/${firstMedia.imageUrl}`}
                   alt="First Media"
                   style={{ maxHeight: "25em", maxWidth: "20em", borderRadius: '8px', marginBottom: '10px' }}
                 />

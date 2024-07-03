@@ -146,9 +146,9 @@ const ImageCarousel = () => {
           {images.map((image, index) => (
             <Box key={index} sx={{ position: 'relative', height: '100vh' }}>
               <StyledImage
-                src={`${api.defaults.baseURL}image/${image.imageUrl}`}
+                src={`https://ayru-jaipur.s3.amazonaws.com/${image.imageUrl}`}
                 alt={`Slide ${index}`}
-                style={{ transform: `translateX(${currentIndex * -100}%)`, height: isMobile ? "90%" : "120%" }}
+                style={{ transform: `translateX(${currentIndex * -100}%)`, height: isMobile ? "90%" : "120%", objectFit: "contain" }}
               />
               <OverlayText style={{ top: isMobile ? "70%" : "60%", fontSize: "1.2rem" }}>
                 <StyledButton style={{ fontSize: isMobile ? "0.7rem" : "1rem" }}>Shop Now</StyledButton>

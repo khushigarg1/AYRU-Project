@@ -33,24 +33,12 @@ export class ClientLoveService {
     let video = null;
 
     if (data.image) {
-      // const imageFileName = await saveFile(data.image, "uploads/images");
-      // imageUrl = `/uploads/images/${imageFileName}`;
-      if (process.env.NODE_ENV === "production") {
-        const { key, imageUrl: s3ImageUrl } = await uploadImageToS3(data.image);
-        imageUrl = key;
-      } else {
-        const imageFileName = await saveFile(data.image, "uploads/images");
-        imageUrl = `/uploads/images/${imageFileName}`;
-      }
+      const { key, imageUrl: s3ImageUrl } = await uploadImageToS3(data.image);
+      imageUrl = key;
     }
     if (data && data.video !== "null") {
-      if (process.env.NODE_ENV === "production") {
-        const { key, imageUrl: s3ImageUrl } = await uploadImageToS3(data.image);
-        imageUrl = key;
-      } else {
-        const videoFileName = await saveFile(data.video, "uploads/videos");
-        video = `/uploads/videos/${videoFileName}`;
-      }
+      const { key, imageUrl: s3ImageUrl } = await uploadImageToS3(data.image);
+      imageUrl = key;
     }
 
     const clientLove = await prisma.clientLove.create({
@@ -83,31 +71,21 @@ export class ClientLoveService {
     }
 
     if (data.image) {
-      if (process.env.NODE_ENV === "production") {
-        if (existingClientLove.imageUrl) {
-          await deleteImageFromS3(existingClientLove.imageUrl);
-        }
-
-        const { key } = await uploadImageToS3(data.image);
-        existingClientLove.imageUrl = key;
-      } else {
-        const imageFileName = await saveFile(data.image, "uploads/images");
-        existingClientLove.imageUrl = `/uploads/images/${imageFileName}`;
+      if (existingClientLove.imageUrl) {
+        await deleteImageFromS3(existingClientLove.imageUrl);
       }
+
+      const { key } = await uploadImageToS3(data.image);
+      existingClientLove.imageUrl = key;
     }
 
     if (data.video && data.video !== "null") {
-      if (process.env.NODE_ENV === "production") {
-        if (existingClientLove.video) {
-          await deleteImageFromS3(existingClientLove.video);
-        }
-
-        const { key } = await uploadImageToS3(data.video);
-        existingClientLove.video = key;
-      } else {
-        const videoFileName = await saveFile(data.video, "uploads/videos");
-        existingClientLove.video = `/uploads/videos/${videoFileName}`;
+      if (existingClientLove.video) {
+        await deleteImageFromS3(existingClientLove.video);
       }
+
+      const { key } = await uploadImageToS3(data.video);
+      existingClientLove.video = key;
     }
 
     if (data.text) {
