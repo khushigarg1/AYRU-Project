@@ -253,9 +253,9 @@ const ShopPage = () => {
           </Grid>
         )}
 
-        <Grid container spacing={2} item xs={12}>
+        <Grid container spacing={1} item xs={12}>
           {inventory.map(item => (
-            <Grid key={item.id} item xs={6} sm={4} md={4} lg={3} xl={2}>
+            <Grid key={item.id} item xs={6} sm={6} md={4} lg={3} xl={2}>
               <InventoryItem item={item} />
             </Grid>
           ))}

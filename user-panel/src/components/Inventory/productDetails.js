@@ -127,7 +127,7 @@ export const ProductDetails = () => {
           {product.discountedPrice ? (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Typography variant="body1" sx={{ textDecoration: 'line-through' }}>
-                ₹{product.costPrice.toFixed(2)}
+                ₹{product.sellingPrice.toFixed(2)}
               </Typography>
               <Typography variant="body1" color="primary">
                 ₹{product.discountedPrice.toFixed(2)}
@@ -135,7 +135,7 @@ export const ProductDetails = () => {
             </Box>
           ) : (
             <Typography variant="body1">
-              ₹{product.costPrice.toFixed(2)}
+              ₹{product.sellingPrice.toFixed(2)}
             </Typography>
           )}
           <Typography variant="body2" color="text.secondary" gutterBottom>

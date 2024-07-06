@@ -11,10 +11,18 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
   const [newFeature, setNewFeature] = useState('');
   const [newDimension, setNewDimension] = useState('');
 
+  // const handleChange = (e, field) => {
+  //   const { value } = e.target;
+  //   setEditedProduct((prev) => ({ ...prev, [field]: value }));
+  // };
   const handleChange = (e, field) => {
-    const { value } = e.target;
+    let { value } = e.target;
+    if (field === 'weight' || field === "threadCount") {
+      value = parseInt(value);
+    }
     setEditedProduct((prev) => ({ ...prev, [field]: value }));
   };
+
 
   const handleCheckboxChange = (e, field) => {
     const { checked } = e.target;

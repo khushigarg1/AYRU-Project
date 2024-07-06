@@ -79,16 +79,39 @@ const InventoryItem = ({ item }) => {
   };
 
   return (
-    <Card sx={{ position: 'relative', display: 'flex', flexDirection: 'column', height: '100%' }}
+    <Card sx={{ position: 'relative', display: 'flex', flexDirection: 'column', height: '100%', cursor: "pointer" }}
       onClick={() => router.push(`/shop/${item?.id}`)}
     >
       <Box sx={{ position: 'relative' }}>
         {item.discountedPrice && (
           <Chip
-            label={`-${((item.costPrice - item.discountedPrice) / item.costPrice * 100).toFixed(0)}%`}
+            label={
+              <div style={{ textAlign: 'center' }}>
+                <Typography variant="caption" component="span" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
+                  {`${((item.sellingPrice - item.discountedPrice) / item.sellingPrice * 100).toFixed(0)}%`}
+                </Typography>
+                <Typography variant="caption" component="div" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
+                  off
+                </Typography>
+              </div>
+            }
             color="secondary"
             size="small"
-            sx={{ position: 'absolute', top: 8, right: 8, zIndex: 1 }}
+            sx={{
+              position: 'absolute',
+              top: 4,
+              left: 4,
+              zIndex: 1,
+              padding: '8px 4px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              height: '40px',
+              width: '40px',
+              borderRadius: '50%',
+              fontSize: '2px',
+              fontWeight: 'bold',
+            }}
           />
         )}
         <CardMedia
@@ -101,35 +124,36 @@ const InventoryItem = ({ item }) => {
         <IconButton
           aria-label="Add to Wishlist"
           onClick={handleToggleWishlist}
-          sx={{ position: 'absolute', bottom: 8, right: 8, zIndex: 1, backgroundColor: 'white', '&:hover': { backgroundColor: 'lightgray' } }}
+          sx={{ position: 'absolute', bottom: 4, right: 4, zIndex: 1, backgroundColor: 'white', '&:hover': { backgroundColor: 'lightgray' } }}
         >
           {wishlistItems[item.id] ? <FavoriteOutlined style={{ color: 'red' }} /> : <FavoriteBorderOutlined />}
         </IconButton>
       </Box>
-      <CardContent sx={{ flexGrow: 1 }}>
-        <Typography variant="h6" gutterBottom>
+      <CardContent sx={{ flexGrow: 1, padding: "10px", '&:last-child': { paddingBottom: "10px" } }}>
+        <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "bolder" }}>
           {item.productName}
         </Typography>
-        <Typography variant="body1" color="text.secondary" gutterBottom>
-          Category: {item?.category?.categoryName}
-        </Typography>
         <Typography variant="body2" color="text.secondary" gutterBottom>
-          {item.description}
+          <strong>Category: </strong>{item?.category?.categoryName}
         </Typography>
         {item.discountedPrice ? (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Typography variant="body1" sx={{ textDecoration: 'line-through' }}>
-              ₹{item.costPrice.toFixed(2)}
+            <Typography variant="body2" sx={{ textDecoration: 'line-through' }}>
+              Rs.{item.sellingPrice}
             </Typography>
-            <Typography variant="body1" color={theme?.palette?.text?.contrastText}>
-              ₹{item?.discountedPrice?.toFixed(2)}
+            <Typography variant="body2" color={theme?.palette?.text?.contrastText}>
+              Rs.{item?.discountedPrice}
             </Typography>
           </Box>
         ) : (
-          <Typography variant="body1">
-            ₹{item?.costPrice?.toFixed(2)}
+          <Typography variant="body2">
+            Rs.{item?.sellingPrice}
           </Typography>
         )}
+
+        {/* <Typography variant='body2' sx={{ color: item?.extraOptionOutOfStock ? 'red' : 'green' }}>
+          {item?.extraOptionOutOfStock === true ? "Out of Stock" : "In Stock"}
+        </Typography> */}
       </CardContent>
     </Card>
   );

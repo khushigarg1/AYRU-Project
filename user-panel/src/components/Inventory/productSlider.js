@@ -1,98 +1,167 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
-import { Box, CardMedia, useMediaQuery, useTheme } from '@mui/material';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import { Box, Card, CardMedia, Chip, IconButton, Typography, useTheme } from '@mui/material';
+import { FavoriteBorderOutlined, FavoriteOutlined, Share } from '@mui/icons-material';
+import Cookies from 'js-cookie';
+import api from '../../../api';
+import { useAuth } from '../../contexts/auth';
+import { useRouter } from 'next/navigation';
+import { RWebShare } from "react-web-share";
 
-const ProductSlider = ({ media }) => {
-  const slider1Ref = useRef(null);
-  const slider2Ref = useRef(null);
-  const [nav1, setNav1] = useState(null);
-  const [nav2, setNav2] = useState(null);
+const ProductSlider = ({ itemlist }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const itemsPerPage = isMobile ? 2 : 5;
+  const { openAuthModal, user, wishlistCount, setWishlistCount } = useAuth();
+  const [wishlistItems, setWishlistItems] = useState({});
+  const token = Cookies.get('token');
+  const router = useRouter();
 
   useEffect(() => {
-    setNav1(slider1Ref.current);
-    setNav2(slider2Ref.current);
-  }, [media]);
+    const fetchWishlistStatus = async () => {
+      try {
+        if (token) {
+          const response = await api.get(`/wishlist/user/${user.id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          const wishlistItemsData = response.data.data;
+          setWishlistCount(wishlistItemsData.length);
+          const wishlistMap = wishlistItemsData.reduce((acc, wishlistItem) => {
+            acc[wishlistItem.inventoryId] = wishlistItem.id;
+            return acc;
+          }, {});
+          setWishlistItems(wishlistMap);
+        }
+      } catch (error) {
+        console.error('Error fetching wishlist:', error);
+      }
+    };
 
-  const mainSliderSettings = {
-    dots: false,
-    infinite: true,
+    if (user && user.id && token) {
+      fetchWishlistStatus();
+    }
+  }, [token, user, setWishlistCount]);
+
+  const handleToggleWishlist = async () => {
+    try {
+      if (!token) {
+        openAuthModal();
+        return;
+      }
+
+      if (wishlistItems[itemlist.id]) {
+        await api.delete(`/wishlist/${wishlistItems[itemlist.id]}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setWishlistItems(prevItems => {
+          const newItems = { ...prevItems };
+          delete newItems[itemlist.id];
+          return newItems;
+        });
+        setWishlistCount(prevCount => prevCount - 1);
+        console.log(`Removed ${itemlist.productName} from wishlist`);
+      } else {
+        const response = await api.post('/wishlist', { inventoryId: itemlist.id, userId: user?.id }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setWishlistItems(prevItems => ({
+          ...prevItems,
+          [itemlist.id]: response.data.data.id
+        }));
+        setWishlistCount(prevCount => prevCount + 1);
+        console.log(`Added ${itemlist.productName} to wishlist`);
+      }
+    } catch (error) {
+      console.error('Error toggling wishlist status:', error);
+    }
+  };
+
+  const settings = {
+    dots: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 1,
-    asNavFor: nav2,
-    arrows: true,
+    slidesToScroll: 1
   };
-
-  const thumbnailSliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: itemsPerPage,
-    slidesToScroll: itemsPerPage,
-    arrows: true,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
-        },
-      },
-    ],
-    appendDots: dots => (
-      <Box sx={{ display: 'flex', justifyContent: 'center', listStyle: 'none', p: 0, m: 0 }}>
-        {dots}
-      </Box>
-    ),
-    customPaging: i => (
-      <Box
-        component="div"
-        sx={{
-          width: '10px',
-          height: '10px',
-          backgroundColor: '#000',
-          borderRadius: '50%',
-          display: 'inline-block',
-          margin: '0 5px',
-        }}
-      ></Box>
-    ),
+  const handleShare = () => {
+    try {
+      if (navigator.share) {
+        navigator.share({
+          url: `${process.env.REACT_APP_BASE_URL}/${itemlist.id}`,
+          title: itemlist.productName,
+          text: `Check out this product: ${itemlist.productName} - ${itemlist.description}`,
+        }).catch(error => console.error('Error sharing:', error));
+      } else {
+        console.log('Web Share API is not supported in your browser.');
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
   };
-
   return (
-    <Box>
-      <Slider {...mainSliderSettings} ref={slider1Ref}>
-        {media.map((item) => (
-          <Box key={item.id}>
+    <Box sx={{ position: 'relative' }}>
+      {itemlist?.discountedPrice && (
+        <Chip
+          label={
+            <div style={{ textAlign: 'center' }}>
+              <Typography component="span" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
+                {`${((itemlist.sellingPrice - itemlist.discountedPrice) / itemlist.sellingPrice * 100).toFixed(0)}%`}
+              </Typography>
+              <Typography variant="caption" component="div" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
+                off
+              </Typography>
+            </div>
+          }
+          color="secondary"
+          size="small"
+          sx={{
+            position: 'absolute',
+            top: 6,
+            left: 4,
+            zIndex: 1,
+            padding: '4px 2px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            height: '50px',
+            width: '50px',
+            borderRadius: '50%',
+            fontSize: '1px',
+            fontWeight: '800',
+          }}
+        />
+      )}
+      <Slider {...settings}>
+        {itemlist?.Media.map((item) => (
+          <Box key={item.id} sx={{ position: 'relative' }}>
             <CardMedia
               component="img"
               image={`https://ayru-jaipur.s3.amazonaws.com/${item.url}`}
               alt={item.alt}
-              height={550}
-              style={{ objectFit: "cover" }}
+              style={{ objectFit: 'contain' }}
             />
           </Box>
         ))}
       </Slider>
-      <Slider {...thumbnailSliderSettings} ref={slider2Ref}>
-        {media.map((item) => (
-          <Box key={item.id} sx={{ p: 1 }}>
-            <CardMedia
-              component="img"
-              image={`https://ayru-jaipur.s3.amazonaws.com/${item.url}`}
-              alt={item.alt}
-              height={80}
-              style={{ objectFit: "cover", cursor: "pointer" }}
-            />
-          </Box>
-        ))}
-      </Slider>
-    </Box>
+      <IconButton
+        aria-label="Add to Wishlist"
+        onClick={handleToggleWishlist}
+        sx={{ position: 'absolute', bottom: 40, right: 8, zIndex: 1, backgroundColor: 'white', '&:hover': { backgroundColor: 'lightgray' } }}
+      >
+        {wishlistItems[itemlist?.id] ? <FavoriteOutlined style={{ color: 'red' }} /> : <FavoriteBorderOutlined />}
+      </IconButton>
+      <IconButton
+        aria-label="Share"
+        onClick={handleShare}
+        sx={{ position: 'absolute', bottom: 90, right: 8, zIndex: 1, backgroundColor: 'white', '&:hover': { backgroundColor: 'lightgray' } }}
+      >
+        <Share />
+      </IconButton>
+    </Box >
   );
 };
 

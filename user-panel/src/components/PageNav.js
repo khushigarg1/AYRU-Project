@@ -165,7 +165,8 @@ export default function PageNav({ children }) {
   const fetchCategories = async () => {
     try {
       const response = await api.get('/categories');
-      setCategories(response.data.data);
+      const sortedCategories = response.data.data.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt));
+      setCategories(sortedCategories);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
