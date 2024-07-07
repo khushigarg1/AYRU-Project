@@ -75,7 +75,7 @@ const InventoryDetailsPage = () => {
       <Typography variant="h4" mb={2}>Inventory Details</Typography>
 
       {/* Product Details */}
-      <Accordion>
+      <Accordion disableGutters>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>Product Details</Typography>
         </AccordionSummary>
@@ -124,7 +124,7 @@ const InventoryDetailsPage = () => {
       </Accordion>
 
       {/* Statuses */}
-      <Accordion>
+      <Accordion disableGutters>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>Statuses</Typography>
         </AccordionSummary>
@@ -162,7 +162,7 @@ const InventoryDetailsPage = () => {
       </Accordion>
 
       {/* Upload Images and Videos */}
-      <Accordion>
+      <Accordion disableGutters>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>Upload Images and Videos</Typography>
         </AccordionSummary>
@@ -178,7 +178,7 @@ const InventoryDetailsPage = () => {
       </Accordion>
 
       {/* Pricing */}
-      <Accordion>
+      <Accordion disableGutters>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>Pricing</Typography>
         </AccordionSummary>
@@ -229,7 +229,7 @@ const InventoryDetailsPage = () => {
       </Accordion>
 
       {/* Extra Details */}
-      <Accordion>
+      <Accordion disableGutters>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>Extra Details</Typography>
         </AccordionSummary>
@@ -277,7 +277,7 @@ const InventoryDetailsPage = () => {
       </Accordion>
 
       {/* Size Type */}
-      <Accordion>
+      <Accordion disableGutters>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>Size Type</Typography>
         </AccordionSummary>
@@ -288,7 +288,7 @@ const InventoryDetailsPage = () => {
       </Accordion>
 
       {/* Size Chart */}
-      <Accordion>
+      <Accordion disableGutters>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>Size Chart</Typography>
         </AccordionSummary>

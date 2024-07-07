@@ -229,8 +229,16 @@ export class InventoryService {
         //   },
         // },
         ColorVariations: { include: { Color: true } },
-        relatedInventories: true,
-        relatedByInventories: true,
+        relatedInventories: {
+          include: {
+            Media: true,
+          },
+        },
+        relatedByInventories: {
+          include: {
+            Media: true,
+          },
+        },
         Media: true,
         SizeChartMedia: true,
       },
@@ -276,8 +284,16 @@ export class InventoryService {
         subCategory: true,
         Wishlist: true,
         ColorVariations: { include: { Color: true } },
-        relatedInventories: true,
-        relatedByInventories: true,
+        relatedInventories: {
+          include: {
+            Media: true,
+          },
+        },
+        relatedByInventories: {
+          include: {
+            Media: true,
+          },
+        },
         Media: true,
         SizeChartMedia: true,
       },
@@ -436,8 +452,16 @@ export class InventoryService {
         //   },
         // },
         ColorVariations: { include: { Color: true } },
-        relatedInventories: true,
-        relatedByInventories: true,
+        relatedInventories: {
+          include: {
+            Media: true,
+          },
+        },
+        relatedByInventories: {
+          include: {
+            Media: true,
+          },
+        },
         Media: true,
       },
     });
@@ -481,8 +505,16 @@ export class InventoryService {
         //   },
         // },
         ColorVariations: { include: { Color: true } },
-        relatedInventories: true,
-        relatedByInventories: true,
+        relatedInventories: {
+          include: {
+            Media: true,
+          },
+        },
+        relatedByInventories: {
+          include: {
+            Media: true,
+          },
+        },
         Media: true,
         SizeChartMedia: true,
       },

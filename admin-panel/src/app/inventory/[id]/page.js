@@ -98,8 +98,9 @@ const HomePage = ({ params }) => {
   };
 
   const handleSaveProductDetails = async (updatedInventory) => {
+    const formattedInventory = await formatInventoryData(inventory);
     try {
-      await api.put(`/inventory/${id}`, updatedInventory);
+      await api.put(`/inventory/${id}`, { ...formattedInventory, ...updatedInventory });
       fetchInventory();
     } catch (error) {
       console.error("Error saving inventory:", error);
@@ -127,13 +128,14 @@ const HomePage = ({ params }) => {
       customFittedIds: inventory.customFittedInventory?.map((cfv) => cfv.customFittedId),
       fittedIds: inventory.InventoryFitted?.map((fv) => ({ fittedId: fv.fittedId, fittedDimensions: fv.fittedDimensions?.map((fvd) => fvd?.id) })),
       // sizecharts: inventory.ProductInventory?.map((scv) => ({ productId: scv.productId, selectedSizes: scv.selectedSizes?.map((scd) => scd?.id) })),
-      relatedInventoriesIds: inventory.relatedInventories.map(inv => inv.id)
+      relatedInventoriesIds: inventory.relatedInventories.map(inv => inv.id),
+      relatedByInventories: inventory.relatedByInventories.map(inv => inv.id)
     };
   };
 
   const updateInventory = async (id, updates, inventory) => {
     try {
-      const formattedInventory = formatInventoryData(inventory);
+      const formattedInventory = await formatInventoryData(inventory);
       await api.put(`/inventory/${id}`, { ...formattedInventory, ...updates });
       fetchInventory();
     } catch (error) {

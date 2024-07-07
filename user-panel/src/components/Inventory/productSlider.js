@@ -15,6 +15,7 @@ const ProductSlider = ({ itemlist }) => {
   const token = Cookies.get('token');
   const router = useRouter();
 
+  console.log(user);
   useEffect(() => {
     const fetchWishlistStatus = async () => {
       try {
@@ -85,7 +86,8 @@ const ProductSlider = ({ itemlist }) => {
     infinite: false,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 1
+    slidesToScroll: 1,
+    arrows: false,
   };
   const handleShare = () => {
     try {
@@ -132,6 +134,39 @@ const ProductSlider = ({ itemlist }) => {
             borderRadius: '50%',
             fontSize: '1px',
             fontWeight: '800',
+          }}
+        />
+      )}
+
+      {itemlist.extraOptionOutOfStock && (
+        <Chip
+          label={
+            <div style={{ textAlign: 'center' }}>
+              <Typography variant="caption" component="h6" sx={{ lineHeight: 1, fontWeight: "bolder", color: "white" }}>
+                Sold Out
+              </Typography>
+              {/* <Typography variant="caption" component="div" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
+                Out
+              </Typography> */}
+            </div>
+          }
+          color="secondary"
+          size="small"
+          sx={{
+            position: 'absolute',
+            top: 6,
+            right: 4,
+            zIndex: 1,
+            padding: '7px 2px',
+            // display: 'flex',
+            // flexDirection: 'column',
+            // alignItems: 'center',
+            // height: '50px',
+            // width: '50px',
+            borderRadius: '15px',
+            fontSize: '1px',
+            fontWeight: '800',
+            backgroundColor: "#cf2e2e"
           }}
         />
       )}

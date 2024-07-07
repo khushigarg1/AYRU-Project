@@ -15,9 +15,19 @@ body,
 html {
   overflow-x: hidden;
   scrollbar-width: none; /* For Firefox */
+  font-family: Montserrat, sans-serif !important;
 }
 
 body::-webkit-scrollbar,
 html::-webkit-scrollbar {
   display: none; /* For Chrome, Safari, and Opera */
+}
+
+body,
+html,
+.MuiTypography-root {
+  /* font-family: "Playwrite NO", cursive !important; */
+  /* font-family: "EB Garamond", serif !important; */
+  font-family: serif !important;
+  /* font-family: "serif", "Montserrat", sans-serif !important; */
 }

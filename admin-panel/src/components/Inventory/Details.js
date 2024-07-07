@@ -73,7 +73,7 @@ const GroupDetails = ({ details }) => {
         <Typography variant="h6" color="primary">
           Availability:
         </Typography>
-        <Typography variant="body1">{details.availability ? 'Available' : 'Not Available'}</Typography>
+        <Typography variant="body1">{details.availability === "true" ? 'Available' : 'Not Available'}</Typography>
       </Grid>
 
       {/* Extra Option Out of Stock */}

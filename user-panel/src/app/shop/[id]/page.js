@@ -11,6 +11,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import ProductSlider from '@/components/Inventory/productSlider';
 import ItemDetails from '@/components/Inventory/ItemDetails';
+import Instructions from "../../../../public/images/instruction.png"
+import Image from 'next/image';
 
 const ProductDetails = ({ params }) => {
   const { id } = params;
@@ -40,18 +42,22 @@ const ProductDetails = ({ params }) => {
 
   return (
     <Container sx={{
-      marginTop: isMobile ? 1 : 3, backgroundColor: theme.palette.background.paper
+      marginTop: isMobile ? 1 : 3, backgroundColor: theme.palette.background.paper, fontFamily: theme.palette.text.font
     }}>
-      <Box my={1}>
+      <Box my={1} sx={{ fontFamily: theme.palette.text.font }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
-            <ProductSlider itemlist={product} />
+            <ProductSlider itemlist={product} sx={{ fontFamily: theme.palette.text.font }} />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <ItemDetails product={product} />
+            <ItemDetails product={product} sx={{ fontFamily: theme.palette.text.font }} />
           </Grid>
         </Grid>
       </Box>
+      <Image src={Instructions} alt="Image"
+        style={{ mt: 0, width: "100%", height: "100%", padding: "5px" }}
+      // style={{ position: 'absolute', left: '-8px', top: '50%', transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto' }}
+      />
     </Container>
   );
 };

@@ -1,77 +1,162 @@
 import React from 'react';
-import { Box, Typography, Accordion, AccordionSummary, AccordionDetails, Link, List, ListItem, ListItemText, Divider } from '@mui/material';
+import { Box, Typography, Accordion, AccordionSummary, AccordionDetails, Link, List, ListItem, ListItemText, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export const FeatureAccordions = ({ product }) => {
-  console.log(product);
-  const sections = [
-    { title: "Description", content: product.description || "No description available" },
-    {
-      title: "Product Details", content: (
-        <List>
-          <ListItem><ListItemText primary="Style" secondary={product.style || "N/A"} /></ListItem>
-          <ListItem><ListItemText primary="Pattern" secondary={product.pattern || "N/A"} /></ListItem>
-          <ListItem><ListItemText primary="Fabric" secondary={product.fabric || "N/A"} /></ListItem>
-          <ListItem><ListItemText primary="Included Items" secondary={product.includedItems || "N/A"} /></ListItem>
-          <ListItem><ListItemText primary="Size" secondary={product.size || "N/A"} /></ListItem>
-          <ListItem><ListItemText primary="Item Dimensions" secondary={product.itemDimensions.length > 0 ? product.itemDimensions.join(", ") : "N/A"} /></ListItem>
-          <ListItem><ListItemText primary="Item Weight" secondary={product.weight || "N/A"} /></ListItem>
-          <ListItem><ListItemText primary="Thread Count" secondary={product.threadCount || "N/A"} /></ListItem>
-          <ListItem><ListItemText primary="Special Features" secondary={product.specialFeatures ? product.specialFeatures.join(", ") : "N/A"} /></ListItem>
-          <ListItem><ListItemText primary="Origin" secondary={product.origin || "N/A"} /></ListItem>
-          <ListItem><ListItemText primary="Others" secondary={product.others || "N/A"} /></ListItem>
-        </List>
-      )
-    },
-    { title: "Care Instructions", content: product.careInstructions.length > 0 ? product.careInstructions.join(", ") : "No instructions available" },
-    { title: "Disclaimer", content: product.disclaimer || "No disclaimer available" },
-  ];
-
   return (
-    <Box sx={{ padding: 1 }}>
-      <Box sx={{ marginTop: 4 }}>
-        {sections.map((section, index) => (
-          <Accordion key={index}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="h6">{section.title}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              {typeof section.content === 'string' ? (
-                <Typography>{section.content}</Typography>
-              ) : (
-                section.content
+    <Box>
+      {/* Disclaimer Accordion */}
+      <Accordion defaultExpanded disableGutters>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography variant="h6">Disclaimer</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>{product.disclaimer || "No disclaimer available"}</Typography>
+        </AccordionDetails>
+      </Accordion>
+
+      {/* Product Details Accordion */}
+      <Accordion defaultExpanded disableGutters>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography variant="h6">Product Details</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TableCell sx={{ backgroundColor: '#FFF8DC' }}>Style</TableCell>
+                  <TableCell>{product.style || "N/A"}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={{ backgroundColor: '#FFF8DC' }}>Pattern</TableCell>
+                  <TableCell>{product.pattern || "N/A"}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={{ backgroundColor: '#FFF8DC' }}>Fabric</TableCell>
+                  <TableCell>{product.fabric || "N/A"}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={{ backgroundColor: '#FFF8DC' }}>Size</TableCell>
+                  <TableCell>{product.size || "N/A"}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={{ backgroundColor: '#FFF8DC' }}>Item Weight</TableCell>
+                  <TableCell>{product.weight || "N/A"}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={{ backgroundColor: '#FFF8DC' }}>Thread Count</TableCell>
+                  <TableCell>{product.threadCount || "N/A"}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={{ backgroundColor: '#FFF8DC', width: "40%" }}>Origin</TableCell>
+                  <TableCell>{product.origin || "N/A"}</TableCell>
+                </TableRow>
+                {/* <TableRow>
+                  <TableCell>Others</TableCell>
+                  <TableCell>{product.others || "N/A"}</TableCell>
+                </TableRow> */}
+              </TableBody>
+            </Table>
+
+            <List sx={{ padding: "2px 10px" }}>
+              {product.includedItems?.length > 0 && (
+                <>
+                  <Typography variant="subtitle1" sx={{ fontWeight: "bolder" }} >Included Items:</Typography>
+                  <List dense>
+                    {product.includedItems.map((item, index) => (
+                      <ListItem key={index} sx={{ padding: '0' }}>
+                        <ListItemText primary={`• ${item}`} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </>
               )}
-            </AccordionDetails>
-          </Accordion>
-        ))}
+              {product.itemDimensions?.length > 0 && (
+                <>
+                  <Typography variant="subtitle1" sx={{ fontWeight: "bolder" }}>Item Dimensions:</Typography>
+                  <List dense>
+                    {product.itemDimensions.map((dimension, index) => (
+                      <ListItem key={index} sx={{ padding: '0' }}>
+                        <ListItemText primary={`• ${dimension}`} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </>
+              )}
+              {product.specialFeatures?.length > 0 && (
+                <>
+                  <Typography variant="subtitle1" sx={{ fontWeight: "bolder" }}>Special Features:</Typography>
+                  <List dense>
+                    {product.specialFeatures.map((feature, index) => (
+                      <ListItem key={index} sx={{ padding: '0' }}>
+                        <ListItemText primary={`• ${feature}`} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </>
+              )}
+              <Typography variant="subtitle1" sx={{ fontWeight: "bolder" }}>Others:</Typography>
+              <ListItem>
+                <ListItemText primary={product.others || "N/A"} />
+              </ListItem>
+            </List>
+          </TableContainer>
+        </AccordionDetails>
+      </Accordion>
 
-        <Accordion>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="h6">Shipping Policy</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-              • Free Shipping within INDIA<br />
-              • Only Prepaid orders are accepted (NO COD).<br />
-              • Ships within 1-3 working days.<br />
-              • Delivers within 5-10 working days from the shipping date<br />
+      {/* Care Instructions Accordion */}
+      <Accordion disableGutters>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography variant="h6">Care Instructions</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <List dense>
+            {product.careInstructions?.length > 0
+              ? product.careInstructions.map((instruction, index) => (
+                <ListItem key={index} sx={{ padding: '0' }}>
+                  <ListItemText primary={`• ${instruction}`} />
+                </ListItem>
+              ))
+              : <Typography>No instructions available</Typography>
+            }
+          </List>
+        </AccordionDetails>
+      </Accordion>
+
+      {/* Shipping Policy Accordion */}
+      <Accordion disableGutters>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography variant="h6">Shipping Policy</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <List dense>
+            <ListItem sx={{ padding: '0' }}><ListItemText primary="• Free Shipping within INDIA" /></ListItem>
+            <ListItem sx={{ padding: '0' }}><ListItemText primary="• Only Prepaid orders are accepted (NO COD)." /></ListItem>
+            <ListItem sx={{ padding: '0' }}><ListItemText primary="• Ships within 1-3 working days." /></ListItem>
+            <ListItem sx={{ padding: '0' }}><ListItemText primary="• Delivers within 5-10 working days from the shipping date" /></ListItem>
+            <ListItem sx={{ padding: '0' }}>
               <Link href="shipping policy link" target="_blank">For more info</Link>
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
+            </ListItem>
+          </List>
+        </AccordionDetails>
+      </Accordion>
 
-        <Accordion>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="h6">Exchange & Return Policy</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-              We perform strict quality checks before dispatch. Easy exchanges are allowed for damaged or defective products only.<br />
+      {/* Exchange & Return Policy Accordion */}
+      <Accordion disableGutters>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography variant="h6">Exchange & Return Policy</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <List dense>
+            <ListItem sx={{ padding: '0' }}><ListItemText primary="• We perform strict quality checks before dispatch." /></ListItem>
+            <ListItem sx={{ padding: '0' }}><ListItemText primary="• Easy exchanges are allowed for damaged or defective products only." /></ListItem>
+            <ListItem sx={{ padding: '0' }}>
               <Link href="exchange policy link" target="_blank">For more info</Link>
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-      </Box>
+            </ListItem>
+          </List>
+        </AccordionDetails>
+      </Accordion>
     </Box>
   );
 };

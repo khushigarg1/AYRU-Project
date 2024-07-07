@@ -40,7 +40,8 @@ const InventoryItem = ({ item }) => {
     }
   }, [token, user, setWishlistCount]);
 
-  const handleToggleWishlist = async () => {
+  const handleToggleWishlist = async (event) => {
+    event.stopPropagation();
     try {
       if (!token) {
         openAuthModal();
@@ -78,6 +79,13 @@ const InventoryItem = ({ item }) => {
     }
   };
 
+  const calculateDiscountPercentage = () => {
+    if (item.discountedPrice) {
+      return ((item.sellingPrice - item.discountedPrice) / item.sellingPrice * 100).toFixed(0);
+    }
+    return null;
+  };
+
   return (
     <Card sx={{ position: 'relative', display: 'flex', flexDirection: 'column', height: '100%', cursor: "pointer" }}
       onClick={() => router.push(`/shop/${item?.id}`)}
@@ -88,7 +96,8 @@ const InventoryItem = ({ item }) => {
             label={
               <div style={{ textAlign: 'center' }}>
                 <Typography variant="caption" component="span" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
-                  {`${((item.sellingPrice - item.discountedPrice) / item.sellingPrice * 100).toFixed(0)}%`}
+                  {`${calculateDiscountPercentage()}%`}
+                  {/* {`${((item.sellingPrice - item.discountedPrice) / item.sellingPrice * 100).toFixed(0)}%`} */}
                 </Typography>
                 <Typography variant="caption" component="div" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
                   off
@@ -111,6 +120,33 @@ const InventoryItem = ({ item }) => {
               borderRadius: '50%',
               fontSize: '2px',
               fontWeight: 'bold',
+            }}
+          />
+        )}
+        {item.extraOptionOutOfStock && (
+          <Chip
+            label={
+              <div style={{ textAlign: 'center' }}>
+                <Typography variant="caption" component="span" sx={{ lineHeight: 1, fontWeight: "bolder", color: "white" }}>
+                  Sold out
+                </Typography>
+              </div>
+            }
+            color="secondary"
+            size="small"
+            sx={{
+              position: 'absolute',
+              top: 4,
+              right: 4,
+              zIndex: 1,
+              padding: '7px 4px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              borderRadius: '12px',
+              fontSize: '2px',
+              fontWeight: 'bold',
+              backgroundColor: "#cf2e2e"
             }}
           />
         )}
@@ -151,9 +187,9 @@ const InventoryItem = ({ item }) => {
           </Typography>
         )}
 
-        {/* <Typography variant='body2' sx={{ color: item?.extraOptionOutOfStock ? 'red' : 'green' }}>
+        <Typography variant='body2' sx={{ color: item?.extraOptionOutOfStock ? 'red' : 'green' }}>
           {item?.extraOptionOutOfStock === true ? "Out of Stock" : "In Stock"}
-        </Typography> */}
+        </Typography>
       </CardContent>
     </Card>
   );

@@ -252,12 +252,13 @@ const ShopPage = () => {
             </FormControl>
           </Grid>
         )}
-
         <Grid container spacing={1} item xs={12}>
           {inventory.map(item => (
-            <Grid key={item.id} item xs={6} sm={6} md={4} lg={3} xl={2}>
-              <InventoryItem item={item} />
-            </Grid>
+            item?.productstatus === "PUBLISHED" && (
+              <Grid key={item.id} item xs={6} sm={6} md={4} lg={2.4} xl={2}>
+                <InventoryItem item={item} />
+              </Grid>
+            )
           ))}
         </Grid>
       </Grid>

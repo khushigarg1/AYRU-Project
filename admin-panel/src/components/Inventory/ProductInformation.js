@@ -166,21 +166,14 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <FormControl fullWidth variant="outlined" margin="normal">
-              <InputLabel id="size-label">Size</InputLabel>
-              <Select
-                labelId="size-label"
-                id="size"
-                value={editedProduct?.size}
-                onChange={(e) => handleChange(e, 'size')}
-                label="Size"
-              >
-                <MenuItem value="S">S</MenuItem>
-                <MenuItem value="M">M</MenuItem>
-                <MenuItem value="L">L</MenuItem>
-                <MenuItem value="XL">XL</MenuItem>
-              </Select>
-            </FormControl>
+            <TextField
+              label="Size"
+              value={editedProduct?.size}
+              onChange={(e) => handleChange(e, 'size')}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+            />
           </Grid>
           <Grid item xs={12}>
             <div>
