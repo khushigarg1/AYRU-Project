@@ -140,7 +140,7 @@ class AdminAuthServices {
   async getAdminById(id: number) {
     return await prisma.admin.findUnique({ where: { id } });
   }
-  // async getAccessToken(server: FastifyInstance, user: any) {
+  // async getaccessToken(server: FastifyInstance, user: any) {
   //   const token = server.jwt.sign(user, {
   //     secret: process.env.JWT_TOKEN_SECRET,
   //     expiresIn: process.env.JWT_EXPIRATION_TIME,

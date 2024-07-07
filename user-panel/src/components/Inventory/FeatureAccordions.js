@@ -25,31 +25,31 @@ export const FeatureAccordions = ({ product }) => {
             <Table>
               <TableBody>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#FFF8DC' }}>Style</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d' }}>Style</TableCell>
                   <TableCell>{product.style || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#FFF8DC' }}>Pattern</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d' }}>Pattern</TableCell>
                   <TableCell>{product.pattern || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#FFF8DC' }}>Fabric</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d' }}>Fabric</TableCell>
                   <TableCell>{product.fabric || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#FFF8DC' }}>Size</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d' }}>Size</TableCell>
                   <TableCell>{product.size || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#FFF8DC' }}>Item Weight</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d' }}>Item Weight</TableCell>
                   <TableCell>{product.weight || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#FFF8DC' }}>Thread Count</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d' }}>Thread Count</TableCell>
                   <TableCell>{product.threadCount || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#FFF8DC', width: "40%" }}>Origin</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%" }}>Origin</TableCell>
                   <TableCell>{product.origin || "N/A"}</TableCell>
                 </TableRow>
                 {/* <TableRow>
@@ -136,7 +136,7 @@ export const FeatureAccordions = ({ product }) => {
             <ListItem sx={{ padding: '0' }}><ListItemText primary="• Ships within 1-3 working days." /></ListItem>
             <ListItem sx={{ padding: '0' }}><ListItemText primary="• Delivers within 5-10 working days from the shipping date" /></ListItem>
             <ListItem sx={{ padding: '0' }}>
-              <Link href="shipping policy link" target="_blank">For more info</Link>
+              <Link href="shipping policy link" target="_blank">For more details</Link>
             </ListItem>
           </List>
         </AccordionDetails>
@@ -152,7 +152,7 @@ export const FeatureAccordions = ({ product }) => {
             <ListItem sx={{ padding: '0' }}><ListItemText primary="• We perform strict quality checks before dispatch." /></ListItem>
             <ListItem sx={{ padding: '0' }}><ListItemText primary="• Easy exchanges are allowed for damaged or defective products only." /></ListItem>
             <ListItem sx={{ padding: '0' }}>
-              <Link href="exchange policy link" target="_blank">For more info</Link>
+              <Link href="exchange policy link" target="_blank">For more details</Link>
             </ListItem>
           </List>
         </AccordionDetails>

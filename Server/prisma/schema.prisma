@@ -321,108 +321,211 @@ model SubCategory {
   updatedAt       DateTime    @updatedAt
 }
 
-model Cart {
-  id          Int        @id @default(autoincrement())
-  userId      Int
-  user        User       @relation(fields: [userId], references: [id])
-  inventoryId Int?
-  inventory   Inventory? @relation(fields: [inventoryId], references: [id])
-  quantity    Int        @default(1)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+// model Cart {
+//   id          Int        @id @default(autoincrement())
+//   userId      Int
+//   user        User       @relation(fields: [userId], references: [id])
+//   inventoryId Int?
+//   inventory   Inventory? @relation(fields: [inventoryId], references: [id])
+//   quantity    Int        @default(1)
+//   createdAt   DateTime   @default(now())
+//   updatedAt   DateTime   @updatedAt
 
-  @@unique([userId, inventoryId])
+//   @@unique([userId, inventoryId])
+// }
+
+// model Wishlist {
+//   id          Int        @id @default(autoincrement())
+//   userId      Int
+//   user        User       @relation(fields: [userId], references: [id])
+//   inventoryId Int?
+//   inventory   Inventory? @relation(fields: [inventoryId], references: [id])
+//   createdAt   DateTime   @default(now())
+//   updatedAt   DateTime   @updatedAt
+
+//   @@unique([userId, inventoryId])
+// }
+
+// model OrderItem {
+//   id         Int      @id @default(autoincrement())
+//   orderId    Int
+//   order      Order    @relation(fields: [orderId], references: [id])
+//   trekkingId Int?
+//   typeName   String
+//   dimensions String?
+//   colorId    Int?
+//   colorname  String?
+//   customName String?
+//   width      Float?
+//   length     Float?
+//   height     Float?
+//   createdAt  DateTime @default(now())
+//   updatedAt  DateTime @updatedAt
+// }
+
+// model Order {
+//   id                Int               @id @default(autoincrement())
+//   userId            Int
+//   orderID           Int
+//   user              User              @relation(fields: [userId], references: [id])
+//   trekkingId        Int?
+//   giftOption        Boolean?
+//   Total             Int
+//   inventoryId       Int?
+//   inventory         Inventory?        @relation(fields: [inventoryId], references: [id])
+//   items             OrderItem[]
+//   shippingAddresses ShippingAddress[]
+//   Transaction       Transaction[]
+//   createdAt         DateTime          @default(now())
+//   updatedAt         DateTime          @updatedAt
+// }
+
+// model ShippingAddress {
+//   id           Int      @id @default(autoincrement())
+//   userId       Int
+//   user         User     @relation(fields: [userId], references: [id])
+//   productId    Int?
+//   trekkingId   Int?
+//   addressLine1 String
+//   addressLine2 String?
+//   city         String
+//   state        String
+//   country      String
+//   postalCode   String
+//   phoneNumber  String
+//   createdAt    DateTime @default(now())
+//   updatedAt    DateTime @updatedAt
+//   Order        Order?   @relation(fields: [orderId], references: [id])
+//   orderId      Int?
+// }
+
+// model PaymentMethod {
+//   id             Int           @id @default(autoincrement())
+//   userId         Int
+//   user           User          @relation(fields: [userId], references: [id])
+//   cardNumber     String        @db.VarChar(255)
+//   cardholderName String
+//   expiryDate     String
+//   billingAddress Json?
+//   createdAt      DateTime      @default(now())
+//   updatedAt      DateTime      @updatedAt
+//   Transaction    Transaction[]
+// }
+
+// model Transaction {
+//   id              Int               @id @default(autoincrement())
+//   orderId         Int
+//   order           Order             @relation(fields: [orderId], references: [id])
+//   paymentMethodId Int
+//   paymentMethod   PaymentMethod     @relation(fields: [paymentMethodId], references: [id])
+//   amount          Float
+//   status          TransactionStatus
+//   transactionDate DateTime
+//   createdAt       DateTime          @default(now())
+//   updatedAt       DateTime          @updatedAt
+// }
+
+model Cart {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  inventoryId Int
+  quantity    Int
+  sizeType    String?
+  sizeName    String?
+  length      Float?
+  width       Float?
+  height      Float?
+  remark      String?
+  Inventory   Inventory @relation(fields: [inventoryId], references: [id])
+  User        User      @relation(fields: [userId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Wishlist {
-  id          Int        @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   userId      Int
-  user        User       @relation(fields: [userId], references: [id])
-  inventoryId Int?
-  inventory   Inventory? @relation(fields: [inventoryId], references: [id])
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  inventoryId Int
+  Inventory   Inventory @relation(fields: [inventoryId], references: [id])
+  User        User      @relation(fields: [userId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@unique([userId, inventoryId])
 }
 
-model OrderItem {
-  id         Int      @id @default(autoincrement())
-  orderId    Int
-  order      Order    @relation(fields: [orderId], references: [id])
-  trekkingId Int?
-  typeName   String
-  dimensions String?
-  colorId    Int?
-  colorname  String?
-  customName String?
-  width      Float?
-  length     Float?
-  height     Float?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-
 model Order {
-  id                Int               @id @default(autoincrement())
+  id                Int             @id @default(autoincrement())
   userId            Int
-  orderID           Int
-  user              User              @relation(fields: [userId], references: [id])
-  trekkingId        Int?
+  inventoryId       Int
+  quantity          Int
+  trekkingId        String?
+  sizeType          String?
+  sizeName          String?
+  dimensions        String?
+  length            Float?
+  width             Float?
+  height            Float?
+  status            String
+  paymentStatus     String
+  deliveryStatus    String
   giftOption        Boolean?
   Total             Int
-  inventoryId       Int?
-  inventory         Inventory?        @relation(fields: [inventoryId], references: [id])
-  items             OrderItem[]
-  shippingAddresses ShippingAddress[]
-  Transaction       Transaction[]
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
+  paymentMethodId   Int
+  deliveryAddressId Int
+  remark            String?
+  Inventory         Inventory       @relation(fields: [inventoryId], references: [id])
+  User              User            @relation(fields: [userId], references: [id])
+  PaymentMethod     PaymentMethod   @relation(fields: [paymentMethodId], references: [id])
+  ShippingAddress   ShippingAddress @relation(fields: [deliveryAddressId], references: [id])
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
 }
 
 model ShippingAddress {
   id           Int      @id @default(autoincrement())
   userId       Int
   user         User     @relation(fields: [userId], references: [id])
-  productId    Int?
-  trekkingId   Int?
   addressLine1 String
   addressLine2 String?
+  pincode      String
   city         String
   state        String
   country      String
-  postalCode   String
   phoneNumber  String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  Order        Order?   @relation(fields: [orderId], references: [id])
-  orderId      Int?
+  Order        Order[]
 }
 
 model PaymentMethod {
-  id             Int           @id @default(autoincrement())
-  userId         Int
-  user           User          @relation(fields: [userId], references: [id])
-  cardNumber     String        @db.VarChar(255)
-  cardholderName String
-  expiryDate     String
-  billingAddress Json?
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  Transaction    Transaction[]
+  id            Int           @id @default(autoincrement())
+  userId        Int
+  type          String
+  provider      String
+  accountNumber String
+  expiryDate    DateTime
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  User          User          @relation(fields: [userId], references: [id])
+  Transactions  Transaction[]
+  Order         Order[]
 }
 
 model Transaction {
-  id              Int               @id @default(autoincrement())
-  orderId         Int
-  order           Order             @relation(fields: [orderId], references: [id])
-  paymentMethodId Int
-  paymentMethod   PaymentMethod     @relation(fields: [paymentMethodId], references: [id])
-  amount          Float
-  status          TransactionStatus
-  transactionDate DateTime
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
+  id                Int           @id @default(autoincrement())
+  paymentMethodId   Int
+  razorpayOrderId   String
+  razorpayPaymentId String
+  status            String
+  amount            Float
+  currency          String
+  method            String
+  bank              String?
+  transactionDate   DateTime      @default(now())
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  PaymentMethod     PaymentMethod @relation(fields: [paymentMethodId], references: [id])
 }
 
 model ClientLove {

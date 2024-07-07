@@ -37,7 +37,7 @@ const SignUpForm = ({ switchToLogin }) => {
       const response = await api.post('/auth/verify-email-otp', { email, OTP: emailOTP, role: 'user' });
       const { isPhoneVerified, isEmailVerified } = response?.data?.data?.userdata;
       if (isEmailVerified) {
-        const token = response?.data?.accessToken;
+        const ayrutoken = response?.data?.accessToken;
         Cookies.set('token', token, { expires: 365 });
 
         // const expirationDate = new Date(new Date().getTime() + 3 * 60 * 1000); // 5 minutes from now

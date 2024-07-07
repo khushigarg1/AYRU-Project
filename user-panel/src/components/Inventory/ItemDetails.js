@@ -64,47 +64,68 @@ const ItemDetails = ({ product }) => {
         <Typography variant="h5" gutterBottom sx={{ mt: 1 }}>
           {product?.productName}
         </Typography>
-        <Box sx={{
+        {/* <Box sx={{
           mt: 0,
           display: 'flex',
           //  alignItems: 'center',
           gap: 2
         }}>
-          {product.discountedPrice && (
-            <Box sx={{ textAlign: 'left' }}>
-              <Typography variant="h5" color="error" sx={{ fontWeight: 'bold' }}>
-                {`-${Math.round(((product.sellingPrice - product.discountedPrice) / product.sellingPrice) * 100)}%`}
-              </Typography>
-              <Typography variant="body2" sx={{ textDecoration: 'line-through', fontSize: '0.75rem' }}>
-                Rs. {product?.sellingPrice?.toFixed(2)}
-              </Typography>
-            </Box>
-          )}
-          <Typography variant="h5" sx={{ position: 'relative', mt: 0.5 }}>
-            <Box component="span" sx={{ position: 'absolute', top: 1, left: '-1ch', fontSize: '0.75rem' }}>₹</Box>
-            {product?.discountedPrice?.toFixed(2)}
-          </Typography>
-        </Box>
+          {product.discountedPrice ? (
+            <>
+              <Box sx={{ textAlign: 'left' }}>
+                <Typography variant="h5" color="error" sx={{ fontWeight: 'bold' }}>
+                  {`-${Math.round(((product.sellingPrice - product.discountedPrice) / product.sellingPrice) * 100)}%`}
+                </Typography>
+                <Typography variant="body2" sx={{ textDecoration: 'line-through', fontSize: '0.75rem' }}>
+                  Rs. {product?.sellingPrice?.toFixed(2)}
+                </Typography>
+              </Box>
 
-        {/* {product.discountedPrice ? (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Typography variant="h6" sx={{ textDecoration: 'line-through' }}>
-              Rs. {product?.sellingPrice?.toFixed(2)}
+              <Typography variant="h5" sx={{ position: 'relative', mt: 0.5 }}>
+                <Box component="span" sx={{ position: 'absolute', top: 4, left: '-1ch', fontSize: '0.75rem' }}>₹</Box>
+                {product?.discountedPrice?.toFixed(2)}
+              </Typography>
+            </>
+          ) : (
+            <Typography variant="h5" sx={{ position: 'relative', mt: 0.5 }}>
+              <Box component="span" sx={{ position: 'absolute', top: 4, left: '-1ch', fontSize: '0.75rem' }}>₹</Box>
+              {product?.sellingPrice?.toFixed(2)}
             </Typography>
-            <Typography variant="h6" >
-              Rs. {product?.discountedPrice?.toFixed(2)}
+          )}
+        </Box> */}
+
+        {product.discountedPrice ? (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            <Typography variant="body2">
+              MRP
+            </Typography>
+            <Typography variant="body2" sx={{ textDecoration: 'line-through' }}>
+              ₹{product?.sellingPrice?.toFixed(2)}
+            </Typography>
+            <Typography variant="h6" sx={{ marginRight: "3px", fontWeight: "bold" }} >
+              ₹{product?.discountedPrice?.toFixed(2)}
+            </Typography>
+            <Typography variant="body2" color="error" sx={{
+              display: 'inline-block',
+              background: 'linear-gradient(135deg, #FF5733 100%, #FFC300 30%)',
+              padding: '0px 10px',
+              borderRadius: '1px',
+              clipPath: 'polygon(0 0, 100% 0, 90% 100%, 0% 100%)',
+              color: "white",
+            }}>
+              {`${Math.round(((product.sellingPrice - product.discountedPrice) / product.sellingPrice) * 100)}% OFF!`}
             </Typography>
           </Box>
         ) : (
           <Typography variant="h6">
-            Rs. {product?.sellingPrice?.toFixed(2)}
+            ₹{product?.sellingPrice?.toFixed(2)}
           </Typography>
-        )} */}
+        )}
         <Typography variant="body2" sx={{ fontSize: '0.75rem', color: 'text.secondary', mb: 1 }}>
           (MRP inclusive of all taxes)
         </Typography>
 
-        {!product?.availability &&
+        {product?.availability &&
           <Typography variant='body2' sx={{ color: product?.extraOptionOutOfStock ? 'red' : 'green', }}>
             {product?.extraOptionOutOfStock ? "Out of Stock" : "In Stock"}
           </Typography>
@@ -201,91 +222,110 @@ const ItemDetails = ({ product }) => {
           </Typography>
         }
 
-        <Card variant="outlined" sx={{ maxWidth: "100%" }}>
-          <CardContent sx={{ padding: "10px", '&:last-child': { paddingBottom: "10px" } }}>
-            <Typography gutterBottom variant="h6">
-              International Orders
-            </Typography>
-            <Typography variant="body2" sx={{ lineHeight: '1', display: "flex", flexDirection: "column", alignItems: "center", paddingBottom: "0px" }}>
-              For Order & Shipping Details, Connect with us for personalized assistance on{' '} <br />
-              <Button
-                aria-label="Chat on WhatsApp"
-                href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                startIcon={<WhatsAppIcon />}
-                sx={{
-                  color: '#25D366',
-                  fontWeight: 'bold',
-                  textTransform: 'none',
-                  mb: 0
-                }}
-              >
-                WhatsApp
-              </Button>
-            </Typography>
-          </CardContent>
-        </Card >
-        {product?.availability === true ?
+        {product?.extraOptionOutOfStock === true ?
           (
-            <>
-              <Typography
-                variant="caption"
-                sx={{
-                  fontSize: '0.9rem',
-                  color: 'text.secondary',
-                  display: 'flex',
-                  flexDirection: "column",
-                  mt: 2,
-                  mb: 1,
-                  lineHeight: "1"
-                }}
+            <Grid item xs={12} sx={{ paddingTop: "0px" }}>
+              <Button
+                onClick={handleAddToCart}
+                color="inherit"
+                fullWidth
+                disabled
+                sx={{ backgroundColor: theme.palette.background.contrast }}
               >
-                Check availability for this product{' '}
-                <Typography
-                  sx={{ color: theme.palette.text.text, textDecoration: "underline" }}
-                  variant="caption"
-                >
-                  <Link href="exchange policy link" target="_blank">
-                    {' '}for more info
-                  </Link>
-                </Typography>
-              </Typography>
-              <Grid item xs={12} sx={{ paddingTop: "0px" }}>
-                <Button
-                  onClick={handleAddToCart}
-                  color="inherit"
-                  fullWidth
-                  sx={{ backgroundColor: theme.palette.background.contrast }}
-                >
-                  Check Availability
-                </Button>
-              </Grid>
-            </>
-          )
-          : (
-            <Grid container spacing={1} sx={{ mt: 1, mb: 1 }}>
-              <Grid item xs={6} sx={{ paddingTop: "0px" }}>
-                <Button
-                  onClick={handleAddToCart}
-                  color="inherit"
-                  fullWidth
-                  sx={{ backgroundColor: theme.palette.background.contrast }}
-                >
-                  Add to Cart
-                </Button>
-              </Grid>
-              <Grid item xs={6} sx={{ paddingTop: "0px" }}>
-                <Button
-                  onClick={handleBuyNow}
-                  color="inherit"
-                  fullWidth
-                  sx={{ backgroundColor: theme.palette.background.contrast }}
-                >
-                  Buy Now
-                </Button>
-              </Grid>
+                Sold Out
+              </Button>
             </Grid>
+          ) : (
+            <>
+              <Card variant="outlined" sx={{ maxWidth: "100%" }}>
+                <CardContent sx={{ padding: "10px", '&:last-child': { paddingBottom: "10px" } }}>
+                  <Typography gutterBottom variant="h6">
+                    International Orders
+                  </Typography>
+                  <Typography variant="body2" sx={{ lineHeight: '1', display: "flex", flexDirection: "column", alignItems: "center", paddingBottom: "0px" }}>
+                    For Order & Shipping Details, Connect with us for personalized assistance on{' '} <br />
+                    <Button
+                      aria-label="Chat on WhatsApp"
+                      href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      startIcon={<WhatsAppIcon />}
+                      sx={{
+                        color: '#25D366',
+                        fontWeight: 'bold',
+                        textTransform: 'none',
+                        mb: 0
+                      }}
+                    >
+                      WhatsApp
+                    </Button>
+                  </Typography>
+                </CardContent>
+              </Card >
+              {
+                product?.availability === false ?
+                  (
+                    <>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          fontSize: '0.9rem',
+                          color: 'text.secondary',
+                          display: 'flex',
+                          flexDirection: "column",
+                          mt: 2,
+                          mb: 1,
+                          lineHeight: "1"
+                        }}
+                      >
+                        Check availability for this product{' '}
+                        <Typography
+                          sx={{ color: theme.palette.text.text, textDecoration: "underline" }}
+                          variant="caption"
+                        >
+                          <Link href="exchange policy link" target="_blank">
+                            {' '}for more details
+                          </Link>
+                        </Typography>
+                      </Typography>
+                      <Grid item xs={12} sx={{ paddingTop: "0px" }}>
+                        <Button
+                          onClick={handleAddToCart}
+                          color="inherit"
+                          fullWidth
+                          sx={{ backgroundColor: theme.palette.background.contrast }}
+                        >
+                          Check Availability
+                        </Button>
+                      </Grid>
+                    </>
+                  )
+                  : (
+                    <Grid container spacing={1} sx={{ mt: 1, mb: 1 }}>
+                      <Grid item xs={6} sx={{ paddingTop: "0px" }}>
+                        <Button
+                          onClick={handleAddToCart}
+                          color="inherit"
+                          fullWidth
+                          sx={{ backgroundColor: theme.palette.background.contrast }}
+                        >
+                          Add to Cart
+                        </Button>
+                      </Grid>
+                      <Grid item xs={6} sx={{ paddingTop: "0px" }}>
+                        <Button
+                          onClick={handleBuyNow}
+                          color="inherit"
+                          fullWidth
+                          sx={{ backgroundColor: theme.palette.background.contrast }}
+                        >
+                          Buy Now
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  )
+              }
+            </>
           )
         }
         {

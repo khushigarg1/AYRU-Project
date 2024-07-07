@@ -7,7 +7,7 @@ import {
   getAllAdmins,
   getAdmin,
   getFirstAdmin,
-  // getAccessToken,
+  // getaccessToken,
 } from "../Controllers/adminAuth.controller";
 
 export default async function AdminAuthRoutes(server: FastifyInstance) {
