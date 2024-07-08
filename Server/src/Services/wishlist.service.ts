@@ -69,8 +69,8 @@ export class WishlistService {
     try {
       const wishlists = await prisma.wishlist.findMany({
         include: {
-          user: true,
-          inventory: {
+          User: true,
+          Inventory: {
             include: {
               InventoryFlat: { include: { Flat: true } },
               customFittedInventory: { include: { customFitted: true } },
@@ -170,8 +170,8 @@ export class WishlistService {
           userId,
         },
         include: {
-          user: true,
-          inventory: {
+          User: true,
+          Inventory: {
             include: {
               InventoryFlat: { include: { Flat: true } },
               customFittedInventory: { include: { customFitted: true } },

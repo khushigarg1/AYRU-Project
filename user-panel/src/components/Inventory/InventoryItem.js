@@ -127,7 +127,11 @@ const InventoryItem = ({ item }) => {
           <Chip
             label={
               <div style={{ textAlign: 'center' }}>
-                <Typography variant="caption" component="span" sx={{ lineHeight: 1, fontWeight: "bolder", color: "white" }}>
+                <Typography variant="caption" component="span" sx={{
+                  lineHeight: 1,
+                  fontWeight: "bolder",
+                  color: "white",
+                }}>
                   Sold out
                 </Typography>
               </div>

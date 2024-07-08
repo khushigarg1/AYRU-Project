@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardContent, Typography, Box, Divider, IconButton, TextField, Tooltip, ButtonGroup, Button, Grid, useTheme, Accordion, AccordionSummary, AccordionDetails, CardMedia, Modal } from '@mui/material';
+import { Card, CardContent, Typography, Box, Divider, IconButton, TextField, Tooltip, ButtonGroup, Button, Grid, useTheme, Accordion, AccordionSummary, AccordionDetails, CardMedia, Modal, Snackbar, SnackbarContent } from '@mui/material';
 import CustomDropdown from './SizeDropdown';
 import { AccountCircle, Add, AddSharp, Remove, RemoveSharp, WhatsApp } from '@mui/icons-material';
 import Link from 'next/link';
@@ -16,6 +16,29 @@ const ItemDetails = ({ product }) => {
   const [quantity, setQuantity] = useState(product.minQuantity || 1);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageModalOpen, setImageModalOpen] = useState(false);
+  const hasBedsheets = product?.InventoryFitted.length > 0 || product.customFittedInventory.length > 0;
+  const [selections, setSelections] = useState({
+    selectedOption: hasBedsheets ? '' : 'flat',
+    selectedFlatItem: '',
+    selectedFittedItem: '',
+    selectedFittedDimension: '',
+    selectedCustomFittedItem: '',
+    selectedUnit: 'inch',
+    dimensions: {
+      width: '',
+      height: '',
+      length: ''
+    }
+  });
+
+  const [cart, setCart] = useState([]);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
   const handleDecrement = () => {
     if (quantity > (product.minQuantity || 1)) {
       setQuantity(quantity - 1);
@@ -36,8 +59,30 @@ const ItemDetails = ({ product }) => {
   };
 
   const handleAddToCart = () => {
-    // Implement logic to add item to cart
-    console.log('Item added to cart:', product);
+
+    if (selections?.selectedOption === '') {
+      setSnackbarMessage('Please select a size option before adding to the cart.');
+      setOpenSnackbar(true);
+      return;
+    }
+    if (selections?.selectedOption === 'flat' && selections?.selectedFlatItem === '') {
+      setSnackbarMessage('Please select a size before adding to the cart.');
+      setOpenSnackbar(true);
+      return;
+    }
+    if (selections?.selectedOption === 'fitted' && selections?.selectedFittedDimension
+      === '') {
+      setSnackbarMessage('Please select dimension before adding to the cart.');
+      setOpenSnackbar(true);
+      return;
+    }
+    if (selections?.selectedOption === 'custom' && (selections?.selectedCustomFittedItem === '' || selections?.dimensions?.width === '' || selections?.dimensions?.height === '' || selections?.dimensions?.length === '')) {
+
+      setSnackbarMessage('Please fill all sizes before adding to the cart.');
+      setOpenSnackbar(true);
+      return;
+    }
+    console.log('Item added to cart:', selections);
   };
 
   // Function to handle buying now
@@ -126,15 +171,15 @@ const ItemDetails = ({ product }) => {
         </Typography>
 
         {product?.availability &&
-          <Typography variant='body2' sx={{ color: product?.extraOptionOutOfStock ? 'red' : 'green', }}>
+          <Typography variant='body2' sx={{ color: product?.extraOptionOutOfStock ? 'red' : 'green', mb: 1 }}>
             {product?.extraOptionOutOfStock ? "Out of Stock" : "In Stock"}
           </Typography>
         }
-        <Divider sx={{ borderStyle: "dotted", mt: 1, mb: 2 }} />
         {
           product?.relatedInventories?.length > 0
           &&
           <>
+            <Divider sx={{ borderStyle: "dotted", mb: 2 }} />
             <InventoryAccordion relatedInventories={product.relatedInventories} />
           </>
         }
@@ -147,10 +192,10 @@ const ItemDetails = ({ product }) => {
           SKU: {product?.skuId}
         </Typography>
         <Divider sx={{ borderStyle: "dotted", mt: 2, mb: 2 }} />
-        <CustomDropdown data={product} />
+        <CustomDropdown data={product} selections={selections} setSelections={setSelections} hasBedsheets={hasBedsheets} />
 
         <Box>
-          <Typography variant="body2" gutterBottom>
+          <Typography variant="body2" gutterBottom sx={{ fontWeight: "bold" }}>
             Quantity:
           </Typography>
           <Box
@@ -218,7 +263,7 @@ const ItemDetails = ({ product }) => {
             margin: "10px 0px"
           }}
           >
-            Note: {product?.extraNote}
+            <strong>Note: </strong>{product?.extraNote}
           </Typography>
         }
 
@@ -367,6 +412,33 @@ const ItemDetails = ({ product }) => {
       <Modal open={imageModalOpen} onClose={handleCloseImageModal}>
         <ImagePopup imageUrl={selectedImage} onClose={handleCloseImageModal} />
       </Modal>
+
+      {/* <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        message={snackbarMessage}
+        sx={{
+          backgroundColor: theme.palette.secondary.main,
+          color: theme.palette.getContrastText(theme.palette.secondary.main),
+          borderRadius: "2px",
+          maxWidth: 'calc(100vw - 48px)',
+        }}
+      /> */}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        message={snackbarMessage}
+      >
+        <SnackbarContent style={{
+          backgroundColor: theme.palette.background.primary,
+          color: "black"
+        }}
+          message={snackbarMessage}
+        />
+      </Snackbar>
+
     </>
   );
 };

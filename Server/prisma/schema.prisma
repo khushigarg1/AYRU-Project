@@ -167,7 +167,6 @@ model Inventory {
   sellingPrice          Float?
   costPrice             Float?
   discountedPrice       Float?
-  discountCount         Int?
   availability          Boolean?
   weight                Float?
   productstatus         ProductStatus?
@@ -189,8 +188,8 @@ model Inventory {
   disclaimer            String?
   others                String?
   careInstructions      String[]
-  categoryId            Int?
-  subCategoryId         Int?
+  categoryId            Int[]
+  subCategoryId         Int[]
   color                 Color[]
   InventoryFlat         InventoryFlat[]
   InventoryFitted       InventoryFitted[]
@@ -232,29 +231,50 @@ model Color {
 }
 
 model CustomFittedInventory {
-  id             Int          @id @default(autoincrement())
-  customFittedId Int
-  inventoryId    Int
-  Inventory      Inventory    @relation(fields: [inventoryId], references: [id])
-  customFitted   CustomFitted @relation(fields: [customFittedId], references: [id])
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  id              Int          @id @default(autoincrement())
+  customFittedId  Int
+  inventoryId     Int
+  quantity        Int?
+  soldQuantity    Int?
+  minQuantity     Int?
+  maxQuantity     Int?
+  sellingPrice    Float?
+  costPrice       Float?
+  discountedPrice Float?
+  Inventory       Inventory    @relation(fields: [inventoryId], references: [id])
+  customFitted    CustomFitted @relation(fields: [customFittedId], references: [id])
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
 }
 
 model InventoryFlat {
-  id          Int       @id @default(autoincrement())
-  inventoryId Int
-  flatId      Int
-  Inventory   Inventory @relation(fields: [inventoryId], references: [id])
-  Flat        Flat      @relation(fields: [flatId], references: [id])
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id              Int       @id @default(autoincrement())
+  inventoryId     Int
+  flatId          Int
+  quantity        Int?
+  soldQuantity    Int?
+  minQuantity     Int?
+  maxQuantity     Int?
+  sellingPrice    Float?
+  costPrice       Float?
+  discountedPrice Float?
+  Inventory       Inventory @relation(fields: [inventoryId], references: [id])
+  Flat            Flat      @relation(fields: [flatId], references: [id])
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }
 
 model InventoryFitted {
   id               Int                @id @default(autoincrement())
   fittedId         Int
   inventoryId      Int
+  quantity         Int?
+  soldQuantity     Int?
+  minQuantity      Int?
+  maxQuantity      Int?
+  sellingPrice     Float?
+  costPrice        Float?
+  discountedPrice  Float?
   Inventory        Inventory          @relation(fields: [inventoryId], references: [id])
   Fitted           Fitted             @relation(fields: [fittedId], references: [id])
   fittedDimensions FittedDimensions[] @relation(name: "InventoryFittedToFittedDimensions")
@@ -321,110 +341,6 @@ model SubCategory {
   updatedAt       DateTime    @updatedAt
 }
 
-// model Cart {
-//   id          Int        @id @default(autoincrement())
-//   userId      Int
-//   user        User       @relation(fields: [userId], references: [id])
-//   inventoryId Int?
-//   inventory   Inventory? @relation(fields: [inventoryId], references: [id])
-//   quantity    Int        @default(1)
-//   createdAt   DateTime   @default(now())
-//   updatedAt   DateTime   @updatedAt
-
-//   @@unique([userId, inventoryId])
-// }
-
-// model Wishlist {
-//   id          Int        @id @default(autoincrement())
-//   userId      Int
-//   user        User       @relation(fields: [userId], references: [id])
-//   inventoryId Int?
-//   inventory   Inventory? @relation(fields: [inventoryId], references: [id])
-//   createdAt   DateTime   @default(now())
-//   updatedAt   DateTime   @updatedAt
-
-//   @@unique([userId, inventoryId])
-// }
-
-// model OrderItem {
-//   id         Int      @id @default(autoincrement())
-//   orderId    Int
-//   order      Order    @relation(fields: [orderId], references: [id])
-//   trekkingId Int?
-//   typeName   String
-//   dimensions String?
-//   colorId    Int?
-//   colorname  String?
-//   customName String?
-//   width      Float?
-//   length     Float?
-//   height     Float?
-//   createdAt  DateTime @default(now())
-//   updatedAt  DateTime @updatedAt
-// }
-
-// model Order {
-//   id                Int               @id @default(autoincrement())
-//   userId            Int
-//   orderID           Int
-//   user              User              @relation(fields: [userId], references: [id])
-//   trekkingId        Int?
-//   giftOption        Boolean?
-//   Total             Int
-//   inventoryId       Int?
-//   inventory         Inventory?        @relation(fields: [inventoryId], references: [id])
-//   items             OrderItem[]
-//   shippingAddresses ShippingAddress[]
-//   Transaction       Transaction[]
-//   createdAt         DateTime          @default(now())
-//   updatedAt         DateTime          @updatedAt
-// }
-
-// model ShippingAddress {
-//   id           Int      @id @default(autoincrement())
-//   userId       Int
-//   user         User     @relation(fields: [userId], references: [id])
-//   productId    Int?
-//   trekkingId   Int?
-//   addressLine1 String
-//   addressLine2 String?
-//   city         String
-//   state        String
-//   country      String
-//   postalCode   String
-//   phoneNumber  String
-//   createdAt    DateTime @default(now())
-//   updatedAt    DateTime @updatedAt
-//   Order        Order?   @relation(fields: [orderId], references: [id])
-//   orderId      Int?
-// }
-
-// model PaymentMethod {
-//   id             Int           @id @default(autoincrement())
-//   userId         Int
-//   user           User          @relation(fields: [userId], references: [id])
-//   cardNumber     String        @db.VarChar(255)
-//   cardholderName String
-//   expiryDate     String
-//   billingAddress Json?
-//   createdAt      DateTime      @default(now())
-//   updatedAt      DateTime      @updatedAt
-//   Transaction    Transaction[]
-// }
-
-// model Transaction {
-//   id              Int               @id @default(autoincrement())
-//   orderId         Int
-//   order           Order             @relation(fields: [orderId], references: [id])
-//   paymentMethodId Int
-//   paymentMethod   PaymentMethod     @relation(fields: [paymentMethodId], references: [id])
-//   amount          Float
-//   status          TransactionStatus
-//   transactionDate DateTime
-//   createdAt       DateTime          @default(now())
-//   updatedAt       DateTime          @updatedAt
-// }
-
 model Cart {
   id          Int       @id @default(autoincrement())
   userId      Int
@@ -456,6 +372,7 @@ model Wishlist {
 
 model Order {
   id                Int             @id @default(autoincrement())
+  orderid           String          @unique
   userId            Int
   inventoryId       Int
   quantity          Int

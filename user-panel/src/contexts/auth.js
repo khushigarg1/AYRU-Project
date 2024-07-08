@@ -27,6 +27,7 @@ export const AuthProvider = ({ children }) => {
   const router = useRouter();
   const [openTab, setOpenTab] = useState("none");
   const [wishlistCount, setWishlistCount] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
     async function loadUserFromCookies() {
@@ -35,10 +36,10 @@ export const AuthProvider = ({ children }) => {
         try {
           const tokenPayload = parseJwt(token);
           const userId = tokenPayload?.payload?.id;
-          console.log(userId);
+          // console.log(userId);
           api.defaults.headers.Authorization = `Bearer ${token}`;
           const response = await api.get(`/auth/${userId}`);
-          console.log("user", response);
+          // console.log("user", response);
           setUser(response.data?.data);
         } catch (error) {
           console.error('Error fetching user:', error);
@@ -47,24 +48,29 @@ export const AuthProvider = ({ children }) => {
       }
       setLoading(false);
     }
-    console.log("hyy");
+    // console.log("hyy");
+
     loadUserFromCookies();
-  }, []); // Only run once on component mount
+  }, []);
 
   const logout = () => {
     Cookies.remove('token');
     setUser(null);
     delete api.defaults.headers.Authorization;
-    router.push('/login');
+    // router.push('/login');
   };
 
   const openAuthModal = () => setAuthModalOpen(true);
-  const closeAuthModal = () => setAuthModalOpen(false);
+  // const closeAuthModal = () => setAuthModalOpen(false);
+  const closeAuthModal = () => {
+    setAuthModalOpen(false);
+    window.location.reload();
+  };
 
   const switchToSignUp = () => setAuthStep('signup');
   const switchToLogin = () => setAuthStep('login');
   return (
-    <AuthContext.Provider value={{ isAuthenticated: !!user, user, setUser, loading, logout, setOpenTab, openAuthModal, closeAuthModal, setWishlistCount, wishlistCount }}>
+    <AuthContext.Provider value={{ isAuthenticated: !!user, user, setUser, loading, logout, setOpenTab, openAuthModal, closeAuthModal, setWishlistCount, wishlistCount, cartCount, setCartCount }}>
       {authModalOpen ? (
         authStep === 'login' ? <LoginForm switchToSignUp={switchToSignUp} /> : <SignUpForm switchToLogin={switchToLogin} />
       )

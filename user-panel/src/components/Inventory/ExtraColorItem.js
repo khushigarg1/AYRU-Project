@@ -27,10 +27,11 @@ export const InventoryAccordion = ({ relatedInventories }) => {
           marginTop: "0px", // Adjust margin top
           marginBottom: "0px", // Adjust margin bottom
           boxShadow: "none",
-          minHeight: 0, // Ensure no minimum height when collapsed
+          minHeight: 0,
+          paddingLeft: "1px"
         }}
       >
-        <Typography>Other Related Items:</Typography>
+        <Typography sx={{ fontWeight: "bold" }}>You might also like</Typography>
       </AccordionSummary>
       <AccordionDetails sx={{ padding: "5px" }}>
         <Slider {...settings}>

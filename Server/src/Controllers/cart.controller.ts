@@ -7,13 +7,28 @@ const cartService = new CartService();
 
 export async function addToCart(request: FastifyRequest, reply: FastifyReply) {
   const { id } = request?.user;
-  const { inventoryId, quantity } = request.body as any;
+  const {
+    inventoryId,
+    quantity,
+    sizeType,
+    sizeName,
+    length,
+    width,
+    height,
+    remark,
+  } = request.body as any;
 
   try {
     const cartItem = await cartService.addToCart(
       Number(id),
       inventoryId,
-      quantity
+      quantity,
+      sizeType,
+      sizeName,
+      length,
+      width,
+      height,
+      remark
     );
     reply.code(201).send({ success: true, data: cartItem });
   } catch (error) {
@@ -49,13 +64,20 @@ export async function removeFromCart(
 export async function updateCart(request: FastifyRequest, reply: FastifyReply) {
   const { id } = request.user;
   const { cartItemId } = request.params as any;
-  const { quantity } = request.body as any;
+  const { quantity, sizeType, sizeName, length, width, height, remark } =
+    request.body as any;
 
   try {
     const updatedCartItem = await cartService.updateCart(
       Number(id),
       parseInt(cartItemId),
-      quantity
+      quantity,
+      sizeType,
+      sizeName,
+      length,
+      width,
+      height,
+      remark
     );
     reply.code(200).send({ success: true, data: updatedCartItem });
   } catch (error) {

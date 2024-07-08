@@ -5,18 +5,34 @@ import { ApiBadRequestError, Api404Error } from "../errors";
 const prisma = new PrismaClient();
 
 export class CartService {
-  async addToCart(userId: number, inventoryId: number, quantity: number) {
+  async addToCart(
+    userId: number,
+    inventoryId: number,
+    quantity: number,
+    sizeType?: string,
+    sizeName?: string,
+    length?: number,
+    width?: number,
+    height?: number,
+    remark?: string
+  ) {
     try {
       const cartItem = await prisma.cart.create({
         data: {
           userId,
           inventoryId,
           quantity,
+          sizeType,
+          sizeName,
+          length,
+          width,
+          height,
+          remark,
         },
       });
       return cartItem;
     } catch (error: any) {
-      throw new ApiBadRequestError(error);
+      throw new ApiBadRequestError(error.message);
     }
   }
 
@@ -32,7 +48,17 @@ export class CartService {
     }
   }
 
-  async updateCart(userId: number, cartItemId: number, quantity: number) {
+  async updateCart(
+    userId: number,
+    cartItemId: number,
+    quantity: number,
+    sizeType?: string,
+    sizeName?: string,
+    length?: number,
+    width?: number,
+    height?: number,
+    remark?: string
+  ) {
     try {
       const updatedCartItem = await prisma.cart.update({
         where: {
@@ -41,6 +67,12 @@ export class CartService {
         },
         data: {
           quantity,
+          sizeType,
+          sizeName,
+          length,
+          width,
+          height,
+          remark,
         },
       });
       return updatedCartItem;
@@ -55,8 +87,8 @@ export class CartService {
         userId,
       },
       include: {
-        user: true,
-        inventory: {
+        User: true,
+        Inventory: {
           include: {
             InventoryFlat: { include: { Flat: true } },
             customFittedInventory: { include: { customFitted: true } },
@@ -83,7 +115,7 @@ export class CartService {
 
     let totalPrice = 0;
     const populatedUserCart = userCart.map((cartItem) => {
-      const inventory = cartItem.inventory;
+      const inventory = cartItem.Inventory;
       if (
         inventory &&
         inventory.discountedPrice !== null &&
@@ -137,8 +169,8 @@ export class CartService {
   async getAllCart() {
     const userCart = await prisma.cart.findMany({
       include: {
-        user: true,
-        inventory: {
+        User: true,
+        Inventory: {
           include: {
             InventoryFlat: { include: { Flat: true } },
             customFittedInventory: { include: { customFitted: true } },
@@ -168,7 +200,7 @@ export class CartService {
     const categoryCounts: Record<number, number> = {};
 
     userCart.forEach((cartItem) => {
-      const inventory = cartItem.inventory;
+      const inventory = cartItem.Inventory;
       if (inventory) {
         totalProducts++;
 

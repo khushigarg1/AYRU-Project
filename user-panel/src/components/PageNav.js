@@ -122,7 +122,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function PageNav({ children }) {
-  const { isAuthenticated, isLoading, logout, openTab, setOpenTab, wishlistCount } = useAuth();
+  const { isAuthenticated, isLoading, logout, openTab, setOpenTab, wishlistCount, cartCount } = useAuth();
   const theme = useTheme();
   const [open, setOpen] = useState(isAuthenticated);
   const [categories, setCategories] = useState([]);
@@ -249,7 +249,7 @@ export default function PageNav({ children }) {
             AYRU JAIPUR
           </Typography> */}
           <IconButton color="inherit" sx={{ marginLeft: 'auto' }}>
-            <Badge badgeContent={4} color="error">
+            <Badge badgeContent={cartCount} color="error">
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
