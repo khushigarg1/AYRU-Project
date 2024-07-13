@@ -172,53 +172,72 @@ export class InventoryService {
   }
 
   async createInventory(data: InventoryAttributes) {
-    if (
-      !data.productName ||
-      !data.skuId
-      // ||
-      // data.categoryId === undefined ||
-      // data.subCategoryId === undefined
-    ) {
-      console.log();
-      throw new ApiBadRequestError("Please fill all required fields!!");
+    try {
+      console.log(data);
+
+      if (!data.productName || !data.skuId) {
+        throw new ApiBadRequestError("Please fill all required fields!!");
+      }
+
+      const existingEntry = await prisma.inventory.findFirst({
+        where: { skuId: data.skuId },
+      });
+
+      if (existingEntry) {
+        throw new ApiBadRequestError(
+          "SKUID should be different, it already exists."
+        );
+      }
+
+      const newInventory = await prisma.inventory.create({
+        data: {
+          productName: data.productName,
+          skuId: data.skuId,
+          categoryId: data.categoryId,
+          status: "PENDING",
+          sellingPrice: data.sellingPrice,
+          quantity: data.quantity,
+          productstatus: data?.productstatus || "DRAFT",
+          soldQuantity: data.soldQuantity || 0,
+          availability: data.availability || false,
+          extraOptionOutOfStock: data.extraOptionOutOfStock || false,
+        },
+      });
+
+      if (data.subCategoryIds && data.subCategoryIds.length > 0) {
+        const subCategoryData = data.subCategoryIds.map(
+          (subcategoryid: number) => ({
+            inventoryId: newInventory.id,
+            subcategoryid,
+          })
+        );
+
+        console.log("Subcategory Data to be created:", subCategoryData);
+
+        await prisma.inventorySubcategory.createMany({
+          data: subCategoryData,
+        });
+      }
+
+      return newInventory;
+    } catch (error) {
+      console.error("Error creating inventory:", error);
+      throw error;
     }
-
-    const existingEntry = await prisma.inventory.findFirst({
-      where: { skuId: data.skuId },
-    });
-
-    if (existingEntry) {
-      throw new ApiBadRequestError(
-        "SKUID should be different, it already exists."
-      );
-    }
-
-    return await prisma.inventory.create({
-      data: {
-        productName: data.productName,
-        skuId: data.skuId,
-        categoryId: data?.categoryId,
-        subCategoryId: data?.subCategoryId,
-        status: "PENDING",
-      },
-    });
   }
 
   async getInventories() {
     const inventory = await prisma.inventory.findMany({
       include: {
+        customFittedInventory: { include: { InventoryFlat: true } },
         InventoryFlat: { include: { Flat: true } },
-        customFittedInventory: { include: { customFitted: true } },
+        InventorySubcategory: true,
         InventoryFitted: {
           include: {
-            Fitted: {
-              include: { FittedDimensions: true },
-            },
-            fittedDimensions: true,
+            Fitted: true,
           },
         },
-        category: true,
-        subCategory: true,
+        Category: true,
         Wishlist: true,
         // ProductInventory: {
         //   include: {
@@ -263,13 +282,11 @@ export class InventoryService {
       where: { id: Number(id) },
       include: {
         InventoryFlat: { include: { Flat: true } },
-        customFittedInventory: { include: { customFitted: true } },
+        customFittedInventory: { include: { InventoryFlat: true } },
+        InventorySubcategory: true,
         InventoryFitted: {
           include: {
-            Fitted: {
-              include: { FittedDimensions: true },
-            },
-            fittedDimensions: true,
+            Fitted: true,
           },
         },
         // ProductInventory: {
@@ -280,8 +297,7 @@ export class InventoryService {
         //     selectedSizes: true,
         //   },
         // },
-        category: true,
-        subCategory: true,
+        Category: true,
         Wishlist: true,
         ColorVariations: { include: { Color: true } },
         relatedInventories: {
@@ -300,6 +316,7 @@ export class InventoryService {
     });
     return inventory;
   }
+
   async updateInventory(id: number, data: InventoryUpdateAttributes) {
     console.log(id, data);
 
@@ -313,7 +330,6 @@ export class InventoryService {
       sellingPrice,
       costPrice,
       discountedPrice,
-      discountCount,
       availability,
       weight,
       productstatus,
@@ -329,18 +345,17 @@ export class InventoryService {
       extraOptionOutOfStock,
       specialFeatures,
       threadCount,
-      itemWeight,
       origin,
       extraNote,
       disclaimer,
       careInstructions,
       categoryId,
-      subCategoryId,
+      subCategoryIds,
       flatIds,
       fittedIds,
       customFittedIds,
       others,
-      // sizecharts,
+      others1,
       colorIds,
       relatedInventoriesIds,
     } = data;
@@ -349,125 +364,155 @@ export class InventoryService {
 
     await prisma.inventoryFitted.deleteMany(deleteManyOptions);
     await prisma.inventoryFlat.deleteMany(deleteManyOptions);
+    await prisma.inventorySubcategory.deleteMany(deleteManyOptions);
     await prisma.customFittedInventory.deleteMany(deleteManyOptions);
-    // await prisma.productInventory.deleteMany(deleteManyOptions);
     await prisma.colorVariation.deleteMany(deleteManyOptions);
-    console.log("heyyy");
-
-    const inventory = await prisma.inventory.update({
-      where: { id },
-      data: {
-        productName,
-        skuId,
-        quantity,
-        soldQuantity,
-        minQuantity,
-        maxQuantity,
-        sellingPrice,
-        costPrice,
-        discountedPrice,
-        discountCount,
-        availability,
-        weight,
-        productstatus,
-        status,
-        style,
-        pattern,
-        fabric,
-        type,
-        size,
-        includedItems,
-        itemDimensions,
-        colorVariation,
-        extraOptionOutOfStock,
-        specialFeatures,
-        threadCount,
-        itemWeight,
-        origin,
-        extraNote,
-        disclaimer,
-        careInstructions,
-        categoryId,
-        subCategoryId,
-        others,
-        InventoryFlat: {
-          create: flatIds?.map((flatId) => ({ flatId })) || [],
+    console.log("Deleted existing related records");
+    try {
+      const updatedInventory = await prisma.inventory.update({
+        where: { id },
+        data: {
+          productName,
+          skuId,
+          quantity,
+          soldQuantity,
+          minQuantity,
+          maxQuantity,
+          sellingPrice,
+          costPrice,
+          discountedPrice,
+          availability,
+          weight,
+          productstatus,
+          status,
+          style,
+          pattern,
+          fabric,
+          type,
+          size,
+          includedItems,
+          itemDimensions,
+          colorVariation,
+          extraOptionOutOfStock,
+          specialFeatures,
+          threadCount,
+          origin,
+          extraNote,
+          disclaimer,
+          careInstructions,
+          categoryId,
+          others,
+          others1,
+          InventorySubcategory: {
+            create:
+              subCategoryIds?.map((subcategoryid) => ({ subcategoryid })) || [],
+          },
+          InventoryFlat: {
+            create:
+              flatIds?.map((flat) => ({
+                Flat: {
+                  connect: { id: flat.id },
+                },
+                quantity: flat.quantity,
+                soldQuantity: flat.soldQuantity,
+                minQuantity: flat.minQuantity,
+                maxQuantity: flat.maxQuantity,
+                sellingPrice: flat.sellingPrice,
+                costPrice: flat.costPrice,
+                discountedPrice: flat.discountedPrice,
+              })) || [],
+          },
+          InventoryFitted: {
+            create:
+              fittedIds?.map((fitted) => ({
+                Fitted: {
+                  connect: { id: fitted.id },
+                },
+                quantity: fitted.quantity,
+                soldQuantity: fitted.soldQuantity,
+                minQuantity: fitted.minQuantity,
+                maxQuantity: fitted.maxQuantity,
+                sellingPrice: fitted.sellingPrice,
+                costPrice: fitted.costPrice,
+                discountedPrice: fitted.discountedPrice,
+              })) || [],
+          },
+          // customFittedInventory: {
+          //   create:
+          //     customFittedIds?.map((customFitted) => ({
+          //       sellingPrice: customFitted.sellingPrice,
+          //       costPrice: customFitted.costPrice,
+          //       discountedPrice: customFitted.discountedPrice,
+          //       InventoryFlat: { connect: { id: customFitted?.id } },
+          //     })) || [],
+          // },
+          ColorVariations: {
+            create:
+              colorIds?.map((colorId) => ({
+                Color: {
+                  connect: { id: colorId },
+                },
+              })) || [],
+          },
+          relatedInventories: {
+            set:
+              relatedInventoriesIds?.map((relatedId) => ({ id: relatedId })) ||
+              [],
+          },
         },
-        InventoryFitted: {
-          create:
-            fittedIds?.map((fitted) => ({
-              fittedId: fitted?.fittedId,
-              fittedDimensions: {
-                connect: fitted.fittedDimensions.map((dimensionId) => ({
-                  id: dimensionId,
-                })),
-              },
-            })) || [],
-        },
-        customFittedInventory: {
-          create:
-            customFittedIds?.map((customFittedId) => ({ customFittedId })) ||
-            [],
-        },
-        // ProductInventory: {
-        //   create:
-        //     sizecharts?.map((sizechart) => ({
-        //       productId: sizechart.productId,
-        //       selectedSizes: {
-        //         connect: sizechart.selectedSizes.map((sizeId) => ({
-        //           id: sizeId,
-        //         })),
-        //       },
-        //     })) || [],
-        // },
-        ColorVariations: {
-          create: colorIds?.map((colorId) => ({ colorId })) || [],
-        },
-        relatedInventories: {
-          set:
-            relatedInventoriesIds?.map((relatedId) => ({ id: relatedId })) ||
-            [],
-        },
-      },
-      include: {
-        InventoryFlat: { include: { Flat: true } },
-        customFittedInventory: { include: { customFitted: true } },
-        InventoryFitted: {
-          include: {
-            Fitted: {
-              include: { FittedDimensions: true },
+        include: {
+          InventoryFlat: { include: { Flat: true } },
+          InventorySubcategory: true,
+          // customFittedInventory: { include: { InventoryFlat: true } },
+          InventoryFitted: {
+            include: {
+              Fitted: true,
             },
-            fittedDimensions: true,
           },
+          Category: true,
+          Wishlist: true,
+          ColorVariations: { include: { Color: true } },
+          relatedInventories: { include: { Media: true } },
+          relatedByInventories: { include: { Media: true } },
+          Media: true,
         },
-        category: true,
-        subCategory: true,
-        Wishlist: true,
-        // ProductInventory: {
-        //   include: {
-        //     product: {
-        //       include: { sizes: true },
-        //     },
-        //     selectedSizes: true,
-        //   },
-        // },
-        ColorVariations: { include: { Color: true } },
-        relatedInventories: {
-          include: {
-            Media: true,
-          },
-        },
-        relatedByInventories: {
-          include: {
-            Media: true,
-          },
-        },
-        Media: true,
-      },
-    });
-    console.log(inventory);
+      });
 
-    return inventory;
+      const inventoryFlats = await prisma.inventoryFlat.findMany({
+        where: {
+          inventoryId: id,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      const inventoryFlatIds = inventoryFlats.map(
+        (inventoryFlat) => inventoryFlat.id
+      );
+      console.log(inventoryFlatIds);
+
+      const customFittedInventory =
+        await prisma.customFittedInventory.createMany({
+          data: inventoryFlatIds.map((inventoryFlatId, index) => ({
+            sellingPrice: customFittedIds && customFittedIds[0]?.sellingPrice,
+            costPrice: customFittedIds && customFittedIds[0].costPrice,
+            discountedPrice:
+              customFittedIds && customFittedIds[0].discountedPrice,
+            inventoryId: updatedInventory?.id,
+            inventoryFlatId: inventoryFlatId,
+          })),
+        });
+
+      console.log(updatedInventory);
+      const inventory = {
+        ...updatedInventory,
+        customFittedInventory: customFittedInventory,
+      };
+      return { inventory };
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getInventoriesByCategory(categoryId: number, subCategoryId?: number) {
@@ -484,17 +529,14 @@ export class InventoryService {
       where: whereClause,
       include: {
         InventoryFlat: { include: { Flat: true } },
-        customFittedInventory: { include: { customFitted: true } },
+        customFittedInventory: { include: { InventoryFlat: true } },
         InventoryFitted: {
           include: {
-            Fitted: {
-              include: { FittedDimensions: true },
-            },
-            fittedDimensions: true,
+            Fitted: true,
           },
         },
-        category: true,
-        subCategory: true,
+        Category: true,
+        InventorySubcategory: { include: { SubCategory: true } },
         Wishlist: true,
         // ProductInventory: {
         //   include: {

@@ -26,19 +26,19 @@ class FittedService {
     return prisma.fitted.create({
       data: {
         name: data.name,
-        FittedDimensions: {
-          create:
-            data.dimensions?.map((dimension) => ({ dimensions: dimension })) ||
-            [],
-        },
+        // FittedDimensions: {
+        //   create:
+        //     data.dimensions?.map((dimension) => ({ dimensions: dimension })) ||
+        //     [],
+        // },
       },
-      include: { FittedDimensions: true },
+      // include: { FittedDimensions: true },
     });
   }
 
   async getFitteds() {
     return prisma.fitted.findMany({
-      include: { FittedDimensions: true },
+      // include: { FittedDimensions: true },
       orderBy: {
         updatedAt: "desc",
       },
@@ -48,7 +48,7 @@ class FittedService {
   async getFittedById(id: number) {
     const fitted = await prisma.fitted.findUnique({
       where: { id },
-      include: { FittedDimensions: true },
+      // include: { FittedDimensions: true },
     });
     if (!fitted) {
       throw new ApiBadRequestError(`Fitted with id ${id} not found`);
@@ -70,28 +70,28 @@ class FittedService {
       );
     }
 
-    await prisma.fittedDimensions.deleteMany({
-      where: { fittedId: id },
-    });
+    // await prisma.fittedDimensions.deleteMany({
+    //   where: { fittedId: id },
+    // });
 
     return prisma.fitted.update({
       where: { id },
       data: {
         name: data.name,
-        FittedDimensions: {
-          create:
-            data.dimensions?.map((dimension) => ({ dimensions: dimension })) ||
-            [],
-        },
+        // FittedDimensions: {
+        //   create:
+        //     data.dimensions?.map((dimension) => ({ dimensions: dimension })) ||
+        //     [],
+        // },
       },
-      include: { FittedDimensions: true },
+      // include: { FittedDimensions: true },
     });
   }
 
   async deleteFitted(id: number) {
-    await prisma.fittedDimensions.deleteMany({
-      where: { fittedId: id },
-    });
+    // await prisma.fittedDimensions.deleteMany({
+    //   where: { fittedId: id },
+    // });
 
     return prisma.fitted.delete({
       where: { id },

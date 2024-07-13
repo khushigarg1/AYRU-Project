@@ -12,15 +12,31 @@ export const createInventory = async (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
-  const { productName, skuId, categoryId, subCategoryId } =
-    request.body as InventoryAttributes;
+  const {
+    productName,
+    skuId,
+    categoryId,
+    subCategoryIds,
+    quantity,
+    soldQuantity,
+    sellingPrice,
+    availability,
+    productstatus,
+    extraOptionOutOfStock,
+  } = request.body as InventoryAttributes;
 
   try {
     const inventory = await inventoryService.createInventory({
       productName,
       skuId,
       categoryId,
-      subCategoryId,
+      subCategoryIds,
+      quantity,
+      soldQuantity,
+      sellingPrice,
+      availability,
+      productstatus,
+      extraOptionOutOfStock,
     });
     reply.status(201).send({ data: inventory });
   } catch (error) {
@@ -287,9 +303,9 @@ export const filterInventory = async (
     maxPrice?: string;
     sortBy?: string;
     sortOrder?: "asc" | "desc";
-    flatSize?: string; // InventoryFlat size filter
-    fittedSize?: string; // InventoryFitted FittedDimensions dimensions filter
-    customFittedId?: string; // CustomFittedInventory customFittedId filter
+    flatSize?: string;
+    fittedSize?: string;
+    customFittedId?: string;
   };
 
   try {
@@ -323,8 +339,8 @@ export const filterInventory = async (
       where: filterOptions,
       orderBy,
       include: {
-        category: true,
-        subCategory: true,
+        Category: true,
+        InventorySubcategory: { include: { SubCategory: true } },
         Media: true,
         Wishlist: true,
         relatedInventories: true,
@@ -348,10 +364,7 @@ export const filterInventory = async (
               }
             : undefined,
           include: {
-            Fitted: {
-              include: { FittedDimensions: true },
-            },
-            fittedDimensions: true,
+            Fitted: true,
           },
         },
       },
@@ -407,8 +420,8 @@ export const searchInventory = async (
     const inventories = await prisma.inventory.findMany({
       where: whereClause,
       include: {
-        category: true,
-        subCategory: true,
+        Category: true,
+        InventorySubcategory: { include: { SubCategory: true } },
         Media: true,
         Wishlist: true,
         ColorVariations: { include: { Color: true } },
@@ -416,13 +429,10 @@ export const searchInventory = async (
         relatedByInventories: true,
         SizeChartMedia: true,
         InventoryFlat: { include: { Flat: true } },
-        customFittedInventory: { include: { customFitted: true } },
+        // customFittedInventory: { include: { customFitted: true } },
         InventoryFitted: {
           include: {
-            Fitted: {
-              include: { FittedDimensions: true },
-            },
-            fittedDimensions: true,
+            Fitted: true,
           },
         },
       },

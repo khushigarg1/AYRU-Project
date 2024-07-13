@@ -111,31 +111,31 @@ model Flat {
 }
 
 model Fitted {
-  id               Int                @id @default(autoincrement())
-  name             String             @unique
-  FittedDimensions FittedDimensions[]
-  inventories      InventoryFitted[]
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
+  id          Int               @id @default(autoincrement())
+  name        String            @unique
+  // FittedDimensions FittedDimensions[]
+  inventories InventoryFitted[]
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
 }
 
-model FittedDimensions {
-  id              Int               @id @default(autoincrement())
-  fitted          Fitted            @relation(fields: [fittedId], references: [id])
-  fittedId        Int
-  dimensions      String
-  InventoryFitted InventoryFitted[] @relation(name: "InventoryFittedToFittedDimensions")
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-}
+// model FittedDimensions {
+//   id         Int      @id @default(autoincrement())
+//   // fitted     Fitted   @relation(fields: [fittedId], references: [id])
+//   fittedId   Int
+//   dimensions String
+//   createdAt  DateTime @default(now())
+//   updatedAt  DateTime @updatedAt
+//   // InventoryFitted InventoryFitted[]
+// }
 
-model CustomFitted {
-  id                    Int                     @id @default(autoincrement())
-  name                  String
-  CustomFittedInventory CustomFittedInventory[]
-  createdAt             DateTime                @default(now())
-  updatedAt             DateTime                @updatedAt
-}
+// model CustomFitted {
+//   id        Int      @id @default(autoincrement())
+//   name      String
+//   //CustomFittedInventory CustomFittedInventory[]
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
 
 model Media {
   id          Int       @id @default(autoincrement())
@@ -181,32 +181,34 @@ model Inventory {
   colorVariation        String?
   extraOptionOutOfStock Boolean?
   specialFeatures       Json?
-  threadCount           Int?
-  itemWeight            Float?
+  threadCount           String?
+  categoryid            Int?
+  // itemWeight            Float?
   origin                String?
   extraNote             String?
   disclaimer            String?
+  description           String?
   others                String?
+  others1               String?
   careInstructions      String[]
-  categoryId            Int[]
-  subCategoryId         Int[]
   color                 Color[]
   InventoryFlat         InventoryFlat[]
   InventoryFitted       InventoryFitted[]
+  InventorySubcategory  InventorySubcategory[]
   customFittedInventory CustomFittedInventory[]
   Media                 Media[]
   Cart                  Cart[]
   Order                 Order[]
   Wishlist              Wishlist[]
   SizeChartMedia        SizeChartMedia[]
-  category              Category?               @relation(fields: [categoryId], references: [id])
-  subCategory           SubCategory?            @relation(fields: [subCategoryId], references: [id])
   ProductInventory      ProductInventory[]
   ColorVariations       ColorVariation[]
   relatedInventories    Inventory[]             @relation("InventoryToInventory")
   relatedByInventories  Inventory[]             @relation("InventoryToInventory")
   createdAt             DateTime                @default(now())
   updatedAt             DateTime                @default(now())
+  Category              Category?               @relation(fields: [categoryId], references: [id])
+  categoryId            Int?
 }
 
 model ColorVariation {
@@ -230,27 +232,51 @@ model Color {
   inventoryId     Int?
 }
 
+model InventorySubcategory {
+  id            Int         @id @default(autoincrement())
+  subcategoryid Int
+  inventoryId   Int
+  Inventory     Inventory   @relation(fields: [inventoryId], references: [id])
+  SubCategory   SubCategory @relation(fields: [subcategoryid], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
 model CustomFittedInventory {
-  id              Int          @id @default(autoincrement())
-  customFittedId  Int
+  id              Int            @id @default(autoincrement())
   inventoryId     Int
-  quantity        Int?
-  soldQuantity    Int?
-  minQuantity     Int?
-  maxQuantity     Int?
   sellingPrice    Float?
   costPrice       Float?
   discountedPrice Float?
-  Inventory       Inventory    @relation(fields: [inventoryId], references: [id])
-  customFitted    CustomFitted @relation(fields: [customFittedId], references: [id])
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
+  Inventory       Inventory      @relation(fields: [inventoryId], references: [id])
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  inventoryFlatId Int?
+  InventoryFlat   InventoryFlat? @relation(fields: [inventoryFlatId], references: [id])
 }
 
 model InventoryFlat {
+  id                    Int                     @id @default(autoincrement())
+  inventoryId           Int
+  flatId                Int
+  quantity              Int?
+  soldQuantity          Int?
+  minQuantity           Int?
+  maxQuantity           Int?
+  sellingPrice          Float?
+  costPrice             Float?
+  CustomFittedInventory CustomFittedInventory[]
+  discountedPrice       Float?
+  Inventory             Inventory               @relation(fields: [inventoryId], references: [id])
+  Flat                  Flat                    @relation(fields: [flatId], references: [id])
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+}
+
+model InventoryFitted {
   id              Int       @id @default(autoincrement())
+  fittedId        Int
   inventoryId     Int
-  flatId          Int
   quantity        Int?
   soldQuantity    Int?
   minQuantity     Int?
@@ -258,28 +284,12 @@ model InventoryFlat {
   sellingPrice    Float?
   costPrice       Float?
   discountedPrice Float?
+  // dimensionid     Int?
   Inventory       Inventory @relation(fields: [inventoryId], references: [id])
-  Flat            Flat      @relation(fields: [flatId], references: [id])
+  Fitted          Fitted    @relation(fields: [fittedId], references: [id])
+  // FittedDimension FittedDimensions? @relation(fields: [dimensionid], references: [id])
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
-}
-
-model InventoryFitted {
-  id               Int                @id @default(autoincrement())
-  fittedId         Int
-  inventoryId      Int
-  quantity         Int?
-  soldQuantity     Int?
-  minQuantity      Int?
-  maxQuantity      Int?
-  sellingPrice     Float?
-  costPrice        Float?
-  discountedPrice  Float?
-  Inventory        Inventory          @relation(fields: [inventoryId], references: [id])
-  Fitted           Fitted             @relation(fields: [fittedId], references: [id])
-  fittedDimensions FittedDimensions[] @relation(name: "InventoryFittedToFittedDimensions")
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
 }
 
 //extra sizechart 
@@ -323,22 +333,22 @@ model Category {
   icon          String?
   visible       Boolean?      @default(true)
   subcategories SubCategory[]
-  Inventory     Inventory[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+  Inventory     Inventory[]
 }
 
 model SubCategory {
-  id              Int         @id @default(autoincrement())
-  subcategoryName String
-  categoryId      Int
-  description     String?
-  icon            String?
-  visible         Boolean     @default(true)
-  category        Category    @relation(fields: [categoryId], references: [id])
-  Inventory       Inventory[]
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
+  id                   Int                    @id @default(autoincrement())
+  subcategoryName      String
+  categoryId           Int
+  description          String?
+  icon                 String?
+  visible              Boolean                @default(true)
+  category             Category               @relation(fields: [categoryId], references: [id])
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  InventorySubcategory InventorySubcategory[]
 }
 
 model Cart {
@@ -377,6 +387,9 @@ model Order {
   inventoryId       Int
   quantity          Int
   trekkingId        String?
+  trekkingid        String?
+  couriername       String?
+  imageurl          String?
   sizeType          String?
   sizeName          String?
   dimensions        String?

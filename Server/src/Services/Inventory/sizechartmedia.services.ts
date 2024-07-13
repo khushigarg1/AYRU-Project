@@ -17,6 +17,10 @@ export const uploadChartMedia = async (inventoryId: number, data: any) => {
 
   const result = await uploadImageToS3(image);
 
+  if (!result.key) {
+    throw new Error("Failed to upload image to S3");
+  }
+
   await prisma.sizeChartMedia.deleteMany({
     where: {
       inventoryId: inventoryId,

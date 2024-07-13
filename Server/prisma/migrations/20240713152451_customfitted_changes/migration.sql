@@ -120,27 +120,6 @@ CREATE TABLE "Fitted" (
 );
 
 -- CreateTable
-CREATE TABLE "FittedDimensions" (
-    "id" SERIAL NOT NULL,
-    "fittedId" INTEGER NOT NULL,
-    "dimensions" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "FittedDimensions_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "CustomFitted" (
-    "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "CustomFitted_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "Media" (
     "id" SERIAL NOT NULL,
     "url" TEXT NOT NULL,
@@ -175,7 +154,6 @@ CREATE TABLE "Inventory" (
     "sellingPrice" DOUBLE PRECISION,
     "costPrice" DOUBLE PRECISION,
     "discountedPrice" DOUBLE PRECISION,
-    "discountCount" INTEGER,
     "availability" BOOLEAN,
     "weight" DOUBLE PRECISION,
     "productstatus" "ProductStatus",
@@ -190,17 +168,18 @@ CREATE TABLE "Inventory" (
     "colorVariation" TEXT,
     "extraOptionOutOfStock" BOOLEAN,
     "specialFeatures" JSONB,
-    "threadCount" INTEGER,
-    "itemWeight" DOUBLE PRECISION,
+    "threadCount" TEXT,
+    "categoryid" INTEGER,
     "origin" TEXT,
     "extraNote" TEXT,
     "disclaimer" TEXT,
+    "description" TEXT,
     "others" TEXT,
+    "others1" TEXT,
     "careInstructions" TEXT[],
-    "categoryId" INTEGER,
-    "subCategoryId" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "categoryId" INTEGER,
 
     CONSTRAINT "Inventory_pkey" PRIMARY KEY ("id")
 );
@@ -229,12 +208,26 @@ CREATE TABLE "Color" (
 );
 
 -- CreateTable
-CREATE TABLE "CustomFittedInventory" (
+CREATE TABLE "InventorySubcategory" (
     "id" SERIAL NOT NULL,
-    "customFittedId" INTEGER NOT NULL,
+    "subcategoryid" INTEGER NOT NULL,
     "inventoryId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "InventorySubcategory_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "CustomFittedInventory" (
+    "id" SERIAL NOT NULL,
+    "inventoryId" INTEGER NOT NULL,
+    "sellingPrice" DOUBLE PRECISION,
+    "costPrice" DOUBLE PRECISION,
+    "discountedPrice" DOUBLE PRECISION,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "inventoryFlatId" INTEGER,
 
     CONSTRAINT "CustomFittedInventory_pkey" PRIMARY KEY ("id")
 );
@@ -244,6 +237,13 @@ CREATE TABLE "InventoryFlat" (
     "id" SERIAL NOT NULL,
     "inventoryId" INTEGER NOT NULL,
     "flatId" INTEGER NOT NULL,
+    "quantity" INTEGER,
+    "soldQuantity" INTEGER,
+    "minQuantity" INTEGER,
+    "maxQuantity" INTEGER,
+    "sellingPrice" DOUBLE PRECISION,
+    "costPrice" DOUBLE PRECISION,
+    "discountedPrice" DOUBLE PRECISION,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -255,6 +255,13 @@ CREATE TABLE "InventoryFitted" (
     "id" SERIAL NOT NULL,
     "fittedId" INTEGER NOT NULL,
     "inventoryId" INTEGER NOT NULL,
+    "quantity" INTEGER,
+    "soldQuantity" INTEGER,
+    "minQuantity" INTEGER,
+    "maxQuantity" INTEGER,
+    "sellingPrice" DOUBLE PRECISION,
+    "costPrice" DOUBLE PRECISION,
+    "discountedPrice" DOUBLE PRECISION,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -326,8 +333,14 @@ CREATE TABLE "SubCategory" (
 CREATE TABLE "Cart" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
-    "inventoryId" INTEGER,
-    "quantity" INTEGER NOT NULL DEFAULT 1,
+    "inventoryId" INTEGER NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "sizeType" TEXT,
+    "sizeName" TEXT,
+    "length" DOUBLE PRECISION,
+    "width" DOUBLE PRECISION,
+    "height" DOUBLE PRECISION,
+    "remark" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -338,7 +351,7 @@ CREATE TABLE "Cart" (
 CREATE TABLE "Wishlist" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
-    "inventoryId" INTEGER,
+    "inventoryId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -346,33 +359,30 @@ CREATE TABLE "Wishlist" (
 );
 
 -- CreateTable
-CREATE TABLE "OrderItem" (
-    "id" SERIAL NOT NULL,
-    "orderId" INTEGER NOT NULL,
-    "trekkingId" INTEGER,
-    "typeName" TEXT NOT NULL,
-    "dimensions" TEXT,
-    "colorId" INTEGER,
-    "colorname" TEXT,
-    "customName" TEXT,
-    "width" DOUBLE PRECISION,
-    "length" DOUBLE PRECISION,
-    "height" DOUBLE PRECISION,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "OrderItem_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "Order" (
     "id" SERIAL NOT NULL,
+    "orderid" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
-    "orderID" INTEGER NOT NULL,
-    "trekkingId" INTEGER,
+    "inventoryId" INTEGER NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "trekkingId" TEXT,
+    "trekkingid" TEXT,
+    "couriername" TEXT,
+    "imageurl" TEXT,
+    "sizeType" TEXT,
+    "sizeName" TEXT,
+    "dimensions" TEXT,
+    "length" DOUBLE PRECISION,
+    "width" DOUBLE PRECISION,
+    "height" DOUBLE PRECISION,
+    "status" TEXT NOT NULL,
+    "paymentStatus" TEXT NOT NULL,
+    "deliveryStatus" TEXT NOT NULL,
     "giftOption" BOOLEAN,
     "Total" INTEGER NOT NULL,
-    "inventoryId" INTEGER,
+    "paymentMethodId" INTEGER NOT NULL,
+    "deliveryAddressId" INTEGER NOT NULL,
+    "remark" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -383,18 +393,15 @@ CREATE TABLE "Order" (
 CREATE TABLE "ShippingAddress" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
-    "productId" INTEGER,
-    "trekkingId" INTEGER,
     "addressLine1" TEXT NOT NULL,
     "addressLine2" TEXT,
+    "pincode" TEXT NOT NULL,
     "city" TEXT NOT NULL,
     "state" TEXT NOT NULL,
     "country" TEXT NOT NULL,
-    "postalCode" TEXT NOT NULL,
     "phoneNumber" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "orderId" INTEGER,
 
     CONSTRAINT "ShippingAddress_pkey" PRIMARY KEY ("id")
 );
@@ -403,10 +410,10 @@ CREATE TABLE "ShippingAddress" (
 CREATE TABLE "PaymentMethod" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
-    "cardNumber" VARCHAR(255) NOT NULL,
-    "cardholderName" TEXT NOT NULL,
-    "expiryDate" TEXT NOT NULL,
-    "billingAddress" JSONB,
+    "type" TEXT NOT NULL,
+    "provider" TEXT NOT NULL,
+    "accountNumber" TEXT NOT NULL,
+    "expiryDate" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -416,11 +423,15 @@ CREATE TABLE "PaymentMethod" (
 -- CreateTable
 CREATE TABLE "Transaction" (
     "id" SERIAL NOT NULL,
-    "orderId" INTEGER NOT NULL,
     "paymentMethodId" INTEGER NOT NULL,
+    "razorpayOrderId" TEXT NOT NULL,
+    "razorpayPaymentId" TEXT NOT NULL,
+    "status" TEXT NOT NULL,
     "amount" DOUBLE PRECISION NOT NULL,
-    "status" "TransactionStatus" NOT NULL,
-    "transactionDate" TIMESTAMP(3) NOT NULL,
+    "currency" TEXT NOT NULL,
+    "method" TEXT NOT NULL,
+    "bank" TEXT,
+    "transactionDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -437,12 +448,6 @@ CREATE TABLE "ClientLove" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "ClientLove_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "_InventoryFittedToFittedDimensions" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
 );
 
 -- CreateTable
@@ -476,16 +481,10 @@ CREATE UNIQUE INDEX "Fitted_name_key" ON "Fitted"("name");
 CREATE UNIQUE INDEX "Inventory_skuId_key" ON "Inventory"("skuId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Cart_userId_inventoryId_key" ON "Cart"("userId", "inventoryId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Wishlist_userId_inventoryId_key" ON "Wishlist"("userId", "inventoryId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "_InventoryFittedToFittedDimensions_AB_unique" ON "_InventoryFittedToFittedDimensions"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_InventoryFittedToFittedDimensions_B_index" ON "_InventoryFittedToFittedDimensions"("B");
+CREATE UNIQUE INDEX "Order_orderid_key" ON "Order"("orderid");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_InventoryToInventory_AB_unique" ON "_InventoryToInventory"("A", "B");
@@ -503,9 +502,6 @@ CREATE INDEX "_ProductInventoryToSizeChart_B_index" ON "_ProductInventoryToSizeC
 ALTER TABLE "User" ADD CONSTRAINT "User_userAuthenticationId_fkey" FOREIGN KEY ("userAuthenticationId") REFERENCES "UserAuthentication"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "FittedDimensions" ADD CONSTRAINT "FittedDimensions_fittedId_fkey" FOREIGN KEY ("fittedId") REFERENCES "Fitted"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "Media" ADD CONSTRAINT "Media_inventoryId_fkey" FOREIGN KEY ("inventoryId") REFERENCES "Inventory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -513,9 +509,6 @@ ALTER TABLE "SizeChartMedia" ADD CONSTRAINT "SizeChartMedia_inventoryId_fkey" FO
 
 -- AddForeignKey
 ALTER TABLE "Inventory" ADD CONSTRAINT "Inventory_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Inventory" ADD CONSTRAINT "Inventory_subCategoryId_fkey" FOREIGN KEY ("subCategoryId") REFERENCES "SubCategory"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ColorVariation" ADD CONSTRAINT "ColorVariation_inventoryId_fkey" FOREIGN KEY ("inventoryId") REFERENCES "Inventory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -527,10 +520,16 @@ ALTER TABLE "ColorVariation" ADD CONSTRAINT "ColorVariation_colorId_fkey" FOREIG
 ALTER TABLE "Color" ADD CONSTRAINT "Color_inventoryId_fkey" FOREIGN KEY ("inventoryId") REFERENCES "Inventory"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "InventorySubcategory" ADD CONSTRAINT "InventorySubcategory_inventoryId_fkey" FOREIGN KEY ("inventoryId") REFERENCES "Inventory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "InventorySubcategory" ADD CONSTRAINT "InventorySubcategory_subcategoryid_fkey" FOREIGN KEY ("subcategoryid") REFERENCES "SubCategory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "CustomFittedInventory" ADD CONSTRAINT "CustomFittedInventory_inventoryId_fkey" FOREIGN KEY ("inventoryId") REFERENCES "Inventory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "CustomFittedInventory" ADD CONSTRAINT "CustomFittedInventory_customFittedId_fkey" FOREIGN KEY ("customFittedId") REFERENCES "CustomFitted"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "CustomFittedInventory" ADD CONSTRAINT "CustomFittedInventory_inventoryFlatId_fkey" FOREIGN KEY ("inventoryFlatId") REFERENCES "InventoryFlat"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "InventoryFlat" ADD CONSTRAINT "InventoryFlat_inventoryId_fkey" FOREIGN KEY ("inventoryId") REFERENCES "Inventory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -557,46 +556,37 @@ ALTER TABLE "ProductInventory" ADD CONSTRAINT "ProductInventory_inventoryId_fkey
 ALTER TABLE "SubCategory" ADD CONSTRAINT "SubCategory_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Cart" ADD CONSTRAINT "Cart_inventoryId_fkey" FOREIGN KEY ("inventoryId") REFERENCES "Inventory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Cart" ADD CONSTRAINT "Cart_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Cart" ADD CONSTRAINT "Cart_inventoryId_fkey" FOREIGN KEY ("inventoryId") REFERENCES "Inventory"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Wishlist" ADD CONSTRAINT "Wishlist_inventoryId_fkey" FOREIGN KEY ("inventoryId") REFERENCES "Inventory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Wishlist" ADD CONSTRAINT "Wishlist_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Wishlist" ADD CONSTRAINT "Wishlist_inventoryId_fkey" FOREIGN KEY ("inventoryId") REFERENCES "Inventory"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Order" ADD CONSTRAINT "Order_inventoryId_fkey" FOREIGN KEY ("inventoryId") REFERENCES "Inventory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Order" ADD CONSTRAINT "Order_inventoryId_fkey" FOREIGN KEY ("inventoryId") REFERENCES "Inventory"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Order" ADD CONSTRAINT "Order_paymentMethodId_fkey" FOREIGN KEY ("paymentMethodId") REFERENCES "PaymentMethod"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Order" ADD CONSTRAINT "Order_deliveryAddressId_fkey" FOREIGN KEY ("deliveryAddressId") REFERENCES "ShippingAddress"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ShippingAddress" ADD CONSTRAINT "ShippingAddress_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ShippingAddress" ADD CONSTRAINT "ShippingAddress_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "PaymentMethod" ADD CONSTRAINT "PaymentMethod_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_paymentMethodId_fkey" FOREIGN KEY ("paymentMethodId") REFERENCES "PaymentMethod"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_InventoryFittedToFittedDimensions" ADD CONSTRAINT "_InventoryFittedToFittedDimensions_A_fkey" FOREIGN KEY ("A") REFERENCES "FittedDimensions"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_InventoryFittedToFittedDimensions" ADD CONSTRAINT "_InventoryFittedToFittedDimensions_B_fkey" FOREIGN KEY ("B") REFERENCES "InventoryFitted"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_InventoryToInventory" ADD CONSTRAINT "_InventoryToInventory_A_fkey" FOREIGN KEY ("A") REFERENCES "Inventory"("id") ON DELETE CASCADE ON UPDATE CASCADE;
