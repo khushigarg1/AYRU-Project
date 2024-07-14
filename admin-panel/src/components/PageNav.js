@@ -441,36 +441,6 @@ export default function PageNav({ children }) {
                   </ListItemButton>
                 </ListItem>
               </Link>
-              <Link href="/admin-details">
-                <ListItem
-                  key={"AdminDetails"}
-                  onClick={() => setOpenTab("Options".toLowerCase())}
-                  disablePadding
-                  sx={{ display: "block" }}
-                >
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? "initial" : "center",
-                      px: 2.5,
-                    }}
-                  >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 0,
-                        mr: open ? 3 : "auto",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <AccountBoxIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={"AdminDetails"}
-                      sx={{ opacity: open ? 1 : 0 }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              </Link>
 
               <ListItem
                 key={"CustomerMedia"}
@@ -573,6 +543,37 @@ export default function PageNav({ children }) {
               )} */}
             </List>
             <Divider />
+
+            <Link href="/admin-details">
+              <ListItem
+                key={"Settings"}
+                onClick={() => setOpenTab("Options".toLowerCase())}
+                disablePadding
+                sx={{ display: "block" }}
+              >
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <AccountBoxIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={"Settings"}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            </Link>
             {open && (
               <ListItem
                 key={"Logout"}

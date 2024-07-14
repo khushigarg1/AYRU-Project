@@ -17,7 +17,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
   // };
   const handleChange = (e, field) => {
     let { value } = e.target;
-    if (field === 'weight' || field === "threadCount") {
+    if (field === 'weight') {
       value = parseInt(value);
     }
     setEditedProduct((prev) => ({ ...prev, [field]: value }));
@@ -108,6 +108,12 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
       itemDimensions: newDimensions,
     }));
   };
+
+  const convertObjectToArray = (obj) => {
+    return obj ? Object.values(obj) : [];
+  };
+  const includedItemsArray = Array.isArray(editedProduct?.includedItems) ? editedProduct.includedItems : convertObjectToArray(editedProduct?.includedItems);
+  const specialFeaturesArray = Array.isArray(editedProduct?.specialFeatures) ? editedProduct.specialFeatures : convertObjectToArray(editedProduct?.specialFeatures);
 
   return (
     <Grid container>
@@ -269,7 +275,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
               fullWidth
               variant="outlined"
               margin="normal"
-              type="number"
+              type="text"
             />
           </Grid>
           {/* <Grid item xs={12}>
@@ -335,7 +341,10 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           </Grid>
           <Grid item xs={12}>
             <Typography><strong>Included Items:</strong></Typography>
-            {editedProduct?.includedItems?.map((item, index) => (
+            {/* {editedProduct?.includedItems?.map((item, index) => (
+              <Typography style={{ marginLeft: "10%" }} key={index}>{item}</Typography>
+            ))} */}
+            {includedItemsArray?.map((item, index) => (
               <Typography style={{ marginLeft: "10%" }} key={index}>{item}</Typography>
             ))}
           </Grid>
@@ -351,7 +360,10 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           <Grid item xs={12}>
             <Typography><strong>Special Features:</strong>
             </Typography>
-            {editedProduct?.specialFeatures?.map((item, index) => (
+            {/* {editedProduct?.specialFeatures?.map((item, index) => (
+              <Typography style={{ marginLeft: "10%" }} key={index}>{item}</Typography>
+            ))} */}
+            {specialFeaturesArray?.map((item, index) => (
               <Typography style={{ marginLeft: "10%" }} key={index}>{item}</Typography>
             ))}
           </Grid>

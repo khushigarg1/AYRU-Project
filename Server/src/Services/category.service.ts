@@ -22,13 +22,10 @@ export class CategoryService {
         Inventory: {
           include: {
             InventoryFlat: { include: { Flat: true } },
-            customFittedInventory: { include: { customFitted: true } },
+            customFittedInventory: { include: { InventoryFlat: true } },
             InventoryFitted: {
               include: {
-                Fitted: {
-                  include: { FittedDimensions: true },
-                },
-                fittedDimensions: true,
+                Fitted: true,
               },
             },
             // ProductInventory: {
@@ -118,13 +115,10 @@ export class CategoryService {
         Inventory: {
           include: {
             InventoryFlat: { include: { Flat: true } },
-            customFittedInventory: { include: { customFitted: true } },
+            customFittedInventory: { include: { InventoryFlat: true } },
             InventoryFitted: {
               include: {
-                Fitted: {
-                  include: { FittedDimensions: true },
-                },
-                fittedDimensions: true,
+                Fitted: true,
               },
             },
             // ProductInventory: {

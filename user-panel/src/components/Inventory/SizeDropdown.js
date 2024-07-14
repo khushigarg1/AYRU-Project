@@ -25,7 +25,6 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
       selectedOption: value,
       selectedFlatItem: '',
       selectedFittedItem: '',
-      selectedFittedDimension: '',
       selectedCustomFittedItem: '',
       selectedUnit: 'inch',
       dimensions: {
@@ -49,17 +48,16 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
     setSelections((prevSelections) => ({
       ...prevSelections,
       selectedFittedItem: value,
-      selectedFittedDimension: ''
     }));
   };
 
-  const handleFittedDimensionChange = (event) => {
-    const { value } = event.target;
-    setSelections((prevSelections) => ({
-      ...prevSelections,
-      selectedFittedDimension: value
-    }));
-  };
+  // const handleFittedDimensionChange = (event) => {
+  //   const { value } = event.target;
+  //   setSelections((prevSelections) => ({
+  //     ...prevSelections,
+  //     selectedFittedDimension: value
+  //   }));
+  // };
 
   const handleCustomFittedItemChange = (event) => {
     const { value } = event.target;
@@ -135,7 +133,7 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
           >
             <MenuItem value="" disabled>Select Size</MenuItem>
             {data.InventoryFlat.map((item, index) => (
-              <MenuItem key={index} value={item.Flat.name}>
+              <MenuItem key={index} value={item.Flat.id}>
                 <Typography
                   component="div"
                   style={{
@@ -179,7 +177,7 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
             ))}
           </Select>
 
-          {selections.selectedFittedItem && (
+          {/* {selections.selectedFittedItem && (
             <Box>
               <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>Fitted Dimensions: (Length*Width*Height)</Typography>
               <Select
@@ -209,7 +207,7 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                 ))}
               </Select>
             </Box>
-          )}
+          )} */}
         </Box>
       )}
 
@@ -226,16 +224,16 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
             }}
           >
             <MenuItem value="" disabled>Select Custom Fitted Size</MenuItem>
-            {data.customFittedInventory.map((item, index) => (
-              <MenuItem key={index} value={item.customFitted.id}>
+            {data.InventoryFlat.map((item, index) => (
+              <MenuItem key={index} value={item.Flat.id}>
                 <Typography
                   component="div"
                   style={{
-                    fontSize: item.customFitted?.name?.length > 20 ? '0.7rem' : '1rem',
+                    fontSize: item.Flat?.name?.length > 20 ? '0.7rem' : '1rem',
                     maxWidth: '100%',
                   }}
                 >
-                  {item.customFitted.name}
+                  {item.Flat.name}
                 </Typography>
               </MenuItem>
             ))}

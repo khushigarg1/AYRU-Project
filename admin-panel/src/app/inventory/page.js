@@ -42,7 +42,7 @@ const HomePage = () => {
   const fetchCategories = async () => {
     try {
       const response = await api.get("/categories");
-      setCategories(response.data.data);
+      setCategories(response?.data?.data);
     } catch (error) {
       console.error("Error fetching categories:", error);
       setError({ open: true, message: "Error fetching categories" });
@@ -80,7 +80,7 @@ const HomePage = () => {
     { field: "soldQuantity", headerName: "Sold Quantity", width: 130 },
     { field: "sellingPrice", headerName: "Selling Price", width: 150 },
     { field: "categoryId", headerName: "Category", width: 150, renderCell: (params) => getCategoryName(params.row.categoryId) },
-    { field: "subCategoryId", headerName: "Subcategory", width: 150, renderCell: (params) => getSubcategoryName(params.row.categoryId, params.row.subCategoryId) },
+    // { field: "subCategoryId", headerName: "Subcategory", width: 150, renderCell: (params) => getSubcategoryName(params.row.categoryId, params.row.subCategoryId) },
     { field: "status", headerName: "Status", width: 120 },
     { field: "productstatus", headerName: "Product Status", width: 120 },
     { field: "availability", headerName: "Availability", width: 100, type: 'boolean' },
@@ -105,8 +105,8 @@ const HomePage = () => {
     { field: "quantity", headerName: "Quantity", width: 100 },
     { field: "soldQuantity", headerName: "Sold Quantity", width: 150 },
     { field: "sellingPrice", headerName: "Selling Price", width: 100 },
-    { field: "categoryId", headerName: "Category", width: 150, renderCell: (params) => getCategoryName(params.row.categoryId) },
-    { field: "subCategoryId", headerName: "Subcategory", width: 150, renderCell: (params) => getSubcategoryName(params.row.categoryId, params.row.subCategoryId) },
+    { field: "categoryId", headerName: "Category", width: 150, renderCell: (params) => getCategoryName(params?.row?.categoryId) },
+    // { field: "subCategoryId", headerName: "Subcategory", width: 150, renderCell: (params) => getSubcategoryName(params?.row?.categoryId, params.row.subCategoryId) },
     { field: "status", headerName: "Status", width: 150 },
     { field: "productstatus", headerName: "Product Status", width: 150 },
     { field: "availability", headerName: "Availability", width: 100, type: 'boolean' },

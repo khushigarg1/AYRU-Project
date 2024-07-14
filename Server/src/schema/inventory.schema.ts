@@ -63,15 +63,16 @@ export interface InventoryUpdateAttributes {
   fabric?: string;
   type?: string;
   size?: string;
-  includedItems?: Record<string, any>;
+  includedItems?: string[];
   itemDimensions?: string[];
   colorVariation?: string;
   extraOptionOutOfStock?: boolean;
-  specialFeatures?: Record<string, any>;
+  specialFeatures?: string[];
   threadCount?: string;
   origin?: string;
   extraNote?: string;
   disclaimer?: string;
+  description?: string;
   others?: string;
   others1?: string;
   careInstructions?: string[];

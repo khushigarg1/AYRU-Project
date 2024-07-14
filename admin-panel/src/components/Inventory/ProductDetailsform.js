@@ -1,10 +1,19 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { Typography, TextField, Button, Grid, Select, MenuItem } from '@mui/material';
+import { Typography, TextField, Button, Grid, Select, MenuItem, Checkbox } from '@mui/material';
 import api from '@/api';
 
 const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
-  const [editedInventory, setEditedInventory] = useState({ ...inventory });
+  const [editedInventory, setEditedInventory] = useState({
+    ...inventory,
+    colorIds: inventory?.ColorVariations?.map((cv) => cv?.colorId) || [],
+    flatIds: inventory?.InventoryFlat?.map((fv) => ({ ...fv, id: fv.flatId })) || [],
+    customFittedIds: inventory?.customFittedInventory?.map((cfv) => ({ ...cfv, id: cfv.customFittedId })) || [],
+    fittedIds: inventory?.InventoryFitted?.map((fv) => ({ ...fv, id: fv.fittedId })) || [],
+    relatedInventoriesIds: inventory?.relatedInventories?.map(inv => inv.id) || [],
+    subCategoryIds: inventory?.InventorySubcategory?.map(inv => inv?.subcategoryid) || []
+  });
+  console.log("edit", editedInventory);
   const [editMode, setEditMode] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({
     quantity: '',
@@ -40,8 +49,9 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
     }
   }, [editedInventory?.categoryId, categories]);
 
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, checked } = e.target;
     let parsedValue = value;
 
     if (name === 'quantity' || name === 'minQuantity' || name === 'maxQuantity') {
@@ -60,10 +70,21 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
       }
     }
 
-    setEditedInventory(prev => ({
-      ...prev,
-      [name]: parsedValue,
-    }));
+    if (name === 'subCategoryIds') {
+      const updatedsubCategoryIds = checked
+        ? [...editedInventory?.subCategoryIds, parseInt(value, 10)]
+        : editedInventory?.subCategoryIds?.filter(id => id !== parseInt(value, 10));
+
+      setEditedInventory(prev => ({
+        ...prev,
+        subCategoryIds: updatedsubCategoryIds,
+      }));
+    } else {
+      setEditedInventory(prev => ({
+        ...prev,
+        [name]: parsedValue,
+      }));
+    }
   };
 
   const handleSave = () => {
@@ -94,10 +115,10 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
     return category ? category?.categoryName : '';
   };
 
-  const getSubcategoryNameById = (subCategoryId) => {
-    const subcategory = subcategories?.find(subcat => subcat?.id === subCategoryId);
-    return subcategory ? subcategory?.subcategoryName : '';
-  };
+  // const getSubcategoryNameById = (subCategoryId) => {
+  //   const subcategory = subcategories?.find(subcat => subcat?.id === subCategoryId);
+  //   return subcategory ? subcategory?.subcategoryName : '';
+  // };
 
   return (
     <Grid container spacing={0}>
@@ -187,24 +208,30 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
           </Grid>
           <Grid item xs={12}>
             <Select
-              label="Subcategory"
-              name="subCategoryId"
-              value={editedInventory?.subCategoryId}
+              multiple
+              label="Subcategories"
+              name="subCategoryIds"
+              value={editedInventory?.subCategoryIds || []}
               onChange={handleChange}
               fullWidth
               variant="outlined"
               margin="normal"
               disabled={!editedInventory?.categoryId}
             >
-              <MenuItem value="">Select Subcategory</MenuItem>
               {subcategories?.map((subcategory) => (
                 <MenuItem key={subcategory?.id} value={subcategory?.id}>
+                  <Checkbox
+                    checked={editedInventory?.subCategoryIds?.includes(subcategory?.id)}
+                    onChange={handleChange}
+                    name="subCategoryIds"
+                    value={subcategory?.id}
+                  />
                   {subcategory?.subcategoryName}
                 </MenuItem>
               ))}
             </Select>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{ marginTop: "10px" }}>
             <Button variant="contained" color="primary" onClick={handleSave} sx={{ mr: 2 }}>
               Save
             </Button>
@@ -233,8 +260,13 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
           <Grid item xs={12}>
             <Typography><strong>Category:</strong> {getCategoryNameById(inventory?.categoryId)}</Typography>
           </Grid>
+
           <Grid item xs={12}>
-            <Typography><strong>Subcategory:</strong> {getSubcategoryNameById(inventory?.subCategoryId)}</Typography>
+            <Typography><strong>Subcategories:</strong>
+              {inventory.InventorySubcategory?.map((subcategory) => (
+                <Typography key={subcategory}>{subcategory?.SubCategory?.subcategoryName}</Typography>
+              ))}
+            </Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography><strong>Status:</strong> {inventory?.status}</Typography>

@@ -8,13 +8,12 @@ export const FeatureAccordions = ({ product }) => {
       {/* Disclaimer Accordion */}
       <Accordion defaultExpanded disableGutters>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6">Disclaimer</Typography>
+          <Typography variant="h6">Description</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>{product.disclaimer || "No disclaimer available"}</Typography>
+          <Typography>{product.description || "No description available"}</Typography>
         </AccordionDetails>
       </Accordion>
-
       {/* Product Details Accordion */}
       <Accordion defaultExpanded disableGutters>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -121,6 +120,15 @@ export const FeatureAccordions = ({ product }) => {
               : <Typography>No instructions available</Typography>
             }
           </List>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion defaultExpanded disableGutters>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography variant="h6">Disclaimer</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>{product.disclaimer || "No disclaimer available"}</Typography>
         </AccordionDetails>
       </Accordion>
 

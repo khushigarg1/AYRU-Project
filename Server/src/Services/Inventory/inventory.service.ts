@@ -231,7 +231,7 @@ export class InventoryService {
       include: {
         customFittedInventory: { include: { InventoryFlat: true } },
         InventoryFlat: { include: { Flat: true } },
-        InventorySubcategory: true,
+        InventorySubcategory: { include: { SubCategory: true } },
         InventoryFitted: {
           include: {
             Fitted: true,
@@ -283,7 +283,7 @@ export class InventoryService {
       include: {
         InventoryFlat: { include: { Flat: true } },
         customFittedInventory: { include: { InventoryFlat: true } },
-        InventorySubcategory: true,
+        InventorySubcategory: { include: { SubCategory: true } },
         InventoryFitted: {
           include: {
             Fitted: true,
@@ -348,6 +348,7 @@ export class InventoryService {
       origin,
       extraNote,
       disclaimer,
+      description,
       careInstructions,
       categoryId,
       subCategoryIds,
@@ -398,6 +399,7 @@ export class InventoryService {
           threadCount,
           origin,
           extraNote,
+          description,
           disclaimer,
           careInstructions,
           categoryId,
@@ -462,7 +464,7 @@ export class InventoryService {
         },
         include: {
           InventoryFlat: { include: { Flat: true } },
-          InventorySubcategory: true,
+          InventorySubcategory: { include: { SubCategory: true } },
           // customFittedInventory: { include: { InventoryFlat: true } },
           InventoryFitted: {
             include: {

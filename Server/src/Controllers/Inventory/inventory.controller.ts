@@ -351,22 +351,22 @@ export const filterInventory = async (
           where: flatSize ? { Flat: { size: flatSize } } : undefined,
           include: { Flat: true },
         },
-        customFittedInventory: {
-          where: customFittedId
-            ? { customFittedId: Number(customFittedId) }
-            : undefined,
-          include: { customFitted: true },
-        },
-        InventoryFitted: {
-          where: fittedSize
-            ? {
-                fittedDimensions: { some: { dimensions: fittedSize } },
-              }
-            : undefined,
-          include: {
-            Fitted: true,
-          },
-        },
+        // customFittedInventory: {
+        //   where: customFittedId
+        //     ? { customFittedId: Number(customFittedId) }
+        //     : undefined,
+        //   include: { customFitted: true },
+        // },
+        // InventoryFitted: {
+        //   where: fittedSize
+        //     ? {
+        //         fittedDimensions: { some: { dimensions: fittedSize } },
+        //       }
+        //     : undefined,
+        //   include: {
+        //     Fitted: true,
+        //   },
+        // },
       },
     });
 

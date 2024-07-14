@@ -8,7 +8,7 @@ import { useAuth } from '../../contexts/auth';
 import { useRouter } from 'next/navigation';
 import { RWebShare } from "react-web-share";
 
-const ProductSlider = ({ itemlist }) => {
+export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceToDisplay, sellingPriceToDisplay }) => {
   const theme = useTheme();
   const { openAuthModal, user, wishlistCount, setWishlistCount } = useAuth();
   const [wishlistItems, setWishlistItems] = useState({});
@@ -106,12 +106,12 @@ const ProductSlider = ({ itemlist }) => {
   };
   return (
     <Box sx={{ position: 'relative' }}>
-      {itemlist?.discountedPrice && (
+      {discountedPriceToDisplay && (
         <Chip
           label={
             <div style={{ textAlign: 'center' }}>
               <Typography component="span" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
-                {`${((itemlist.sellingPrice - itemlist.discountedPrice) / itemlist.sellingPrice * 100).toFixed(0)}%`}
+                {`${((sellingPriceToDisplay - discountedPriceToDisplay) / sellingPriceToDisplay * 100).toFixed(0)}%`}
               </Typography>
               <Typography variant="caption" component="div" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
                 off
@@ -138,7 +138,7 @@ const ProductSlider = ({ itemlist }) => {
         />
       )}
 
-      {itemlist.extraOptionOutOfStock && (
+      {displayAvailability && (
         <Chip
           label={
             <div style={{ textAlign: 'center' }}>
@@ -199,5 +199,3 @@ const ProductSlider = ({ itemlist }) => {
     </Box >
   );
 };
-
-export default ProductSlider;

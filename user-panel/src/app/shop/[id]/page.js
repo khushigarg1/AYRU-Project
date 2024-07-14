@@ -44,7 +44,7 @@ const ProductDetails = ({ params }) => {
     <Container sx={{
       marginTop: isMobile ? 1 : 3, backgroundColor: theme.palette.background.paper, fontFamily: theme.palette.text.font
     }}>
-      <Box my={1} sx={{ fontFamily: theme.palette.text.font }}>
+      {/* <Box my={1} sx={{ fontFamily: theme.palette.text.font }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <ProductSlider itemlist={product} sx={{ fontFamily: theme.palette.text.font }} />
@@ -53,7 +53,8 @@ const ProductDetails = ({ params }) => {
             <ItemDetails product={product} sx={{ fontFamily: theme.palette.text.font }} />
           </Grid>
         </Grid>
-      </Box>
+      </Box> */}
+      <ItemDetails product={product} />
       <Image src={Instructions} alt="Image"
         style={{ mt: 0, width: "100%", height: "100%", padding: "5px" }}
       // style={{ position: 'absolute', left: '-8px', top: '50%', transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto' }}

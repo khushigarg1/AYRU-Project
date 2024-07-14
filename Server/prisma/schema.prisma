@@ -176,11 +176,11 @@ model Inventory {
   fabric                String?
   type                  String?
   size                  String?
-  includedItems         Json?
+  includedItems         String[]
   itemDimensions        String[]
   colorVariation        String?
   extraOptionOutOfStock Boolean?
-  specialFeatures       Json?
+  specialFeatures       String[]
   threadCount           String?
   categoryid            Int?
   // itemWeight            Float?

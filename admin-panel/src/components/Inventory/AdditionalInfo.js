@@ -6,6 +6,7 @@ const AdditionalInfo = ({ inventory, onSave, onCancel }) => {
   const [additionalInfo, setAdditionalInfo] = useState({
     extraNote: '',
     disclaimer: '',
+    description: '',
     careInstructions: []
   });
   const [editMode, setEditMode] = useState(false);
@@ -15,6 +16,7 @@ const AdditionalInfo = ({ inventory, onSave, onCancel }) => {
       setAdditionalInfo({
         extraNote: inventory.extraNote || '',
         disclaimer: inventory.disclaimer || '',
+        description: inventory.description || '',
         careInstructions: inventory.careInstructions || []
       });
     }
@@ -86,6 +88,16 @@ const AdditionalInfo = ({ inventory, onSave, onCancel }) => {
             />
           </Grid>
           <Grid item xs={12}>
+            <TextField
+              label="Description"
+              value={additionalInfo.description}
+              onChange={(e) => handleChange(e, 'description')}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={12}>
             <Typography variant="subtitle1">Care Instructions:</Typography>
             {additionalInfo.careInstructions.map((instruction, index) => (
               <div key={index} style={{ display: 'flex', alignItems: 'center', marginLeft: '10%' }}>
@@ -123,6 +135,9 @@ const AdditionalInfo = ({ inventory, onSave, onCancel }) => {
           </Grid>
           <Grid item xs={12}>
             <Typography><strong>Disclaimer:</strong> {inventory.disclaimer}</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography><strong>Description:</strong> {inventory.description}</Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography><strong>Care Instructions:</strong></Typography>

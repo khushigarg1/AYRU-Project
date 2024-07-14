@@ -123,13 +123,12 @@ const HomePage = ({ params }) => {
   const formatInventoryData = (inventory) => {
     return {
       ...inventory,
-      colorIds: inventory.ColorVariations?.map((cv) => cv.colorId),
-      flatIds: inventory.InventoryFlat?.map((fv) => fv.flatId),
-      customFittedIds: inventory.customFittedInventory?.map((cfv) => cfv.customFittedId),
-      fittedIds: inventory.InventoryFitted?.map((fv) => ({ fittedId: fv.fittedId, fittedDimensions: fv.fittedDimensions?.map((fvd) => fvd?.id) })),
-      // sizecharts: inventory.ProductInventory?.map((scv) => ({ productId: scv.productId, selectedSizes: scv.selectedSizes?.map((scd) => scd?.id) })),
-      relatedInventoriesIds: inventory.relatedInventories.map(inv => inv.id),
-      relatedByInventories: inventory.relatedByInventories.map(inv => inv.id)
+      colorIds: inventory?.ColorVariations?.map((cv) => cv?.colorId) || [],
+      flatIds: inventory?.InventoryFlat?.map((fv) => ({ ...fv, id: fv.flatId })) || [],
+      customFittedIds: inventory?.customFittedInventory?.map((cfv) => ({ ...cfv, id: cfv.customFittedId })) || [],
+      fittedIds: inventory?.InventoryFitted?.map((fv) => ({ ...fv, id: fv.fittedId })) || [],
+      relatedInventoriesIds: inventory?.relatedInventories?.map(inv => inv.id) || [],
+      subCategoryIds: inventory?.InventorySubcategory?.map(inv => inv?.subcategoryid) || []
     };
   };
 
@@ -378,38 +377,22 @@ const HomePage = ({ params }) => {
                     </Grid>
                     <Grid item xs={12}>
                       <Typography variant="h6">Custom Fitted:</Typography>
-                      {inventory.customFittedInventory?.map((custom) => (
-                        <Typography key={custom}>{custom?.customFitted?.name}</Typography>
-                      ))}
+                      {/* {inventory.customFittedInventory?.map((custom) => ( */}
+                      <>
+                        <Typography >{inventory.customFittedInventory[0]?.sellingPrice}</Typography>
+                        <Typography >{inventory.customFittedInventory[0]?.costPrice}</Typography>
+                        <Typography >{inventory.customFittedInventory[0]?.discountedPrice}</Typography>
+                      </>
+                      {/* ))} */}
                     </Grid>
                     <Grid item xs={12}>
                       <Typography variant="h6">Fitted:</Typography>
                       {inventory.InventoryFitted?.map((fitted, index) => (
                         <div key={index}>
                           <Typography>{fitted?.Fitted?.name}</Typography>
-                          {fitted?.fittedDimensions?.map((dimension, dimindex) => (
-                            <Typography ml={8} key={dimindex} variant="body2">
-                              {dimension.dimensions}
-                            </Typography>
-                          ))}
                         </div>
                       ))}
                     </Grid>
-                    {/* <Grid item xs={12}>
-                      <Typography variant="h6">Size Charts:</Typography>
-                      {inventory.ProductInventory?.map((sizechart, index) => (
-                        <div key={index}>
-                          <Typography variant="subtitle1">
-                            {sizechart?.product?.name}
-                          </Typography>
-                          {sizechart?.product?.sizes?.map((size, sizeIndex) => (
-                            <Typography ml={8} key={sizeIndex} variant="body2">
-                              {`${size.name}:- Width: ${size.width}, Height: ${size.height}`}
-                            </Typography>
-                          ))}
-                        </div>
-                      ))}
-                    </Grid> */}
                     <Grid item xs={12}>
                       <Typography variant="h6">Related Inventories:</Typography>
                       {inventory.relatedInventories?.map((inventory, index) => (
