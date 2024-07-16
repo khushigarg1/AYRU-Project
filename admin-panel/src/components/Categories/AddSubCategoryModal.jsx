@@ -18,8 +18,8 @@ export default function AddSubcategoryModal({ setAddSubcategoryOpen, refresh }) 
   }, []);
 
   async function fetchCategories() {
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       const response = await api.get("/categories");
       setCategories(response.data.data);
@@ -30,8 +30,8 @@ export default function AddSubcategoryModal({ setAddSubcategoryOpen, refresh }) 
 
   const handleSubmit = async () => {
     setLoading(true);
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     const subcategoryData = {
       subcategoryName,
       categoryId,

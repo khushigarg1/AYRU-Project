@@ -10,8 +10,11 @@ export async function addToCart(request: FastifyRequest, reply: FastifyReply) {
   const {
     inventoryId,
     quantity,
-    sizeType,
-    sizeName,
+    sizeOption,
+    selectedFlatItem,
+    selectedFittedItem,
+    selectedCustomFittedItem,
+    unit,
     length,
     width,
     height,
@@ -23,8 +26,11 @@ export async function addToCart(request: FastifyRequest, reply: FastifyReply) {
       Number(id),
       inventoryId,
       quantity,
-      sizeType,
-      sizeName,
+      sizeOption,
+      selectedFlatItem,
+      selectedFittedItem,
+      selectedCustomFittedItem,
+      unit,
       length,
       width,
       height,
@@ -64,16 +70,29 @@ export async function removeFromCart(
 export async function updateCart(request: FastifyRequest, reply: FastifyReply) {
   const { id } = request.user;
   const { cartItemId } = request.params as any;
-  const { quantity, sizeType, sizeName, length, width, height, remark } =
-    request.body as any;
+  const {
+    quantity,
+    sizeOption,
+    selectedFlatItem,
+    selectedFittedItem,
+    selectedCustomFittedItem,
+    unit,
+    length,
+    width,
+    height,
+    remark,
+  } = request.body as any;
 
   try {
     const updatedCartItem = await cartService.updateCart(
       Number(id),
       parseInt(cartItemId),
       quantity,
-      sizeType,
-      sizeName,
+      sizeOption,
+      selectedFlatItem,
+      selectedFittedItem,
+      selectedCustomFittedItem,
+      unit,
       length,
       width,
       height,

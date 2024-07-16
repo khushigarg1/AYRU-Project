@@ -33,11 +33,11 @@ export class ClientLoveService {
     let video = null;
 
     if (data.image) {
-      const { key, imageUrl: s3ImageUrl } = await uploadImageToS3(data.image);
+      const { key } = await uploadImageToS3(data.image);
       imageUrl = key;
     }
     if (data && data.video !== "null") {
-      const { key, imageUrl: s3ImageUrl } = await uploadImageToS3(data.image);
+      const { key } = await uploadImageToS3(data.image);
       imageUrl = key;
     }
 
@@ -76,7 +76,7 @@ export class ClientLoveService {
       }
 
       const { key } = await uploadImageToS3(data.image);
-      existingClientLove.imageUrl = key;
+      existingClientLove.imageUrl = key ?? null;
     }
 
     if (data.video && data.video !== "null") {
@@ -85,7 +85,7 @@ export class ClientLoveService {
       }
 
       const { key } = await uploadImageToS3(data.video);
-      existingClientLove.video = key;
+      existingClientLove.video = key ?? null;
     }
 
     if (data.text) {

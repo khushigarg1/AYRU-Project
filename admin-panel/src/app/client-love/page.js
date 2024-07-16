@@ -60,8 +60,8 @@ export default function ClientLove() {
   };
 
   const handleDeleteEntry = async (id) => {
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       await api.delete(`/clientLove/${id}`);
       fetchClientLoveEntries();

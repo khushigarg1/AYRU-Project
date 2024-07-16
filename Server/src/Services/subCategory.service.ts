@@ -25,7 +25,7 @@ export class SubCategoryService {
 
   async getSubCategories() {
     const subCategories = await prisma.subCategory.findMany({
-      include: { category: true, Inventory: true },
+      include: { category: true, InventorySubcategory: true },
       orderBy: {
         updatedAt: "desc",
       },
@@ -36,7 +36,7 @@ export class SubCategoryService {
   async getSubCategoryById(id: number) {
     const subCategory = await prisma.subCategory.findUnique({
       where: { id },
-      include: { category: true, Inventory: true },
+      include: { category: true, InventorySubcategory: true },
     });
     if (!subCategory) {
       throw new ApiBadRequestError("Error: SubCategory not found.");

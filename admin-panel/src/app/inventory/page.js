@@ -127,8 +127,8 @@ const HomePage = () => {
   ];
   const handleDelete = async (id) => {
     setLoading(true);
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       await api.delete(`/inventory/${id}`, {
         headers: {

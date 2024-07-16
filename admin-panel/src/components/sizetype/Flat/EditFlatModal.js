@@ -15,8 +15,8 @@ export default function EditFlatModal({ flat, setEditFlatOpen, refresh }) {
   }
   const handleSubmit = async () => {
     setLoading(true);
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     const flatData = {
       name,
       size,

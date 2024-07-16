@@ -139,6 +139,11 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                   style={{
                     fontSize: item.Flat.name.length > 20 ? '0.7rem' : '1rem',
                     maxWidth: '100%',
+                    textDecoration: item?.quantity === 0 ? 'line-through' : 'none',
+                    // transform: item?.quantity === 0 ? 'rotate(-45deg)' : 'none',
+                    transformOrigin: item?.quantity === 0 ? 'center center' : 'none',
+                    textDecorationColor: "gray",
+                    color: item?.quantity === 0 ? "gray" : "inherit"
                   }}
                 >
                   {item.Flat.name} {item?.Flat?.size && item?.Flat?.size}

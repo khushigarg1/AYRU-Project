@@ -352,20 +352,23 @@ model SubCategory {
 }
 
 model Cart {
-  id          Int       @id @default(autoincrement())
-  userId      Int
-  inventoryId Int
-  quantity    Int
-  sizeType    String?
-  sizeName    String?
-  length      Float?
-  width       Float?
-  height      Float?
-  remark      String?
-  Inventory   Inventory @relation(fields: [inventoryId], references: [id])
-  User        User      @relation(fields: [userId], references: [id])
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id                       Int       @id @default(autoincrement())
+  userId                   Int
+  inventoryId              Int
+  quantity                 Int
+  sizeOption               String?
+  selectedFlatItem         String?
+  selectedFittedItem       String?
+  selectedCustomFittedItem String?
+  unit                     String?
+  length                   Float?
+  width                    Float?
+  height                   Float?
+  remark                   String?
+  Inventory                Inventory @relation(fields: [inventoryId], references: [id])
+  User                     User      @relation(fields: [userId], references: [id])
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
 }
 
 model Wishlist {
@@ -381,35 +384,38 @@ model Wishlist {
 }
 
 model Order {
-  id                Int             @id @default(autoincrement())
-  orderid           String          @unique
-  userId            Int
-  inventoryId       Int
-  quantity          Int
-  trekkingId        String?
-  trekkingid        String?
-  couriername       String?
-  imageurl          String?
-  sizeType          String?
-  sizeName          String?
-  dimensions        String?
-  length            Float?
-  width             Float?
-  height            Float?
-  status            String
-  paymentStatus     String
-  deliveryStatus    String
-  giftOption        Boolean?
-  Total             Int
-  paymentMethodId   Int
-  deliveryAddressId Int
-  remark            String?
-  Inventory         Inventory       @relation(fields: [inventoryId], references: [id])
-  User              User            @relation(fields: [userId], references: [id])
-  PaymentMethod     PaymentMethod   @relation(fields: [paymentMethodId], references: [id])
-  ShippingAddress   ShippingAddress @relation(fields: [deliveryAddressId], references: [id])
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
+  id                       Int             @id @default(autoincrement())
+  orderid                  String          @unique
+  userId                   Int
+  inventoryId              Int
+  quantity                 Int
+  trekkingId               String?
+  trekkingid               String?
+  couriername              String?
+  imageurl                 String?
+  sizeOption               String?
+  selectedFlatItem         String?
+  selectedFittedItem       String?
+  selectedCustomFittedItem String?
+  dimensions               String?
+  unit                     String?
+  length                   Float?
+  width                    Float?
+  height                   Float?
+  status                   String
+  paymentStatus            String
+  deliveryStatus           String
+  giftOption               Boolean?
+  Total                    Int
+  paymentMethodId          Int
+  deliveryAddressId        Int
+  remark                   String?
+  Inventory                Inventory       @relation(fields: [inventoryId], references: [id])
+  User                     User            @relation(fields: [userId], references: [id])
+  PaymentMethod            PaymentMethod   @relation(fields: [paymentMethodId], references: [id])
+  ShippingAddress          ShippingAddress @relation(fields: [deliveryAddressId], references: [id])
+  createdAt                DateTime        @default(now())
+  updatedAt                DateTime        @updatedAt
 }
 
 model ShippingAddress {

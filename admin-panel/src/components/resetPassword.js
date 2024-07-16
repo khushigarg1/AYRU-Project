@@ -27,8 +27,8 @@ export default function ChangePasswordModal({ open, handleClose }) {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const token = Cookies.get("token");
-      api.defaults.headers.Authorization = `Bearer ${token}`;
+      const admintoken = Cookies.get("admintoken");
+      api.defaults.headers.Authorization = `Bearer ${admintoken}`;
       await api.put("/auth/admin/change-password", passwordData);
       setError({ open: true, severity: "success", message: "Password changed successfully" });
       handleClose();

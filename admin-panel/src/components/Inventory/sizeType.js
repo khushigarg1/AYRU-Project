@@ -19,8 +19,8 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
   const [newFlatItem, setNewFlatItem] = useState({
     quantity: 0,
     soldQuantity: 0,
-    minQuantity: 0,
-    maxQuantity: 0,
+    minQuantity: 1,
+    maxQuantity: 1,
     sellingPrice: 0,
     costPrice: 0,
     discountedPrice: 0,
@@ -34,8 +34,8 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
   const [newFittedItem, setNewFittedItem] = useState({
     quantity: 0,
     soldQuantity: 0,
-    minQuantity: 0,
-    maxQuantity: 0,
+    minQuantity: 1,
+    maxQuantity: 1,
     sellingPrice: 0,
     costPrice: 0,
     discountedPrice: 0,
@@ -126,12 +126,12 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
       setNewFlatItem({
         quantity: 0,
         soldQuantity: 0,
-        minQuantity: 0,
-        maxQuantity: 0,
+        minQuantity: 1,
+        maxQuantity: 1,
         sellingPrice: 0,
         costPrice: 0,
         discountedPrice: 0,
-        id: '' // Reset the flatId field
+        id: ''
       });
     }
   };
@@ -158,8 +158,8 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
       setNewFittedItem({
         quantity: 0,
         soldQuantity: 0,
-        minQuantity: 0,
-        maxQuantity: 0,
+        minQuantity: 1,
+        maxQuantity: 1,
         sellingPrice: 0,
         costPrice: 0,
         discountedPrice: 0,
@@ -473,24 +473,24 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
             <Grid item xs={12} sm={4}>
               <TextField
                 label="Selling Price"
-                value={data.customFittedIds[0].sellingPrice}
-                onChange={(e) => handleItemChange(data.customFittedIds[0].id, 'sellingPrice', parseFloat(e.target.value), 'customFittedIds')}
+                value={data.customFittedIds[0]?.sellingPrice}
+                onChange={(e) => handleItemChange(data.customFittedIds[0]?.id, 'sellingPrice', parseFloat(e.target.value), 'customFittedIds')}
                 fullWidth
               />
             </Grid>
             <Grid item xs={12} sm={4}>
               <TextField
                 label="Cost Price"
-                value={data.customFittedIds[0].costPrice}
-                onChange={(e) => handleItemChange(data.customFittedIds[0].id, 'costPrice', parseFloat(e.target.value), 'customFittedIds')}
+                value={data.customFittedIds[0]?.costPrice}
+                onChange={(e) => handleItemChange(data.customFittedIds[0]?.id, 'costPrice', parseFloat(e.target.value), 'customFittedIds')}
                 fullWidth
               />
             </Grid>
             <Grid item xs={12} sm={4}>
               <TextField
                 label="Discounted Price"
-                value={data.customFittedIds[0].discountedPrice}
-                onChange={(e) => handleItemChange(data.customFittedIds[0].id, 'discountedPrice', parseFloat(e.target.value), 'customFittedIds')}
+                value={data.customFittedIds[0]?.discountedPrice}
+                onChange={(e) => handleItemChange(data.customFittedIds[0]?.id, 'discountedPrice', parseFloat(e.target.value), 'customFittedIds')}
                 fullWidth
               />
             </Grid>

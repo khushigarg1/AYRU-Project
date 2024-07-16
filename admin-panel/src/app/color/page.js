@@ -42,8 +42,8 @@ export default function HomeColor() {
   const handleEditColorClose = () => setEditColorOpen(false);
 
   const handleDeleteColor = async (id) => {
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       await api.delete(`/color/${id}`);
       toggleRefresh();
@@ -118,8 +118,8 @@ export default function HomeColor() {
   }, [refresh]);
 
   async function getColors() {
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       const response = await api.get("/color");
       setColors(response.data.data);

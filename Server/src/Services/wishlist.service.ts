@@ -72,23 +72,37 @@ export class WishlistService {
           User: true,
           Inventory: {
             include: {
+              customFittedInventory: { include: { InventoryFlat: true } },
               InventoryFlat: { include: { Flat: true } },
-              customFittedInventory: { include: { customFitted: true } },
+              InventorySubcategory: { include: { SubCategory: true } },
               InventoryFitted: {
                 include: {
-                  Fitted: {
-                    include: { FittedDimensions: true },
-                  },
-                  fittedDimensions: true,
+                  Fitted: true,
                 },
               },
+              Category: true,
+              Wishlist: true,
+              // ProductInventory: {
+              //   include: {
+              //     product: {
+              //       include: { sizes: true },
+              //     },
+              //     selectedSizes: true,
+              //   },
+              // },
               ColorVariations: { include: { Color: true } },
-              relatedInventories: true,
-              relatedByInventories: true,
+              relatedInventories: {
+                include: {
+                  Media: true,
+                },
+              },
+              relatedByInventories: {
+                include: {
+                  Media: true,
+                },
+              },
               Media: true,
               SizeChartMedia: true,
-              category: true,
-              subCategory: true,
             },
           },
         },
@@ -173,19 +187,35 @@ export class WishlistService {
           User: true,
           Inventory: {
             include: {
+              customFittedInventory: { include: { InventoryFlat: true } },
               InventoryFlat: { include: { Flat: true } },
-              customFittedInventory: { include: { customFitted: true } },
+              InventorySubcategory: { include: { SubCategory: true } },
               InventoryFitted: {
                 include: {
-                  Fitted: {
-                    include: { FittedDimensions: true },
-                  },
-                  fittedDimensions: true,
+                  Fitted: true,
                 },
               },
+              Category: true,
+              Wishlist: true,
+              // ProductInventory: {
+              //   include: {
+              //     product: {
+              //       include: { sizes: true },
+              //     },
+              //     selectedSizes: true,
+              //   },
+              // },
               ColorVariations: { include: { Color: true } },
-              relatedInventories: true,
-              relatedByInventories: true,
+              relatedInventories: {
+                include: {
+                  Media: true,
+                },
+              },
+              relatedByInventories: {
+                include: {
+                  Media: true,
+                },
+              },
               Media: true,
               SizeChartMedia: true,
             },

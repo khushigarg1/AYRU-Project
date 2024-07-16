@@ -42,8 +42,8 @@ export default function Home() {
   const handleEditCategoryClose = () => setEditCategoryOpen(false);
 
   const handleDeleteCategory = async (id) => {
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       await api.delete(`/category/${id}`);
       toggleRefresh();
@@ -131,8 +131,8 @@ export default function Home() {
   }, [refresh]);
 
   async function getCategories() {
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       const response = await api.get("/categories");
       setCategories(response.data.data);

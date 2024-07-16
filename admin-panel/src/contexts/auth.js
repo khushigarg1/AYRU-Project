@@ -15,12 +15,12 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     async function loadUserFromCookies() {
-      const token = Cookies.get('token')
-      if (token) {
+      const admintoken = Cookies.get('admintoken')
+      if (admintoken) {
         try {
-          console.log("check token", token);
+          console.log("check token", admintoken);
           console.log("Got a token in the cookies, let's see if it is valid");
-          api.defaults.headers.Authorization = `Bearer ${token}`
+          api.defaults.headers.Authorization = `Bearer ${admintoken}`
           const { data: user } = await api.get('auth/admin/1')
           console.log("got user", user);
           setUser(user)
@@ -40,10 +40,10 @@ export const AuthProvider = ({ children }) => {
       const response = await api.post('auth/admin/login', { email, password });
       console.log(response, response.data);
       if (response && response.data && response.data.accessToken) {
-        const token = response.data.accessToken;
-        console.log("Got token", token);
-        Cookies.set('token', token, { expires: 60 });
-        api.defaults.headers.Authorization = `Bearer ${token}`;
+        const admintoken = response.data.accessToken;
+        console.log("Got token", admintoken);
+        Cookies.set('admintoken', admintoken, { expires: 60 });
+        api.defaults.headers.Authorization = `Bearer ${admintoken}`;
         const { data: user } = await api.get(`auth/admin/${response?.data?.data?.id}`);
         setUser(user);
         console.log("Got user", user);
@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   const logout = () => {
-    Cookies.remove('token')
+    Cookies.remove('admintoken')
     setUser(null)
     delete api.defaults.headers.Authorization
     // window.location.pathname = '/login'

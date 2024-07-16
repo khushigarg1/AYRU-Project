@@ -38,8 +38,8 @@ export default function CustomerSideDataManager() {
   const handleEditModalClose = () => setEditModalOpen(false);
 
   const handleDeleteData = async (id) => {
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       await api.delete(`/customer-side-data/${id}`);
       toggleRefresh();
@@ -90,8 +90,8 @@ export default function CustomerSideDataManager() {
   }, [refresh]);
 
   async function getCustomerSideData() {
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("token");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       const response = await api.get("/customer-side-data");
       setCustomerSideData(response.data.data);

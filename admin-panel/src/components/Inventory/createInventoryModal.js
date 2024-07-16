@@ -21,7 +21,7 @@ const CreateInventoryModal = ({ open, handleClose, refresh }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await api.get('/categories'); // Adjust the endpoint accordingly
+        const response = await api.get('/categories');
         setCategories(response.data.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -43,14 +43,17 @@ const CreateInventoryModal = ({ open, handleClose, refresh }) => {
   }, [formData.categoryId, categories]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+    if (name == "sellingPrice" || name == "quantity") {
+      value = parseInt(value);
+    }
     setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async () => {
     setLoading(true);
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
 
     try {
       await api.post('/inventory', formData);
@@ -114,7 +117,7 @@ const CreateInventoryModal = ({ open, handleClose, refresh }) => {
           label="Selling Price"
           name="sellingPrice"
           type="number"
-          value={formData.sellingPrice}
+          value={parseFloat(formData.sellingPrice)}
           onChange={handleChange}
           fullWidth
           margin="normal"

@@ -11,8 +11,13 @@ import Image from 'next/image';
 import Icons from "../../../public/images/producticons.png";
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import { ProductSlider } from './productSlider';
+import { useAuth } from '@/contexts/auth';
+import Cookies from 'js-cookie';
+import api from '../../../api';
 
 const ItemDetails = ({ product }) => {
+  //-------------------------------------------------------------------------------
+
   const hasBedsheets = product?.InventoryFitted.length > 0 || product.customFittedInventory.length > 0;
   const [selections, setSelections] = useState({
     selectedOption: hasBedsheets ? '' : 'flat',
@@ -26,7 +31,6 @@ const ItemDetails = ({ product }) => {
       length: ''
     }
   });
-  console.log("selectionss", selections);
   const selectedFlatItem = selections?.selectedFlatItem;
   const selectedCustomFittedItem = selections?.selectedCustomFittedItem;
 
@@ -59,13 +63,17 @@ const ItemDetails = ({ product }) => {
       displayAvailability = selectedFitted?.quantity == 0 ? true : false;
     }
   }
+  //-------------------------------------------------------------------------------
   const theme = useTheme();
   const [quantity, setQuantity] = useState(displayMinQuantity || 1);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageModalOpen, setImageModalOpen] = useState(false);
-
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const { openAuthModal, user, cartCount, setCartCount } = useAuth();
+  const [cartItems, setcartItems] = useState({});
+  const token = Cookies.get('token');
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
@@ -89,9 +97,37 @@ const ItemDetails = ({ product }) => {
       setQuantity(value);
     }
   };
+  //-------------------------------------------------------------------------------
+  useEffect(() => {
+    const fetchcartStatus = async () => {
+      try {
+        if (token) {
+          const response = await api.get(`/cart/user`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          const cartItemsData = response.data.data?.userCart;
+          setCartCount(cartItemsData.length);
+          const cartMap = cartItemsData.reduce((acc, cartItem) => {
+            acc[cartItem.inventoryId] = cartItem.id;
+            return acc;
+          }, {});
+          setcartItems(cartMap);
+        }
+      } catch (error) {
+        console.error('Error fetching cart:', error);
+      }
+    };
 
-  const handleAddToCart = () => {
+    if (user && user.id && token) {
+      fetchcartStatus();
+    }
+  }, [token, user, setCartCount]);
 
+  const handleAddToCart = async () => {
+    console.log("selectionss", selections);
+    console.log("heyy");
     if (selections?.selectedOption === '') {
       setSnackbarMessage('Please select a size option before adding to the cart.');
       setOpenSnackbar(true);
@@ -114,17 +150,79 @@ const ItemDetails = ({ product }) => {
       setOpenSnackbar(true);
       return;
     }
-    console.log('Item added to cart:', selections);
+
+
+    try {
+      if (!token) {
+        openAuthModal();
+        return;
+      }
+
+      const cartItemExists = !!cartItems[product.id];
+
+      // if (cartItemExists) {
+      // await api.delete(`/cart/${cartItems[itemlist.id]}`, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`
+      //   }
+      // });
+      // setcartItems(prevItems => {
+      //   const newItems = { ...prevItems };
+      //   delete newItems[itemlist.id];
+      //   return newItems;
+      // });
+      // setCartCount(prevCount => prevCount - 1);
+      // setSnackbarMessage("Already added to cart");
+      // setOpenSnackbar(true);
+      // console.log(`Removed ${itemlist.productName} from cart`);
+      // } else {
+      const selectedFlat = await product.InventoryFlat.find(item => item?.flatId === selectedFlatItem);
+      const selectedFitted = await product.InventoryFitted.find(item => item?.fittedId === selectedCustomFittedItem);
+      console.log(selectedFlat, selectedFitted);
+      const cartData = {
+        inventoryId: product.id,
+        // userId: user?.id,
+        quantity: quantity || 1,
+        sizeOption: selections?.selectedOption,
+        selectedFlatItem: selectedFlat?.Flat?.name,
+        selectedFittedItem: selectedFitted?.Fitted?.name,
+        selectedCustomFittedItem: '',
+        unit: selections?.selectedUnit,
+        length: parseFloat(selections?.dimensions?.length),
+        width: parseFloat(selections?.dimensions?.width),
+        height: parseFloat(selections?.dimensions?.height)
+      };
+
+      const response = await api.post('/cart', cartData, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setcartItems(prevItems => ({
+        ...prevItems,
+        [product.id]: response.data.data.id
+      }));
+      setCartCount(prevCount => prevCount + 1);
+      setSnackbarMessage(`${product.productName} added to cart`);
+      setOpenSnackbar(true);
+      console.log(`Added ${product.productName} to cart`);
+      // }
+    } catch (error) {
+      console.error('Error toggling cart status:', error);
+    }
   };
 
+  //-------------------------------------------------------------------------------
   const handleBuyNow = () => {
     // Implement logic to proceed to checkout or buy now action
     console.log('Buying now:', product);
   };
 
+  //-------------------------------------------------------------------------------
   const productUrl = `${process.env.REACT_APP_BASE_URL}/product/${product.id}`;
   const whatsappMessage = `🌟 Hey, I am interested in placing an international order for this amazing item: ${product.productName}. Could you please provide me with the steps and necessary information? 🛒\n\n🔗 Here is the product link: ${productUrl}\n\nThank you! 🙏`;
 
+  //-------------------------------------------------------------------------------
   const handleOpenImageModal = (imageUrl) => {
     setSelectedImage(imageUrl);
     setImageModalOpen(true);
@@ -424,7 +522,7 @@ const ItemDetails = ({ product }) => {
                       <Card
                         key={chart.id}
                         onClick={() => handleOpenImageModal(`https://ayru-jaipur.s3.amazonaws.com/${chart?.url}`)}
-                        sx={{ columnGap: "2px", padding: "0px", boxShadow: "none" }}
+                        sx={{ columnGap: "2px", padding: "0px", boxShadow: "none", cursor: "pointer" }}
                       >
                         <CardMedia
                           component="img"

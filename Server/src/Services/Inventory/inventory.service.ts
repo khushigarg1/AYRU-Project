@@ -492,26 +492,32 @@ export class InventoryService {
       const inventoryFlatIds = inventoryFlats.map(
         (inventoryFlat) => inventoryFlat.id
       );
-      console.log(inventoryFlatIds);
-
-      const customFittedInventory =
-        await prisma.customFittedInventory.createMany({
-          data: inventoryFlatIds.map((inventoryFlatId, index) => ({
-            sellingPrice: customFittedIds && customFittedIds[0]?.sellingPrice,
-            costPrice: customFittedIds && customFittedIds[0].costPrice,
-            discountedPrice:
-              customFittedIds && customFittedIds[0].discountedPrice,
-            inventoryId: updatedInventory?.id,
-            inventoryFlatId: inventoryFlatId,
-          })),
-        });
+      // console.log(inventoryFlatIds);
+      let inventory = null;
+      if (
+        customFittedIds &&
+        (customFittedIds[0]?.sellingPrice ||
+          customFittedIds[0]?.costPrice ||
+          customFittedIds[0]?.discountedPrice)
+      ) {
+        const customFittedInventory =
+          await prisma.customFittedInventory.createMany({
+            data: inventoryFlatIds.map((inventoryFlatId) => ({
+              sellingPrice: customFittedIds[0]?.sellingPrice,
+              costPrice: customFittedIds[0]?.costPrice,
+              discountedPrice: customFittedIds[0]?.discountedPrice,
+              inventoryId: updatedInventory?.id,
+              inventoryFlatId: inventoryFlatId,
+            })),
+          });
+        inventory = {
+          ...updatedInventory,
+          customFittedInventory: customFittedInventory,
+        };
+      }
 
       console.log(updatedInventory);
-      const inventory = {
-        ...updatedInventory,
-        customFittedInventory: customFittedInventory,
-      };
-      return { inventory };
+      return { inventory: inventory ? inventory : updatedInventory };
     } catch (error) {
       throw error;
     }

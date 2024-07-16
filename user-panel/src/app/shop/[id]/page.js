@@ -22,6 +22,7 @@ const ProductDetails = ({ params }) => {
   const [wishlistItems, setWishlistItems] = useState({});
   const token = Cookies.get('token');
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isTablet = useMediaQuery(theme.breakpoints.down("lg"));
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -55,10 +56,15 @@ const ProductDetails = ({ params }) => {
         </Grid>
       </Box> */}
       <ItemDetails product={product} />
-      <Image src={Instructions} alt="Image"
-        style={{ mt: 0, width: "100%", height: "100%", padding: "5px" }}
-      // style={{ position: 'absolute', left: '-8px', top: '50%', transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto' }}
-      />
+      <Box style={{ display: "flex", justifyContent: "center" }}>
+
+        {isTablet &&
+          <Image src={Instructions} alt="Image"
+            style={{ mt: 0, width: isMobile ? "100%" : "50%", height: isMobile ? "100%" : "50%", padding: "5px" }}
+          // style={{ position: 'absolute', left: '-8px', top: '50%', transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto' }}
+          />
+        }
+      </Box>
     </Container>
   );
 };
