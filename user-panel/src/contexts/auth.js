@@ -39,6 +39,23 @@ export const AuthProvider = ({ children }) => {
           // console.log(userId);
           api.defaults.headers.Authorization = `Bearer ${token}`;
           const response = await api.get(`/auth/${userId}`);
+          const [cartResponse, wishlistResponse] = await Promise.all([
+            api.get(`/cart/user`, {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            }),
+            api.get(`/wishlist/user/${userId}`, {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            })
+          ]);
+          const cartItemsData = cartResponse.data.data?.userCart;
+          const wishlistItemsData = wishlistResponse.data.data;
+
+          setCartCount(cartItemsData.length);
+          setWishlistCount(wishlistItemsData.length);
           // console.log("user", response);
           setUser(response.data?.data);
         } catch (error) {

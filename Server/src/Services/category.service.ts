@@ -22,7 +22,9 @@ export class CategoryService {
         Inventory: {
           include: {
             InventoryFlat: { include: { Flat: true } },
-            customFittedInventory: { include: { InventoryFlat: true } },
+            customFittedInventory: {
+              include: { InventoryFlat: { include: { Flat: true } } },
+            },
             InventoryFitted: {
               include: {
                 Fitted: true,
@@ -115,7 +117,9 @@ export class CategoryService {
         Inventory: {
           include: {
             InventoryFlat: { include: { Flat: true } },
-            customFittedInventory: { include: { InventoryFlat: true } },
+            customFittedInventory: {
+              include: { InventoryFlat: { include: { Flat: true } } },
+            },
             InventoryFitted: {
               include: {
                 Fitted: true,

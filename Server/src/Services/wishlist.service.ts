@@ -72,7 +72,9 @@ export class WishlistService {
           User: true,
           Inventory: {
             include: {
-              customFittedInventory: { include: { InventoryFlat: true } },
+              customFittedInventory: {
+                include: { InventoryFlat: { include: { Flat: true } } },
+              },
               InventoryFlat: { include: { Flat: true } },
               InventorySubcategory: { include: { SubCategory: true } },
               InventoryFitted: {
@@ -187,7 +189,9 @@ export class WishlistService {
           User: true,
           Inventory: {
             include: {
-              customFittedInventory: { include: { InventoryFlat: true } },
+              customFittedInventory: {
+                include: { InventoryFlat: { include: { Flat: true } } },
+              },
               InventoryFlat: { include: { Flat: true } },
               InventorySubcategory: { include: { SubCategory: true } },
               InventoryFitted: {

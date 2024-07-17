@@ -229,7 +229,9 @@ export class InventoryService {
   async getInventories() {
     const inventory = await prisma.inventory.findMany({
       include: {
-        customFittedInventory: { include: { InventoryFlat: true } },
+        customFittedInventory: {
+          include: { InventoryFlat: { include: { Flat: true } } },
+        },
         InventoryFlat: { include: { Flat: true } },
         InventorySubcategory: { include: { SubCategory: true } },
         InventoryFitted: {
@@ -282,7 +284,9 @@ export class InventoryService {
       where: { id: Number(id) },
       include: {
         InventoryFlat: { include: { Flat: true } },
-        customFittedInventory: { include: { InventoryFlat: true } },
+        customFittedInventory: {
+          include: { InventoryFlat: { include: { Flat: true } } },
+        },
         InventorySubcategory: { include: { SubCategory: true } },
         InventoryFitted: {
           include: {
@@ -465,7 +469,9 @@ export class InventoryService {
         include: {
           InventoryFlat: { include: { Flat: true } },
           InventorySubcategory: { include: { SubCategory: true } },
-          // customFittedInventory: { include: { InventoryFlat: true } },
+          customFittedInventory: {
+            include: { InventoryFlat: { include: { Flat: true } } },
+          },
           InventoryFitted: {
             include: {
               Fitted: true,
@@ -537,7 +543,9 @@ export class InventoryService {
       where: whereClause,
       include: {
         InventoryFlat: { include: { Flat: true } },
-        customFittedInventory: { include: { InventoryFlat: true } },
+        customFittedInventory: {
+          include: { InventoryFlat: { include: { Flat: true } } },
+        },
         InventoryFitted: {
           include: {
             Fitted: true,
