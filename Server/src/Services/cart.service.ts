@@ -409,22 +409,32 @@ export class CartService {
     let totalPrice = 0;
     userCart.forEach((cartItem) => {
       const inventory = cartItem.Inventory;
-      if (
-        inventory &&
-        inventory.discountedPrice !== null &&
-        inventory.discountedPrice !== undefined
-      ) {
-        totalPrice += inventory.discountedPrice;
-      } else if (
-        inventory &&
-        inventory.costPrice !== null &&
-        inventory.costPrice !== undefined &&
-        (inventory.discountedPrice == null ||
-          inventory.discountedPrice == undefined)
-      ) {
-        totalPrice += inventory.costPrice;
+      if (inventory) {
+        const price = inventory.discountedPrice ?? inventory.sellingPrice ?? 0;
+        const quantity = inventory.quantity ?? 1;
+        totalPrice += price * quantity;
       }
     });
+
+    // let totalPrice = 0;
+    // userCart.forEach((cartItem) => {
+    //   const inventory = cartItem.Inventory;
+    //   if (
+    //     inventory &&
+    //     inventory.discountedPrice !== null &&
+    //     inventory.discountedPrice !== undefined
+    //   ) {
+    //     totalPrice += inventory.discountedPrice;
+    //   } else if (
+    //     inventory &&
+    //     inventory.costPrice !== null &&
+    //     inventory.costPrice !== undefined &&
+    //     (inventory.discountedPrice == null ||
+    //       inventory.discountedPrice == undefined)
+    //   ) {
+    //     totalPrice += inventory.costPrice;
+    //   }
+    // });
 
     return { userCart, totalPrice };
   }

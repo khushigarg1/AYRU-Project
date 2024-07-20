@@ -15,7 +15,7 @@ export const FeatureAccordions = ({ product }) => {
         </AccordionDetails>
       </Accordion>
       {/* Product Details Accordion */}
-      <Accordion defaultExpanded disableGutters>
+      <Accordion disableGutters>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography variant="h6">Product Details</Typography>
         </AccordionSummary>
@@ -123,7 +123,7 @@ export const FeatureAccordions = ({ product }) => {
         </AccordionDetails>
       </Accordion>
 
-      <Accordion defaultExpanded disableGutters>
+      <Accordion disableGutters>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography variant="h6">Disclaimer</Typography>
         </AccordionSummary>

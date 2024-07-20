@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Grid, Checkbox, Select, MenuItem, InputLabel, FormControl, ListItemText, TextField } from '@mui/material';
+import { Typography, Button, Grid, Checkbox, Select, MenuItem, InputLabel, FormControl, ListItemText, TextField, useTheme, useMediaQuery } from '@mui/material';
 import { DeleteForever } from '@mui/icons-material';
 import api from '@/api';
 
@@ -13,7 +13,8 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
     relatedInventoriesIds: inventory?.relatedInventories?.map(inv => inv.id) || [],
     subCategoryIds: inventory?.InventorySubcategory?.map(inv => inv.subcategoryid) || []
   });
-  console.log("dataaa", data);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [colors, setColors] = useState([]);
   const [flats, setFlats] = useState([]);
   const [newFlatItem, setNewFlatItem] = useState({
@@ -238,10 +239,10 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
           </Select>
         </FormControl>
       </Grid>
-      <Grid item xs={12}>
-        <Typography>Flat Items:</Typography>
+      <Typography style={{ paddingLeft: "16px", paddingTop: "16px" }}>Flat Items:</Typography>
+      <Grid container xs={12} style={{ paddingLeft: "16px", paddingTop: "6px" }}>
         {data?.flatIds?.map((flat, index) => (
-          <Grid item xs={12} key={index}>
+          <Grid item xs={12} md={4} xl={4} lg={4} key={index}>
             <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ccc', padding: '10px', borderRadius: '5px', flexDirection: "column" }}>
               <Typography variant="subtitle1" style={{ marginRight: '20px' }}>{flat?.Flat?.name}</Typography>
               <Typography variant="subtitle1" style={{ marginRight: '20px' }}>Quantity: {flat?.quantity}</Typography>

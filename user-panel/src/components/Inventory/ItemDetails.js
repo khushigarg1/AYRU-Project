@@ -32,6 +32,7 @@ const ItemDetails = ({ product }) => {
     }
   });
   const selectedFlatItem = selections?.selectedFlatItem;
+  const selectedFittedItem = selections?.selectedFittedItem;
   const selectedCustomFittedItem = selections?.selectedCustomFittedItem;
 
   let discountedPriceToDisplay = product?.discountedPrice?.toFixed(2);
@@ -127,7 +128,6 @@ const ItemDetails = ({ product }) => {
 
   const handleAddToCart = async () => {
     console.log("selectionss", selections);
-    console.log("heyy");
     if (selections?.selectedOption === '') {
       setSnackbarMessage('Please select a size option before adding to the cart.');
       setOpenSnackbar(true);
@@ -177,8 +177,9 @@ const ItemDetails = ({ product }) => {
       // console.log(`Removed ${itemlist.productName} from cart`);
       // } else {
       const selectedFlat = await product.InventoryFlat.find(item => item?.flatId === selectedFlatItem);
-      const selectedFitted = await product.InventoryFitted.find(item => item?.fittedId === selectedCustomFittedItem);
-      console.log(selectedFlat, selectedFitted);
+      const selectedFitted = await product.InventoryFitted.find(item => item?.fittedId === selectedFittedItem);
+      const selectedCustomFitted = await product.customFittedInventory.find(item => item?.InventoryFlat?.flatId === selectedCustomFittedItem);
+      console.log(selectedFlat, selectedFitted, selectedCustomFitted);
       const cartData = {
         inventoryId: product.id,
         // userId: user?.id,
@@ -186,7 +187,7 @@ const ItemDetails = ({ product }) => {
         sizeOption: selections?.selectedOption,
         selectedFlatItem: selectedFlat?.Flat?.name,
         selectedFittedItem: selectedFitted?.Fitted?.name,
-        selectedCustomFittedItem: '',
+        selectedCustomFittedItem: selectedCustomFitted?.InventoryFlat?.Flat?.name,
         unit: selections?.selectedUnit,
         length: parseFloat(selections?.dimensions?.length),
         width: parseFloat(selections?.dimensions?.width),

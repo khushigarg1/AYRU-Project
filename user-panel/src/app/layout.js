@@ -79,7 +79,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>Admin</title>
+        <title>Ayru Jaipur</title>
         <link rel="icon" href="/images/AppIcon.png" type="image/x-icon" />
       </head>
       <body style={{ width: "100%", padding: "0px", fontFamily: "sans-serif", overflowX: "hidden", marginLeft: 0, marginRight: 0 }}>

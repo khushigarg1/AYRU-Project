@@ -28,6 +28,7 @@ import { CancelRounded } from "@mui/icons-material";
 import api from "../../api";
 import logo from "../../public/images/logo.png"
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 
 const drawerWidth = 270;
@@ -127,6 +128,7 @@ export default function PageNav({ children }) {
   const [open, setOpen] = useState(isAuthenticated);
   const [categories, setCategories] = useState([]);
   const [scrolledstate, setScrolledstate] = useState(false);
+  const router = useRouter();
   const handleNestedClick = () => {
     setNestedOpen(!nestedOpen);
   };
@@ -224,7 +226,6 @@ export default function PageNav({ children }) {
       </React.Fragment>
     );
   };
-
   return (
     <Box sx={{ display: "flex", padding: "0px", flexDirection: "column" }}>
       <CssBaseline />
@@ -239,21 +240,25 @@ export default function PageNav({ children }) {
           >
             {open ? <ChevronLeftIcon /> : <MenuIcon />}
           </IconButton>
-
-          <Image src={logo} alt="Logo" id="logo-img" width={110} height={40} style={{
+          {/* <Link href={'/'} style={{ padding: "0px" }}> */}
+          <Image component={Link} href={'/'} src={logo} alt="Logo" id="logo-img" width={110} height={40} style={{
             position: 'absolute',
             left: '50%',
             transform: 'translateX(-50%)',
-          }} />
+            cursor: "pointer"
+          }}
+            onClick={() => router.push(`/`)}
+          />
+          {/* </Link> */}
           {/* <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, textAlign: 'center', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
             AYRU JAIPUR
           </Typography> */}
-          <IconButton color="inherit" sx={{ marginLeft: 'auto' }}>
+          <IconButton component={Link} href={`/cart`} color="inherit" sx={{ marginLeft: 'auto', backgroundColor: "#d3d3d37a" }}>
             <Badge badgeContent={cartCount} color="error">
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
-          <IconButton color="inherit">
+          <IconButton component={Link} href={`/wishlist`} color="inherit" sx={{ marginLeft: "10px", backgroundColor: "#d3d3d37a" }}>
             <Badge badgeContent={wishlistCount} color="error">
               <FavoriteIcon />
             </Badge>
