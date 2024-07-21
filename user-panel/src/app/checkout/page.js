@@ -66,7 +66,7 @@ const CheckoutPage = () => {
       expiryDate: '',
       cvv: '',
     },
-    cartItems: [],
+    orderItems: [],
     totalAmount: 0,
   });
 
@@ -100,7 +100,7 @@ const CheckoutPage = () => {
 
         setOrderData((prevOrderData) => ({
           ...prevOrderData,
-          cartItems: response?.data?.data?.userCart,
+          orderItems: response?.data?.data?.userCart,
           totalAmount: response?.data?.data?.totalPrice
         }));
       }

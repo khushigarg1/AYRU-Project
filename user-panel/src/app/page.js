@@ -42,7 +42,7 @@ const Home = ({ openTab }) => {
       <CraftedWithLove />
       <FeedbackComponent />
       <ClientLoveCarousel />
-      <Footer />
+      {/* <Footer /> */}
     </Box>
   );
 };

@@ -13,6 +13,7 @@ import PageNav from "../components/PageNav";
 import { AuthProvider } from "../contexts/auth";
 import Marquee from "@/components/marquee";
 import api from "../../api";
+import Footer from "@/components/Footer";
 
 
 const materialTheme = createTheme({
@@ -67,7 +68,7 @@ export default function RootLayout({ children }) {
     const fetchMarqueeText = async () => {
       try {
         const response = await api.get("/customer-side-data/1");
-        setMarqueeText(response.data.data.marqueeText);
+        setMarqueeText(response.data.data.marqueeText || '');
       } catch (error) {
         console.error("Error fetching marquee text:", error);
       }
@@ -89,6 +90,7 @@ export default function RootLayout({ children }) {
             <PageNav>
               {children}
             </PageNav>
+            <Footer />
           </AuthProvider>
         </ThemeProvider>
       </body>
