@@ -73,8 +73,8 @@ export default function AddressForm(props) {
   const [savingGoals, setSavingGoals] = React.useState([0]);
 
   async function getAllOptions() {
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       let response = await api.get("closed-group/participants");
       // personLimits.push(response.data['participantList'])

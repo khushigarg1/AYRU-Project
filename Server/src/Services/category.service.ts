@@ -22,13 +22,12 @@ export class CategoryService {
         Inventory: {
           include: {
             InventoryFlat: { include: { Flat: true } },
-            customFittedInventory: { include: { customFitted: true } },
+            customFittedInventory: {
+              include: { InventoryFlat: { include: { Flat: true } } },
+            },
             InventoryFitted: {
               include: {
-                Fitted: {
-                  include: { FittedDimensions: true },
-                },
-                fittedDimensions: true,
+                Fitted: true,
               },
             },
             // ProductInventory: {
@@ -46,6 +45,9 @@ export class CategoryService {
             SizeChartMedia: true,
           },
         },
+      },
+      orderBy: {
+        updatedAt: "desc",
       },
     });
     return categories;
@@ -82,6 +84,9 @@ export class CategoryService {
   async deleteCategory(id: number, cascade: boolean = false) {
     const subcategories = await prisma.subCategory.findMany({
       where: { categoryId: id },
+      orderBy: {
+        updatedAt: "desc",
+      },
     });
 
     if (subcategories.length > 0) {
@@ -112,13 +117,12 @@ export class CategoryService {
         Inventory: {
           include: {
             InventoryFlat: { include: { Flat: true } },
-            customFittedInventory: { include: { customFitted: true } },
+            customFittedInventory: {
+              include: { InventoryFlat: { include: { Flat: true } } },
+            },
             InventoryFitted: {
               include: {
-                Fitted: {
-                  include: { FittedDimensions: true },
-                },
-                fittedDimensions: true,
+                Fitted: true,
               },
             },
             // ProductInventory: {
@@ -136,6 +140,9 @@ export class CategoryService {
             SizeChartMedia: true,
           },
         },
+      },
+      orderBy: {
+        updatedAt: "desc",
       },
     });
     return visibleCategories;

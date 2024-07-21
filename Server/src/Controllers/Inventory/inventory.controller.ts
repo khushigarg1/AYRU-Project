@@ -12,15 +12,31 @@ export const createInventory = async (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
-  const { productName, skuId, categoryId, subCategoryId } =
-    request.body as InventoryAttributes;
+  const {
+    productName,
+    skuId,
+    categoryId,
+    subCategoryIds,
+    quantity,
+    soldQuantity,
+    sellingPrice,
+    availability,
+    productstatus,
+    extraOptionOutOfStock,
+  } = request.body as InventoryAttributes;
 
   try {
     const inventory = await inventoryService.createInventory({
       productName,
       skuId,
       categoryId,
-      subCategoryId,
+      subCategoryIds,
+      quantity,
+      soldQuantity,
+      sellingPrice,
+      availability,
+      productstatus,
+      extraOptionOutOfStock,
     });
     reply.status(201).send({ data: inventory });
   } catch (error) {
@@ -175,5 +191,257 @@ export const deleteMedia = async (
     reply
       .status(500)
       .send({ message: "Failed to delete media", details: error });
+  }
+};
+
+/*-------------------------------For searchign and filtering inventories-----------------------*/
+// Route for filtering inventory items
+// export const filterInventory = async (
+//   request: FastifyRequest,
+//   reply: FastifyReply
+// ) => {
+//   const {
+//     categoryId,
+//     subCategoryId,
+//     fabric,
+//     style,
+//     minPrice,
+//     maxPrice,
+//     sortBy,
+//     sortOrder,
+//   } = request.query as {
+//     categoryId: string;
+//     subCategoryId?: string;
+//     fabric?: string;
+//     style?: string;
+//     minPrice?: string;
+//     maxPrice?: string;
+//     sortBy?: string;
+//     sortOrder?: "asc" | "desc";
+//   };
+
+//   try {
+//     const filterOptions: any = {};
+
+//     if (categoryId) {
+//       filterOptions.categoryId = Number(categoryId);
+//     }
+//     if (subCategoryId) {
+//       filterOptions.subCategoryId = Number(subCategoryId);
+//     }
+//     if (fabric) {
+//       filterOptions.fabric = { equals: fabric, mode: "insensitive" };
+//     }
+//     if (style) {
+//       filterOptions.style = { equals: style, mode: "insensitive" };
+//     }
+//     if (minPrice && maxPrice) {
+//       filterOptions.sellingPrice = {
+//         gte: parseFloat(minPrice),
+//         lte: parseFloat(maxPrice),
+//       };
+//     }
+//     const orderBy: any = {};
+//     if (sortBy) {
+//       orderBy[sortBy] = sortOrder === "desc" ? "desc" : "asc";
+//     }
+
+//     const inventories = await prisma.inventory.findMany({
+//       where: filterOptions,
+//       orderBy,
+//       include: {
+//         category: true,
+//         subCategory: true,
+//         Media: true,
+//         Wishlist: true,
+//         relatedInventories: true,
+//         relatedByInventories: true,
+//         SizeChartMedia: true,
+//         ColorVariations: { include: { Color: true } },
+//         InventoryFlat: { include: { Flat: true } },
+//         customFittedInventory: { include: { customFitted: true } },
+//         InventoryFitted: {
+//           include: {
+//             Fitted: {
+//               include: { FittedDimensions: true },
+//             },
+//             fittedDimensions: true,
+//           },
+//         },
+//       },
+//     });
+
+//     reply.send({ data: inventories });
+//   } catch (error) {
+//     reply
+//       .status(500)
+//       .send({ error: "Failed to filter inventories", details: error });
+//   }
+// };
+export const filterInventory = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const {
+    categoryId,
+    subCategoryId,
+    fabric,
+    style,
+    minPrice,
+    maxPrice,
+    sortBy,
+    sortOrder,
+    flatSize,
+    fittedSize,
+    customFittedId,
+  } = request.query as {
+    categoryId?: string;
+    subCategoryId?: string;
+    fabric?: string;
+    style?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    sortBy?: string;
+    sortOrder?: "asc" | "desc";
+    flatSize?: string;
+    fittedSize?: string;
+    customFittedId?: string;
+  };
+
+  try {
+    const filterOptions: any = {};
+
+    if (categoryId) {
+      filterOptions.categoryId = Number(categoryId);
+    }
+    if (subCategoryId) {
+      filterOptions.subCategoryId = Number(subCategoryId);
+    }
+    if (fabric) {
+      filterOptions.fabric = { equals: fabric, mode: "insensitive" };
+    }
+    if (style) {
+      filterOptions.style = { equals: style, mode: "insensitive" };
+    }
+    if (minPrice && maxPrice) {
+      filterOptions.sellingPrice = {
+        gte: parseFloat(minPrice),
+        lte: parseFloat(maxPrice),
+      };
+    }
+
+    const orderBy: any = {};
+    if (sortBy) {
+      orderBy[sortBy] = sortOrder === "desc" ? "desc" : "asc";
+    }
+
+    const inventories = await prisma.inventory.findMany({
+      where: filterOptions,
+      orderBy,
+      include: {
+        Category: true,
+        InventorySubcategory: { include: { SubCategory: true } },
+        Media: true,
+        Wishlist: true,
+        relatedInventories: true,
+        relatedByInventories: true,
+        SizeChartMedia: true,
+        ColorVariations: { include: { Color: true } },
+        InventoryFlat: {
+          where: flatSize ? { Flat: { size: flatSize } } : undefined,
+          include: { Flat: true },
+        },
+        // customFittedInventory: {
+        //   where: customFittedId
+        //     ? { customFittedId: Number(customFittedId) }
+        //     : undefined,
+        //   include: { customFitted: true },
+        // },
+        // InventoryFitted: {
+        //   where: fittedSize
+        //     ? {
+        //         fittedDimensions: { some: { dimensions: fittedSize } },
+        //       }
+        //     : undefined,
+        //   include: {
+        //     Fitted: true,
+        //   },
+        // },
+      },
+    });
+
+    reply.send({ data: inventories });
+  } catch (error) {
+    reply
+      .status(500)
+      .send({ error: "Failed to filter inventories", details: error });
+  }
+};
+
+// Route for searching inventory items
+export const searchInventory = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const { searchQuery, categoryId, subCategoryId } = request.query as {
+    searchQuery: string;
+    categoryId?: string;
+    subCategoryId?: string;
+  };
+
+  try {
+    const whereClause: any = {
+      OR: [
+        { productName: { contains: searchQuery, mode: "insensitive" } },
+        { colorVariation: { contains: searchQuery, mode: "insensitive" } },
+        { fabric: { contains: searchQuery, mode: "insensitive" } },
+        {
+          category: {
+            categoryName: { contains: searchQuery, mode: "insensitive" },
+          },
+        },
+        {
+          subCategory: {
+            subcategoryName: { contains: searchQuery, mode: "insensitive" },
+          },
+        },
+      ],
+    };
+
+    if (categoryId) {
+      whereClause.AND = whereClause.AND || [];
+      whereClause.AND.push({ categoryId: parseInt(categoryId) });
+    }
+    if (subCategoryId) {
+      whereClause.AND = whereClause.AND || [];
+      whereClause.AND.push({ subCategoryId: parseInt(subCategoryId) });
+    }
+
+    const inventories = await prisma.inventory.findMany({
+      where: whereClause,
+      include: {
+        Category: true,
+        InventorySubcategory: { include: { SubCategory: true } },
+        Media: true,
+        Wishlist: true,
+        ColorVariations: { include: { Color: true } },
+        relatedInventories: true,
+        relatedByInventories: true,
+        SizeChartMedia: true,
+        InventoryFlat: { include: { Flat: true } },
+        // customFittedInventory: { include: { customFitted: true } },
+        InventoryFitted: {
+          include: {
+            Fitted: true,
+          },
+        },
+      },
+    });
+
+    reply.send({ data: inventories });
+  } catch (error) {
+    reply
+      .status(500)
+      .send({ error: "Failed to search inventories", details: error });
   }
 };

@@ -9,6 +9,8 @@ import {
   getallMedia,
   deleteMedia,
   getInventoriesByCategory,
+  searchInventory,
+  filterInventory,
 } from "../Controllers/Inventory/inventory.controller";
 import {
   handleUploadChartMedia,
@@ -53,4 +55,8 @@ export default async function inventoryRoutes(server: FastifyInstance) {
     { onRequest: [server.authenticateAdmin] },
     handleDeleteChartMedia
   );
+
+  //------------------------------------FOR SEARCHIGN AND FILTERING------------------------------
+  server.get("/search", searchInventory);
+  server.get("/filter", filterInventory);
 }

@@ -11,10 +11,18 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
   const [newFeature, setNewFeature] = useState('');
   const [newDimension, setNewDimension] = useState('');
 
+  // const handleChange = (e, field) => {
+  //   const { value } = e.target;
+  //   setEditedProduct((prev) => ({ ...prev, [field]: value }));
+  // };
   const handleChange = (e, field) => {
-    const { value } = e.target;
+    let { value } = e.target;
+    if (field === 'weight') {
+      value = parseInt(value);
+    }
     setEditedProduct((prev) => ({ ...prev, [field]: value }));
   };
+
 
   const handleCheckboxChange = (e, field) => {
     const { checked } = e.target;
@@ -101,6 +109,12 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
     }));
   };
 
+  const convertObjectToArray = (obj) => {
+    return obj ? Object.values(obj) : [];
+  };
+  const includedItemsArray = Array.isArray(editedProduct?.includedItems) ? editedProduct.includedItems : convertObjectToArray(editedProduct?.includedItems);
+  const specialFeaturesArray = Array.isArray(editedProduct?.specialFeatures) ? editedProduct.specialFeatures : convertObjectToArray(editedProduct?.specialFeatures);
+
   return (
     <Grid container>
       {editMode ? (
@@ -158,21 +172,14 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <FormControl fullWidth variant="outlined" margin="normal">
-              <InputLabel id="size-label">Size</InputLabel>
-              <Select
-                labelId="size-label"
-                id="size"
-                value={editedProduct?.size}
-                onChange={(e) => handleChange(e, 'size')}
-                label="Size"
-              >
-                <MenuItem value="S">S</MenuItem>
-                <MenuItem value="M">M</MenuItem>
-                <MenuItem value="L">L</MenuItem>
-                <MenuItem value="XL">XL</MenuItem>
-              </Select>
-            </FormControl>
+            <TextField
+              label="Size"
+              value={editedProduct?.size}
+              onChange={(e) => handleChange(e, 'size')}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+            />
           </Grid>
           <Grid item xs={12}>
             <div>
@@ -268,7 +275,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
               fullWidth
               variant="outlined"
               margin="normal"
-              type="number"
+              type="text"
             />
           </Grid>
           {/* <Grid item xs={12}>
@@ -334,7 +341,10 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           </Grid>
           <Grid item xs={12}>
             <Typography><strong>Included Items:</strong></Typography>
-            {editedProduct?.includedItems?.map((item, index) => (
+            {/* {editedProduct?.includedItems?.map((item, index) => (
+              <Typography style={{ marginLeft: "10%" }} key={index}>{item}</Typography>
+            ))} */}
+            {includedItemsArray?.map((item, index) => (
               <Typography style={{ marginLeft: "10%" }} key={index}>{item}</Typography>
             ))}
           </Grid>
@@ -350,7 +360,10 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           <Grid item xs={12}>
             <Typography><strong>Special Features:</strong>
             </Typography>
-            {editedProduct?.specialFeatures?.map((item, index) => (
+            {/* {editedProduct?.specialFeatures?.map((item, index) => (
+              <Typography style={{ marginLeft: "10%" }} key={index}>{item}</Typography>
+            ))} */}
+            {specialFeaturesArray?.map((item, index) => (
               <Typography style={{ marginLeft: "10%" }} key={index}>{item}</Typography>
             ))}
           </Grid>

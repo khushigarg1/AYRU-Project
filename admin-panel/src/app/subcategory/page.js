@@ -40,8 +40,8 @@ export default function Home() {
   };
   const handleEditCategoryClose = () => setEditSubcategoryOpen(false);
   const handleDeleteSubCategory = async (id) => {
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       await api.delete(`/category/${id}`);
       toggleRefresh();
@@ -133,8 +133,8 @@ export default function Home() {
   }, [refresh]);
 
   async function getSubcategories() {
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       const response = await api.get("/subcategories");
       setSubcategories(response.data.data);

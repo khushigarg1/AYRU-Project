@@ -46,8 +46,8 @@ export default function HomePage() {
   const handleEditSizeClose = () => setEditSizeOpen(false);
 
   const handleDeleteSizeChart = async (id) => {
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       await api.delete(`/sizechart/${id}`);
       toggleRefresh();
@@ -67,8 +67,8 @@ export default function HomePage() {
   }, [refresh]);
 
   async function getSizeCharts() {
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       const response = await api.get("/sizechart");
       setSizeCharts(response.data.data);

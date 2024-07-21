@@ -85,8 +85,8 @@ export const ProductSlider = ({ products }) => {
                 </IconButton>
                 <CardMedia
                   component="img"
-                  // height={isMobile ? 200 : 400}
-                  image={product.Media && product.Media.length > 0 ? `${api.defaults.baseURL}image/${product.Media[0].url}` : '/fallback_image_url'}
+                  height={isMobile ? 200 : 400}
+                  image={product.Media && product.Media.length > 0 ? `https://ayru-jaipur.s3.amazonaws.com/${product.Media[0].url}` : '/fallback_image_url'}
                   alt={product.productName}
                   sx={{
                     objectFit: 'contain',

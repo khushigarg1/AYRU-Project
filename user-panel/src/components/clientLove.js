@@ -59,7 +59,7 @@ const ClientLoveCarousel = () => {
                     <Box sx={{ position: 'relative', flexGrow: 1 }}>
                       <CardMedia
                         component="img"
-                        image={`${api.defaults.baseURL}image/${item.imageUrl}`}
+                        image={`https://ayru-jaipur.s3.amazonaws.com/${item.imageUrl}`}
                         alt={`Slide ${idx}`}
                         sx={{
                           objectFit: 'contain',

@@ -282,7 +282,9 @@ class UserAuthServices {
       let checkUser = await prisma.user.findFirst({
         where: { email: checkUserAuth.email },
       });
-      if (checkUser && checkUser?.phoneNumber) {
+      console.log(checkUser);
+
+      if (checkUser) {
         checkUser = await prisma.user.update({
           where: { id: checkUser?.id },
           data: {
@@ -308,7 +310,7 @@ class UserAuthServices {
       return {
         accessToken: token,
         message: "Phone number verified successfully.",
-        data: checkUser,
+        data: { userdata: checkUser, userauth: checkUserAuth },
       };
     } else {
       throw new ApiBadRequestError("Invalid OTP provided.");
@@ -463,14 +465,18 @@ class UserAuthServices {
 
   // /-------------------------------------------GET ALL USERS---------------------------------------
   async getAllUsers() {
-    return await prisma.user.findMany();
+    return await prisma.user.findMany({
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
   }
 
   // /-------------------------------------------GET USER BY---------------------------------------
   async getUserById(id: number) {
     return await prisma.user.findUnique({ where: { id } });
   }
-  // async getAccessToken(server: FastifyInstance, user: any) {
+  // async getaccessToken(server: FastifyInstance, user: any) {
   //   const token = server.jwt.sign(user, {
   //     secret: process.env.JWT_TOKEN_SECRET,
   //     expiresIn: process.env.JWT_EXPIRATION_TIME,

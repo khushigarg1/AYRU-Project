@@ -40,8 +40,8 @@ export default function Home() {
   const handleEditFlatClose = () => setEditFlatOpen(false);
 
   const handleDeleteFlat = async (id) => {
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       await api.delete(`/flat/${id}`);
       toggleRefresh();
@@ -108,8 +108,8 @@ export default function Home() {
   }, [refresh]);
 
   async function getFlats() {
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       const response = await api.get("/flat");
       setFlats(response.data.data);

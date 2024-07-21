@@ -129,14 +129,18 @@ class AdminAuthServices {
 
   // /-------------------------------------------GET ALL ADMIN---------------------------------------
   async getAdmins() {
-    return await prisma.admin.findMany();
+    return await prisma.admin.findMany({
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
   }
 
   // /-------------------------------------------GET ADMIN BY ID---------------------------------------
   async getAdminById(id: number) {
     return await prisma.admin.findUnique({ where: { id } });
   }
-  // async getAccessToken(server: FastifyInstance, user: any) {
+  // async getaccessToken(server: FastifyInstance, user: any) {
   //   const token = server.jwt.sign(user, {
   //     secret: process.env.JWT_TOKEN_SECRET,
   //     expiresIn: process.env.JWT_EXPIRATION_TIME,

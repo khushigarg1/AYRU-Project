@@ -13,6 +13,7 @@ import PageNav from "../components/PageNav";
 import { AuthProvider } from "../contexts/auth";
 import Marquee from "@/components/marquee";
 import api from "../../api";
+import Footer from "@/components/Footer";
 
 
 const materialTheme = createTheme({
@@ -25,21 +26,23 @@ const materialTheme = createTheme({
       contrastText: "#212121",
     },
     secondary: {
-      main: "#FF8A65",
+      main: "#fcc73d",
       light: "#FFAB91",
-      dark: "#E64A19",
+      dark: "#FFD54F",
       contrastText: "#000000",
     },
     text: {
       primary: "#212121",
       secondary: "#000000",
       text: "#fcc73d",
-      font: "Montserrat, sans-serif", contrastText: "#212121",
+      font: "Montserrat, sans-serif",
+      contrastText: "#212121",
     },
     divider: "rgba(0,0,0,0.12)",
     background: {
       // primary: "#fcc73d",
       primary: "#FFD54F",
+      secondary: "#fcc73d",
       paper: "#FFF9C4",
       contrast: "#fcc73d"
     },
@@ -65,7 +68,7 @@ export default function RootLayout({ children }) {
     const fetchMarqueeText = async () => {
       try {
         const response = await api.get("/customer-side-data/1");
-        setMarqueeText(response.data.data.marqueeText);
+        setMarqueeText(response.data.data.marqueeText || '');
       } catch (error) {
         console.error("Error fetching marquee text:", error);
       }
@@ -77,7 +80,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>Admin</title>
+        <title>Ayru Jaipur</title>
         <link rel="icon" href="/images/AppIcon.png" type="image/x-icon" />
       </head>
       <body style={{ width: "100%", padding: "0px", fontFamily: "sans-serif", overflowX: "hidden", marginLeft: 0, marginRight: 0 }}>
@@ -87,6 +90,7 @@ export default function RootLayout({ children }) {
             <PageNav>
               {children}
             </PageNav>
+            <Footer />
           </AuthProvider>
         </ThemeProvider>
       </body>

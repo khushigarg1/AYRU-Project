@@ -13,6 +13,7 @@ import AddIcon from "@mui/icons-material/Add";
 import ImagePopup from "@/src/modals/imagepopup";
 import VideoPopup from "@/src/modals/videpopup";
 import EditIcon from "@mui/icons-material/Edit";
+import { getImage } from "../utils/getImage";
 
 export default function ClientLove() {
   const theme = useTheme();
@@ -59,8 +60,8 @@ export default function ClientLove() {
   };
 
   const handleDeleteEntry = async (id) => {
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       await api.delete(`/clientLove/${id}`);
       fetchClientLoveEntries();
@@ -99,10 +100,10 @@ export default function ClientLove() {
       renderCell: (params) => (
         params.value && (
           <img
-            src={`${api.defaults.baseURL}image/${params.value}`}
+            src={`https://ayru-jaipur.s3.amazonaws.com/${params.value}`}
             alt="Client Love"
             style={{ width: 80, cursor: "pointer" }}
-            onClick={() => handleOpenImageModal(`${api.defaults.baseURL}image/${params.value}`)}
+            onClick={() => handleOpenImageModal(`https://ayru-jaipur.s3.amazonaws.com/${params.value}`)}
           />
         )
       ),
@@ -145,10 +146,11 @@ export default function ClientLove() {
       renderCell: (params) => (
         params.value && (
           <img
-            src={`${api.defaults.baseURL}image/${params.value}`}
+            src={`https://ayru-jaipur.s3.amazonaws.com/${params.value}`}
+            // src={`https://ayru-jaipur.s3.amazonaws.com/${params.value}`}
             alt="Client Love"
             style={{ width: 100, height: 50, cursor: "pointer" }}
-            onClick={() => handleOpenImageModal(`${api.defaults.baseURL}image/${params.value}`)}
+            onClick={() => handleOpenImageModal(`https://ayru-jaipur.s3.amazonaws.com/${params.value}`)}
           />
         )
       ),

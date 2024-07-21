@@ -22,7 +22,11 @@ export class CustomerSideDataService {
   }
 
   async getCustomerSideData() {
-    return await prisma.customerSideData.findMany();
+    return await prisma.customerSideData.findMany({
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
   }
 
   async getCustomerSideDataById(id: number) {
@@ -104,6 +108,9 @@ export class CustomerSideDataService {
     const media = await prisma.customerSideImage.findMany({
       where: {
         type: type,
+      },
+      orderBy: {
+        updatedAt: "desc",
       },
     });
     return media;

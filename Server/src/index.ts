@@ -17,6 +17,13 @@ const prisma = new PrismaClient();
 
 server.register(fileUpload);
 
+// const Razorpay = require("razorpay");
+
+// const razorpay = new Razorpay({
+//   key_id: process.env.RAZORPAY_KEY_ID,
+//   key_secret: process.env.RAZORPAY_KEY_SECRET,
+// });
+
 // Check if JWT_TOKEN_SECRET is defined
 const jwtSecret = process.env.JWT_TOKEN_SECRET;
 if (!jwtSecret) {
@@ -49,7 +56,7 @@ server.get("/api/image/:imageUrl", getImage);
 // }
 registerRoutes(server);
 
-server.listen(8080, (err, address) => {
+server.listen({ port: 8080 }, (err, address) => {
   if (err) {
     server.log.error(err);
     console.error(err);

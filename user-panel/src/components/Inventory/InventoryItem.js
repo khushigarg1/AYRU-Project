@@ -1,49 +1,200 @@
-import React from 'react';
-import { Card, CardContent, CardMedia, Typography, IconButton, Grid } from '@mui/material';
-import { FavoriteBorderOutlined, AddShoppingCartOutlined } from '@mui/icons-material';
+import React, { useEffect, useState } from 'react';
+import { Card, CardContent, CardMedia, Typography, IconButton, Box, Chip, useTheme } from '@mui/material';
+import { FavoriteBorderOutlined, FavoriteOutlined } from '@mui/icons-material';
+import Cookies from 'js-cookie';
 import api from '../../../api';
+import { useAuth } from '../../contexts/auth';
+import { useRouter } from 'next/navigation';
+
 const InventoryItem = ({ item }) => {
-  const handleAddToWishlist = () => {
-    // Handle wishlist functionality
-    console.log(`Added ${item.productName} to wishlist`);
+  const theme = useTheme();
+  const { openAuthModal, user, wishlistCount, setWishlistCount } = useAuth();
+  const [wishlistItems, setWishlistItems] = useState({});
+  const token = Cookies.get('token');
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchWishlistStatus = async () => {
+      try {
+        if (token) {
+          const response = await api.get(`/wishlist/user/${user.id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          const wishlistItemsData = response.data.data;
+          setWishlistCount(wishlistItemsData.length);
+          const wishlistMap = wishlistItemsData.reduce((acc, wishlistItem) => {
+            acc[wishlistItem.inventoryId] = wishlistItem.id;
+            return acc;
+          }, {});
+          setWishlistItems(wishlistMap);
+        }
+      } catch (error) {
+        console.error('Error fetching wishlist:', error);
+      }
+    };
+
+    if (user && user.id && token) {
+      fetchWishlistStatus();
+    }
+  }, [token, user, setWishlistCount]);
+
+  const handleToggleWishlist = async (event) => {
+    event.stopPropagation();
+    try {
+      if (!token) {
+        openAuthModal();
+        return;
+      }
+
+      if (wishlistItems[item.id]) {
+        await api.delete(`/wishlist/${wishlistItems[item.id]}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setWishlistItems(prevItems => {
+          const newItems = { ...prevItems };
+          delete newItems[item.id];
+          return newItems;
+        });
+        setWishlistCount(prevCount => prevCount - 1);
+        console.log(`Removed ${item.productName} from wishlist`);
+      } else {
+        const response = await api.post('/wishlist', { inventoryId: item.id, userId: user?.id }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setWishlistItems(prevItems => ({
+          ...prevItems,
+          [item.id]: response.data.data.id
+        }));
+        setWishlistCount(prevCount => prevCount + 1);
+        console.log(`Added ${item.productName} to wishlist`);
+      }
+    } catch (error) {
+      console.error('Error toggling wishlist status:', error);
+    }
   };
 
-  const handleAddToCart = () => {
-    // Handle add to cart functionality
-    console.log(`Added ${item.productName} to cart`);
+  const calculateDiscountPercentage = () => {
+    if (item.discountedPrice) {
+      return ((item.sellingPrice - item.discountedPrice) / item.sellingPrice * 100).toFixed(0);
+    }
+    return null;
   };
 
   return (
-    <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <CardMedia
-        component="img"
-        image={`${api.defaults.baseURL}image/${item.Media[0].url}`}
-        height="200"
-        alt={item.productName}
-      />
-      <CardContent sx={{ flexGrow: 1 }}>
-        <Typography variant="h6" gutterBottom>
+    <Card sx={{ position: 'relative', display: 'flex', flexDirection: 'column', height: '100%', cursor: "pointer" }}
+      onClick={() => router.push(`/shop/${item?.id}`)}
+    >
+      <Box sx={{ position: 'relative' }}>
+        {item.discountedPrice && (
+          <Chip
+            label={
+              <div style={{ textAlign: 'center' }}>
+                <Typography variant="caption" component="span" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
+                  {`${calculateDiscountPercentage()}%`}
+                  {/* {`${((item.sellingPrice - item.discountedPrice) / item.sellingPrice * 100).toFixed(0)}%`} */}
+                </Typography>
+                <Typography variant="caption" component="div" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
+                  off
+                </Typography>
+              </div>
+            }
+            color="secondary"
+            size="small"
+            sx={{
+              position: 'absolute',
+              top: 4,
+              left: 4,
+              zIndex: 1,
+              padding: '8px 4px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              height: '40px',
+              width: '40px',
+              borderRadius: '50%',
+              fontSize: '2px',
+              fontWeight: 'bold',
+            }}
+          />
+        )}
+        {item.extraOptionOutOfStock && (
+          <Chip
+            label={
+              <div style={{ textAlign: 'center' }}>
+                <Typography variant="caption" component="span" sx={{
+                  lineHeight: 1,
+                  fontWeight: "bolder",
+                  color: "white",
+                }}>
+                  Sold out
+                </Typography>
+              </div>
+            }
+            color="secondary"
+            size="small"
+            sx={{
+              position: 'absolute',
+              top: 4,
+              right: 4,
+              zIndex: 1,
+              padding: '7px 4px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              borderRadius: '12px',
+              fontSize: '2px',
+              fontWeight: 'bold',
+              backgroundColor: "#cf2e2e"
+            }}
+          />
+        )}
+        <CardMedia
+          component="img"
+          image={`https://ayru-jaipur.s3.amazonaws.com/${item?.Media[0]?.url}`}
+          // image={"https://ayru-jaipur.s3.ap-south-1.amazonaws.com/1719728584132-1681210423276-Magarpatta.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAXQI4DHNFFJZ44EFQ%2F20240630%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240630T085117Z&X-Amz-Expires=900&X-Amz-Signature=8eea213abd2e69937bccfc57540603d4efb553518633c6fdf16f63cf1e7fdcba&X-Amz-SignedHeaders=host&x-id=GetObject"}
+          height="200"
+          alt={item.productName}
+        />
+        <IconButton
+          aria-label="Add to Wishlist"
+          onClick={handleToggleWishlist}
+          sx={{ position: 'absolute', bottom: 4, right: 4, zIndex: 1, backgroundColor: 'white', '&:hover': { backgroundColor: 'lightgray' } }}
+        >
+          {wishlistItems[item.id] ? <FavoriteOutlined style={{ color: 'red' }} /> : <FavoriteBorderOutlined />}
+        </IconButton>
+      </Box>
+      <CardContent sx={{ flexGrow: 1, padding: "10px", '&:last-child': { paddingBottom: "10px" } }}>
+        <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "bolder" }}>
           {item.productName}
         </Typography>
-        <Typography variant="body1" gutterBottom>
-          Price: ${item.sellingPrice}
+        <Typography variant="body2" color="text.secondary" gutterBottom>
+          <strong>Category: </strong>{item?.category?.categoryName}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {item.description}
+        {item.discountedPrice ? (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Typography variant="body2" sx={{ textDecoration: 'line-through' }}>
+              Rs.{item.sellingPrice}
+            </Typography>
+            <Typography variant="body2" color={theme?.palette?.text?.contrastText}>
+              Rs.{item?.discountedPrice}
+            </Typography>
+          </Box>
+        ) : (
+          <Typography variant="body2">
+            Rs.{item?.sellingPrice}
+          </Typography>
+        )}
+
+        <Typography variant='body2' sx={{ color: item?.extraOptionOutOfStock ? 'red' : 'green' }}>
+          {item?.extraOptionOutOfStock === true ? "Out of Stock" : "In Stock"}
         </Typography>
       </CardContent>
-      <Grid container justifyContent="space-between" alignItems="center" sx={{ p: 2 }}>
-        <Grid item>
-          <IconButton aria-label="Add to Wishlist" onClick={handleAddToWishlist}>
-            <FavoriteBorderOutlined />
-          </IconButton>
-        </Grid>
-        <Grid item>
-          <IconButton aria-label="Add to Cart" onClick={handleAddToCart}>
-            <AddShoppingCartOutlined />
-          </IconButton>
-        </Grid>
-      </Grid>
     </Card>
   );
 };

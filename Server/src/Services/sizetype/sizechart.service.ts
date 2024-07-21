@@ -33,6 +33,9 @@ export class SizeChartService {
   async getAllProducts() {
     return await prisma.product.findMany({
       include: { sizes: true },
+      orderBy: {
+        updatedAt: "desc",
+      },
     });
   }
 

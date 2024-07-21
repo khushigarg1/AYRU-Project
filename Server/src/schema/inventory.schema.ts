@@ -1,9 +1,48 @@
+import { ProductStatus } from "@prisma/client";
+
 export interface InventoryAttributes {
   productName: string;
   skuId: string;
   categoryId?: number;
-  subCategoryId?: number;
+  subCategoryIds: number[];
+  sellingPrice: number;
+  soldQuantity?: number;
+  extraOptionOutOfStock?: boolean;
+  quantity: number;
+  productstatus?: ProductStatus;
+  availability?: boolean;
 }
+
+type FlatId = {
+  id: number;
+  quantity: number;
+  soldQuantity: number;
+  minQuantity: number;
+  maxQuantity: number;
+  sellingPrice: number;
+  costPrice: number;
+  discountedPrice: number;
+};
+
+type FittedId = {
+  id: number;
+  quantity: number;
+  soldQuantity: number;
+  minQuantity: number;
+  maxQuantity: number;
+  sellingPrice: number;
+  costPrice: number;
+  discountedPrice: number;
+};
+
+type customFittedId = {
+  id: number;
+  // flatId: number;
+  sellingPrice: number;
+  costPrice: number;
+  discountedPrice: number;
+};
+
 export interface InventoryUpdateAttributes {
   id?: number;
   productName: string;
@@ -15,7 +54,6 @@ export interface InventoryUpdateAttributes {
   sellingPrice?: number;
   costPrice?: number;
   discountedPrice?: number;
-  discountCount?: number;
   availability?: boolean;
   weight?: number;
   productstatus?: "DRAFT" | "PUBLISHED";
@@ -25,30 +63,24 @@ export interface InventoryUpdateAttributes {
   fabric?: string;
   type?: string;
   size?: string;
-  includedItems?: Record<string, any>;
+  includedItems?: string[];
   itemDimensions?: string[];
   colorVariation?: string;
   extraOptionOutOfStock?: boolean;
-  specialFeatures?: Record<string, any>;
-  threadCount?: number;
-  itemWeight?: number;
+  specialFeatures?: string[];
+  threadCount?: string;
   origin?: string;
   extraNote?: string;
   disclaimer?: string;
+  description?: string;
   others?: string;
+  others1?: string;
   careInstructions?: string[];
   categoryId?: number;
-  subCategoryId?: number;
-  flatIds?: number[];
-  fittedIds?: {
-    fittedId: number;
-    fittedDimensions: number[];
-  }[];
-  customFittedIds?: number[];
-  // sizecharts?: {
-  //   productId: number;
-  //   selectedSizes: number[];
-  // }[];
+  subCategoryIds?: number[];
+  flatIds?: FlatId[];
+  fittedIds?: FittedId[];
+  customFittedIds?: customFittedId[];
   colorIds?: number[];
   relatedInventoriesIds?: number[];
   createdAt?: Date;

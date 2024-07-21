@@ -46,8 +46,8 @@ export default function EditClientLoveModal({ open, entry, handleClose, refresh 
 
   const handleSubmit = async () => {
     setLoading(true);
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     const form = new FormData();
     console.log(formDataVal);
     if (formDataVal.image instanceof File) {

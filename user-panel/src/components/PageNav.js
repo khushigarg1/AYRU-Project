@@ -28,6 +28,7 @@ import { CancelRounded } from "@mui/icons-material";
 import api from "../../api";
 import logo from "../../public/images/logo.png"
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 
 const drawerWidth = 270;
@@ -122,11 +123,12 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function PageNav({ children }) {
-  const { isAuthenticated, isLoading, logout, openTab, setOpenTab } = useAuth();
+  const { isAuthenticated, isLoading, logout, openTab, setOpenTab, wishlistCount, cartCount } = useAuth();
   const theme = useTheme();
   const [open, setOpen] = useState(isAuthenticated);
   const [categories, setCategories] = useState([]);
   const [scrolledstate, setScrolledstate] = useState(false);
+  const router = useRouter();
   const handleNestedClick = () => {
     setNestedOpen(!nestedOpen);
   };
@@ -165,7 +167,8 @@ export default function PageNav({ children }) {
   const fetchCategories = async () => {
     try {
       const response = await api.get('/categories');
-      setCategories(response.data.data);
+      const sortedCategories = response.data.data.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt));
+      setCategories(sortedCategories);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
@@ -223,7 +226,6 @@ export default function PageNav({ children }) {
       </React.Fragment>
     );
   };
-
   return (
     <Box sx={{ display: "flex", padding: "0px", flexDirection: "column" }}>
       <CssBaseline />
@@ -238,22 +240,26 @@ export default function PageNav({ children }) {
           >
             {open ? <ChevronLeftIcon /> : <MenuIcon />}
           </IconButton>
-
-          <Image src={logo} alt="Logo" id="logo-img" width={110} height={40} style={{
+          {/* <Link href={'/'} style={{ padding: "0px" }}> */}
+          <Image component={Link} href={'/'} src={logo} alt="Logo" id="logo-img" width={110} height={40} style={{
             position: 'absolute',
             left: '50%',
             transform: 'translateX(-50%)',
-          }} />
+            cursor: "pointer"
+          }}
+            onClick={() => router.push(`/`)}
+          />
+          {/* </Link> */}
           {/* <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, textAlign: 'center', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
             AYRU JAIPUR
           </Typography> */}
-          <IconButton color="inherit" sx={{ marginLeft: 'auto' }}>
-            <Badge badgeContent={4} color="error">
+          <IconButton component={Link} href={`/cart`} color="inherit" sx={{ marginLeft: 'auto', backgroundColor: "#d3d3d37a" }}>
+            <Badge badgeContent={cartCount} color="error">
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
-          <IconButton color="inherit">
-            <Badge badgeContent={10} color="error">
+          <IconButton component={Link} href={`/wishlist`} color="inherit" sx={{ marginLeft: "10px", backgroundColor: "#d3d3d37a" }}>
+            <Badge badgeContent={wishlistCount} color="error">
               <FavoriteIcon />
             </Badge>
           </IconButton>
@@ -320,6 +326,28 @@ export default function PageNav({ children }) {
               </ListItem>
             )
           ))}
+
+          <Link href="/about">
+            <ListItem
+              key={"about"}
+              onClick={() => setOpenTab("about".toLowerCase())}
+              disablePadding
+              sx={{ display: "block" }}
+            >
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+              >
+                <ListItemText
+                  primary={"About Us"}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         </List>
         <Divider />
         {isAuthenticated && (

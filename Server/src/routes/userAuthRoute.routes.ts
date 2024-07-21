@@ -17,7 +17,7 @@ import {
   confirmEmailChange,
   getAllUsers,
   getUser,
-  // getAccessToken,
+  // getaccessToken,
 } from "../Controllers/userAuth.controller";
 
 export default async function AuthRoutes(server: FastifyInstance) {
@@ -46,7 +46,7 @@ export default async function AuthRoutes(server: FastifyInstance) {
   });
 
   // server.post("/get-access-token", (request, reply) =>
-  //   getAccessToken(server, request, reply)
+  //   getaccessToken(server, request, reply)
   // );
 
   // User signup

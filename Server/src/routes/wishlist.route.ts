@@ -5,12 +5,15 @@ import {
   addToWishlist,
   deleteWishlist,
   getWishlistByUserId,
-  countAllWishlists,
 } from "../Controllers/wishlist.controller";
 
 export default async function WishlistRoutes(server: FastifyInstance) {
-  server.get("/", getAllWishlists);
-  server.get("/user/:userId", getWishlistByUserId);
+  server.get("/", { onRequest: [server?.authenticateAdmin] }, getAllWishlists);
+  server.get(
+    "/user/:userId",
+    { onRequest: [server?.authenticateUser] },
+    getWishlistByUserId
+  );
   server.post(
     "/",
     { onRequest: [server?.authenticateUser] },
@@ -21,5 +24,4 @@ export default async function WishlistRoutes(server: FastifyInstance) {
     { onRequest: [server?.authenticateUser] },
     deleteWishlist
   );
-  server.get("/count", countAllWishlists);
 }

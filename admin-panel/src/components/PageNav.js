@@ -30,7 +30,7 @@ import { useAuth } from "../contexts/auth";
 import { Avatar, Button, Collapse } from "@mui/material";
 import LoginForm from "./LoginForm";
 import Link from "next/link";
-import { ColorLens, ExpandLess, ExpandMore, HeatPumpRounded, InventoryOutlined, KingBed, NightShelter, PermMediaOutlined, PersonPinCircleOutlined } from "@mui/icons-material";
+import { ColorLens, ExpandLess, ExpandMore, HeatPumpRounded, InventoryOutlined, KingBed, NightShelter, PermMediaOutlined, PersonPinCircleOutlined, ShoppingCart } from "@mui/icons-material";
 import BedIcon from '@mui/icons-material/Bed';
 import BedRoundedIcon from '@mui/icons-material/BedRounded';
 import AspectRatioIcon from '@mui/icons-material/AspectRatio';
@@ -86,7 +86,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
@@ -130,9 +129,14 @@ export default function PageNav({ children }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(isAuthenticated);
   const [nestedOpen, setNestedOpen] = useState(false);
+  const [inventoryOpen, setInventoryOpen] = useState(false);
 
   const handleNestedClick = () => {
     setNestedOpen(!nestedOpen);
+  };
+
+  const handleInventoryClick = () => {
+    setInventoryOpen(!inventoryOpen);
   };
 
   const handleDrawerOpen = () => {
@@ -366,7 +370,7 @@ export default function PageNav({ children }) {
                       <ListItemText primary="Fitted" sx={{ opacity: open ? 1 : 0 }} />
                     </ListItemButton>
                   </Link>
-                  <Link href="/size-type/custom-fitted">
+                  {/* <Link href="/size-type/custom-fitted">
                     <ListItemButton sx={{ pl: open ? 4 : 2.5, justifyContent: open ? "initial" : "center" }}>
                       <ListItemIcon
                         sx={{
@@ -379,7 +383,7 @@ export default function PageNav({ children }) {
                       </ListItemIcon>
                       <ListItemText primary="Custom Fitted" sx={{ opacity: open ? 1 : 0 }} />
                     </ListItemButton>
-                  </Link>
+                  </Link> */}
                 </List>
               </Collapse>
               <Link href="/client-love">
@@ -412,67 +416,105 @@ export default function PageNav({ children }) {
                   </ListItemButton>
                 </ListItem>
               </Link>
-              <Link href="/inventory">
-                <ListItem
-                  key={"Inventory"}
-                  onClick={() => setOpenTab("Options".toLowerCase())}
-                  disablePadding
-                  sx={{ display: "block" }}
+              <ListItemButton
+                onClick={handleInventoryClick}
+                sx={{
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                  pl: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
                 >
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? "initial" : "center",
-                      px: 2.5,
-                    }}
-                  >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 0,
-                        mr: open ? 3 : "auto",
-                        justifyContent: "center",
-                      }}
+                  <AspectRatioIcon />
+                </ListItemIcon>
+                <ListItemText primary="Management" sx={{ opacity: open ? 1 : 0 }} />
+                {open && (inventoryOpen ? <ExpandLess /> : <ExpandMore />)}
+              </ListItemButton>
+              <Collapse in={inventoryOpen} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  <Link href="/inventory">
+                    <ListItem
+                      key={"Inventory"}
+                      onClick={() => setOpenTab("Options".toLowerCase())}
+                      disablePadding
+                      sx={{ display: "block" }}
                     >
-                      <InventoryOutlined />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={"Inventory"}
-                      sx={{ opacity: open ? 1 : 0 }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              </Link>
-              <Link href="/admin-details">
-                <ListItem
-                  key={"AdminDetails"}
-                  onClick={() => setOpenTab("Options".toLowerCase())}
-                  disablePadding
-                  sx={{ display: "block" }}
-                >
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? "initial" : "center",
-                      px: 2.5,
-                    }}
-                  >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 0,
-                        mr: open ? 3 : "auto",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <AccountBoxIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={"AdminDetails"}
-                      sx={{ opacity: open ? 1 : 0 }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              </Link>
+                      <ListItemButton sx={{ pl: open ? 4 : 2.5, justifyContent: open ? "initial" : "center" }}>
 
+                        <ListItemIcon
+                          sx={{
+                            minWidth: 0,
+                            mr: open ? 3 : "auto",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <InventoryOutlined />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={"Inventory"}
+                          sx={{ opacity: open ? 1 : 0 }}
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                  </Link>
+                  <Link href="/cart">
+                    <ListItem
+                      key={"Cart"}
+                      onClick={() => setOpenTab("Options".toLowerCase())}
+                      disablePadding
+                      sx={{ display: "block" }}
+                    >
+                      <ListItemButton sx={{ pl: open ? 4 : 2.5, justifyContent: open ? "initial" : "center" }}>
+
+                        <ListItemIcon
+                          sx={{
+                            minWidth: 0,
+                            mr: open ? 3 : "auto",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <ShoppingCart />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={"Cart"}
+                          sx={{ opacity: open ? 1 : 0 }}
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                  </Link>
+                  <Link href="/wishlist">
+                    <ListItem
+                      key={"Wishlist"}
+                      onClick={() => setOpenTab("Options".toLowerCase())}
+                      disablePadding
+                      sx={{ display: "block" }}
+                    >
+                      <ListItemButton sx={{ pl: open ? 4 : 2.5, justifyContent: open ? "initial" : "center" }}>
+
+                        <ListItemIcon
+                          sx={{
+                            minWidth: 0,
+                            mr: open ? 3 : "auto",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <FavoriteIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={"Wishlist"}
+                          sx={{ opacity: open ? 1 : 0 }}
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                  </Link>
+                </List>
+              </Collapse>
               <ListItem
                 key={"CustomerMedia"}
                 onClick={() => setOpenTab("Options".toLowerCase())}
@@ -574,6 +616,37 @@ export default function PageNav({ children }) {
               )} */}
             </List>
             <Divider />
+
+            <Link href="/admin-details">
+              <ListItem
+                key={"Settings"}
+                onClick={() => setOpenTab("Options".toLowerCase())}
+                disablePadding
+                sx={{ display: "block" }}
+              >
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <AccountBoxIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={"Settings"}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            </Link>
             {open && (
               <ListItem
                 key={"Logout"}
@@ -607,7 +680,6 @@ export default function PageNav({ children }) {
           </Drawer>
           <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <DrawerHeader />
-
             {children}
           </Box>
         </>

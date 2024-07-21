@@ -26,8 +26,8 @@ export default function Home() {
 
   const fetchAdminDetails = async () => {
     try {
-      const token = Cookies.get("token");
-      api.defaults.headers.Authorization = `Bearer ${token}`;
+      const admintoken = Cookies.get("admintoken");
+      api.defaults.headers.Authorization = `Bearer ${admintoken}`;
       const response = await api.get(`auth/admin/me`);
       setAdminDetails(response?.data?.data);
     } catch (error) {
@@ -47,8 +47,8 @@ export default function Home() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const token = Cookies.get("token");
-      api.defaults.headers.Authorization = `Bearer ${token}`;
+      const admintoken = Cookies.get("admintoken");
+      api.defaults.headers.Authorization = `Bearer ${admintoken}`;
       await api.put("auth/admin/editdetail", adminDetails);
       setError({ open: true, severity: "success", message: "Admin details updated successfully" });
     } catch (error) {

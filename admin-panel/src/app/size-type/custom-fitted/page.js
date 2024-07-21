@@ -40,8 +40,8 @@ export default function Home() {
   }, [refresh]);
 
   async function getCustomFitteds() {
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       const response = await api.get("/customfitted");
       setCustomFitteds(response.data.data);
@@ -58,8 +58,8 @@ export default function Home() {
   }
 
   async function handleDeleteCustomFitted(id) {
-    const token = Cookies.get("token");
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
       await api.delete(`/customfitted/${id}`);
       toggleRefresh();
