@@ -1,19 +1,20 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import { Box, Grid, Typography, Card, CardActionArea, CardContent, CardMedia, Button, useTheme, IconButton, useMediaQuery, Snackbar, Divider, Chip, SnackbarContent } from '@mui/material';
+import { Box, Grid, Typography, Card, CardActionArea, CardContent, CardMedia, Button, useTheme, IconButton, useMediaQuery, Snackbar, Divider, Chip, SnackbarContent, Modal } from '@mui/material';
 import Link from 'next/link';
 import api from '../../../api';
 import { useAuth } from '@/contexts/auth';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
-import { DeleteForever, Edit } from '@mui/icons-material';
+import { Close, DeleteForever, Edit } from '@mui/icons-material';
 import Image from 'next/image';
 import Quality from "../../../public/images/original.png"
 import AssuredDelivery from "../../../public/images/assuredDelivery.png"
 import SecuredPayment from "../../../public/images/securedPayment.png"
 import VerifiedSeller from "../../../public/images/verifiedSeller.png"
 import { WhatsappIcon } from 'next-share';
+import ConfirmModal from '@/components/cart/modal';
 
 const CartPage = () => {
   const { openAuthModal, user, setCartCount } = useAuth();
@@ -25,7 +26,37 @@ const CartPage = () => {
   const token = Cookies.get('token');
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [modalOpen, setModalOpen] = useState(false);
 
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleRemove = (itemId) => {
+    handleRemoveFromCart(itemId);
+    handleCloseModal();
+  };
+
+  const handleAddToWishlistClick = (item) => {
+    handleAddToWishlist(item);
+    handleCloseModal();
+  };
+
+  const handleAddToWishlist = async (item) => {
+    const response = await api.post('/wishlist', { inventoryId: item?.Inventory?.id, userId: user?.id }, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    handleRemoveFromCart(item.id);
+    if (!response?.data?.data?.addedAlready) {
+      setWishlistCount(prevCount => prevCount + 1);
+    }
+  }
   const fetchcartStatus = async () => {
     try {
       if (token) {
@@ -116,6 +147,7 @@ const CartPage = () => {
                     display: 'flex', flexDirection: 'row', height: '100%', cursor: "pointer",
                     backgroundColor: "white",
                     maxHeight: "100%",
+                    padding: "15px 5px"
                   }}
                   >
                     <Box sx={{ position: 'relative' }}>
@@ -132,17 +164,17 @@ const CartPage = () => {
                         size="small"
                         sx={{
                           position: 'absolute',
-                          top: 4,
-                          right: 4,
+                          top: 0,
+                          right: 0,
                           zIndex: 1,
                           padding: '4px',
                           display: 'flex',
                           flexDirection: 'column',
                           alignItems: 'center',
-                          height: '20px',
-                          width: '20px',
+                          height: '18px',
+                          width: '18px',
                           borderRadius: '50%',
-                          fontSize: '2px',
+                          fontSize: '1px',
                           fontWeight: 'bold',
                         }}
                       />
@@ -155,77 +187,81 @@ const CartPage = () => {
                         sx={{
                           objectFit: 'fit',
                           height: "130px",
-                          width: "120px",
+                          width: "110px",
                           // maxHeight: "100%",
                           // maxWidth: "100%",
-                          padding: "10px",
+                          padding: "5px",
                           borderRadius: "0px"
                         }}
                       />
                     </Box>
-                    <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" } }}>
+                    <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" }, paddingTop: "0px" }}>
                       <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "bolder" }}>
                         {item?.Inventory?.productName}
                       </Typography>
                       {item?.sizeOption === "flat" &&
-                        <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "400" }}>
+                        <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1", fontWeight: "400" }}>
                           {item?.selectedFlatItem}
                         </Typography>
                       }
                       {item?.sizeOption === "fitted" &&
-                        <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "400" }}>
+                        <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1", fontWeight: "400" }}>
                           {item?.selectedFittedItem}
                         </Typography>
                       }
                       {item?.sizeOption === "custom" && (
                         <>
-                          <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "400" }}>
+                          <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1", fontWeight: "400" }}>
                             {`${item?.selectedCustomFittedItem}`}
                           </Typography>
-                          <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "600", fontSize: "10px" }}>
+                          <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1", fontWeight: "600" }}>
                             {`L×W×H =  ${item?.length}×${item?.width}×${item?.height} ${item?.unit}`}
                           </Typography>
                         </>
                       )
                       }
-                      <Typography variant="body2" color="text.secondary" gutterBottom sx={{ fontSize: "10px" }}>
+                      {/* <Typography variant="body2" color="text.secondary" gutterBottom sx={{ fontSize: "10px" }}>
                         <strong>Category: </strong>{item?.Inventory?.Category?.categoryName}
+                      </Typography> */}
+
+                      <Typography variant="body2" gutterBottom sx={{ lineHeight: "1", fontSize: "0.55em" }}>
+                        <strong>SKU: </strong>{item?.Inventory?.skuId}
                       </Typography>
                       {item?.Inventory?.discountedPrice ? (
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Typography variant="body2" sx={{ textDecoration: 'line-through', fontSize: "10px" }}>
+                          <Typography variant="body2" sx={{ textDecoration: 'line-through', fontSize: "0.7em" }}>
                             Rs.{item?.Inventory?.sellingPrice}
                           </Typography>
-                          <Typography variant="body2" color={theme?.palette?.text?.contrastText} sx={{ fontSize: "10px" }}>
+                          <Typography variant="body2" color={theme?.palette?.text?.contrastText} sx={{ fontSize: "0.7em" }}>
                             Rs.{item?.Inventory?.discountedPrice}
                           </Typography>
                           <Typography variant="body2" color="error" sx={{
                             background: 'inherit',
-                            color: "black", fontSize: "10px"
+                            color: "black", fontSize: "0.7em"
                           }}>
                             {`(${Math.round(((item?.Inventory?.sellingPrice - item?.Inventory?.discountedPrice) / item?.Inventory?.sellingPrice) * 100)}% OFF)`}
                           </Typography>
                         </Box>
                       ) : (
-                        <Typography variant="body2" sx={{ fontSize: "10px" }}>
+                        <Typography variant="body2" sx={{ fontSize: "0.7em" }}>
                           Rs.{item?.Inventory?.sellingPrice}
                         </Typography>
                       )}
-                      <Typography variant='body2' sx={{ color: item?.Inventory?.extraOptionOutOfStock ? 'red' : 'green', fontSize: "10px", marginBottom: "15px" }}>
+                      <Typography variant='body2' sx={{ color: item?.Inventory?.extraOptionOutOfStock ? 'red' : 'green', fontSize: "0.6em", marginBottom: "15px" }}>
                         {item?.Inventory?.extraOptionOutOfStock === true ? "Out of Stock" : "In Stock"}
                       </Typography>
 
                       <Button
                         variant='outlined'
                         sx={{
-                          position: "absolute", color: "black", fontSize: "10px",
-                          // padding: "0px", 
+                          position: "absolute", color: "black", fontSize: "8px",
+                          padding: "2px",
                           right: "5px", bottom: "30px"
                         }}
                       >
                         <Edit fontSize='10px' /> Edit
                       </Button>
-                      <Grid container justifyContent="space-between" alignItems="flex-start" style={{ position: "absolute", bottom: "3px", width: "100%", overflow: "hidden", paddingRight: "20px" }}
+                      {/* <Grid container justifyContent="space-between" alignItems="flex-start" style={{ position: "absolute", bottom: "3px", width: "100%", overflow: "hidden", paddingRight: "150px" }}
                       >
                         <Grid item>
                           <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
@@ -237,16 +273,71 @@ const CartPage = () => {
                             {`Rs. ${(item?.quantity * (item?.Inventory?.discountedPrice || item?.Inventory?.sellingPrice)).toFixed(2)}`}
                           </Typography>
                         </Grid>
-                      </Grid>
+                      </Grid> */}
 
-                      <IconButton
-                        aria-label="Add to Wishlist"
-                        onClick={() => handleRemoveFromCart(item.id)}
-                        sx={{ position: 'absolute', top: 4, right: 4, zIndex: 1, padding: "2px", backgroundColor: "#F0F0F0" }}
-                      >
-                        <DeleteForever sx={{ width: "20px", height: "20px", color: "black" }} />
-                      </IconButton>
+                      <Modal open={modalOpen} onClose={handleCloseModal}>
+                        <Box sx={{
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                          width: 400,
+                          bgcolor: 'background.paper',
+                          boxShadow: 24,
+                          padding: "16px 32px",
+                          borderRadius: 2,
+                        }}>
+                          <IconButton onClick={handleCloseModal} sx={{ position: 'absolute', top: 4, right: 4 }}>
+                            <Close />
+                          </IconButton>
+                          <Typography variant="h6" component="h2">
+                            Are you sure you want to delete this item?
+                          </Typography>
+                          <Divider />
+                          <Box sx={{ mt: 2 }}>
+                            <Button
+                              variant="ghost"
+                              color="secondary"
+                              onClick={() => handleAddToWishlistClick(item)}
+                              sx={{ width: "55%" }}
+                            >
+                              Add to Wishlist
+                            </Button>
+                            {/* <Divider orientation="vertical" variant="middle" flexItem /> */}
+                            <Button
+                              variant="ghost"
+                              color="secondary"
+                              onClick={() => handleRemove(item?.Inventory?.id)}
+                              sx={{ width: "40%" }}
+                            >
+                              Remove
+                            </Button>
+                          </Box>
+                        </Box>
+                      </Modal>
                     </CardContent>
+
+                    <Grid container justifyContent="space-between" alignItems="flex-start" style={{ position: "absolute", bottom: "3px", width: "100%", overflow: "hidden", paddingLeft: "120px", paddingRight: "15px" }}
+                    >
+                      <Grid item>
+                        <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
+                          {`QTY: ${item?.quantity || 0} × ₹${item?.Inventory?.discountedPrice ? item?.Inventory?.discountedPrice : item?.Inventory?.sellingPrice} =`}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
+                          {`Rs. ${(item?.quantity * (item?.Inventory?.discountedPrice || item?.Inventory?.sellingPrice)).toFixed(2)}`}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <IconButton
+                      aria-label="Add to Wishlist"
+                      onClick={handleOpenModal}
+                      // onClick={() => handleRemoveFromCart(item.id)}
+                      sx={{ position: 'absolute', top: 4, right: 4, zIndex: 1, padding: "2px", backgroundColor: "#F0F0F0" }}
+                    >
+                      <DeleteForever sx={{ width: "15px", height: "15px", color: "black" }} />
+                    </IconButton>
                   </Card>
                 </Grid>
                 <Divider mt={1} />
@@ -274,7 +365,7 @@ const CartPage = () => {
               <Grid item>
                 <Typography variant='h5' style={{ fontWeight: "bolder", color: "black", fontSize: "1.5rem" }}>
                   {`₹${Totalcount.toFixed(2)}`}
-                  <Typography variant="body2" sx={{ fontSize: '0.65rem', color: 'text.secondary', mb: 1 }}>
+                  <Typography variant="body2" sx={{ fontSize: '0.55rem', color: 'text.secondary', mb: 1 }}>
                     (Price inclusive of all taxes)
                   </Typography>
                 </Typography>
@@ -294,14 +385,14 @@ const CartPage = () => {
                     href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    startIcon={<WhatsappIcon style={{ height: "15px", width: "15px" }} />}
+                    endIcon={<WhatsappIcon style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
                     sx={{
                       color: '#25D366',
                       fontWeight: 'bold',
                       textTransform: 'none',
                       mb: 0,
                       padding: "0px",
-                      marginLeft: "4px"
+                      // marginLeft: "4px"
                     }}
                   >
                     WhatsApp
@@ -383,6 +474,12 @@ const CartPage = () => {
           />
         </Snackbar>
       }
+      {/* <ConfirmModal
+        open={modalOpen}
+        handleClose={handleCloseModal}
+        handleRemove={handleRemove}
+        handleAddToWishlist={handleAddToWishlistClick}
+      /> */}
       {/* Pagination controls */}
       {/* <Box mt={3} display="flex" justifyContent="center">
         {Array.from({ length: Math.ceil(cartItems.length / itemsPerPage) }, (_, index) => (

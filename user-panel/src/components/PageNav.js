@@ -326,6 +326,28 @@ export default function PageNav({ children }) {
               </ListItem>
             )
           ))}
+
+          <Link href="/about">
+            <ListItem
+              key={"about"}
+              onClick={() => setOpenTab("about".toLowerCase())}
+              disablePadding
+              sx={{ display: "block" }}
+            >
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+              >
+                <ListItemText
+                  primary={"About Us"}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         </List>
         <Divider />
         {isAuthenticated && (

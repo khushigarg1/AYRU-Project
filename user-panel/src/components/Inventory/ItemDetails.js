@@ -127,7 +127,7 @@ const ItemDetails = ({ product }) => {
   }, [token, user, setCartCount]);
 
   const handleAddToCart = async () => {
-    console.log("selectionss", selections);
+    // console.log("selectionss", selections);
     if (selections?.selectedOption === '') {
       setSnackbarMessage('Please select a size option before adding to the cart.');
       setOpenSnackbar(true);
@@ -561,8 +561,8 @@ const ItemDetails = ({ product }) => {
         message={snackbarMessage}
       >
         <SnackbarContent style={{
-          backgroundColor: theme.palette.background.primary,
-          color: "black"
+          backgroundColor: "#F44336",
+          color: "white"
         }}
           message={snackbarMessage}
         />

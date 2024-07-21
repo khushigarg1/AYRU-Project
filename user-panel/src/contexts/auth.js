@@ -75,6 +75,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     delete api.defaults.headers.Authorization;
     // router.push('/login');
+    window.location.reload();
   };
 
   const openAuthModal = () => setAuthModalOpen(true);
