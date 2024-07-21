@@ -400,13 +400,13 @@ model Order {
   deliveryStatus    String
   giftOption        Boolean?
   Total             Int
-  paymentMethodId   Int
+  paymentMethodId   Int?
   deliveryAddressId Int
   remark            String?
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
   user              User            @relation(fields: [userId], references: [id])
-  paymentMethod     PaymentMethod   @relation(fields: [paymentMethodId], references: [id])
+  paymentMethod     PaymentMethod?  @relation(fields: [paymentMethodId], references: [id])
   shippingAddress   ShippingAddress @relation(fields: [deliveryAddressId], references: [id])
   orderItems        OrderItem[]
   Inventory         Inventory?      @relation(fields: [inventoryId], references: [id])
