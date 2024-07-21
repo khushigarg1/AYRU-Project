@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { Grid, Select, MenuItem, FormControl, InputLabel, Box, Paper, Typography, useTheme, Button, Drawer, TextField, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -10,7 +10,7 @@ import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import WebpImage from '../../../public/images/blog1.webp';
 
-const ShopPage = () => {
+const ShopPageContent = () => {
   const searchParams = useSearchParams();
   const categoryId = searchParams.get('categoryId');
   const subcategoryId = searchParams.get('subcategoryId');
@@ -265,5 +265,11 @@ const ShopPage = () => {
     </>
   );
 };
+
+const ShopPage = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <ShopPageContent />
+  </Suspense>
+);
 
 export default ShopPage;

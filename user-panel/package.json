@@ -33,6 +33,7 @@
     "react-slick": "^0.30.2",
     "react-swipeable": "^7.0.1",
     "react-web-share": "^2.0.2",
+    "sharp": "^0.33.4",
     "skeleton": "^0.1.2",
     "slick-carousel": "^1.8.1",
     "swiper": "^11.1.4",
