@@ -67,7 +67,7 @@ const CheckoutPage = () => {
       cvv: '',
     },
     orderItems: [],
-    totalAmount: 0,
+    Total: 0,
   });
 
   const handleNext = () => {
@@ -101,7 +101,7 @@ const CheckoutPage = () => {
         setOrderData((prevOrderData) => ({
           ...prevOrderData,
           orderItems: response?.data?.data?.userCart,
-          totalAmount: response?.data?.data?.totalPrice
+          Total: response?.data?.data?.totalPrice
         }));
       }
     } catch (error) {

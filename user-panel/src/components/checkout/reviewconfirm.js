@@ -4,6 +4,9 @@ import { Box, Button, Divider, Stepper, Step, StepLabel, Typography, Paper, Acco
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useAuth } from '@/contexts/auth';
 import { ExpandMoreSharp } from '@mui/icons-material';
+import api from '../../../api';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 
 const ShippingDetailsBox = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -21,7 +24,35 @@ const ShippingInfoBox = styled(Paper)(({ theme }) => ({
 }));
 export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Totalcount, orderData, setOrderData }) => {
   const theme = useTheme();
+  const token = Cookies.get("token");
+  const router = useRouter();
+  const handleOrder = async () => {
+    try {
+      console.log("heyyy orderr started ");
+      if (token) {
+        const response = await api.post(`/order?token=${token}`, orderData, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
 
+        const paymentUrl = response?.data?.newPayment?.short_url;
+        console.log(response?.data, paymentUrl);
+        if (paymentUrl) {
+          router.push(paymentUrl);
+        }
+        // const cartItemsData = response.data.data?.userCart;
+        // setCartCount(cartItemsData.length);
+        // const cartMap = cartItemsData.reduce((acc, cartItem) => {
+        //   acc[cartItem.inventoryId] = cartItem.id;
+        //   return acc;
+        // }, {});
+        // setcartItems(cartMap);
+      }
+    } catch (error) {
+      console.error('Error fetching cart:', error);
+    }
+  };
   return (
     <>
       <Paper sx={{ p: 2, backgroundColor: "transparent", boxShadow: "none" }}>
@@ -244,7 +275,7 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
         </Box>
       </Paper>
 
-      <Button variant='contained' onClick={handleNext} sx={{ width: "100%" }}>
+      <Button variant='contained' onClick={handleOrder} sx={{ width: "100%" }}>
         Place Order
       </Button>
     </>

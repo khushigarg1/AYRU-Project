@@ -8,7 +8,9 @@ import {
 } from "../Controllers/order.controller";
 
 export default async function orderRoutes(server: FastifyInstance) {
-  server.post("/", createOrder);
+  server.post("/", (request, reply) => {
+    createOrder(server, request, reply);
+  });
   server.get("/:id", getOrder);
   server.get("/", { onRequest: [server.authenticateAdmin] }, getOrders);
   server.put("/:id", updateOrder);

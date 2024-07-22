@@ -1,4 +1,4 @@
-import { FastifyReply, FastifyRequest } from "fastify";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import {
   createOrderService,
   getOrderService,
@@ -9,11 +9,26 @@ import {
 
 // Create Order
 export async function createOrder(
+  server: FastifyInstance,
   request: FastifyRequest,
   reply: FastifyReply
 ) {
+  const { token } = request.query as { token: string };
+  if (!token) {
+    return reply.code(400).send({ message: "Token is required" });
+  }
+  console.log("tokennn---", token);
+
+  const secretKey = process.env.JWT_TOKEN_SECRET;
+  const decoded = server.jwt.verify(token) as {
+    id: number;
+    email: string;
+  };
+  if (!decoded || !decoded.id || !decoded.email) {
+    throw new Error("Invalid token or missing data");
+  }
   try {
-    const newOrder = await createOrderService(request.body);
+    const newOrder = await createOrderService(request.body, decoded?.id);
     return reply.code(201).send(newOrder);
   } catch (error) {
     return reply.code(500).send(error);
