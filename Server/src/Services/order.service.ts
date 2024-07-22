@@ -103,10 +103,15 @@ export async function createOrderService(
         expire_by: expireBy,
         reference_id: `${newOrder.id}`,
         description: `Payment for ${newOrder.orderid}`,
+        // customer: {
+        //   name: `{${updateduser?.firstName} ${updateduser?.lastName}}`,
+        //   contact: `{${updateduser?.phoneNumber}}`,
+        //   email: `{${updateduser?.email}}`,
+        // },
         customer: {
-          name: `{${updateduser?.firstName} ${updateduser?.lastName}}`,
-          contact: `{${updateduser?.phoneNumber}}`,
-          email: `{${updateduser?.email}}`,
+          name: "Gaurav Kumar",
+          contact: "+919000090000",
+          email: "gaurav.kumar@example.com",
         },
         notify: {
           sms: true,
@@ -116,7 +121,7 @@ export async function createOrderService(
         notes: {
           policy_name: "Jeevan Bima",
         },
-        callback_url: "https://your-callback-url.com",
+        callback_url: "http://localhost:3000/",
         callback_method: "get",
       });
     } catch (error) {
@@ -172,4 +177,9 @@ export async function deleteOrderService(id: number): Promise<Order | null> {
   return await prisma.order.delete({
     where: { id },
   });
+}
+export async function razorPayWebhookService(data: any) {
+  console.log("dataaaaaaaaaaaaaaaaaaaaaaa", JSON.stringify(data));
+
+  return { hello: data };
 }

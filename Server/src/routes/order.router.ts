@@ -5,9 +5,11 @@ import {
   getOrders,
   updateOrder,
   deleteOrder,
+  razorPayWebhook,
 } from "../Controllers/order.controller";
 
 export default async function orderRoutes(server: FastifyInstance) {
+  server.post("/webhook", razorPayWebhook);
   server.post("/", (request, reply) => {
     createOrder(server, request, reply);
   });

@@ -5,8 +5,10 @@ import {
   getOrdersService,
   updateOrderService,
   deleteOrderService,
+  razorPayWebhookService,
 } from "../Services/order.service";
 
+import crypto from "crypto";
 // Create Order
 export async function createOrder(
   server: FastifyInstance,
@@ -91,6 +93,34 @@ export async function deleteOrder(
       return reply.code(200).send({ message: "Order deleted successfully" });
     }
     return reply.code(404).send({ message: "Order not found" });
+  } catch (error) {
+    return reply.code(500).send(error);
+  }
+}
+export async function razorPayWebhook(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  try {
+    const RAZORPAY_WEBHOOK_SECRET: string = process.env
+      .RAZOR_PAY_WEBHOOK_SECRET as string;
+    const razorpaySignature = request.headers["x-razorpay-signature"];
+    const payload = JSON.stringify(request.body);
+
+    const expectedSignature = crypto
+      .createHmac("sha256", RAZORPAY_WEBHOOK_SECRET)
+      .update(payload)
+      .digest("hex");
+
+    if (expectedSignature === razorpaySignature) {
+      console.log("Signature verified successfully.");
+      const deleted = await razorPayWebhookService(request.body);
+      console.log("WEBHOOK VERIFIED");
+      return reply.status(200).send("Webhook verified");
+    } else {
+      console.log("Signature verification failed.");
+      return reply.status(400).send("Invalid signature");
+    }
   } catch (error) {
     return reply.code(500).send(error);
   }
