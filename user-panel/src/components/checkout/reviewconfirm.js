@@ -28,7 +28,6 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
   const router = useRouter();
   const handleOrder = async () => {
     try {
-      console.log("heyyy orderr started ");
       if (token) {
         const response = await api.post(`/order?token=${token}`, orderData, {
           headers: {
@@ -37,7 +36,6 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
         });
 
         const paymentUrl = response?.data?.newPayment?.short_url;
-        console.log(response?.data, paymentUrl);
         if (paymentUrl) {
           router.push(paymentUrl);
         }

@@ -13,8 +13,8 @@ export default async function orderRoutes(server: FastifyInstance) {
   server.post("/", (request, reply) => {
     createOrder(server, request, reply);
   });
-  server.get("/:id", getOrder);
-  server.get("/", { onRequest: [server.authenticateAdmin] }, getOrders);
+  server.get("/", { preHandler: [server.authenticateUser] }, getOrder);
+  server.get("/all", { onRequest: [server.authenticateAdmin] }, getOrders);
   server.put("/:id", updateOrder);
   server.delete("/:id", { onRequest: [server.authenticateAdmin] }, deleteOrder);
 }

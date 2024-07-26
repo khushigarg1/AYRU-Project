@@ -56,6 +56,7 @@ export interface InventoryUpdateAttributes {
   discountedPrice?: number;
   availability?: boolean;
   weight?: number;
+  itemWeight?: number;
   productstatus?: "DRAFT" | "PUBLISHED";
   status?: "PENDING" | "DISPATCHED" | "SOLD";
   style?: string;

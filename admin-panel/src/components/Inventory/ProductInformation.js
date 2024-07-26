@@ -17,8 +17,8 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
   // };
   const handleChange = (e, field) => {
     let { value } = e.target;
-    if (field === 'weight') {
-      value = parseInt(value);
+    if (field === 'weight' || field === 'itemWeight') {
+      value = parseFloat(value);
     }
     setEditedProduct((prev) => ({ ...prev, [field]: value }));
   };
@@ -127,7 +127,19 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
               fullWidth
               variant="outlined"
               margin="normal"
-              type="number"
+              // type="number"
+              InputProps={{ inputProps: { step: 0.1 } }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Item Weight"
+              value={editedProduct?.itemWeight}
+              onChange={(e) => handleChange(e, 'itemWeight')}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              // type="number"
               InputProps={{ inputProps: { step: 0.1 } }}
             />
           </Grid>
@@ -325,6 +337,9 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
             <Typography><strong>Weight:</strong> {editedProduct?.weight}</Typography>
           </Grid>
           <Grid item xs={12}>
+            <Typography><strong>Item Weight:</strong> {editedProduct?.itemWeight}</Typography>
+          </Grid>
+          <Grid item xs={12}>
             <Typography><strong>Style:</strong> {editedProduct?.style}</Typography>
           </Grid>
           <Grid item xs={12}>
@@ -370,9 +385,6 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
           <Grid item xs={12}>
             <Typography><strong>Thread Count:</strong> {editedProduct?.threadCount}</Typography>
           </Grid>
-          {/* <Grid item xs={12}>
-            <Typography><strong>Item Weight:</strong> {editedProduct?.itemWeight}</Typography>
-          </Grid> */}
           <Grid item xs={12}>
             <Typography><strong>Origin:</strong> {editedProduct?.origin}</Typography>
           </Grid>

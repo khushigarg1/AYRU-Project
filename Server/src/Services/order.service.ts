@@ -107,7 +107,6 @@ export async function createOrderService(
         },
       });
     }
-    // console.log(userId, newOrder);
 
     let newPayment;
     try {
@@ -155,14 +154,14 @@ export async function createOrderService(
 }
 
 // Get Single Order Service
-export async function getOrderService(id: number): Promise<Order | null> {
-  return await prisma.order.findUnique({
-    where: { id },
+export async function getOrderService(id: number): Promise<Order[] | null> {
+  return await prisma.order.findMany({
+    where: { userId: id },
     include: {
       Inventory: true,
-      // User: true,
-      // PaymentMethod: true,
-      // ShippingAddress: true,
+      orderItems: true,
+      user: true,
+      shippingAddress: true,
     },
   });
 }
@@ -172,9 +171,9 @@ export async function getOrdersService(): Promise<Order[]> {
   return await prisma.order.findMany({
     include: {
       Inventory: true,
-      // User: true,
-      // PaymentMethod: true,
-      // ShippingAddress: true,
+      orderItems: true,
+      user: true,
+      shippingAddress: true,
     },
   });
 }
@@ -196,30 +195,9 @@ export async function deleteOrderService(id: number): Promise<Order | null> {
     where: { id },
   });
 }
-// Ensure correct type definitions
-interface OrderItem {
-  id: number;
-  orderId: number;
-  inventoryId: number;
-  quantity: number;
-  sizeOption: string | null;
-  selectedFlatItem: string | null;
-  selectedFittedItem: string | null;
-  selectedCustomFittedItem: string | null;
-  unit: string | null;
-  length: number | null;
-  width: number | null;
-  height: number | null;
-  flatId: number | null; // Nullable Integer
-  fittedId: number | null; // Nullable Integer
-  customId: number | null; // Nullable Integer
-}
 
-// Modify your function to handle potential null values
 export async function razorPayWebhookService(data: any) {
   try {
-    console.log("Received Webhook Data:", JSON.stringify(data, null, 2));
-
     const referenceId = data?.payload?.payment_link?.entity?.reference_id;
 
     if (!referenceId) {
@@ -227,15 +205,12 @@ export async function razorPayWebhookService(data: any) {
     }
 
     const orderId = parseInt(referenceId, 10);
-    console.log("Parsed Order ID:", orderId);
 
     if (isNaN(orderId)) {
       throw new Error(`Invalid reference_id: ${referenceId}`);
     }
 
     if (data?.event === "payment_link.paid") {
-      console.log("Handling payment_link.paid event");
-
       const orderItems = await prisma.orderItem.findMany({
         where: { orderId: orderId },
       });
@@ -291,15 +266,18 @@ export async function razorPayWebhookService(data: any) {
             where: { id: item?.cartId },
           });
         }
-        // if (item?.cartId) {
-        //   cartdata = await prisma.cart.update({
-        //     where: { id: item?.cartId },
-        //     data: {
-        //       quantity: newQuantity,
-        //     },
-        //   });
-        // }
-        console.log(item?.sizeOption, item);
+        if (
+          item?.cartId &&
+          cartdata?.quantity &&
+          cartdata?.quantity > updatedQuantity
+        ) {
+          cartdata = await prisma.cart.update({
+            where: { id: item?.cartId },
+            data: {
+              quantity: updatedQuantity,
+            },
+          });
+        }
 
         switch (item.sizeOption) {
           case "flat":
@@ -325,8 +303,6 @@ export async function razorPayWebhookService(data: any) {
                 newSoldQuantity < 0 ? 0 : newSoldQuantity;
               let updatedMaxQuantity = newMaxQuantity < 0 ? 0 : newMaxQuantity;
               let updatedMinQuantity = newMinQuantity < 0 ? 0 : newMinQuantity;
-
-              console.log("flat", flatInventory);
 
               if (flatInventory) {
                 await prisma.inventoryFlat.update({
@@ -388,7 +364,6 @@ export async function razorPayWebhookService(data: any) {
                     id: cartdata?.customId,
                   },
                 });
-              console.log("custom", customInventory);
 
               if (customInventory?.inventoryFlatId) {
                 const finalCustomInventory =
@@ -449,8 +424,6 @@ export async function razorPayWebhookService(data: any) {
     }
 
     if (data?.event === "payment_link.expired") {
-      console.log("Handling payment_link.expired event");
-
       await prisma.order.update({
         where: { id: orderId },
         data: {

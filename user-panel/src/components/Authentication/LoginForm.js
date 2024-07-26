@@ -47,7 +47,6 @@ const LoginForm = ({ switchToSignUp }) => {
         // const expirationDate = new Date(new Date().getTime() + 5 * 60 * 1000); // 5 minutes from now
         // Cookies.set('token', token, { expires: expirationDate });
 
-        console.log(token);
         api.defaults.headers.Authorization = `Bearer ${token}`;
         const { data: user } = await api.get(`auth/${response?.data?.data.userdata.id}`);
         setUser(user);

@@ -19,7 +19,6 @@ export async function createOrder(
   if (!token) {
     return reply.code(400).send({ message: "Token is required" });
   }
-  console.log("tokennn---", token);
 
   const secretKey = process.env.JWT_TOKEN_SECRET;
   const decoded = server.jwt.verify(token) as {
@@ -40,8 +39,9 @@ export async function createOrder(
 // Get Single Order
 export async function getOrder(request: FastifyRequest, reply: FastifyReply) {
   try {
-    const { id } = request.params as { id: string };
-    const order = await getOrderService(parseInt(id, 10));
+    const { id } = request.user;
+
+    const order = await getOrderService(Number(id));
     if (order) {
       return reply.code(200).send(order);
     }
@@ -113,12 +113,9 @@ export async function razorPayWebhook(
       .digest("hex");
 
     if (expectedSignature === razorpaySignature) {
-      console.log("Signature verified successfully.");
       const deleted = await razorPayWebhookService(request.body);
-      console.log("WEBHOOK VERIFIED");
       return reply.status(200).send("Webhook verified");
     } else {
-      console.log("Signature verification failed.");
       return reply.status(400).send("Invalid signature");
     }
   } catch (error) {

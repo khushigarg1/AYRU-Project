@@ -295,8 +295,6 @@ export class CartService {
     remark?: string
   ) {
     try {
-      console.log(flatId, fittedId, customId);
-
       const cartItem = await prisma.cart.create({
         data: {
           userId,

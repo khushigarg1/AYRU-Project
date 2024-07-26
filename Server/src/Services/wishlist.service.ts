@@ -56,14 +56,12 @@ export class WishlistService {
     if (!userId || !inventoryId) {
       throw new ApiBadRequestError("please fill necessary fields");
     }
-    console.log(userId, inventoryId);
     const existingWishlistItem = await prisma.wishlist.findFirst({
       where: {
         userId: userId,
         inventoryId: inventoryId,
       },
     });
-    console.log("second", userId, inventoryId, existingWishlistItem);
 
     if (existingWishlistItem) {
       return { existingWishlistItem, addedAlready: true };

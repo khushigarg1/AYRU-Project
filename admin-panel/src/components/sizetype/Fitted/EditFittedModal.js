@@ -9,7 +9,6 @@ import ErrorSnackbar from "../../errorcomp";
 import { GridCloseIcon } from "@mui/x-data-grid";
 
 export default function EditFittedModal({ fitted, setEditFittedOpen, refresh }) {
-  console.log(fitted);
   const [error, setError] = useState({ open: false, severity: "error", message: "" });
   const [name, setName] = useState("");
   const [dimensions, setDimensions] = useState([]);

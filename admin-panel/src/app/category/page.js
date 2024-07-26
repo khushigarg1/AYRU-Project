@@ -53,7 +53,6 @@ export default function Home() {
         severity: "error",
         message: error?.response?.data?.message || "An error occurred while deleting the category.",
       });
-      console.log("Error deleting flat:", error?.response?.data?.message);
     }
   };
 

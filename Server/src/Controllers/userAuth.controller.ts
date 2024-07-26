@@ -190,7 +190,6 @@ export async function confirmEmailChange(
   if (!token) {
     return reply.code(400).send({ message: "Token is required" });
   }
-  console.log("tokennn---", token);
 
   try {
     const secretKey = process.env.JWT_TOKEN_SECRET;

@@ -13,13 +13,13 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
     relatedInventoriesIds: inventory?.relatedInventories?.map(inv => inv.id) || [],
     subCategoryIds: inventory?.InventorySubcategory?.map(inv => inv?.subcategoryid) || []
   });
-  console.log("edit", editedInventory);
   const [editMode, setEditMode] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({
     quantity: '',
     minQuantity: '',
     maxQuantity: '',
   });
+
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
 
@@ -49,49 +49,51 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
     }
   }, [editedInventory?.categoryId, categories]);
 
-
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
-    let parsedValue = value;
 
+    // If the field is one of the quantity fields
     if (name === 'quantity' || name === 'minQuantity' || name === 'maxQuantity') {
-      if (!(/^\d+$/.test(value))) {
-        setFieldErrors(prevErrors => ({
-          ...prevErrors,
-          [name]: 'Please enter a valid numeric value.',
-        }));
-        return;
-      } else {
+      // Check if the value is empty or a valid numeric value
+      if (value === '' || /^\d+$/.test(value)) {
         setFieldErrors(prevErrors => ({
           ...prevErrors,
           [name]: '',
         }));
-        parsedValue = parseInt(value, 10);
+        setEditedInventory(prev => ({
+          ...prev,
+          [name]: value === '' ? '' : parseInt(value, 10),
+        }));
+      } else {
+        setFieldErrors(prevErrors => ({
+          ...prevErrors,
+          [name]: 'Please enter a valid numeric value.',
+        }));
       }
-    }
-
-    if (name === 'subCategoryIds') {
-      const updatedsubCategoryIds = checked
+    } else if (name === 'subCategoryIds') {
+      const updatedSubCategoryIds = checked
         ? [...editedInventory?.subCategoryIds, parseInt(value, 10)]
         : editedInventory?.subCategoryIds?.filter(id => id !== parseInt(value, 10));
 
       setEditedInventory(prev => ({
         ...prev,
-        subCategoryIds: updatedsubCategoryIds,
+        subCategoryIds: updatedSubCategoryIds,
       }));
     } else {
       setEditedInventory(prev => ({
         ...prev,
-        [name]: parsedValue,
+        [name]: value,
       }));
     }
   };
+
 
   const handleSave = () => {
     onSave(editedInventory);
     setEditMode(false);
   };
   const handleCancel = () => {
+    onCancel();
     setEditedInventory({ ...inventory });
     setEditMode(false);
     setFieldErrors({
@@ -206,7 +208,7 @@ const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
               ))}
             </Select>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} mt={1}>
             <Select
               multiple
               label="Subcategories"

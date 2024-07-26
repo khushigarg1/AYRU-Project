@@ -151,7 +151,6 @@ export const getallCustomerMedia = async (
 ) => {
   try {
     const { type } = request.query as any;
-    console.log(type);
 
     const result = await customerSideDataServiceInstance.getallCustomerMedia(
       type

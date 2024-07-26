@@ -60,7 +60,6 @@ export default function LoginForm() {
   const handelLogin = async (e) => {
     e.preventDefault();
     let val = await login(account.username, account.password);
-    console.log("login attempt", val);
     if (!val) {
       setOpen(true);
     }

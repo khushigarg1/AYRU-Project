@@ -73,7 +73,6 @@ export const ProductDetails = () => {
           return newItems;
         });
         setWishlistCount(prevCount => prevCount - 1);
-        console.log(`Removed ${product.productName} from wishlist`);
       } else {
         const response = await api.post('/wishlist', { inventoryId: product.id, userId: user?.id }, {
           headers: {
@@ -85,7 +84,6 @@ export const ProductDetails = () => {
           [product.id]: response.data.data.id
         }));
         setWishlistCount(prevCount => prevCount + 1);
-        console.log(`Added ${product.productName} to wishlist`);
       }
     } catch (error) {
       console.error('Error toggling wishlist status:', error);

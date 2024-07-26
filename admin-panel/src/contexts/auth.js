@@ -18,11 +18,8 @@ export const AuthProvider = ({ children }) => {
       const admintoken = Cookies.get('admintoken')
       if (admintoken) {
         try {
-          console.log("check token", admintoken);
-          console.log("Got a token in the cookies, let's see if it is valid");
           api.defaults.headers.Authorization = `Bearer ${admintoken}`
           const { data: user } = await api.get('auth/admin/1')
-          console.log("got user", user);
           setUser(user)
         }
         catch (err) {
@@ -38,18 +35,14 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await api.post('auth/admin/login', { email, password });
-      console.log(response, response.data);
       if (response && response.data && response.data.accessToken) {
         const admintoken = response.data.accessToken;
-        console.log("Got token", admintoken);
         Cookies.set('admintoken', admintoken, { expires: 60 });
         api.defaults.headers.Authorization = `Bearer ${admintoken}`;
         const { data: user } = await api.get(`auth/admin/${response?.data?.data?.id}`);
         setUser(user);
-        console.log("Got user", user);
         return true;
       } else {
-        console.log("Login failed. No token found in response.");
         return false;
       }
     } catch (error) {

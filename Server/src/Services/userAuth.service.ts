@@ -101,7 +101,6 @@ class UserAuthServices {
     OTP: string,
     role: string
   ) {
-    console.log(email, OTP, role);
 
     if (!email || !OTP || !role) {
       throw new ApiBadRequestError(
@@ -159,7 +158,6 @@ class UserAuthServices {
         isEmailVerified: checkUser?.isEmailVerified,
         isPhoneVerified: checkUser?.isPhoneVerified,
       };
-      console.log("payload---", payload);
 
       const token = server.jwt.sign(payload);
       return [
@@ -281,7 +279,6 @@ class UserAuthServices {
       let checkUser = await prisma.user.findFirst({
         where: { email: checkUserAuth.email },
       });
-      console.log(checkUser);
 
       if (checkUser) {
         checkUser = await prisma.user.update({
@@ -385,7 +382,6 @@ class UserAuthServices {
     }
 
     const id = request.user.id;
-    console.log("id-------", id);
 
     const token = jwt.sign({ id, email: newemail }, JWT_TOKEN_SECRET, {
       expiresIn: "1h",

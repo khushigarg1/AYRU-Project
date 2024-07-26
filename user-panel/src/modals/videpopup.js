@@ -3,7 +3,6 @@ import { Modal, Box, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import api from "@/api";
 export default function VideoPopup({ open, videoUrl, onClose }) {
-  console.log("heyyy", open, videoUrl);
   return (
     <Modal open={open} onClose={onClose}>
       <Box

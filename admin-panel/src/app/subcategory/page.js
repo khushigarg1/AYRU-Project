@@ -34,7 +34,6 @@ export default function Home() {
   const [editCategoryOpen, setEditSubcategoryOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const handleEditCategoryOpen = (category) => {
-    console.log(category);
     setSelectedCategory(category);
     setEditSubcategoryOpen(true);
   };
@@ -51,7 +50,6 @@ export default function Home() {
         severity: "error",
         message: error?.response?.data?.message || "An error occurred while deleting the category.",
       });
-      console.log("Error deleting flat:", error?.response?.data?.message);
     }
   };
   const columns = isMobile

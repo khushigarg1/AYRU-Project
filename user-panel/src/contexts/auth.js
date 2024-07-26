@@ -36,7 +36,6 @@ export const AuthProvider = ({ children }) => {
         try {
           const tokenPayload = parseJwt(token);
           const userId = tokenPayload?.payload?.id;
-          // console.log(userId);
           api.defaults.headers.Authorization = `Bearer ${token}`;
           const response = await api.get(`/auth/${userId}`);
           const [cartResponse, wishlistResponse] = await Promise.all([
@@ -56,7 +55,6 @@ export const AuthProvider = ({ children }) => {
 
           setCartCount(cartItemsData.length);
           setWishlistCount(wishlistItemsData.length);
-          // console.log("user", response);
           setUser(response.data?.data);
         } catch (error) {
           console.error('Error fetching user:', error);
@@ -65,8 +63,6 @@ export const AuthProvider = ({ children }) => {
       }
       setLoading(false);
     }
-    // console.log("hyy");
-
     loadUserFromCookies();
   }, []);
 

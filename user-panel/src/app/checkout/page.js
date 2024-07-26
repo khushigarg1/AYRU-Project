@@ -83,7 +83,6 @@ const CheckoutPage = () => {
       ...prevOrderData,
       ...newData,
     }));
-    console.log(orderData);
   };
 
 

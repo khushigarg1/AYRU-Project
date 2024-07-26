@@ -67,7 +67,6 @@ const CartPage = () => {
         });
         setCartItems(response?.data?.data?.userCart);
         setTotalCount(response?.data?.data?.totalPrice);
-        console.log("cartitem", cartItems);
         const cartItemsData = response.data.data?.userCart;
         setCartCount(cartItemsData.length);
         const cartMap = cartItemsData.reduce((acc, cartItem) => {

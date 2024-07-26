@@ -26,7 +26,6 @@ export async function sendResetEmail(email: any, resetToken: any) {
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log("Reset email sent successfully");
   } catch (error) {
     console.error("Error sending reset email:", error);
     throw new Error("Failed to send reset email");

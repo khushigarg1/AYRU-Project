@@ -60,7 +60,6 @@ const InventoryItem = ({ item }) => {
           return newItems;
         });
         setWishlistCount(prevCount => prevCount - 1);
-        console.log(`Removed ${item.productName} from wishlist`);
       } else {
         const response = await api.post('/wishlist', { inventoryId: item.id, userId: user?.id }, {
           headers: {
@@ -72,7 +71,6 @@ const InventoryItem = ({ item }) => {
           [item.id]: response.data.data.id
         }));
         setWishlistCount(prevCount => prevCount + 1);
-        console.log(`Added ${item.productName} to wishlist`);
       }
     } catch (error) {
       console.error('Error toggling wishlist status:', error);
@@ -174,7 +172,7 @@ const InventoryItem = ({ item }) => {
           {item.productName}
         </Typography>
         <Typography variant="body2" color="text.secondary" gutterBottom>
-          <strong>Category: </strong>{item?.category?.categoryName}
+          <strong>Category: </strong>{item?.Category?.categoryName}
         </Typography>
         {item.discountedPrice ? (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>

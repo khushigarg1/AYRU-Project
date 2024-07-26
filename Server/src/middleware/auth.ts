@@ -28,7 +28,6 @@ export default async function authMiddleware(server: FastifyInstance) {
           id: number;
           role: string;
         };
-        console.log(decoded);
         if (decoded.role !== "user") {
           throw new Error("Access denied. Not a user.");
         }

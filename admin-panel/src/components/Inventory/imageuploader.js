@@ -7,7 +7,6 @@ const ImageUploader = ({ onUpload }) => {
 
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
-    console.log(selectedFiles);
     setFiles(selectedFiles);
   };
 

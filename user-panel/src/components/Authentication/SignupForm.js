@@ -36,7 +36,6 @@ const SignUpForm = ({ switchToLogin }) => {
     try {
       const response = await api.post('/auth/verify-email-otp', { email, OTP: emailOTP, role: 'user' });
       const { isPhoneVerified, isEmailVerified } = response?.data?.data?.userdata;
-      console.log(isPhoneVerified, isEmailVerified);
       if (isEmailVerified) {
         const token = response?.data?.accessToken;
         Cookies.set('token', token, { expires: 365 });

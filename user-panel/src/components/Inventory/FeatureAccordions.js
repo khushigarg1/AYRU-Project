@@ -41,7 +41,7 @@ export const FeatureAccordions = ({ product }) => {
                 </TableRow>
                 <TableRow>
                   <TableCell sx={{ backgroundColor: '#fcc73d' }}>Item Weight</TableCell>
-                  <TableCell>{product.weight || "N/A"}</TableCell>
+                  <TableCell>{product.itemWeight || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell sx={{ backgroundColor: '#fcc73d' }}>Thread Count</TableCell>

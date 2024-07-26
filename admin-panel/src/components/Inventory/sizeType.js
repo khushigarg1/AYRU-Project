@@ -486,7 +486,7 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
                 <Typography variant="subtitle1" style={{ marginRight: '20px' }}>Discounted Price: {fitted?.discountedPrice}</Typography>
                 <Button
                   color="secondary"
-                  onClick={() => handleRemoveFittedItem(index)}
+                  onClick={() => handleRemoveCustomFittedItem(index)}
                   style={{ marginLeft: '10px' }}
                 >
                   <DeleteForever />
@@ -494,7 +494,7 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
               </div>
             </Grid>
           ))}
-          {data.customFittedIds.length != 0 &&
+          {/* {data.customFittedIds.length != 0 &&
             <Grid container spacing={2}>
               <Grid item xs={12} sm={4}>
                 <TextField
@@ -512,19 +512,11 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
                   fullWidth
                 />
               </Grid>
-              {/* <Grid item xs={12} sm={4}>
-              <TextField
-                label="Discounted Price"
-                value={data.customFittedIds[0]?.discountedPrice}
-                onChange={(e) => handleItemChange(data.customFittedIds[0]?.id, 'discountedPrice', parseFloat(e.target.value), 'customFittedIds')}
-                fullWidth
-              />
-            </Grid> */}
               <Grid item xs={12} sm={4}>
                 <Button onClick={() => handleRemoveCustomFittedItem(0)}>Remove</Button>
               </Grid>
             </Grid>
-          }
+          } */}
           {data.customFittedIds.length == 0 &&
             <Grid container spacing={2}>
               <Grid item xs={12} sm={4}>

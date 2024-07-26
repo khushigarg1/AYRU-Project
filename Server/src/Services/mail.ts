@@ -90,13 +90,9 @@ export const sendEmail = async (to: string, subject: string, body: string) => {
         `,
       from: process.env.GMAIL_ID!,
     });
-    console.log(info);
     return true;
   } catch (error) {
     console.error("Error sending email:", error);
     return false;
   }
-  // } else {
-  //   console.log("Email not sent in development mode.");
-  // }
 };

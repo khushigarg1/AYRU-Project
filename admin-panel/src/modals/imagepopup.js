@@ -7,7 +7,6 @@ import { IMAGE_MODAL_STYLE, IMAGE_STYLE, CLOSE_ICON_STYLE } from '../styles/comm
 import { ZoomIn, ZoomOut } from '@mui/icons-material';
 
 const ImagePopup = ({ imageUrl, onClose }) => {
-  console.log(imageUrl);
   const [zoomLevel, setZoomLevel] = useState(1);
 
   const handleZoomIn = () => {

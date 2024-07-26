@@ -18,7 +18,6 @@ import { GridDeleteIcon } from '@mui/x-data-grid';
 
 const HomePage = ({ params }) => {
   const router = useRouter();
-  console.log("router", router, params);
   const { id } = params;
   const [inventory, setInventory] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -37,7 +36,6 @@ const HomePage = ({ params }) => {
   const fetchInventory = async () => {
     try {
       const response = await api.get(`/inventory/${id}`);
-      console.log(response.data);
       setInventory(response?.data?.data);
       setSizeChartImage(response?.data?.data?.SizeChartMedia[0]?.url || null);
     } catch (error) {
@@ -60,7 +58,6 @@ const HomePage = ({ params }) => {
   };
 
   const handleImageUpload = async (files) => {
-    console.log("files", files);
     const filesArray = Array.isArray(files) ? files : [files];
     const formData = new FormData();
 
@@ -71,7 +68,6 @@ const HomePage = ({ params }) => {
 
     filesArray.forEach((file, index) => {
       formData.append('images', file);
-      console.log(`Appending file ${index}:`, file);
     });
 
     formData.append('inventoryId', id);

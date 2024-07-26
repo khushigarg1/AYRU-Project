@@ -15,8 +15,6 @@ const prisma = new PrismaClient();
 export class InventoryService {
   async uploadMedias(data: any) {
     try {
-      console.log(data);
-
       let imageUploadPromises = [];
       let videoUploadPromises = [];
 
@@ -81,7 +79,6 @@ export class InventoryService {
         updatedAt: "desc",
       },
     });
-    console.log(media);
 
     return media;
   }
@@ -173,8 +170,6 @@ export class InventoryService {
 
   async createInventory(data: InventoryAttributes) {
     try {
-      console.log(data);
-
       if (!data.productName || !data.skuId) {
         throw new ApiBadRequestError("Please fill all required fields!!");
       }
@@ -199,7 +194,7 @@ export class InventoryService {
           quantity: data.quantity,
           productstatus: data?.productstatus || "DRAFT",
           soldQuantity: data.soldQuantity || 0,
-          availability: data.availability || false,
+          availability: data.availability || true,
           extraOptionOutOfStock: data.extraOptionOutOfStock || false,
         },
       });
@@ -211,9 +206,6 @@ export class InventoryService {
             subcategoryid,
           })
         );
-
-        console.log("Subcategory Data to be created:", subCategoryData);
-
         await prisma.inventorySubcategory.createMany({
           data: subCategoryData,
         });
@@ -322,8 +314,6 @@ export class InventoryService {
   }
 
   async updateInventory(id: number, data: InventoryUpdateAttributes) {
-    console.log(id, data);
-
     const {
       productName,
       skuId,
@@ -336,6 +326,7 @@ export class InventoryService {
       discountedPrice,
       availability,
       weight,
+      itemWeight,
       productstatus,
       status,
       style,
@@ -372,7 +363,6 @@ export class InventoryService {
     await prisma.inventorySubcategory.deleteMany(deleteManyOptions);
     await prisma.customFittedInventory.deleteMany(deleteManyOptions);
     await prisma.colorVariation.deleteMany(deleteManyOptions);
-    console.log("Deleted existing related records");
     try {
       const updatedInventory = await prisma.inventory.update({
         where: { id },
@@ -388,6 +378,7 @@ export class InventoryService {
           discountedPrice,
           availability,
           weight,
+          itemWeight,
           productstatus,
           status,
           style,
@@ -501,7 +492,6 @@ export class InventoryService {
       const inventoryFlatIds = inventoryFlats.map(
         (inventoryFlat) => inventoryFlat.id
       );
-      // console.log(inventoryFlatIds);
       let inventory = null;
       if (
         customFittedIds &&
@@ -546,7 +536,6 @@ export class InventoryService {
         };
       }
 
-      console.log(updatedInventory);
       return { inventory: inventory ? inventory : updatedInventory };
     } catch (error) {
       throw error;

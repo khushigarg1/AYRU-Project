@@ -49,7 +49,6 @@ export default function CustomerSideDataManager() {
         severity: "error",
         message: error?.response?.data?.message || "An error occurred while deleting the data.",
       });
-      console.log("Error deleting data:", error?.response?.data?.message);
     }
   };
 

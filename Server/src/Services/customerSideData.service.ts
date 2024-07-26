@@ -59,8 +59,6 @@ export class CustomerSideDataService {
   /*---------------------------medias--------------------*/
   async uploadCustomerMedia(data: any) {
     try {
-      console.log(data);
-
       let imageUploadPromises = [];
       let videoUploadPromises = [];
 

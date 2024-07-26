@@ -313,7 +313,6 @@ const CustomerMediaPage = () => {
     const formData = new FormData();
     for (let i = 0; i < uploadFiles.length; i++) {
       formData.append('images', uploadFiles[i]);
-      console.log(uploadFiles[i], formData);
     }
     formData.append('type', type);
     try {

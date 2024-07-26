@@ -53,7 +53,6 @@ export default function HomeColor() {
         severity: "error",
         message: error?.response?.data?.message || "An error occurred while deleting the color.",
       });
-      console.log("Error deleting color:", error?.response?.data?.message);
     }
   };
 

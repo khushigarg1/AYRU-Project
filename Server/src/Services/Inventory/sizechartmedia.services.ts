@@ -9,7 +9,6 @@ const prisma = new PrismaClient();
 
 export const uploadChartMedia = async (inventoryId: number, data: any) => {
   const image = data.image;
-  console.log(image, inventoryId);
 
   if (!image.mimetype.startsWith("image")) {
     throw new Error("File is not an image");

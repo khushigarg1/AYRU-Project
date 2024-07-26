@@ -86,7 +86,6 @@ export default function AddressForm(props) {
       // payoutDurations.push(response.data['ContributionAmounts'])
       setPayoutDurations([0, ...response.data["PayoutDurations"]]);
 
-      // console.log(response.data);
       // payoutDurations = response.data;
     } catch (error) {
       console.error("Error fetching closed groups:", error);
