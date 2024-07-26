@@ -197,9 +197,25 @@ export default function PageNav({ children }) {
       <React.Fragment key={category.id}>
         <ListItem disablePadding>
           <ListItemButton onClick={() => handleClickCategory(category.id, !!category.subcategories)}>
-            <ListItemText primary={category.categoryName} />
-            {category.subcategories && (
-              nestedOpen ? <ExpandLess /> : <ExpandMore />
+            {/* {categories?.subcategories.length() === 0 && (
+              <Link href={`/shop?categoryId=${category.id}`}>
+                <ListItemText primary={category.categoryName} />
+              </Link>
+            )}
+            {category.subcategories && (<>
+              <ListItemText primary={category.categoryName} />
+              {nestedOpen ? <ExpandLess /> : <ExpandMore />}
+            </>
+            )} */}
+            {category.subcategories.length === 0 ? (
+              <Link href={`/shop?categoryId=${category.id}`} passHref>
+                <ListItemText primary={category.categoryName} />
+              </Link>
+            ) : (
+              <>
+                <ListItemText primary={category.categoryName} />
+                {nestedOpen ? <ExpandLess /> : <ExpandMore />}
+              </>
             )}
           </ListItemButton>
         </ListItem>

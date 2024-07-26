@@ -163,6 +163,7 @@ export default function Home() {
             sx={{
               position: "fixed",
               right: 20,
+              zIndex: 1000
               // bottom: 20,
             }}
           >

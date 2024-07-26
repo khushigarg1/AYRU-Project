@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Select, MenuItem, TextField, Typography, Grid } from '@mui/material';
 
 const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
-  // const hasBedsheets = data.InventoryFitted.length > 0 || data.customFittedInventory.length > 0;
+  // Initialize the default flat size if available
+  const defaultFlatItem = data.InventoryFlat.length > 0 ? data.InventoryFlat[0].Flat.id : '';
 
-  // const [selections, setSelections] = useState({
-  //   selectedOption: hasBedsheets ? '' : 'flat',
-  //   selectedFlatItem: '',
-  //   selectedFittedItem: '',
-  //   selectedFittedDimension: '',
-  //   selectedCustomFittedItem: '',
-  //   selectedUnit: 'inch',
-  //   dimensions: {
-  //     width: '',
-  //     height: '',
-  //     length: ''
-  //   }
-  // });
+  useEffect(() => {
+    setSelections({
+      selectedOption: hasBedsheets ? 'flat' : '',
+      selectedFlatItem: defaultFlatItem,
+      selectedFittedItem: '',
+      selectedCustomFittedItem: '',
+      selectedUnit: 'inch',
+      dimensions: {
+        width: '',
+        height: '',
+        length: ''
+      }
+    });
+  }, [hasBedsheets, defaultFlatItem, setSelections]);
 
   const handleSelectChange = (event) => {
     const { value } = event.target;
@@ -50,14 +52,6 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
       selectedFittedItem: value,
     }));
   };
-
-  // const handleFittedDimensionChange = (event) => {
-  //   const { value } = event.target;
-  //   setSelections((prevSelections) => ({
-  //     ...prevSelections,
-  //     selectedFittedDimension: value
-  //   }));
-  // };
 
   const handleCustomFittedItemChange = (event) => {
     const { value } = event.target;
@@ -181,38 +175,6 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
               </MenuItem>
             ))}
           </Select>
-
-          {/* {selections.selectedFittedItem && (
-            <Box>
-              <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>Fitted Dimensions: (Length*Width*Height)</Typography>
-              <Select
-                value={selections.selectedFittedDimension}
-                onChange={handleFittedDimensionChange}
-                displayEmpty
-                sx={{
-                  width: '100%', marginBottom: 1,
-                  padding: "0px 0px"
-                }}
-              >
-                <MenuItem value="" disabled>Select Fitted Dimension</MenuItem>
-                {data.InventoryFitted.find(
-                  (item) => item.Fitted.id === selections.selectedFittedItem
-                )?.Fitted.FittedDimensions.map((dimension, index) => (
-                  <MenuItem key={index} value={dimension.dimensions}>
-                    <Typography
-                      component="div"
-                      style={{
-                        fontSize: dimension.dimensions > 20 ? '0.7rem' : '1rem',
-                        maxWidth: '100%',
-                      }}
-                    >
-                      {dimension.dimensions}
-                    </Typography>
-                  </MenuItem>
-                ))}
-              </Select>
-            </Box>
-          )} */}
         </Box>
       )}
 

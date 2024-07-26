@@ -185,7 +185,7 @@ model Inventory {
   specialFeatures       String[]
   threadCount           String?
   categoryid            Int?
-  // itemWeight            Float?
+  itemWeight            Float?
   origin                String?
   extraNote             String?
   disclaimer            String?
@@ -359,6 +359,12 @@ model Cart {
   userId                   Int
   inventoryId              Int
   quantity                 Int
+  flatId                   Int?
+  customId                 Int?
+  fittedId                 Int?
+  sellingPrice             Float?
+  costPrice                Float?
+  discountedPrice          Float?
   sizeOption               String?
   selectedFlatItem         String?
   selectedFittedItem       String?
@@ -417,6 +423,7 @@ model OrderItem {
   id                       Int       @id @default(autoincrement())
   orderId                  Int
   inventoryId              Int
+  cartId                   Int?
   quantity                 Int
   sizeOption               String?
   selectedFlatItem         String?

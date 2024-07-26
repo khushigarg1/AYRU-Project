@@ -44,6 +44,7 @@ const ItemDetails = ({ product }) => {
 
   if (selectedFlatItem !== '' && product?.InventoryFlat) {
     const selectedFlat = product.InventoryFlat.find(item => item.flatId === selectedFlatItem);
+    console.log(selectedFlat);
     if (selectedFlat) {
       discountedPriceToDisplay = selectedFlat.discountedPrice.toFixed(2);
       sellingPriceToDisplay = selectedFlat?.sellingPrice?.toFixed(2);
@@ -53,8 +54,9 @@ const ItemDetails = ({ product }) => {
       displayAvailability = selectedFlat?.quantity == 0 ? true : false;
     }
   }
-  if (selectedCustomFittedItem !== '' && product?.InventoryFitted) {
-    const selectedFitted = product.InventoryFitted.find(item => item.fittedId === selectedCustomFittedItem);
+  if (selectedFittedItem !== '' && product?.InventoryFitted) {
+    const selectedFitted = product.InventoryFitted.find(item => item.fittedId === selectedFittedItem);
+    console.log(selectedFitted);
     if (selectedFitted) {
       discountedPriceToDisplay = selectedFitted.discountedPrice.toFixed(2);
       sellingPriceToDisplay = selectedFitted?.sellingPrice?.toFixed(2);
@@ -62,6 +64,18 @@ const ItemDetails = ({ product }) => {
       displayMinQuantity = selectedFitted?.minQuantity;
       displayMaxQuantity = selectedFitted?.maxQuantity;
       displayAvailability = selectedFitted?.quantity == 0 ? true : false;
+    }
+  }
+  if (selectedCustomFittedItem !== '' && product?.customFittedInventory) {
+    const selectedCustomFitted = product.customFittedInventory.find(item => item?.InventoryFlat?.flatId === selectedCustomFittedItem);
+    console.log(selectedCustomFitted);
+    if (selectedCustomFitted) {
+      discountedPriceToDisplay = selectedCustomFitted.discountedPrice.toFixed(2);
+      sellingPriceToDisplay = selectedCustomFitted?.sellingPrice?.toFixed(2);
+      displayQuantity = selectedCustomFitted?.quantity;
+      displayMinQuantity = selectedCustomFitted?.minQuantity;
+      displayMaxQuantity = selectedCustomFitted?.maxQuantity;
+      displayAvailability = selectedCustomFitted?.quantity == 0 ? true : false;
     }
   }
   //-------------------------------------------------------------------------------
@@ -126,6 +140,41 @@ const ItemDetails = ({ product }) => {
     }
   }, [token, user, setCartCount]);
 
+  const getPricesBasedOnSizeOption = (sizeOption, product) => {
+    let sellingPrice = 0;
+    let costPrice = 0;
+    let discountedPrice = 0;
+
+    switch (sizeOption) {
+      case 'flat':
+        const selectedFlat = product.InventoryFlat.find(item => item?.flatId === selectedFlatItem);
+        sellingPrice = selectedFlat ? selectedFlat.sellingPrice : 0;
+        costPrice = selectedFlat ? selectedFlat.costPrice : 0;
+        discountedPrice = selectedFlat ? selectedFlat.discountedPrice : 0;
+        break;
+
+      case 'fitted':
+        const selectedFitted = product.InventoryFitted.find(item => item?.fittedId === selectedFittedItem);
+        sellingPrice = selectedFitted ? selectedFitted.sellingPrice : 0;
+        costPrice = selectedFitted ? selectedFitted.costPrice : 0;
+        discountedPrice = selectedFitted ? selectedFitted.discountedPrice : 0;
+        break;
+
+      case 'custom':
+        const selectedCustomFitted = product.customFittedInventory.find(item => item?.InventoryFlat?.flatId === selectedCustomFittedItem);
+        sellingPrice = selectedCustomFitted ? selectedCustomFitted.sellingPrice : 0;
+        costPrice = selectedCustomFitted ? selectedCustomFitted.costPrice : 0;
+        discountedPrice = selectedCustomFitted ? selectedCustomFitted.discountedPrice : 0;
+        break;
+
+      default:
+        break;
+    }
+
+    return { sellingPrice, costPrice, discountedPrice };
+  };
+
+
   const handleAddToCart = async () => {
     // console.log("selectionss", selections);
     if (selections?.selectedOption === '') {
@@ -160,30 +209,17 @@ const ItemDetails = ({ product }) => {
 
       const cartItemExists = !!cartItems[product.id];
 
-      // if (cartItemExists) {
-      // await api.delete(`/cart/${cartItems[itemlist.id]}`, {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`
-      //   }
-      // });
-      // setcartItems(prevItems => {
-      //   const newItems = { ...prevItems };
-      //   delete newItems[itemlist.id];
-      //   return newItems;
-      // });
-      // setCartCount(prevCount => prevCount - 1);
-      // setSnackbarMessage("Already added to cart");
-      // setOpenSnackbar(true);
-      // console.log(`Removed ${itemlist.productName} from cart`);
-      // } else {
       const selectedFlat = await product.InventoryFlat.find(item => item?.flatId === selectedFlatItem);
       const selectedFitted = await product.InventoryFitted.find(item => item?.fittedId === selectedFittedItem);
       const selectedCustomFitted = await product.customFittedInventory.find(item => item?.InventoryFlat?.flatId === selectedCustomFittedItem);
-      console.log(selectedFlat, selectedFitted, selectedCustomFitted);
       const cartData = {
         inventoryId: product.id,
         // userId: user?.id,
         quantity: quantity || 1,
+        flatId: selectedFlat ? parseInt(selectedFlat.id) : null,
+        fittedId: selectedFitted ? parseInt(selectedFitted.id) : null,
+        customId: selectedCustomFitted ? parseInt(selectedCustomFitted.id) : null,
+        ...getPricesBasedOnSizeOption(selections?.selectedOption, product),
         sizeOption: selections?.selectedOption,
         selectedFlatItem: selectedFlat?.Flat?.name,
         selectedFittedItem: selectedFitted?.Fitted?.name,
@@ -194,6 +230,7 @@ const ItemDetails = ({ product }) => {
         height: parseFloat(selections?.dimensions?.height)
       };
 
+      console.log("selectedflat", selectedFlat, "selectedfitted", selectedFitted, "custom", selectedCustomFitted, cartData);
       const response = await api.post('/cart', cartData, {
         headers: {
           Authorization: `Bearer ${token}`

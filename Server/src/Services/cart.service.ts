@@ -278,6 +278,12 @@ export class CartService {
     userId: number,
     inventoryId: number,
     quantity: number,
+    flatId: number,
+    fittedId: number,
+    customId: number,
+    sellingPrice: number,
+    costPrice: number,
+    discountedPrice: number,
     sizeOption: string,
     selectedFlatItem: string,
     selectedFittedItem: string,
@@ -289,11 +295,19 @@ export class CartService {
     remark?: string
   ) {
     try {
+      console.log(flatId, fittedId, customId);
+
       const cartItem = await prisma.cart.create({
         data: {
           userId,
           inventoryId,
           quantity,
+          flatId,
+          fittedId,
+          customId,
+          sellingPrice,
+          costPrice,
+          discountedPrice,
           sizeOption,
           selectedFlatItem,
           selectedFittedItem,
@@ -330,6 +344,9 @@ export class CartService {
     userId: number,
     cartItemId: number,
     quantity: number,
+    // flatId: number,
+    // fittedId: number,
+    // customId: number,
     sizeOption: string,
     selectedFlatItem: string,
     selectedFittedItem: string,
@@ -347,6 +364,9 @@ export class CartService {
         },
         data: {
           quantity,
+          // flatId: flatId ?? null,
+          // fittedId: fittedId ?? null,
+          // customId: customId ?? null,
           sizeOption,
           selectedFlatItem,
           selectedFittedItem,
@@ -408,12 +428,12 @@ export class CartService {
 
     let totalPrice = 0;
     userCart.forEach((cartItem) => {
-      const inventory = cartItem.Inventory;
-      if (inventory) {
-        const price = inventory.discountedPrice ?? inventory.sellingPrice ?? 0;
-        const quantity = inventory.quantity ?? 1;
-        totalPrice += price * quantity;
-      }
+      // const inventory = cartItem.Inventory;
+      // if (inventory) {
+      const price = cartItem?.discountedPrice ?? cartItem?.sellingPrice ?? 0;
+      const quantity = cartItem.quantity ?? 1;
+      totalPrice += price * quantity;
+      // }
     });
 
     // let totalPrice = 0;

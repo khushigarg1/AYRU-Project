@@ -18,6 +18,7 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
   const [colors, setColors] = useState([]);
   const [flats, setFlats] = useState([]);
   const [newFlatItem, setNewFlatItem] = useState({
+    // name:"",
     quantity: 0,
     soldQuantity: 0,
     minQuantity: 1,
@@ -33,6 +34,7 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
 
   const [fitteds, setFitteds] = useState([]);
   const [newFittedItem, setNewFittedItem] = useState({
+    // name: "",
     quantity: 0,
     soldQuantity: 0,
     minQuantity: 1,
@@ -323,6 +325,7 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
+                  type="number"
                   label="Selling Price"
                   value={newFlatItem.sellingPrice}
                   onChange={(e) => setNewFlatItem({ ...newFlatItem, sellingPrice: parseFloat(e.target.value) })}
@@ -332,6 +335,7 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
+                  type="number"
                   label="Cost Price"
                   value={newFlatItem.costPrice}
                   onChange={(e) => setNewFlatItem({ ...newFlatItem, costPrice: parseFloat(e.target.value) })}
@@ -340,7 +344,7 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
+                  type="number"
                   label="Discounted Price"
                   value={newFlatItem.discountedPrice}
                   onChange={(e) => setNewFlatItem({ ...newFlatItem, discountedPrice: parseFloat(e.target.value) })}
@@ -436,6 +440,7 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  type="number"
                   label="Selling Price"
                   value={newFittedItem.sellingPrice}
                   onChange={(e) => setNewFittedItem({ ...newFittedItem, sellingPrice: parseFloat(e.target.value) })}
@@ -444,6 +449,7 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  type="number"
                   label="Cost Price"
                   value={newFittedItem.costPrice}
                   onChange={(e) => setNewFittedItem({ ...newFittedItem, costPrice: parseFloat(e.target.value) })}
@@ -452,6 +458,7 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  type="number"
                   label="Discounted Price"
                   value={newFittedItem.discountedPrice}
                   onChange={(e) => setNewFittedItem({ ...newFittedItem, discountedPrice: parseFloat(e.target.value) })}
@@ -470,40 +477,59 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
       <Grid item xs={12}>
         <FormControl fullWidth variant="outlined" margin="normal">
           <Typography id="customFitted-label">Custom Fitted</Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                label="Selling Price"
-                value={data.customFittedIds[0]?.sellingPrice}
-                onChange={(e) => handleItemChange(data.customFittedIds[0]?.id, 'sellingPrice', parseFloat(e.target.value), 'customFittedIds')}
-                fullWidth
-              />
+          {data?.customFittedIds?.map((fitted, index) => (
+            <Grid item xs={12} key={index}>
+              <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ccc', padding: '10px', borderRadius: '5px', flexDirection: "column" }}>
+                <Typography variant="subtitle1" style={{ marginRight: '20px' }}> {fitted?.InventoryFlat?.Flat?.name}</Typography>
+                <Typography variant="subtitle1" style={{ marginRight: '20px' }}>Selling Price: {fitted?.sellingPrice}</Typography>
+                <Typography variant="subtitle1" style={{ marginRight: '20px' }}>Cost Price: {fitted?.costPrice}</Typography>
+                <Typography variant="subtitle1" style={{ marginRight: '20px' }}>Discounted Price: {fitted?.discountedPrice}</Typography>
+                <Button
+                  color="secondary"
+                  onClick={() => handleRemoveFittedItem(index)}
+                  style={{ marginLeft: '10px' }}
+                >
+                  <DeleteForever />
+                </Button>
+              </div>
             </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                label="Cost Price"
-                value={data.customFittedIds[0]?.costPrice}
-                onChange={(e) => handleItemChange(data.customFittedIds[0]?.id, 'costPrice', parseFloat(e.target.value), 'customFittedIds')}
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
+          ))}
+          {data.customFittedIds.length != 0 &&
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  label="Selling Price"
+                  value={data.customFittedIds[0]?.sellingPrice}
+                  onChange={(e) => handleItemChange(data.customFittedIds[0]?.id, 'sellingPrice', parseFloat(e.target.value), 'customFittedIds')}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  label="Cost Price"
+                  value={data.customFittedIds[0]?.costPrice}
+                  onChange={(e) => handleItemChange(data.customFittedIds[0]?.id, 'costPrice', parseFloat(e.target.value), 'customFittedIds')}
+                  fullWidth
+                />
+              </Grid>
+              {/* <Grid item xs={12} sm={4}>
               <TextField
                 label="Discounted Price"
                 value={data.customFittedIds[0]?.discountedPrice}
                 onChange={(e) => handleItemChange(data.customFittedIds[0]?.id, 'discountedPrice', parseFloat(e.target.value), 'customFittedIds')}
                 fullWidth
               />
+            </Grid> */}
+              <Grid item xs={12} sm={4}>
+                <Button onClick={() => handleRemoveCustomFittedItem(0)}>Remove</Button>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={4}>
-              <Button onClick={() => handleRemoveCustomFittedItem(0)}>Remove</Button>
-            </Grid>
-          </Grid>
-
+          }
           {data.customFittedIds.length == 0 &&
             <Grid container spacing={2}>
               <Grid item xs={12} sm={4}>
                 <TextField
+                  type="number"
                   label="Selling Price"
                   value={newCustomFittedItem.sellingPrice}
                   onChange={(e) => setNewCustomFittedItem({ ...newCustomFittedItem, sellingPrice: parseFloat(e.target.value) })}
@@ -512,20 +538,22 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
+                  type="number"
                   label="Cost Price"
                   value={newCustomFittedItem.costPrice}
                   onChange={(e) => setNewCustomFittedItem({ ...newCustomFittedItem, costPrice: parseFloat(e.target.value) })}
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={12} sm={4}>
+              {/* <Grid item xs={12} sm={4}>
                 <TextField
+                  type="number"
                   label="Discounted Price"
                   value={newCustomFittedItem.discountedPrice}
                   onChange={(e) => setNewCustomFittedItem({ ...newCustomFittedItem, discountedPrice: parseFloat(e.target.value) })}
                   fullWidth
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12} sm={4}>
                 <Button onClick={addCustomFittedItem}>Add Custom Fitted</Button>
               </Grid>

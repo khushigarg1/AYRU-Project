@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Modal, TextField, Typography, MenuItem } from '@mui/material';
+import { Box, Button, Modal, TextField, Typography, MenuItem, Paper, FormControl, InputLabel, Select } from '@mui/material';
 import api from '@/api';
 import Cookies from 'js-cookie';
 
@@ -67,24 +67,17 @@ const CreateInventoryModal = ({ open, handleClose, refresh }) => {
   };
 
   return (
-    <Modal open={open} onClose={handleClose}>
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 500,
-          bgcolor: 'background.paper',
-          boxShadow: 24,
-          borderRadius: 2,
-          p: 4,
-          outline: 'none',
-        }}
-      >
-        <Typography variant="h6" mb={2} sx={{ fontWeight: 'bold' }}>
-          Create New Inventory
-        </Typography>
+    // <Modal open={open} onClose={handleClose}>
+
+    <Paper
+      variant="outlined"
+      sx={{ padding: 3, margin: "auto", mt: 4, width: 400, position: "relative" }}
+    >
+      <Typography variant="h6" mb={2} sx={{ fontWeight: 'bold' }}>
+        Create New Inventory
+      </Typography>
+      <Box component="form" sx={{ mt: 2 }} noValidate autoComplete="off">
+
         <TextField
           label="Product Name"
           name="productName"
@@ -123,6 +116,21 @@ const CreateInventoryModal = ({ open, handleClose, refresh }) => {
           margin="normal"
           variant="outlined"
         />
+        {/* <FormControl fullWidth margin="normal">
+          <InputLabel id="category-label">Category</InputLabel>
+          <Select
+            labelId="category-label"
+            value={formData.categoryId}
+            onChange={handleChange}
+            label="Category"
+          >
+            {categories.map((category) => (
+              <MenuItem key={category.id} value={category.id}>
+                {category.categoryName}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl> */}
         <TextField
           select
           label="Category"
@@ -170,7 +178,8 @@ const CreateInventoryModal = ({ open, handleClose, refresh }) => {
           </Button>
         </Box>
       </Box>
-    </Modal>
+    </Paper>
+    // </Modal>
   );
 };
 

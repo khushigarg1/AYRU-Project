@@ -36,8 +36,9 @@ const SignUpForm = ({ switchToLogin }) => {
     try {
       const response = await api.post('/auth/verify-email-otp', { email, OTP: emailOTP, role: 'user' });
       const { isPhoneVerified, isEmailVerified } = response?.data?.data?.userdata;
+      console.log(isPhoneVerified, isEmailVerified);
       if (isEmailVerified) {
-        const ayrutoken = response?.data?.accessToken;
+        const token = response?.data?.accessToken;
         Cookies.set('token', token, { expires: 365 });
 
         // const expirationDate = new Date(new Date().getTime() + 3 * 60 * 1000); // 5 minutes from now
@@ -55,7 +56,7 @@ const SignUpForm = ({ switchToLogin }) => {
         }
         setStep(3);
       } else {
-        setSnackbarMessage(response?.data?.message || 'Invalid email OTP');
+        setSnackbarMessage(response?.data?.data?.message || 'Invalid email OTP');
         setSnackbarSeverity('error');
         setSnackbarOpen(true);
       }

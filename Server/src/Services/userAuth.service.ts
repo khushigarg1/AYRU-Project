@@ -65,29 +65,28 @@ class UserAuthServices {
         });
       }
     }
-
-    // if (process.env.NODE_ENV === "production" || true) {
-    // const emailResult = await sendEmail(
-    //   email,
-    //   "AYRU JAIPUR | OTP for Login Secure Access",
-    //   `
-    //     <div class="container">
-    //       <h1>AYRU JAIPUR</h1>
-    //       <p>To complete your login, please use the following One-Time Password (OTP):</p>
-    //       <div class="otp">${otp}</div>
-    //       <p>This OTP is valid for 5 minutes. For your security, do not share this OTP with anyone.</p>
-    //       <p>If you did not request this OTP, please contact our support team immediately.</p>
-    //       <div class="contact-info">
-    //         <p>Thank you,</p>
-    //         <p>AYRU JAIPUR</p>
-    //         <p>+91-9785852222</p>
-    //       </div>
-    //     </div>
-    //   `
-    // );
-
-    // }
-    const emailResult = true;
+    let emailResult;
+    if (process.env.NODE_ENV === "production" || true) {
+      emailResult = await sendEmail(
+        email,
+        "AYRU JAIPUR | OTP for Login Secure Access",
+        `
+        <div class="container">
+          <h1>AYRU JAIPUR</h1>
+          <p>To complete your login, please use the following One-Time Password (OTP):</p>
+          <div class="otp">${otp}</div>
+          <p>This OTP is valid for 5 minutes. For your security, do not share this OTP with anyone.</p>
+          <p>If you did not request this OTP, please contact our support team immediately.</p>
+          <div class="contact-info">
+            <p>Thank you,</p>
+            <p>AYRU JAIPUR</p>
+            <p>+91-9785852222</p>
+          </div>
+        </div>
+      `
+      );
+    }
+    // const emailResult = true;
     if (emailResult) {
       return { message: `OTP sent to your email ${email}`, data: existingUser };
     } else {

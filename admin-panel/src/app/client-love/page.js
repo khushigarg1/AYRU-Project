@@ -196,7 +196,10 @@ export default function ClientLove() {
           variant="contained"
           color="primary"
           startIcon={<AddIcon />}
-          sx={{ position: "fixed", right: 20 }}
+          sx={{
+            position: "fixed", right: 20,
+            zIndex: 1000
+          }}
         >
           NEW
         </Button>

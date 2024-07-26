@@ -155,8 +155,10 @@ const HomePage = () => {
           variant="contained"
           color="primary"
           startIcon={<AddIcon />}
-          sx={{ position: "fixed", right: 20 }}
-        >
+          sx={{
+            position: "fixed", right: 20,
+            zIndex: 1000
+          }}        >
           NEW
         </Button>
       </Box>

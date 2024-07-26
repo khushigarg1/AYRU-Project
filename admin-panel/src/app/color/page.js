@@ -150,6 +150,7 @@ export default function HomeColor() {
             sx={{
               position: "fixed",
               right: 20,
+              zIndex: 1000
             }}
           >
             NEW

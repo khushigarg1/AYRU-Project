@@ -227,28 +227,28 @@ const CartPage = () => {
                       <Typography variant="body2" gutterBottom sx={{ lineHeight: "1", fontSize: "0.55em" }}>
                         <strong>SKU: </strong>{item?.Inventory?.skuId}
                       </Typography>
-                      {item?.Inventory?.discountedPrice ? (
+                      {item?.discountedPrice ? (
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                           <Typography variant="body2" sx={{ textDecoration: 'line-through', fontSize: "0.7em" }}>
-                            Rs.{item?.Inventory?.sellingPrice}
+                            Rs.{item?.sellingPrice}
                           </Typography>
                           <Typography variant="body2" color={theme?.palette?.text?.contrastText} sx={{ fontSize: "0.7em" }}>
-                            Rs.{item?.Inventory?.discountedPrice}
+                            Rs.{item?.discountedPrice}
                           </Typography>
                           <Typography variant="body2" color="error" sx={{
                             background: 'inherit',
                             color: "black", fontSize: "0.7em"
                           }}>
-                            {`(${Math.round(((item?.Inventory?.sellingPrice - item?.Inventory?.discountedPrice) / item?.Inventory?.sellingPrice) * 100)}% OFF)`}
+                            {`(${Math.round(((item?.sellingPrice - item?.discountedPrice) / item?.sellingPrice) * 100)}% OFF)`}
                           </Typography>
                         </Box>
                       ) : (
                         <Typography variant="body2" sx={{ fontSize: "0.7em" }}>
-                          Rs.{item?.Inventory?.sellingPrice}
+                          Rs.{item?.sellingPrice}
                         </Typography>
                       )}
                       <Typography variant='body2' sx={{ color: item?.Inventory?.extraOptionOutOfStock ? 'red' : 'green', fontSize: "0.6em", marginBottom: "15px" }}>
-                        {item?.Inventory?.extraOptionOutOfStock === true ? "Out of Stock" : "In Stock"}
+                        {item?.Inventory?.extraOptionOutOfStock === true || item?.quantity === 0 ? "Out of Stock" : "In Stock"}
                       </Typography>
 
                       <Button
@@ -307,7 +307,7 @@ const CartPage = () => {
                             <Button
                               variant="ghost"
                               color="secondary"
-                              onClick={() => handleRemove(item?.Inventory?.id)}
+                              onClick={() => handleRemove(item?.id)}
                               sx={{ width: "40%" }}
                             >
                               Remove
@@ -321,12 +321,12 @@ const CartPage = () => {
                     >
                       <Grid item>
                         <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
-                          {`QTY: ${item?.quantity || 0} × ₹${item?.Inventory?.discountedPrice ? item?.Inventory?.discountedPrice : item?.Inventory?.sellingPrice} =`}
+                          {`QTY: ${item?.quantity || 0} × ₹${item?.discountedPrice ? item?.discountedPrice : item?.sellingPrice} =`}
                         </Typography>
                       </Grid>
                       <Grid item>
                         <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
-                          {`Rs. ${(item?.quantity * (item?.Inventory?.discountedPrice || item?.Inventory?.sellingPrice)).toFixed(2)}`}
+                          {`Rs. ${(item?.quantity * (item?.discountedPrice || item?.sellingPrice)).toFixed(2)}`}
                         </Typography>
                       </Grid>
                     </Grid>

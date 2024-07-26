@@ -119,8 +119,8 @@ export default function HomePage() {
             color="primary"
             startIcon={<AddIcon />}
             sx={{
-              position: "fixed",
-              right: 20,
+              position: "fixed", right: 20,
+              zIndex: 1000
             }}
           >
             NEW

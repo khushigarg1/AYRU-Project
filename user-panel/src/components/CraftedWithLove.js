@@ -65,7 +65,7 @@ export const CraftedWithLove = () => {
       {selectedCategory !== null && (
         <Box sx={{ width: isMobile ? '100%' : "80%", mt: 4 }}>
           <Grid container spacing={2}>
-            {categoryInventory.map((item) => (
+            {categoryInventory?.map((item) => (
               <Grid item key={item.id} xs={6} sm={6} md={4} lg={3}>
                 <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: "transparent", p: 0 }}>
                   <CardMedia
