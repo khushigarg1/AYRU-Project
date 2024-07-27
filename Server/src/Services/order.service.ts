@@ -75,18 +75,18 @@ export async function createOrderService(
       data: {
         orderid: orderId,
         userId: userId,
-        trekkingId1: data.trekkingId1,
-        trekkingId2: data.trekkingId2,
-        couriername: data.couriername,
-        imageurl: data.imageurl,
+        trekkingId1: data?.trekkingId1,
+        trekkingId2: data?.trekkingId2,
+        couriername: data?.couriername,
+        imageurl: data?.imageurl,
         status: "pending",
         paymentStatus: "pending",
         deliveryStatus: "pending",
-        giftOption: data.giftOption,
-        Total: data.Total,
-        paymentMethodId: data.paymentMethodId,
-        deliveryAddressId: shippingAddress.id,
-        remark: data.remark,
+        giftOption: data?.giftOption,
+        Total: data?.Total,
+        paymentMethodId: data?.paymentMethodId,
+        deliveryAddressId: shippingAddress?.id,
+        remark: data?.remark,
       },
     });
     for (const item of data?.orderItems) {
@@ -94,23 +94,25 @@ export async function createOrderService(
         data: {
           orderId: newOrder?.id,
           cartId: item?.id,
-          inventoryId: item.inventoryId,
-          quantity: item.quantity,
-          sizeOption: item.sizeOption,
-          selectedFlatItem: item.selectedFlatItem,
-          selectedFittedItem: item.selectedFittedItem,
-          selectedCustomFittedItem: item.selectedCustomFittedItem,
-          unit: item.unit,
-          length: item.length,
-          width: item.width,
-          height: item.height,
+          inventoryId: item?.inventoryId,
+          quantity: item?.quantity,
+          sizeOption: item?.sizeOption,
+          selectedFlatItem: item?.selectedFlatItem,
+          selectedFittedItem: item?.selectedFittedItem,
+          selectedCustomFittedItem: item?.selectedCustomFittedItem,
+          unit: item?.unit,
+          length: item?.length,
+          width: item?.width,
+          height: item?.height,
         },
       });
     }
 
     let newPayment;
     try {
-      const expireBy = Math.floor(Date.now() / 1000) + 25 * 60;
+      const currentTimestamp = Math.floor(Date.now() / 1000);
+      const expireBy = currentTimestamp + 25 * 60;
+      console.log(expireBy);
 
       newPayment = await razorpayInstance.paymentLink.create({
         // amount: newOrder.Total,
@@ -138,9 +140,10 @@ export async function createOrderService(
         notes: {
           policy_name: "Jeevan Bima",
         },
-        callback_url: "http://localhost:3000/",
+        callback_url: "https://7q0xhxzq-3000.inc1.devtunnels.ms/orders",
         callback_method: "get",
       });
+      console.log(newPayment);
     } catch (error) {
       console.error("Error details:", error);
       throw new Error(`Payment link creation failed: ${error}`);
@@ -152,6 +155,49 @@ export async function createOrderService(
     throw new Error(`Order creation failed: ${error}`);
   }
 }
+// Get Single Order Service
+export async function getOrderByIdService(
+  orderId: number,
+  userId: number
+): Promise<Order | null> {
+  console.log(orderId, userId);
+
+  return await prisma.order.findFirst({
+    where: { id: orderId, userId: userId },
+    include: {
+      Inventory: true,
+      orderItems: {
+        include: {
+          inventory: {
+            include: {
+              InventoryFlat: { include: { Flat: true } },
+              InventorySubcategory: { include: { SubCategory: true } },
+              customFittedInventory: {
+                include: { InventoryFlat: { include: { Flat: true } } },
+              },
+              InventoryFitted: {
+                include: {
+                  Fitted: true,
+                },
+              },
+              Category: true,
+              Wishlist: true,
+              ColorVariations: { include: { Color: true } },
+              relatedInventories: { include: { Media: true } },
+              relatedByInventories: { include: { Media: true } },
+              Media: true,
+            },
+          },
+        },
+      },
+      user: true,
+      shippingAddress: true,
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
+  });
+}
 
 // Get Single Order Service
 export async function getOrderService(id: number): Promise<Order[] | null> {
@@ -159,9 +205,36 @@ export async function getOrderService(id: number): Promise<Order[] | null> {
     where: { userId: id },
     include: {
       Inventory: true,
-      orderItems: true,
+      orderItems: {
+        include: {
+          inventory: {
+            include: {
+              InventoryFlat: { include: { Flat: true } },
+              InventorySubcategory: { include: { SubCategory: true } },
+              customFittedInventory: {
+                include: { InventoryFlat: { include: { Flat: true } } },
+              },
+              InventoryFitted: {
+                include: {
+                  Fitted: true,
+                },
+              },
+              Category: true,
+              Wishlist: true,
+              ColorVariations: { include: { Color: true } },
+              relatedInventories: { include: { Media: true } },
+              relatedByInventories: { include: { Media: true } },
+              Media: true,
+            },
+          },
+        },
+      },
       user: true,
       shippingAddress: true,
+    },
+
+    orderBy: {
+      updatedAt: "desc",
     },
   });
 }
@@ -174,6 +247,9 @@ export async function getOrdersService(): Promise<Order[]> {
       orderItems: true,
       user: true,
       shippingAddress: true,
+    },
+    orderBy: {
+      updatedAt: "desc",
     },
   });
 }

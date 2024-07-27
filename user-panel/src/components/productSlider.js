@@ -102,13 +102,13 @@ export const ProductSlider = ({ products }) => {
                   <Typography variant="body2" color="text.secondary">
                     ${product.sellingPrice?.toFixed(2)}
                   </Typography>
-                  <Button
+                  {/* <Button
                     variant="contained"
                     sx={{ mt: 1 }}
                     onClick={() => console.log('Add to cart', product.id)}
                   >
                     Add to Cart
-                  </Button>
+                  </Button> */}
                 </CardContent>
               </Card>
               {index < slicedProducts.length - 1 && <Divider orientation="vertical" sx={{ position: 'absolute', right: 0, top: 0, bottom: 0 }} />}

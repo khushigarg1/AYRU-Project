@@ -17,7 +17,7 @@ import { WhatsappIcon } from 'next-share';
 import ConfirmModal from '@/components/cart/modal';
 
 const CartPage = () => {
-  const { openAuthModal, user, setCartCount } = useAuth();
+  const { openAuthModal, user, setCartCount, setWishlistCount } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [Totalcount, setTotalCount] = useState(0);
   const [wishlsitId, setWishlistIds] = useState([]);
@@ -27,35 +27,31 @@ const CartPage = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [modalOpen, setModalOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (item) => {
+    setItemToDelete(item);
     setModalOpen(true);
   };
 
   const handleCloseModal = () => {
+    setItemToDelete(null);
     setModalOpen(false);
   };
 
-  const handleRemove = (itemId) => {
-    handleRemoveFromCart(itemId);
-    handleCloseModal();
-  };
-
-  const handleAddToWishlistClick = (item) => {
-    handleAddToWishlist(item);
-    handleCloseModal();
-  };
-
-  const handleAddToWishlist = async (item) => {
-    const response = await api.post('/wishlist', { inventoryId: item?.Inventory?.id, userId: user?.id }, {
-      headers: {
-        Authorization: `Bearer ${token}`
+  const handleAddToWishlist = async () => {
+    if (itemToDelete) {
+      const response = await api.post('/wishlist', { inventoryId: itemToDelete?.Inventory?.id, userId: user?.id }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      handleRemoveFromCart();
+      if (!response?.data?.data?.addedAlready) {
+        setWishlistCount(prevCount => prevCount + 1);
       }
-    });
-    handleRemoveFromCart(item.id);
-    if (!response?.data?.data?.addedAlready) {
-      setWishlistCount(prevCount => prevCount + 1);
     }
+    handleCloseModal();
   }
   const fetchcartStatus = async () => {
     try {
@@ -84,17 +80,23 @@ const CartPage = () => {
     // }
   }, [user?.id, setCartCount]);
 
-  const handleRemoveFromCart = async (itemId) => {
-    event.stopPropagation();
-    try {
-      await api.delete(`/cart/${itemId}`);
-      setCartItems(prevItems => prevItems.filter(item => item.id !== itemId));
-      fetchcartStatus();
-    } catch (error) {
-      console.error('Error removing item from cart:', error);
-    }
-  };
 
+  const handleRemoveFromCart = async () => {
+    if (itemToDelete) {
+      try {
+        await api.delete(`/cart/${itemToDelete.id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setCartItems(prevItems => prevItems.filter(item => item.id !== itemToDelete.id));
+        fetchcartStatus();
+        handleCloseModal();
+      } catch (error) {
+        console.error('Error removing item from cart:', error);
+      }
+    }
+
+    handleCloseModal();
+  };
   const handleCheckout = () => {
     const outOfStockItems = cartItems.filter(item => item?.Inventory?.extraOptionOutOfStock);
     if (outOfStockItems.length > 0) {
@@ -273,47 +275,6 @@ const CartPage = () => {
                           </Typography>
                         </Grid>
                       </Grid> */}
-
-                      <Modal open={modalOpen} onClose={handleCloseModal}>
-                        <Box sx={{
-                          position: 'absolute',
-                          top: '50%',
-                          left: '50%',
-                          transform: 'translate(-50%, -50%)',
-                          width: 400,
-                          bgcolor: 'background.paper',
-                          boxShadow: 24,
-                          padding: "16px 32px",
-                          borderRadius: 2,
-                        }}>
-                          <IconButton onClick={handleCloseModal} sx={{ position: 'absolute', top: 4, right: 4 }}>
-                            <Close />
-                          </IconButton>
-                          <Typography variant="h6" component="h2">
-                            Are you sure you want to delete this item?
-                          </Typography>
-                          <Divider />
-                          <Box sx={{ mt: 2 }}>
-                            <Button
-                              variant="ghost"
-                              color="secondary"
-                              onClick={() => handleAddToWishlistClick(item)}
-                              sx={{ width: "55%" }}
-                            >
-                              Add to Wishlist
-                            </Button>
-                            {/* <Divider orientation="vertical" variant="middle" flexItem /> */}
-                            <Button
-                              variant="ghost"
-                              color="secondary"
-                              onClick={() => handleRemove(item?.id)}
-                              sx={{ width: "40%" }}
-                            >
-                              Remove
-                            </Button>
-                          </Box>
-                        </Box>
-                      </Modal>
                     </CardContent>
 
                     <Grid container justifyContent="space-between" alignItems="flex-start" style={{ position: "absolute", bottom: "3px", width: "100%", overflow: "hidden", paddingLeft: "120px", paddingRight: "15px" }}
@@ -331,7 +292,7 @@ const CartPage = () => {
                     </Grid>
                     <IconButton
                       aria-label="Add to Wishlist"
-                      onClick={handleOpenModal}
+                      onClick={() => handleOpenModal(item)}
                       // onClick={() => handleRemoveFromCart(item.id)}
                       sx={{ position: 'absolute', top: 4, right: 4, zIndex: 1, padding: "2px", backgroundColor: "#F0F0F0" }}
                     >
@@ -487,6 +448,47 @@ const CartPage = () => {
           </Button>
         ))}
       </Box> */}
+
+      <Modal open={modalOpen} onClose={handleCloseModal}>
+        <Box sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 400,
+          bgcolor: 'background.paper',
+          boxShadow: 24,
+          padding: "16px 32px",
+          borderRadius: 2,
+        }}>
+          <IconButton onClick={handleCloseModal} sx={{ position: 'absolute', top: 4, right: 4 }}>
+            <Close />
+          </IconButton>
+          <Typography variant="h6" component="h2">
+            Are you sure you want to delete this item?
+          </Typography>
+          <Divider />
+          <Box sx={{ mt: 2 }}>
+            <Button
+              variant="ghost"
+              color="secondary"
+              onClick={() => handleAddToWishlist()}
+              sx={{ width: "55%" }}
+            >
+              Add to Wishlist
+            </Button>
+            {/* <Divider orientation="vertical" variant="middle" flexItem /> */}
+            <Button
+              variant="ghost"
+              color="secondary"
+              onClick={() => handleRemoveFromCart()}
+              sx={{ width: "40%" }}
+            >
+              Remove
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </Box >
   );
 };

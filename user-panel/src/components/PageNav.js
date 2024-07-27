@@ -367,25 +367,48 @@ export default function PageNav({ children }) {
         </List>
         <Divider />
         {isAuthenticated && (
-          <ListItem
-            key={"Logout"}
-            onClick={() => logout()}
-            disablePadding
-            sx={{ display: "block" }}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
+          <>
+            <Link href="/setting">
+              <ListItem
+                key={"setting"}
+                onClick={() => setOpenTab("setting".toLowerCase())}
+                disablePadding
+                sx={{ display: "block" }}
+              >
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                >
+                  <ListItemText
+                    primary={"Settings"}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+            <ListItem
+              key={"Logout"}
+              onClick={() => logout()}
+              disablePadding
+              sx={{ display: "block" }}
             >
-              <ListItemText
-                primary={"Logout"}
-                sx={{ opacity: open ? 1 : 0 }}
-              />
-            </ListItemButton>
-          </ListItem>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+              >
+                <ListItemText
+                  primary={"Logout"}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+              </ListItemButton>
+            </ListItem>
+          </>
         )}
       </Drawer>
       <Main component="main" sx={{

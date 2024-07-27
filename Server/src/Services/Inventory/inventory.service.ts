@@ -541,16 +541,23 @@ export class InventoryService {
       throw error;
     }
   }
-
   async getInventoriesByCategory(categoryId: number, subCategoryId?: number) {
     if (!categoryId) {
       throw new ApiBadRequestError("Category ID is required");
     }
 
-    const whereClause = {
+    const whereClause: any = {
       categoryId: categoryId,
-      ...(subCategoryId && { subCategoryId: subCategoryId }),
     };
+
+    if (subCategoryId) {
+      whereClause.InventorySubcategory = {
+        some: {
+          subcategoryid: subCategoryId,
+        },
+      };
+    }
+    console.log("whereClause:", JSON.stringify(whereClause, null, 2));
 
     const inventories = await prisma.inventory.findMany({
       where: whereClause,
@@ -567,14 +574,6 @@ export class InventoryService {
         Category: true,
         InventorySubcategory: { include: { SubCategory: true } },
         Wishlist: true,
-        // ProductInventory: {
-        //   include: {
-        //     product: {
-        //       include: { sizes: true },
-        //     },
-        //     selectedSizes: true,
-        //   },
-        // },
         ColorVariations: { include: { Color: true } },
         relatedInventories: {
           include: {
@@ -589,7 +588,6 @@ export class InventoryService {
         Media: true,
         SizeChartMedia: true,
       },
-
       orderBy: {
         updatedAt: "desc",
       },

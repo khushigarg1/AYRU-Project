@@ -43,7 +43,6 @@ export const createInventory = async (
     reply.status(500).send({ message: (error as Error).message, error: error });
   }
 };
-
 export const getInventoriesByCategory = async (
   request: FastifyRequest,
   reply: FastifyReply

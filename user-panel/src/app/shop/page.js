@@ -33,6 +33,8 @@ const ShopPageContent = () => {
 
   useEffect(() => {
     if (categoryId || subcategoryId) {
+      setSelectedCategory(categoryId);
+      setSelectedSubcategory(subcategoryId && subcategoryId)
       fetchCategories();
     } else {
       fetchAllInventory();

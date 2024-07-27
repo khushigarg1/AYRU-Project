@@ -7,7 +7,7 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
 
   useEffect(() => {
     setSelections({
-      selectedOption: hasBedsheets ? 'flat' : '',
+      selectedOption: 'flat',
       selectedFlatItem: defaultFlatItem,
       selectedFittedItem: '',
       selectedCustomFittedItem: '',

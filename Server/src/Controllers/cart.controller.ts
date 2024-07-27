@@ -63,7 +63,7 @@ export async function removeFromCart(
   reply: FastifyReply
 ) {
   const { id } = request.user;
-  const { cartItemId } = request.params as any;
+  const { id: cartItemId } = request.params as any;
 
   try {
     await cartService.removeFromCart(Number(id), parseInt(cartItemId));

@@ -16,7 +16,7 @@ export default async function CartRoutes(server: FastifyInstance) {
     updateCart
   );
   server.delete(
-    "/:cartItemId",
+    "/:id",
     { preHandler: [server.authenticateUser] },
     removeFromCart
   );

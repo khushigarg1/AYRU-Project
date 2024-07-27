@@ -425,13 +425,17 @@ export class CartService {
     });
 
     let totalPrice = 0;
+
     userCart.forEach((cartItem) => {
-      // const inventory = cartItem.Inventory;
-      // if (inventory) {
-      const price = cartItem?.discountedPrice ?? cartItem?.sellingPrice ?? 0;
-      const quantity = cartItem.quantity ?? 1;
+      const price: number =
+        cartItem?.discountedPrice !== undefined &&
+        cartItem?.discountedPrice !== 0
+          ? cartItem.discountedPrice ?? 0
+          : cartItem?.sellingPrice ?? 0;
+
+      const quantity = cartItem?.quantity ?? 1;
+
       totalPrice += price * quantity;
-      // }
     });
 
     // let totalPrice = 0;

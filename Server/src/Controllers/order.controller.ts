@@ -6,6 +6,7 @@ import {
   updateOrderService,
   deleteOrderService,
   razorPayWebhookService,
+  getOrderByIdService,
 } from "../Services/order.service";
 
 import crypto from "crypto";
@@ -42,6 +43,25 @@ export async function getOrder(request: FastifyRequest, reply: FastifyReply) {
     const { id } = request.user;
 
     const order = await getOrderService(Number(id));
+    if (order) {
+      return reply.code(200).send(order);
+    }
+    return reply.code(404).send({ message: "Order not found" });
+  } catch (error) {
+    return reply.code(500).send(error);
+  }
+}
+
+// Get order by id
+export async function getOrderbyId(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  try {
+    const { id: userId } = request.user;
+    const { id: orderId } = request.params as { id: string };
+
+    const order = await getOrderByIdService(Number(orderId), Number(userId));
     if (order) {
       return reply.code(200).send(order);
     }

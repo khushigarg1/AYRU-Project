@@ -109,6 +109,10 @@ const ItemDetails = ({ product }) => {
       setQuantity(value);
     }
   };
+  useEffect(() => {
+    console.log("hey");
+    setQuantity(displayMinQuantity)
+  }, [selections])
   //-------------------------------------------------------------------------------
   useEffect(() => {
     const fetchcartStatus = async () => {
@@ -173,6 +177,7 @@ const ItemDetails = ({ product }) => {
 
 
   const handleAddToCart = async () => {
+    console.log(selections);
     if (selections?.selectedOption === '') {
       setSnackbarMessage('Please select a size option before adding to the cart.');
       setOpenSnackbar(true);
@@ -190,7 +195,6 @@ const ItemDetails = ({ product }) => {
       return;
     }
     if (selections?.selectedOption === 'custom' && (selections?.selectedCustomFittedItem === '' || selections?.dimensions?.width === '' || selections?.dimensions?.height === '' || selections?.dimensions?.length === '')) {
-
       setSnackbarMessage('Please fill all sizes before adding to the cart.');
       setOpenSnackbar(true);
       return;
@@ -217,7 +221,7 @@ const ItemDetails = ({ product }) => {
         customId: selectedCustomFitted ? parseInt(selectedCustomFitted.id) : null,
         ...getPricesBasedOnSizeOption(selections?.selectedOption, product),
         sizeOption: selections?.selectedOption,
-        selectedFlatItem: selectedFlat?.Flat?.name,
+        selectedFlatItem: selectedFlat?.Flat?.name + selectedFlat?.Flat?.size,
         selectedFittedItem: selectedFitted?.Fitted?.name,
         selectedCustomFittedItem: selectedCustomFitted?.InventoryFlat?.Flat?.name,
         unit: selections?.selectedUnit,
@@ -392,7 +396,8 @@ const ItemDetails = ({ product }) => {
                   <TextField
                     variant='standard'
                     value={quantity}
-                    onChange={handleChange}
+                    // onChange={handleChange}
+                    // disabled
                     inputProps={{
                       min: displayMinQuantity || 1,
                       max: displayMaxQuantity || Infinity,
