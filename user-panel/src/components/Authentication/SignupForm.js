@@ -10,13 +10,10 @@ const SignUpForm = ({ switchToLogin }) => {
   const { setUser, closeAuthModal } = useAuth();
   const [email, setEmail] = useState('');
   const [emailOTP, setEmailOTP] = useState('');
-  const [phone, setPhone] = useState('');
-  const [phoneOTP, setPhoneOTP] = useState('');
   const [step, setStep] = useState(1);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
-  const [alreadyVerify, setAlreadyVerify] = useState(false);
 
   const handleSendEmailOTP = async () => {
     try {
@@ -35,25 +32,17 @@ const SignUpForm = ({ switchToLogin }) => {
   const handleVerifyEmailOTP = async () => {
     try {
       const response = await api.post('/auth/verify-email-otp', { email, OTP: emailOTP, role: 'user' });
-      const { isPhoneVerified, isEmailVerified } = response?.data?.data?.userdata;
+      const { isEmailVerified } = response?.data?.data?.userdata;
       if (isEmailVerified) {
         const token = response?.data?.accessToken;
         Cookies.set('token', token, { expires: 365 });
-
-        // const expirationDate = new Date(new Date().getTime() + 3 * 60 * 1000); // 5 minutes from now
-        // Cookies.set('token', token, { expires: expirationDate });
-
         api.defaults.headers.Authorization = `Bearer ${token}`;
         const { data: user } = await api.get(`auth/${response?.data?.data?.userdata?.id}`);
         setUser(user);
         setSnackbarMessage(response?.data?.message || 'Email verified successfully');
         setSnackbarSeverity('success');
         setSnackbarOpen(true);
-        if (isPhoneVerified) {
-          setPhone(response?.data?.data?.userdata?.phoneNumber)
-          setAlreadyVerify(true);
-        }
-        setStep(3);
+        closeAuthModal();
       } else {
         setSnackbarMessage(response?.data?.data?.message || 'Invalid email OTP');
         setSnackbarSeverity('error');
@@ -61,52 +50,6 @@ const SignUpForm = ({ switchToLogin }) => {
       }
     } catch (error) {
       setSnackbarMessage(error?.response?.data?.message || 'Invalid email OTP');
-      setSnackbarSeverity('error');
-      setSnackbarOpen(true);
-    }
-  };
-
-  const handleSendPhoneOTP = async () => {
-    try {
-      const response = await api.post('/auth/send-phone-otp', { email, phoneNumber: phone, role: 'user' });
-      setStep(4);
-      setSnackbarMessage(response?.data?.message || 'OTP sent to your phone number!');
-      setSnackbarSeverity('success');
-      setSnackbarOpen(true);
-    } catch (error) {
-      console.error('Error sending phone OTP:', error);
-      setSnackbarMessage(error?.response?.data?.message || 'Failed to send phone OTP');
-      setSnackbarSeverity('error');
-      setSnackbarOpen(true);
-    }
-  };
-
-  const handleVerifyPhoneOTP = async () => {
-    try {
-      const response = await api.post('/auth/verify-phone-otp', { phoneNumber: phone, OTP: phoneOTP, role: 'user' });
-      const { isPhoneVerified } = response?.data?.data?.userdata;
-      if (isPhoneVerified) {
-        const token = response?.data?.accessToken;
-        Cookies.set('token', token, { expires: 365 });
-
-        // const expirationDate = new Date(new Date().getTime() + 5 * 60 * 1000); // 5 minutes from now
-        // Cookies.set('token', token, { expires: expirationDate });
-
-        api.defaults.headers.Authorization = `Bearer ${token}`;
-        const { data: user } = await api.get(`auth/${response?.data?.data?.userdata?.id}`);
-        setUser(user);
-        setSnackbarMessage(response?.data?.message || 'Phone number verified successfully');
-        setSnackbarSeverity('success');
-        setSnackbarOpen(true);
-        closeAuthModal();
-      } else {
-        setSnackbarMessage(response?.data?.message || 'Invalid phone OTP');
-        setSnackbarSeverity('error');
-        setSnackbarOpen(true);
-      }
-    } catch (error) {
-      console.error('Error verifying phone OTP:', error);
-      setSnackbarMessage(error?.response?.data?.message || 'Invalid phone OTP');
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
     }
@@ -145,39 +88,6 @@ const SignUpForm = ({ switchToLogin }) => {
               <TextField fullWidth label="Email OTP" value={emailOTP} onChange={(e) => setEmailOTP(e.target.value)} margin="normal" />
               <Button fullWidth variant="contained" color="primary" onClick={handleVerifyEmailOTP} sx={{ mt: 2 }}>
                 Verify OTP
-              </Button>
-            </Box>
-          )}
-          {step === 3 ? (
-            setAlreadyVerify ? (
-              <Box>
-                <TextField fullWidth label="Email" value={email} disabled margin="normal" />
-                <TextField fullWidth label="Phone Number" value={phone} disabled margin="normal" />
-                <Typography color="secondary">Phone number is already verified!!</Typography>
-                <Button fullWidth variant="contained" color="secondary" onClick={closeAuthModal} sx={{ mt: 2 }}>
-                  Go to Website
-                </Button>
-              </Box>
-            ) : (
-              <Box>
-                <TextField fullWidth label="Email" value={email} disabled margin="normal" />
-                <TextField fullWidth label="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} margin="normal" />
-                <Button fullWidth variant="contained" color="primary" onClick={handleSendPhoneOTP} sx={{ mt: 2 }}>
-                  Send Phone OTP
-                </Button>
-                <Button fullWidth variant="contained" color="secondary" onClick={closeAuthModal} sx={{ mt: 2 }}>
-                  Go to Website
-                </Button>
-              </Box>
-            )
-          ) : null}
-          {step === 4 && (
-            <Box>
-              <TextField fullWidth label="Email" value={email} disabled margin="normal" />
-              <TextField fullWidth label="Phone Number" value={phone} disabled margin="normal" />
-              <TextField fullWidth label="Phone OTP" value={phoneOTP} onChange={(e) => setPhoneOTP(e.target.value)} margin="normal" />
-              <Button fullWidth variant="contained" color="primary" onClick={handleVerifyPhoneOTP} sx={{ mt: 2 }}>
-                Verify Phone OTP
               </Button>
             </Box>
           )}

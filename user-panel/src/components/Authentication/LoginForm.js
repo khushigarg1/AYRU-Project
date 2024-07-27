@@ -44,9 +44,6 @@ const LoginForm = ({ switchToSignUp }) => {
         const token = response?.data?.accessToken;
         Cookies.set('token', token, { expires: 365 });
 
-        // const expirationDate = new Date(new Date().getTime() + 5 * 60 * 1000); // 5 minutes from now
-        // Cookies.set('token', token, { expires: expirationDate });
-
         api.defaults.headers.Authorization = `Bearer ${token}`;
         const { data: user } = await api.get(`auth/${response?.data?.data.userdata.id}`);
         setUser(user);
@@ -69,14 +66,11 @@ const LoginForm = ({ switchToSignUp }) => {
       const response = await api.post('/auth/user/login', { email, password, role: 'user' });
       const { isPhoneVerified, isEmailVerified } = response?.data?.data;
       if (isEmailVerified) {
-        setSnackbarMessage(response?.data?.message || 'Verified sucessfully!!');
+        setSnackbarMessage(response?.data?.message || 'Verified successfully!!');
         setSnackbarSeverity('success');
         setSnackbarOpen(true);
         const token = response?.data?.accessToken;
         Cookies.set('token', token, { expires: 365 });
-
-        // const expirationDate = new Date(new Date().getTime() + 5 * 60 * 1000); // 5 minutes from now
-        // Cookies.set('token', token, { expires: expirationDate });
 
         api.defaults.headers.Authorization = `Bearer ${token}`;
         const { data: user } = await api.get(`auth/${response?.data?.data?.id}`);
