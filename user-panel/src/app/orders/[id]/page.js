@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container, Card, CardContent, Typography, Grid, Box, CardMedia, Chip, IconButton, Divider, Accordion, AccordionSummary, AccordionDetails, Tooltip } from '@mui/material';
+import { Container, Card, CardContent, Typography, Grid, Box, CardMedia, Chip, IconButton, Divider, Accordion, AccordionSummary, AccordionDetails, Tooltip, useTheme } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import api from '../../../../api';
 import Cookies from 'js-cookie';
@@ -15,7 +15,7 @@ const OrderDetails = ({ params }) => {
   const [order, setOrder] = useState(null);
   const { user } = useAuth();
   const router = useRouter();
-
+  const theme = useTheme();
   useEffect(() => {
     const fetchOrders = async () => {
       const token = Cookies.get('token');
@@ -48,83 +48,11 @@ const OrderDetails = ({ params }) => {
   };
 
   return (
-    <Container p={0}>
-      <Typography variant="h4" gutterBottom>Order Details</Typography>
+    <Container p={0} mb={14}>
+      {/* <Typography variant="h4" gutterBottom>Order Details</Typography> */}
       {order && (
         <>
-          <Grid container spacing={1} pl={0} mt={1} pr={0}>
-            <Grid item xs={12}>
-              <Card sx={{
-                position: 'relative',
-                display: 'flex',
-                flexDirection: 'row',
-                height: '100%',
-                cursor: "pointer",
-                backgroundColor: "white",
-                maxHeight: "100%",
-                padding: "15px 5px",
-                boxShadow: "none"
-              }}
-                onClick={() => router.push(`/order/${order.id}`)}
-              >
-                <Box sx={{ position: 'relative' }}>
-                  <Chip
-                    label={
-                      <div style={{ textAlign: 'center' }}>
-                        <Typography variant="caption" component="span" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
-                          {order?.orderItems?.length}
-                        </Typography>
-                      </div>
-                    }
-                    color="secondary"
-                    size="small"
-                    sx={{
-                      position: 'absolute',
-                      top: 0,
-                      right: 0,
-                      zIndex: 1,
-                      padding: '4px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      height: '18px',
-                      width: '18px',
-                      borderRadius: '50%',
-                      fontSize: '1px',
-                      fontWeight: 'bold',
-                    }}
-                  />
-                  <CardMedia
-                    component="img"
-                    image={`https://ayru-jaipur.s3.amazonaws.com/${order?.orderItems[0]?.inventory?.Media[0]?.url}`}
-                    alt={order?.orderItems[0]?.inventory?.productName}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      router.push(`/shop/${order?.orderItems[0]?.inventory?.id}`);
-                    }}
-                    sx={{
-                      objectFit: 'fit',
-                      height: "120px",
-                      width: "100px",
-                      padding: "5px",
-                      borderRadius: "0px"
-                    }}
-                  />
-                </Box>
-                <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" }, paddingTop: "0px" }}>
-                  <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>Order #{order.id} / {formatDate(order.createdAt)}</Typography>
-                  <Typography variant="body2"><strong>Order Status: </strong>{order.status}</Typography>
-                  <Typography variant="body2"><strong>Payment Status: </strong>{order.paymentStatus}</Typography>
-                  <Typography variant="body2"><strong>Delivery Status: </strong>{order.deliveryStatus}</Typography>
-                  <Typography variant="body2"><strong>Total: </strong>Rs.{order.Total}</Typography>
-                </CardContent>
-              </Card>
-              <Divider />
-            </Grid>
-          </Grid>
-
-          {/* Tracking Details */}
-          <Typography variant="h5" gutterBottom mt={2}>Tracking Details</Typography>
+          <Typography variant="h6" gutterBottom mt={2} sx={{ fontWeight: "bolder" }}>Order Details</Typography>
           <Card sx={{
             position: 'relative',
             display: 'flex',
@@ -133,6 +61,34 @@ const OrderDetails = ({ params }) => {
             cursor: "pointer",
             backgroundColor: "#F0F0F0",
             maxHeight: "100%",
+            padding: "15px 5px",
+            boxShadow: "none"
+          }}
+            onClick={() => router.push(`/order/${order.id}`)}
+          >
+            <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" }, paddingTop: "0px" }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>OrderId: {order.orderid}</Typography>
+              <Typography variant="body2" sx={{ fontWeight: "bold" }}>Placed on: {formatDate(order.createdAt)}</Typography>
+              <Typography variant="body2"><strong>Order Status: </strong>{order.status}</Typography>
+              <Typography variant="body2"><strong>Payment Status: </strong>{order.paymentStatus}</Typography>
+              <Typography variant="body2"><strong>Delivery Status: </strong>{order.deliveryStatus}</Typography>
+              <Typography variant="body2"><strong>Total Items: </strong>{order?.orderItems.length}</Typography>
+              <Typography variant="body2"><strong>Order Total: </strong>Rs.{order.Total}</Typography>
+            </CardContent>
+          </Card>
+          <Divider />
+
+          {/* Tracking Details */}
+          <Typography variant="h6" gutterBottom mt={2} sx={{ fontWeight: "bolder" }}>Tracking Details</Typography>
+          <Card sx={{
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'row',
+            height: '100%',
+            cursor: "pointer",
+            backgroundColor: "#F0F0F0",
+            maxHeight: "100%", boxShadow: "none"
+
           }}>
             <Box sx={{ position: 'relative' }}>
               <CardMedia
@@ -298,12 +254,12 @@ const OrderDetails = ({ params }) => {
                             <Grid container justifyContent="space-between" alignItems="flex-start" style={{ position: "absolute", bottom: "3px", width: "100%", overflow: "hidden", paddingRight: "20px" }}>
                               <Grid item>
                                 <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "12px" }}>
-                                  {`🛒 QTY: ${item?.quantity || 0} × ₹${item?.inventory?.discountedPrice ? item?.inventory?.discountedPrice : item?.inventory?.sellingPrice} =`}
+                                  {`🛒 QTY: ${item?.quantity || 0} × ₹${item?.discountedPrice ? item?.discountedPrice : item?.sellingPrice} =`}
                                 </Typography>
                               </Grid>
                               <Grid item>
                                 <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "12px" }}>
-                                  {`₹${(item?.quantity * (item?.inventory?.discountedPrice || item?.inventory?.sellingPrice)).toFixed(2)}`}
+                                  {`₹${(item?.quantity * (item?.discountedPrice || item?.sellingPrice)).toFixed(2)}`}
                                 </Typography>
                               </Grid>
                             </Grid>
@@ -317,25 +273,16 @@ const OrderDetails = ({ params }) => {
             </AccordionDetails>
           </Accordion>
           {/* Shipping Address */}
-          <Typography variant="h5" gutterBottom mt={2}>Shipping Address</Typography>
-          <Card>
+          <Typography variant="h6" gutterBottom mt={2} sx={{ fontWeight: "bolder" }}>Shipping Address</Typography>
+          <Card >
             <CardContent>
-              <Typography variant="body2"><strong>Name: </strong>{order.shippingAddress?.name}</Typography>
-              <Typography variant="body2"><strong>Address: </strong>{order.shippingAddress?.address}</Typography>
-              <Typography variant="body2"><strong>City: </strong>{order.shippingAddress?.city}</Typography>
-              <Typography variant="body2"><strong>State: </strong>{order.shippingAddress?.state}</Typography>
-              <Typography variant="body2"><strong>Postal Code: </strong>{order.shippingAddress?.postalCode}</Typography>
-              <Typography variant="body2"><strong>Country: </strong>{order.shippingAddress?.country}</Typography>
-            </CardContent>
-          </Card>
-
-          {/* User Details */}
-          <Typography variant="h5" gutterBottom mt={2}>User Details</Typography>
-          <Card>
-            <CardContent>
-              <Typography variant="body2"><strong>Name: </strong>{order.user?.name}</Typography>
-              <Typography variant="body2"><strong>Email: </strong>{order.user?.email}</Typography>
-              <Typography variant="body2"><strong>Phone: </strong>{order.user?.phone}</Typography>
+              <Typography variant="body2">
+                <Typography variant="body2"><strong>Name: </strong>{order?.shippingAddress?.userName}</Typography>
+                <Typography variant="body2"><strong>Phone No.: </strong>{order?.shippingAddress?.phoneNumber}</Typography>
+                <Typography variant="body2"><strong>Alternate Phone No.: </strong>{order?.shippingAddress?.alternateMobileNumber}</Typography>
+                <strong>Shipping Address: </strong>
+                {order.shippingAddress && `${order.shippingAddress.addressLine1}, ${order.shippingAddress.addressLine2 ? `${order.shippingAddress.addressLine2}, ` : ''}${order.shippingAddress.city}, ${order.shippingAddress.state}, ${order.shippingAddress.pincode}, ${order.shippingAddress.country}`}
+              </Typography>
             </CardContent>
           </Card>
 

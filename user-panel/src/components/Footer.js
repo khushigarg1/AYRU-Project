@@ -6,7 +6,7 @@ import { Facebook, Twitter, Instagram, LinkedIn } from '@mui/icons-material';
 const Footer = () => {
   const theme = useTheme();
   return (
-    <Box sx={{ bgcolor: theme.palette.background.primary, color: 'black', py: 4 }}>
+    <Box sx={{ bgcolor: theme.palette.background.primary, color: 'black', py: 4 }} mt={4}>
       <Container maxWidth="lg">
         <Grid container spacing={3}>
           {/* Footer Column 1 */}

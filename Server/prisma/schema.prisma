@@ -425,6 +425,9 @@ model OrderItem {
   inventoryId              Int
   cartId                   Int?
   quantity                 Int
+  discountedPrice          Float?
+  sellingPrice             Float?
+  costPrice                Float?
   sizeOption               String?
   selectedFlatItem         String?
   selectedFittedItem       String?
@@ -440,6 +443,7 @@ model OrderItem {
 model ShippingAddress {
   id                    Int      @id @default(autoincrement())
   userId                Int
+  userName              String?
   addressLine1          String
   addressLine2          String?
   pincode               String

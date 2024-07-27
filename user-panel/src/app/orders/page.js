@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container, Card, CardContent, Typography, Grid, Box, CardMedia, Chip, IconButton, Divider } from '@mui/material';
+import { Container, Card, CardContent, Typography, Grid, Box, CardMedia, Chip, IconButton, Divider, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import api from '../../../api';
 import Cookies from 'js-cookie';
@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
+  const [filter, setFilter] = useState('all');
   const { user } = useAuth();
   const router = useRouter();
 
@@ -31,6 +32,15 @@ const Orders = () => {
     fetchOrders();
   }, [user]);
 
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
+
+  const filteredOrders = orders.filter(order => {
+    if (filter === 'all') return true;
+    return order.status === filter;
+  });
+
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
@@ -38,9 +48,24 @@ const Orders = () => {
 
   return (
     <Container p={0}>
-      <Typography variant="h4" gutterBottom>Orders</Typography>
+      <Typography variant="h4" gutterBottom sx={{ fontWeight: "bolder" }}>My Orders</Typography>
+      <FormControl variant="outlined" fullWidth margin="normal">
+        <InputLabel id="filter-label">Filter by Status</InputLabel>
+        <Select
+          labelId="filter-label"
+          id="filter"
+          value={filter}
+          onChange={handleFilterChange}
+          label="Filter by Status"
+        >
+          <MenuItem value="all">All</MenuItem>
+          <MenuItem value="success">Success</MenuItem>
+          <MenuItem value="pending">Pending</MenuItem>
+          <MenuItem value="failed">Failed</MenuItem>
+        </Select>
+      </FormControl>
       <Grid container spacing={1} pl={0} mt={1} pr={0}>
-        {orders?.map((order) => (
+        {filteredOrders.map((order) => (
           <Grid item key={order.id} xs={12} sm={12} md={12} lg={12} sx={{ height: "auto" }}>
             <Card sx={{
               position: 'relative',
@@ -92,8 +117,8 @@ const Orders = () => {
                   }}
                   sx={{
                     objectFit: 'fit',
-                    height: "120px",
-                    width: "100px",
+                    height: "130px",
+                    width: "110px",
                     padding: "5px",
                     borderRadius: "0px"
                   }}
@@ -101,6 +126,7 @@ const Orders = () => {
               </Box>
               <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" }, paddingTop: "0px" }}>
                 <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>Order #{order.id} / {formatDate(order.createdAt)}</Typography>
+                <Typography variant="body2"><strong>Name: </strong>{order?.shippingAddress?.userName}</Typography>
                 <Typography variant="body2"><strong>Order Status: </strong>{order.status}</Typography>
                 <Typography variant="body2"><strong>Payment Status: </strong>{order.paymentStatus}</Typography>
                 <Typography variant="body2"><strong>Delivery Status: </strong>{order.deliveryStatus}</Typography>

@@ -10,7 +10,7 @@ const WishlistPage = () => {
   const { openAuthModal, user, wishlistCount, setWishlistCount } = useAuth();
   const [wishlistItems, setWishlistItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
+  const itemsPerPage = 20;
   const theme = useTheme();
   const [wishlsitId, setWishlistIds] = useState([]);
   const router = useRouter();

@@ -21,38 +21,39 @@ export async function createOrderService(
   try {
     const orderId = await generateOrderId();
 
-    let shippingAddress = await prisma.shippingAddress.findFirst({
-      where: { userId: userId },
-    });
+    // let shippingAddress = await prisma.shippingAddress.findFirst({
+    //   where: { userId: userId },
+    // });
 
-    if (!shippingAddress) {
-      shippingAddress = await prisma.shippingAddress.create({
-        data: {
-          userId: userId,
-          addressLine1: data.addressLine1,
-          addressLine2: data.addressLine2,
-          pincode: data.pincode,
-          city: data.city,
-          state: data.state,
-          country: data.country,
-          phoneNumber: data.phoneNumber,
-          alternateMobileNumber: data.alternateMobileNumber,
-        },
-      });
-    } else {
-      shippingAddress = await prisma.shippingAddress.update({
-        where: { id: shippingAddress.id },
-        data: {
-          addressLine2: data.addressLine2,
-          pincode: data.pincode,
-          city: data.city,
-          state: data.state,
-          country: data.country,
-          phoneNumber: data.phoneNumber,
-          alternateMobileNumber: data.alternateMobileNumber,
-        },
-      });
-    }
+    // if (!shippingAddress) {
+    let shippingAddress = await prisma.shippingAddress.create({
+      data: {
+        userId: userId,
+        userName: data?.firstName + data?.lastName,
+        addressLine1: data.addressLine1,
+        addressLine2: data.addressLine2,
+        pincode: data.pincode,
+        city: data.city,
+        state: data.state,
+        country: data.country,
+        phoneNumber: data.phoneNumber,
+        alternateMobileNumber: data.alternateMobileNumber,
+      },
+    });
+    // } else {
+    //   shippingAddress = await prisma.shippingAddress.update({
+    //     where: { id: shippingAddress.id },
+    //     data: {
+    //       addressLine2: data.addressLine2,
+    //       pincode: data.pincode,
+    //       city: data.city,
+    //       state: data.state,
+    //       country: data.country,
+    //       phoneNumber: data.phoneNumber,
+    //       alternateMobileNumber: data.alternateMobileNumber,
+    //     },
+    //   });
+    // }
 
     let updateduser = await prisma.user.update({
       where: { id: userId },
@@ -94,6 +95,9 @@ export async function createOrderService(
         data: {
           orderId: newOrder?.id,
           cartId: item?.id,
+          discountedPrice: item?.discountedPrice,
+          sellingPrice: item?.sellingPrice,
+          costPrice: item?.costPrice,
           inventoryId: item?.inventoryId,
           quantity: item?.quantity,
           sizeOption: item?.sizeOption,
@@ -274,6 +278,9 @@ export async function deleteOrderService(id: number): Promise<Order | null> {
 
 export async function razorPayWebhookService(data: any) {
   try {
+    console.log(JSON.stringify(data));
+
+    // const referenceId = data?.reference_id;
     const referenceId = data?.payload?.payment_link?.entity?.reference_id;
 
     if (!referenceId) {

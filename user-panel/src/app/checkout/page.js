@@ -96,12 +96,12 @@ const CheckoutPage = () => {
         });
         setCartItems(response?.data?.data?.userCart);
         setTotalCount(response?.data?.data?.totalPrice);
-
         setOrderData((prevOrderData) => ({
           ...prevOrderData,
           orderItems: response?.data?.data?.userCart,
           Total: response?.data?.data?.totalPrice
         }));
+        console.log(response?.data?.data?.userCart);
       }
     } catch (error) {
       console.error('Error fetching cart:', error);

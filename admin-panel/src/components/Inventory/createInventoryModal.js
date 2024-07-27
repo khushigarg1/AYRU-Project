@@ -147,7 +147,7 @@ const CreateInventoryModal = ({ open, handleClose, refresh }) => {
             </MenuItem>
           ))}
         </TextField>
-        <TextField
+        {/* <TextField
           select
           label="Subcategory"
           name="subCategoryId"
@@ -163,7 +163,7 @@ const CreateInventoryModal = ({ open, handleClose, refresh }) => {
               {subcategory.subcategoryName}
             </MenuItem>
           ))}
-        </TextField>
+        </TextField> */}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
           <Button variant="outlined" color="secondary" onClick={handleClose}>
             Cancel
