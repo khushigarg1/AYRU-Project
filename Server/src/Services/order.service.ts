@@ -202,6 +202,48 @@ export async function getOrderByIdService(
     },
   });
 }
+// Get Single Order Service
+export async function getOrderByAdminIdService(
+  orderId: number
+): Promise<Order | null> {
+  console.log(orderId);
+
+  return await prisma.order.findFirst({
+    where: { id: orderId },
+    include: {
+      Inventory: true,
+      orderItems: {
+        include: {
+          inventory: {
+            include: {
+              InventoryFlat: { include: { Flat: true } },
+              InventorySubcategory: { include: { SubCategory: true } },
+              customFittedInventory: {
+                include: { InventoryFlat: { include: { Flat: true } } },
+              },
+              InventoryFitted: {
+                include: {
+                  Fitted: true,
+                },
+              },
+              Category: true,
+              Wishlist: true,
+              ColorVariations: { include: { Color: true } },
+              relatedInventories: { include: { Media: true } },
+              relatedByInventories: { include: { Media: true } },
+              Media: true,
+            },
+          },
+        },
+      },
+      user: true,
+      shippingAddress: true,
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
+  });
+}
 
 // Get Single Order Service
 export async function getOrderService(id: number): Promise<Order[] | null> {
@@ -248,7 +290,31 @@ export async function getOrdersService(): Promise<Order[]> {
   return await prisma.order.findMany({
     include: {
       Inventory: true,
-      orderItems: true,
+
+      orderItems: {
+        include: {
+          inventory: {
+            include: {
+              InventoryFlat: { include: { Flat: true } },
+              InventorySubcategory: { include: { SubCategory: true } },
+              customFittedInventory: {
+                include: { InventoryFlat: { include: { Flat: true } } },
+              },
+              InventoryFitted: {
+                include: {
+                  Fitted: true,
+                },
+              },
+              Category: true,
+              Wishlist: true,
+              ColorVariations: { include: { Color: true } },
+              relatedInventories: { include: { Media: true } },
+              relatedByInventories: { include: { Media: true } },
+              Media: true,
+            },
+          },
+        },
+      },
       user: true,
       shippingAddress: true,
     },
@@ -349,16 +415,9 @@ export async function razorPayWebhookService(data: any) {
             where: { id: item?.cartId },
           });
         }
-        if (
-          item?.cartId &&
-          cartdata?.quantity &&
-          cartdata?.quantity > updatedQuantity
-        ) {
-          cartdata = await prisma.cart.update({
+        if (cartdata && item?.cartId) {
+          await prisma.cart.delete({
             where: { id: item?.cartId },
-            data: {
-              quantity: updatedQuantity,
-            },
           });
         }
 

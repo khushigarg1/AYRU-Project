@@ -23,6 +23,17 @@ const ProductDetails = ({ params }) => {
   const token = Cookies.get('token');
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isTablet = useMediaQuery(theme.breakpoints.down("lg"));
+  const [queryParams, setQueryParams] = useState({});
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const queryParamsObject = {};
+    for (const [key, value] of params.entries()) {
+      queryParamsObject[key] = value;
+    }
+    setQueryParams(queryParamsObject);
+    console.log(queryParams, queryParamsObject);
+  }, []);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -55,7 +66,7 @@ const ProductDetails = ({ params }) => {
           </Grid>
         </Grid>
       </Box> */}
-      <ItemDetails product={product} />
+      <ItemDetails product={product} queryParams={queryParams} />
       <Box style={{ display: "flex", justifyContent: "center" }}>
 
         {isTablet &&

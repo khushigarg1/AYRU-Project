@@ -1,7 +1,10 @@
+"use client";
 import Head from 'next/head';
-import { Container, Typography } from '@mui/material';
+import { Button, Container, Typography } from '@mui/material';
+import { WhatsappIcon } from 'next-share';
 
 export default function PrivacyPolicy() {
+  const whatsappMessage = "";
   return (
     <>
       <Head>
@@ -9,7 +12,7 @@ export default function PrivacyPolicy() {
         <meta name="description" content="Privacy Policy of AYRU JAIPUR website" />
       </Head>
       <Container>
-        <Typography variant="h2" component="h1" gutterBottom>
+        <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder" }}>
           Privacy Policy
         </Typography>
         <Typography paragraph>
@@ -79,6 +82,24 @@ export default function PrivacyPolicy() {
           If you have any questions about this Privacy Policy, please contact us at:
           <br />
           WhatsApp: +91-9785852222
+          {' '}
+          <Button
+            aria-label="Chat on WhatsApp"
+            href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            endIcon={<WhatsappIcon style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
+            sx={{
+              color: '#25D366',
+              fontWeight: 'bold',
+              textTransform: 'none',
+              mb: 0,
+              padding: "0px",
+            }}
+          >
+            WhatsApp
+          </Button>
+          {' '}
           <br />
           Email: ayrujaipur@gmail.com
           <br />

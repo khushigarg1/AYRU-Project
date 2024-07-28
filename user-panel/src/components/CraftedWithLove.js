@@ -19,7 +19,7 @@ export const CraftedWithLove = () => {
         const response = await api.get('/categories/visible');
         setCategories(response.data.data);
         setCategoryInventory(response.data.data[selectedCategory]?.Inventory.slice(0, 4));
-        setLoadMoreUrl(`/category/${response.data.data[selectedCategory]?.id}`);
+        setLoadMoreUrl(`/shop?categoryId=${response.data.data[selectedCategory]?.id}`);
       } catch (error) {
         console.error('Error fetching visible categories:', error);
       }
@@ -31,7 +31,8 @@ export const CraftedWithLove = () => {
   const handleCategoryChange = (event, newValue) => {
     setSelectedCategory(newValue);
     setCategoryInventory(categories[newValue]?.Inventory.slice(0, 4));
-    setLoadMoreUrl(`/category/${categories[newValue]?.id}`);
+    setLoadMoreUrl(`/shop?categoryId=${categories[newValue]?.id}`);
+    // setLoadMoreUrl(`/shop/${categories[newValue]?.id}`);
   };
 
   const handleLoadMore = () => {
@@ -44,10 +45,10 @@ export const CraftedWithLove = () => {
     <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: "2%", p: "1%", fontFamily: theme.palette.text.fontFamily }}>
       <Box style={{ width: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Typography variant={isMobile ? 'h4' : 'h3'} sx={{ mt: 2, color: theme.palette.text.text }}>
-          Crafted With Love
+          All Categories
         </Typography>
         <Typography variant='body1' sx={{ mt: 3, mb: 3, textAlign: 'center', fontSize: "16px" }}>
-          Dive into the World of Intricate Block Printing
+          Explore the timeless beauty and elegance of Hand-Block Printing
         </Typography>
       </Box>
       <Tabs

@@ -27,6 +27,7 @@
     "react-dom": "^18",
     "react-router-dom": "^6.23.1",
     "react-slick": "^0.30.2",
+    "react-to-print": "^2.15.1",
     "skeleton": "^0.1.2",
     "slick-carousel": "^1.8.1",
     "swr": "^2.2.4"

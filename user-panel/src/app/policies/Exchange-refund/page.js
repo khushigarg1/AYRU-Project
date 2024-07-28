@@ -1,7 +1,11 @@
+"use client";
 import Head from 'next/head';
-import { Container, Typography } from '@mui/material';
+import { Button, Container, Typography } from '@mui/material';
+import { WhatsappIcon } from 'next-share';
 
 export default function ReturnAndExchangePolicy() {
+
+  const whatsappMessage = "";
   return (
     <>
       <Head>
@@ -9,7 +13,7 @@ export default function ReturnAndExchangePolicy() {
         <meta name="description" content="Return and Exchange Policy of our website" />
       </Head>
       <Container>
-        <Typography variant="h2" component="h1" gutterBottom>
+        <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder" }}>
           Return and Exchange Policy
         </Typography>
         <Typography paragraph>
@@ -48,7 +52,24 @@ export default function ReturnAndExchangePolicy() {
           Return Shipping
         </Typography>
         <Typography paragraph>
-          <strong>1. Customer Responsibility:</strong> Customers are responsible for return shipping costs, unless the return is due to an error on our part. To ensure a smooth return process, please use the original packaging and affix the provided return shipping label/address. If you need assistance with the return shipping process, please contact our WhatsApp number +91-9785852222.
+          <strong>1. Customer Responsibility:</strong> Customers are responsible for return shipping costs, unless the return is due to an error on our part. To ensure a smooth return process, please use the original packaging and affix the provided return shipping label/address. If you need assistance with the return shipping process, please contact our {' '}
+          <Button
+            aria-label="Chat on WhatsApp"
+            href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            endIcon={<WhatsappIcon style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
+            sx={{
+              color: '#25D366',
+              fontWeight: 'bold',
+              textTransform: 'none',
+              mb: 0,
+              padding: "0px",
+            }}
+          >
+            WhatsApp
+          </Button>
+          {' '}.
         </Typography>
         <Typography paragraph>
           <strong>2. Shipping Loss/Damage:</strong> We are not responsible for the loss of shipment while returning the product or damage to the product incurred during the return process.
@@ -71,7 +92,25 @@ export default function ReturnAndExchangePolicy() {
           Additional Information
         </Typography>
         <Typography paragraph>
-          <strong>1. Further Questions:</strong> For any further questions or concerns regarding our return and refund policy, please reach out to our WhatsApp number.
+          <strong>1. Further Questions:</strong> For any further questions or concerns regarding our return and refund policy, please reach out to our
+          {' '}
+          <Button
+            aria-label="Chat on WhatsApp"
+            href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            endIcon={<WhatsappIcon style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
+            sx={{
+              color: '#25D366',
+              fontWeight: 'bold',
+              textTransform: 'none',
+              mb: 0,
+              padding: "0px",
+            }}
+          >
+            WhatsApp
+          </Button>
+          {' '}.
         </Typography>
         <Typography paragraph>
           <strong>2. Policy Copy:</strong> Please retain a copy of this policy for your reference. This policy is subject to change without prior notice.

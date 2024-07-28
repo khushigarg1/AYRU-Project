@@ -1,7 +1,10 @@
+"use client";
 import Head from 'next/head';
 import { Container, Typography } from '@mui/material';
-
+import { Button } from '@mui/material';
+import { WhatsappIcon } from 'next-share';
 export default function ShippingPolicy() {
+  const whatsappMessage = "";
   return (
     <>
       <Head>
@@ -9,7 +12,7 @@ export default function ShippingPolicy() {
         <meta name="description" content="Shipping and Delivery Policy of our website" />
       </Head>
       <Container>
-        <Typography variant="h2" component="h1" gutterBottom>
+        <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder" }}>
           Shipping and Delivery Policy
         </Typography>
         <Typography paragraph>
@@ -41,7 +44,24 @@ export default function ShippingPolicy() {
           <br />
           <strong>Delivery Time:</strong> Within India, orders usually arrive within 7-9 working days.
           <br />
-          <strong>Express Shipping:</strong> If you require express shipping, please leave us a note on WhatsApp while placing your order. We will inform you of any additional charges for this service.
+          <strong>Express Shipping:</strong> If you require express shipping, please leave us a note on {' '}
+          <Button
+            aria-label="Chat on WhatsApp"
+            href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            endIcon={<WhatsappIcon style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
+            sx={{
+              color: '#25D366',
+              fontWeight: 'bold',
+              textTransform: 'none',
+              mb: 0,
+              padding: "0px",
+            }}
+          >
+            WhatsApp
+          </Button>
+          {' '} while placing your order. We will inform you of any additional charges for this service.
         </Typography>
         <Typography variant="h5" component="h2">
           Tracking and Updates
@@ -58,7 +78,24 @@ export default function ShippingPolicy() {
           Any import duties, customs duties, or taxes related to the shipment in the destination country will be the responsibility of the customer.
         </Typography>
         <Typography paragraph>
-          Once your product is shipped, you will receive an update on your WhatsApp number.
+          Once your product is shipped, you will receive an update on your {' '}
+          <Button
+            aria-label="Chat on WhatsApp"
+            href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            endIcon={<WhatsappIcon style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
+            sx={{
+              color: '#25D366',
+              fontWeight: 'bold',
+              textTransform: 'none',
+              mb: 0,
+              padding: "0px",
+            }}
+          >
+            WhatsApp
+          </Button>
+          {' '} number.
         </Typography>
         <Typography paragraph>
           Thank you for your understanding and cooperation. We are committed to ensuring that your shopping experience with AYRU JAIPUR is smooth and satisfactory.

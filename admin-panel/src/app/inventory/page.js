@@ -11,6 +11,7 @@ import CreateInventoryModal from "@/src/components/Inventory/createInventoryModa
 import AddIcon from "@mui/icons-material/Add";
 import Link from "next/link";
 import { DeleteForever } from "@mui/icons-material";
+import { useDemoData } from '@mui/x-data-grid-generator';
 
 const HomePage = () => {
   const theme = useTheme();
@@ -20,6 +21,7 @@ const HomePage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({ open: false, severity: "error", message: "" });
   const [modalOpen, setModalOpen] = useState(false);
+  const [pageSize, setPageSize] = useState(5);
 
   useEffect(() => {
     fetchInventories();
@@ -167,7 +169,11 @@ const HomePage = () => {
           <DataGrid
             rows={inventories}
             columns={columns}
-            autoPageSize
+            // autoPageSize
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            rowsPerPageOptions={[5, 10, 20]}
+            pagination
             loading={loading}
             disableRowSelectionOnClick
             slots={{ toolbar: GridToolbar }}

@@ -127,7 +127,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
               fullWidth
               variant="outlined"
               margin="normal"
-              // type="number"
+              type="number"
               InputProps={{ inputProps: { step: 0.1 } }}
             />
           </Grid>
@@ -139,7 +139,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
               fullWidth
               variant="outlined"
               margin="normal"
-              // type="number"
+              type="number"
               InputProps={{ inputProps: { step: 0.1 } }}
             />
           </Grid>

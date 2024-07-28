@@ -3,11 +3,11 @@ import React from 'react';
 import Image from 'next/image';
 import { Box, Typography, Container } from '@mui/material';
 import { styled } from '@mui/system';
-import First from "../../../public/images/about/fifth.jpeg";
-import Second from "../../../public/images/about/second.jpeg";
-import Third from "../../../public/images/about/third.jpeg";
-import Fourth from "../../../public/images/about/fourth.jpeg";
-import Fifth from "../../../public/images/about/fifth.jpeg";
+import First from "../../../public/images/about/first.JPG";
+import Second from "../../../public/images/about/second.JPG";
+import Third from "../../../public/images/about/third.JPG";
+import Fourth from "../../../public/images/about/fourth.JPG";
+import Fifth from "../../../public/images/about/fifth.JPG";
 
 
 // const Image = styled('img')({

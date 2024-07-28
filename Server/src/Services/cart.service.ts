@@ -295,7 +295,59 @@ export class CartService {
     remark?: string
   ) {
     try {
-      const cartItem = await prisma.cart.create({
+      // Find an existing cart item
+      let existingCartItem;
+
+      // Find an existing cart item based on sizeOption
+      if (sizeOption === "flat") {
+        existingCartItem = await prisma.cart.findFirst({
+          where: {
+            userId,
+            inventoryId,
+            flatId,
+          },
+        });
+      } else if (sizeOption === "fitted") {
+        existingCartItem = await prisma.cart.findFirst({
+          where: {
+            userId,
+            inventoryId,
+            fittedId,
+          },
+        });
+      } else if (sizeOption === "custom") {
+        existingCartItem = await prisma.cart.findFirst({
+          where: {
+            userId,
+            inventoryId,
+            customId,
+            length,
+            width,
+            height,
+            unit,
+          },
+        });
+      }
+
+      console.log(
+        existingCartItem,
+        userId,
+        inventoryId,
+        flatId,
+        fittedId,
+        customId
+      );
+      // Check existing cart item and update quantity
+      if (existingCartItem) {
+        const updatedCartItem = await prisma.cart.update({
+          where: { id: existingCartItem.id },
+          data: { quantity: existingCartItem.quantity + quantity },
+        });
+        return updatedCartItem;
+      }
+
+      // If no existing item, create a new cart item
+      const newCartItem = await prisma.cart.create({
         data: {
           userId,
           inventoryId,
@@ -317,7 +369,7 @@ export class CartService {
           remark,
         },
       });
-      return cartItem;
+      return newCartItem;
     } catch (error: any) {
       throw new ApiBadRequestError(error.message);
     }

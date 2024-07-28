@@ -66,87 +66,95 @@ const Orders = () => {
       </FormControl>
       <Grid container spacing={1} pl={0} mt={1} pr={0}>
         {filteredOrders.map((order) => (
-          <Grid item key={order.id} xs={12} sm={12} md={12} lg={12} sx={{ height: "auto" }}>
-            <Card sx={{
-              position: 'relative',
-              display: 'flex',
-              flexDirection: 'row',
-              height: '100%',
-              cursor: "pointer",
-              backgroundColor: "white",
-              maxHeight: "100%",
-              padding: "15px 5px",
-              boxShadow: "none"
-            }}
-              onClick={() => router.push(`/orders/${order.id}`)}
-            >
-              <Box sx={{ position: 'relative' }}>
-                <Chip
-                  label={
-                    <div style={{ textAlign: 'center' }}>
-                      <Typography variant="caption" component="span" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
-                        {order?.orderItems.length}
-                      </Typography>
-                    </div>
-                  }
-                  color="secondary"
-                  size="small"
-                  sx={{
-                    position: 'absolute',
-                    top: 0,
-                    right: 0,
-                    zIndex: 1,
-                    padding: '4px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    height: '18px',
-                    width: '18px',
-                    borderRadius: '50%',
-                    fontSize: '1px',
-                    fontWeight: 'bold',
-                  }}
-                />
-                <CardMedia
-                  component="img"
-                  image={`https://ayru-jaipur.s3.amazonaws.com/${order?.orderItems[0]?.inventory?.Media[0]?.url}`}
-                  alt={order?.orderItems[0]?.inventory.productName}
+          <>
+            {order?.status === "pending" &&
+              (<>
+                <Typography color="red" mt={2}>
+                  Your payment is still pending. Please proceed to the cart and complete the checkout process again.
+                </Typography>
+              </>)}
+            <Grid item key={order.id} xs={12} sm={12} md={12} lg={12} sx={{ height: "100%" }}>
+              <Card sx={{
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'row',
+                height: '100%',
+                cursor: "pointer",
+                backgroundColor: "white",
+                maxHeight: "100%",
+                padding: "15px 5px",
+                boxShadow: "none"
+              }}
+                onClick={() => router.push(`/orders/${order.id}`)}
+              >
+                <Box sx={{ position: 'relative' }}>
+                  <Chip
+                    label={
+                      <div style={{ textAlign: 'center' }}>
+                        <Typography variant="caption" component="span" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
+                          {order?.orderItems.length}
+                        </Typography>
+                      </div>
+                    }
+                    color="secondary"
+                    size="small"
+                    sx={{
+                      position: 'absolute',
+                      top: 0,
+                      right: 0,
+                      zIndex: 1,
+                      padding: '4px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      height: '18px',
+                      width: '18px',
+                      borderRadius: '50%',
+                      fontSize: '1px',
+                      fontWeight: 'bold',
+                    }}
+                  />
+                  <CardMedia
+                    component="img"
+                    image={`https://ayru-jaipur.s3.amazonaws.com/${order?.orderItems[0]?.inventory?.Media[0]?.url}`}
+                    alt={order?.orderItems[0]?.inventory.productName}
+                    // onClick={(e) => {
+                    //   e.stopPropagation();
+                    //   router.push(`/shop/${order?.orderItems[0]?.inventory?.id}`);
+                    // }}
+                    sx={{
+                      objectFit: 'fit',
+                      height: "130px",
+                      width: "110px",
+                      padding: "5px",
+                      borderRadius: "0px"
+                    }}
+                  />
+                </Box>
+                <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" }, paddingTop: "0px" }}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>Order #{order.id} / {formatDate(order.createdAt)}</Typography>
+                  <Typography variant="body2"><strong>Name: </strong>{order?.shippingAddress?.userName}</Typography>
+                  <Typography variant="body2"><strong>Order Status: </strong>{order.status}</Typography>
+                  <Typography variant="body2"><strong>Payment Status: </strong>{order.paymentStatus}</Typography>
+                  <Typography variant="body2"><strong>Delivery Status: </strong>{order.deliveryStatus}</Typography>
+                  <Typography variant="body2"><strong>Total: </strong>Rs.{order.Total}</Typography>
+                </CardContent>
+                <IconButton
+                  edge="end"
                   onClick={(e) => {
                     e.stopPropagation();
-                    router.push(`/shop/${order?.orderItems[0]?.inventory?.id}`);
+                    router.push(`/order/${order.id}`);
                   }}
                   sx={{
-                    objectFit: 'fit',
-                    height: "130px",
-                    width: "110px",
-                    padding: "5px",
-                    borderRadius: "0px"
+                    alignSelf: 'center',
                   }}
-                />
-              </Box>
-              <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" }, paddingTop: "0px" }}>
-                <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>Order #{order.id} / {formatDate(order.createdAt)}</Typography>
-                <Typography variant="body2"><strong>Name: </strong>{order?.shippingAddress?.userName}</Typography>
-                <Typography variant="body2"><strong>Order Status: </strong>{order.status}</Typography>
-                <Typography variant="body2"><strong>Payment Status: </strong>{order.paymentStatus}</Typography>
-                <Typography variant="body2"><strong>Delivery Status: </strong>{order.deliveryStatus}</Typography>
-                <Typography variant="body2"><strong>Total: </strong>Rs.{order.Total}</Typography>
-              </CardContent>
-              <IconButton
-                edge="end"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  router.push(`/order/${order.id}`);
-                }}
-                sx={{
-                  alignSelf: 'center',
-                }}
-              >
-                <ArrowForwardIosIcon width={10} height={10} />
-              </IconButton>
-            </Card>
-            <Divider />
-          </Grid>
+                >
+                  <ArrowForwardIosIcon width={10} height={10} />
+                </IconButton>
+              </Card>
+              <Divider m={2} />
+            </Grid>
+          </>
         ))}
       </Grid>
     </Container>

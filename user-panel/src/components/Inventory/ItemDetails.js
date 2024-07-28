@@ -15,22 +15,24 @@ import { useAuth } from '@/contexts/auth';
 import Cookies from 'js-cookie';
 import api from '../../../api';
 
-const ItemDetails = ({ product }) => {
+const ItemDetails = ({ product, queryParams }) => {
   //-------------------------------------------------------------------------------
 
   const hasBedsheets = product?.InventoryFitted.length > 0 || product.customFittedInventory.length > 0;
+  console.log(queryParams);
   const [selections, setSelections] = useState({
-    selectedOption: hasBedsheets ? '' : 'flat',
-    selectedFlatItem: '',
-    selectedFittedItem: '',
-    selectedCustomFittedItem: '',
-    selectedUnit: 'inch',
+    selectedOption: queryParams?.sizeOption || 'flat',
+    selectedFlatItem: queryParams?.flatId || '',
+    selectedFittedItem: queryParams?.fittedId || '',
+    selectedCustomFittedItem: queryParams?.customId || '',
+    selectedUnit: queryParams?.unit || 'inch',
     dimensions: {
-      width: '',
-      height: '',
-      length: ''
+      width: queryParams?.width || '',
+      height: queryParams?.height || '',
+      length: queryParams?.length || ''
     }
   });
+  console.log(selections);
   const selectedFlatItem = selections?.selectedFlatItem;
   const selectedFittedItem = selections?.selectedFittedItem;
   const selectedCustomFittedItem = selections?.selectedCustomFittedItem;
@@ -77,7 +79,7 @@ const ItemDetails = ({ product }) => {
   }
   //-------------------------------------------------------------------------------
   const theme = useTheme();
-  const [quantity, setQuantity] = useState(displayMinQuantity || 1);
+  const [quantity, setQuantity] = useState(queryParams?.quantity || displayMinQuantity || 1);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);

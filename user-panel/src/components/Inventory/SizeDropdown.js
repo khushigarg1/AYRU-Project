@@ -4,18 +4,18 @@ import { Box, Select, MenuItem, TextField, Typography, Grid } from '@mui/materia
 const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
   // Initialize the default flat size if available
   const defaultFlatItem = data.InventoryFlat.length > 0 ? data.InventoryFlat[0].Flat.id : '';
-
+  console.log(selections);
   useEffect(() => {
     setSelections({
-      selectedOption: 'flat',
-      selectedFlatItem: defaultFlatItem,
-      selectedFittedItem: '',
-      selectedCustomFittedItem: '',
-      selectedUnit: 'inch',
+      selectedOption: selections?.selectedOption || 'flat',
+      selectedFlatItem: selections?.selectedFlatItem || defaultFlatItem,
+      selectedFittedItem: selections?.selectedFittedItem || '',
+      selectedCustomFittedItem: selections?.selectedCustomFittedItem || '',
+      selectedUnit: selections?.selectedUnit || 'inch',
       dimensions: {
-        width: '',
-        height: '',
-        length: ''
+        width: selections?.dimensions?.width || '',
+        height: selections?.dimensions?.height || '',
+        length: selections?.dimensions?.length || ''
       }
     });
   }, [hasBedsheets, defaultFlatItem, setSelections]);

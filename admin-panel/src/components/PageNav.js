@@ -513,6 +513,31 @@ export default function PageNav({ children }) {
                       </ListItemButton>
                     </ListItem>
                   </Link>
+                  <Link href="/order">
+                    <ListItem
+                      key={"order"}
+                      onClick={() => setOpenTab("Order".toLowerCase())}
+                      disablePadding
+                      sx={{ display: "block" }}
+                    >
+                      <ListItemButton sx={{ pl: open ? 4 : 2.5, justifyContent: open ? "initial" : "center" }}>
+
+                        <ListItemIcon
+                          sx={{
+                            minWidth: 0,
+                            mr: open ? 3 : "auto",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <FavoriteIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={"Order"}
+                          sx={{ opacity: open ? 1 : 0 }}
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                  </Link>
                 </List>
               </Collapse>
               <ListItem

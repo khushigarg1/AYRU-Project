@@ -118,6 +118,61 @@ const CartPage = () => {
     openAuthModal();
     return;
   }
+  const handleClick = (item) => {
+    let customId = item.customId;
+    let flatId = item.flatId;
+    let fittedId = item.fittedId;
+
+    // If customId is provided, find the corresponding flatId from customFittedInventory
+    if (customId) {
+      const customFittedItem = item.Inventory.customFittedInventory.find(
+        (inventory) => inventory.id === item.customId
+      );
+
+      if (customFittedItem) {
+        customId = customFittedItem?.InventoryFlat?.Flat?.id;
+      }
+    }
+    if (flatId) {
+      const FlatItem = item.Inventory.InventoryFlat.find(
+        (inventory) => inventory.id === flatId
+      );
+
+      if (FlatItem) {
+        flatId = FlatItem?.Flat?.id;
+      }
+    }
+    if (fittedId) {
+      const FittedItem = item.Inventory.InventoryFitted.find(
+        (inventory) => inventory.id === fittedId
+      );
+
+      if (FittedItem) {
+        fittedId = FittedItem?.Fitted?.id;
+      }
+    }
+
+    const details = {
+      sizeOption: item?.sizeOption,
+      flatId: flatId,
+      customId: customId,
+      fittedId: fittedId,
+      unit: item.unit,
+      length: item.length,
+      width: item.width,
+      height: item.height
+    };
+
+    // Create a URLSearchParams object and append the details
+    const params = new URLSearchParams();
+    Object.entries(details).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        params.append(key, value);
+      }
+    });
+
+    router.push(`/shop/${item?.Inventory?.id}?${params.toString()}`);
+  };
   const whatsappMessage = "heyy"
   return (
     <Box p={1} mt={2} style={{ paddingLeft: isMobile ? "1%" : "8%", paddingRight: isMobile ? "1%" : "8%", backgroundColor: "#F0F0F0" }}>
@@ -184,7 +239,8 @@ const CartPage = () => {
                         // height="100"
                         image={`https://ayru-jaipur.s3.amazonaws.com/${item?.Inventory?.Media[0]?.url}`}
                         alt={item.Inventory.productName}
-                        onClick={() => router.push(`/shop/${item?.Inventory?.id}`)}
+                        onClick={() => handleClick(item)}
+                        // onClick={() => router.push(`/shop/${item?.Inventory?.id}`)}
                         sx={{
                           objectFit: 'fit',
                           height: "130px",

@@ -64,7 +64,7 @@ export const FeedbackComponent = () => {
         </Box>
         <Box sx={{ width: "70%", margin: "0 auto", marginBottom: "4%", marginTop: "4%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
           <Typography variant='h5' style={{ textAlign: "center", mb: 1 }}>
-            BEDDING BY ALTAIRE HOMES
+            FROM JAIPUR TO YOUR HOME
           </Typography>
           <Typography variant="body1" style={{ textAlign: "center" }}>
             The Journey of AYRU JAIPUR began in 2020 during the challenging times of COVID-19, and we are proud to be rooted exclusively in Jaipur, a city we fall more in love with each day. Drawing inspiration from the everyday happiness found in Jaipur’s vibrant streets, rich colors, intricate patterns, and lively sounds, we create interwoven stories and styles that define our unique aesthetic.

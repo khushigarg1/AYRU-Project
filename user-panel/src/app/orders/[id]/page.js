@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container, Card, CardContent, Typography, Grid, Box, CardMedia, Chip, IconButton, Divider, Accordion, AccordionSummary, AccordionDetails, Tooltip, useTheme } from '@mui/material';
+import { Container, Card, CardContent, Typography, Grid, Box, CardMedia, Chip, IconButton, Divider, Accordion, AccordionSummary, AccordionDetails, Tooltip, useTheme, Button } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import api from '../../../../api';
 import Cookies from 'js-cookie';
@@ -9,6 +9,7 @@ import { useAuth } from '@/contexts/auth';
 import { useRouter } from 'next/navigation';
 import { GridExpandMoreIcon } from '@mui/x-data-grid';
 import { FileCopyOutlined, FileCopySharp } from '@mui/icons-material';
+import { WhatsappIcon } from 'next-share';
 
 const OrderDetails = ({ params }) => {
   const { id } = params;
@@ -35,7 +36,7 @@ const OrderDetails = ({ params }) => {
   }, [user]);
 
   const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
@@ -46,7 +47,7 @@ const OrderDetails = ({ params }) => {
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
   };
-
+  const whatsappMessage = "";
   return (
     <Container p={0} mb={14}>
       {/* <Typography variant="h4" gutterBottom>Order Details</Typography> */}
@@ -79,68 +80,179 @@ const OrderDetails = ({ params }) => {
           <Divider />
 
           {/* Tracking Details */}
-          <Typography variant="h6" gutterBottom mt={2} sx={{ fontWeight: "bolder" }}>Tracking Details</Typography>
-          <Card sx={{
-            position: 'relative',
-            display: 'flex',
-            flexDirection: 'row',
-            height: '100%',
-            cursor: "pointer",
-            backgroundColor: "#F0F0F0",
-            maxHeight: "100%", boxShadow: "none"
+          {order?.status === "success" ?
+            (order?.trekkingId1 ? (
+              <>
+                <Typography variant="h6" gutterBottom mt={2} sx={{ fontWeight: "bolder" }}>Tracking Details</Typography>
+                <Card sx={{
+                  position: 'relative',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
+                  cursor: "pointer",
+                  backgroundColor: "#F0F0F0",
+                  maxHeight: "100%", boxShadow: "none",
+                  padding: "10px"
+                }}>
+                  <Box mb={2}>
+                    <Typography>
+                      Your parcel has been dispatched. To track your parcel, click on the tracking link and enter the AWB/Shipment/Tracking number provided below.
+                    </Typography>
+                  </Box>
+                  <Box sx={{
+                    position: 'relative',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    height: '100%',
+                    cursor: "pointer",
+                    backgroundColor: "#F0F0F0",
+                    maxHeight: "100%", boxShadow: "none"
+                  }}>
+                    <Box sx={{ position: 'relative' }}>
+                      <CardMedia
+                        component="img"
+                        image={`https://ayru-jaipur.s3.amazonaws.com/${order?.imageurl}`}
+                        alt="Tracking Image"
+                        sx={{
+                          objectFit: 'fit',
+                          height: "120px",
+                          width: "100px",
+                          padding: "10px",
+                          borderRadius: "0px"
+                        }}
+                      />
+                    </Box>
+                    <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" } }}>
+                      <Typography variant="body2"><strong>Courier Name: </strong>{order.couriername}</Typography>
+                      <Box display="flex" alignItems="center">
+                        {order?.trekkingId1 && (
+                          <>
+                            <Typography variant="body2"><strong>Tracking Number: </strong>{order.trekkingId1}</Typography>
+                            <Tooltip title="Copy to clipboard">
+                              <IconButton size="small" onClick={() => copyToClipboard(order.trekkingId1)}>
+                                <FileCopyOutlined fontSize="small" />
+                              </IconButton>
+                            </Tooltip>
+                          </>
+                        )}
+                      </Box>
+                      {order?.trekkingId2 && (
+                        <Box display="flex" alignItems="center">
+                          <Typography variant="body2"><strong>Tracking Number: </strong>{order.trekkingId2}</Typography>
+                          <Tooltip title="Copy to clipboard">
+                            <IconButton size="small" onClick={() => copyToClipboard(order.trekkingId2)}>
+                              <FileCopyOutlined fontSize="small" />
+                            </IconButton>
+                          </Tooltip>
+                        </Box>
+                      )}
+                      <Typography variant="body2"><strong>Courier Name: </strong>{order.couriername}</Typography>
+                      <Typography variant="body2">
+                        <strong>Tracking Link: </strong>
+                        <a href={order.trekkinglink} target="_blank" rel="noopener noreferrer">
+                          {order.trekkinglink}
+                        </a>
+                      </Typography>
+                    </CardContent>
+                  </Box>
+                  <Box mt={2}>
+                    <Typography>
+                      If you don’t receive your parcel within 7 days after dispatch, please inform us immediately on{' '}
+                      <Button
+                        aria-label="Chat on WhatsApp"
+                        href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        endIcon={<WhatsappIcon style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
+                        sx={{
+                          color: '#25D366',
+                          fontWeight: 'bold',
+                          textTransform: 'none',
+                          mb: 0,
+                          padding: "0px",
+                        }}
+                      >
+                        WhatsApp
+                      </Button>
+                      {' '}with your name and order ID.
+                    </Typography>
+                  </Box>
+                </Card>
+              </>
+            ) : (
+              <>
+                <Card sx={{
+                  marginTop: "10px",
+                  height: '100%',
+                  backgroundColor: "#F0F0F0",
+                  maxHeight: "100%", boxShadow: "none",
+                  padding: "10px"
+                }}>
+                  <Typography variant="h6" gutterBottom mt={2} sx={{ fontWeight: "bolder" }}>Payment Successfull</Typography>
 
-          }}>
-            <Box sx={{ position: 'relative' }}>
-              <CardMedia
-                component="img"
-                image={`https://ayru-jaipur.s3.amazonaws.com/${order?.imageurl}`}
-                alt="Tracking Image"
-                sx={{
-                  objectFit: 'fit',
-                  height: "120px",
-                  width: "100px",
-                  padding: "10px",
-                  borderRadius: "0px"
-                }}
-              />
-            </Box>
-            <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" } }}>
-              <Typography variant="body2"><strong>Courier Name: </strong>{order.couriername}</Typography>
-              <Box display="flex" alignItems="center">
-                {order?.trekkingId1 && (
-                  <>
-                    <Typography variant="body2"><strong>Tracking Number: </strong>{order.trekkingId1}</Typography>
-                    <Tooltip title="Copy to clipboard">
-                      <IconButton size="small" onClick={() => copyToClipboard(order.trekkingId1)}>
-                        <FileCopyOutlined fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  </>
-                )
-                }
-              </Box>
+                  <Typography>
+                    Thank you for your order and trust in AYRU JAIPUR 🙏
+                  </Typography>
+                  <Typography>
+                    Your order has been placed successfully, and you will receive the tracking details here within 1-2 days.
+                  </Typography>
+                  <Typography>
+                    Note: once your order is placed successfully, it cannot be modified or canceled.
+                    For any further assistance, please send your queries to us on{' '}
+                    <Button
+                      aria-label="Chat on WhatsApp"
+                      href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      endIcon={<WhatsappIcon style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
+                      sx={{
+                        color: '#25D366',
+                        fontWeight: 'bold',
+                        textTransform: 'none',
+                        mb: 0,
+                        padding: "0px",
+                      }}
+                    >
+                      WhatsApp
+                    </Button>
+                  </Typography>
+                </Card>
+              </>
+            ))
+            :
+            (
+              <>
+                {order?.status === "pending" ? (
+                  <Card sx={{
+                    marginTop: "10px",
+                    height: '100%',
+                    backgroundColor: "#F0F0F0",
+                    maxHeight: "100%", boxShadow: "none",
+                    padding: "10px"
+                  }}>
+                    <Typography variant="h6" gutterBottom mt={2} sx={{ fontWeight: "bolder" }}>Payment Pending</Typography>
+                    <Typography>
+                      Your payment is still pending. Please proceed to the cart and complete the checkout process again.
+                    </Typography>
+                  </Card>
+                ) : order?.status === "failed" && (
+                  <Card sx={{
+                    marginTop: "10px",
+                    height: '100%',
+                    backgroundColor: "#F0F0F0",
+                    maxHeight: "100%", boxShadow: "none",
+                    padding: "10px"
+                  }}>
+                    <Typography variant="h6" gutterBottom mt={2} sx={{ fontWeight: "bolder" }}>Payment Failed</Typography>
+                    <Typography>
+                      Your payment has failed. Please go to the cart and retry the checkout process. Ensure that your payment details are correct.
+                    </Typography>
+                  </Card>
+                )}
+              </>
+            )
+          }
 
-              {order?.trekkingId2 && (
-                <Box display="flex" alignItems="center">
-                  <Typography variant="body2"><strong>Tracking Number: </strong>{order.trekkingId2}</Typography>
-                  <Tooltip title="Copy to clipboard">
-                    <IconButton size="small" onClick={() => copyToClipboard(order.trekkingId2)}>
-                      <FileCopyOutlined fontSize="small" />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              )}
-
-              <Typography variant="body2"><strong>Courier Name: </strong>{order.couriername}</Typography>
-
-              <Typography variant="body2">
-                <strong>Tracking Link: </strong>
-                <a href={order.trekkinglink} target="_blank" rel="noopener noreferrer">
-                  {order.trekkinglink}
-                </a>
-              </Typography>
-            </CardContent>
-          </Card>
           <Accordion defaultExpanded style={{ backgroundColor: "whitesmoke" }}>
             <AccordionSummary expandIcon={<GridExpandMoreIcon />}>
               <Typography>Order Summary ({order?.orderItems.length})</Typography>

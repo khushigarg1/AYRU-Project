@@ -10,6 +10,7 @@ import { RWebShare } from "react-web-share";
 import Instructions from "../../../..../../public/images/instruction.png";
 import Image from 'next/image';
 import ImagePopup from '@/modals/imagepopup';
+import ShareButton from '../Share';
 
 export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceToDisplay, sellingPriceToDisplay }) => {
   const theme = useTheme();
@@ -93,21 +94,28 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
     slidesToScroll: 1,
     arrows: false,
   };
-  const handleShare = () => {
+
+
+  const handleShare = async () => {
+    const productUrl = `${process.env.REACT_APP_BASE_URL}/${itemlist.id}`;
+    const text = `Check out this amazing product: ${itemlist.productName} - ${itemlist.description}. Available now at a discounted price of ${discountedPriceToDisplay} !${productUrl}`;
+
     try {
       if (navigator.share) {
-        navigator.share({
-          url: `${process.env.REACT_APP_BASE_URL}/${itemlist.id}`,
+        await navigator.share({
           title: itemlist.productName,
-          text: `Check out this product: ${itemlist.productName} - ${itemlist.description}`,
-        }).catch(error => console.error('Error sharing:', error));
+          text: text,
+          url: productUrl,
+        });
+        console.log('Content shared successfully');
       } else {
-        console.log('Web Share API is not supported in your browser.');
+        alert('Web Share API is not supported in your browser. Please copy the following message and share it manually:\n' + text);
       }
     } catch (error) {
       console.error('Error sharing:', error);
     }
   };
+
 
   const handleOpenImageModal = (imageUrl) => {
     setSelectedImage(imageUrl);
@@ -116,6 +124,14 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
   const handleCloseImageModal = () => {
     setImageModalOpen(false);
   };
+
+  const getProductShareText = () => {
+    const productName = itemlist.productName;
+    const description = itemlist.description;
+    const price = discountedPriceToDisplay ? `Now available at a discounted price of $${discountedPriceToDisplay}! (Original price: $${sellingPriceToDisplay})` : `Price: $${sellingPriceToDisplay}`;
+    return `Check out this amazing product: ${productName} 🌟\n\n${description}\n\n${price}\n\n🛒 Don't miss out! Click the link to view more details and make a purchase!`;
+  };
+
   return (
     <>
       <Box sx={{ position: 'relative' }}>
@@ -205,10 +221,16 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
         </IconButton>
         <IconButton
           aria-label="Share"
-          onClick={handleShare}
+          // onClick={handleShare}
           sx={{ position: 'absolute', bottom: 90, right: 8, zIndex: 1, backgroundColor: 'white', '&:hover': { backgroundColor: 'lightgray' } }}
         >
-          <Share />
+          {/* <Share /> */}
+          <ShareButton
+            title={itemlist.productName}
+            text={getProductShareText()}
+            // url={`www.ayrujaipur.com`}
+            url={`${process.env.NEXT_PUBLIC_BASE_URL}/shop/${itemlist.id}`}
+          />
         </IconButton>
       </Box >
       {!istablet &&
