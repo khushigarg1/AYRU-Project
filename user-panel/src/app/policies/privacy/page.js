@@ -4,7 +4,7 @@ import { Button, Container, Typography } from '@mui/material';
 import { WhatsappIcon } from 'next-share';
 
 export default function PrivacyPolicy() {
-  const whatsappMessage = "";
+  // const whatsappMessage = "";
   return (
     <>
       <Head>
@@ -82,6 +82,7 @@ export default function PrivacyPolicy() {
           If you have any questions about this Privacy Policy, please contact us at:
           <br />
           WhatsApp: +91-9785852222
+          {/*
           {' '}
           <Button
             aria-label="Chat on WhatsApp"
@@ -100,6 +101,7 @@ export default function PrivacyPolicy() {
             WhatsApp
           </Button>
           {' '}
+          */}
           <br />
           Email: ayrujaipur@gmail.com
           <br />

@@ -257,8 +257,21 @@ const ItemDetails = ({ product, queryParams }) => {
   };
 
   //-------------------------------------------------------------------------------
-  const productUrl = `${process.env.REACT_APP_BASE_URL}/product/${product.id}`;
-  const whatsappMessage = `🌟 Hey, I am interested in placing an international order for this amazing item: ${product.productName}. Could you please provide me with the steps and necessary information? 🛒\n\n🔗 Here is the product link: ${productUrl}\n\nThank you! 🙏`;
+  const productUrl = `${process.env.REACT_APP_BASE_URL}/shop/${product.id}`;
+  const whatsappMessage = `Hi there!
+
+Hi, I'd like to place an international order for this amazing item: ${product.productName}.
+
+Here’s the product link: ${productUrl}
+
+Here are my details:
+State: [Your State Name]
+City: [Your City Name]
+Zip Code: [Your Zip Code]
+
+
+Could you please provide details on the process, shipping costs, and delivery times?
+Thank you so much!`;
 
   //-------------------------------------------------------------------------------
   const handleOpenImageModal = (imageUrl) => {

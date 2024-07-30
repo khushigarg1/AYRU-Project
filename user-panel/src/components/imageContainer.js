@@ -106,12 +106,12 @@ const OverlayButton = styled(Button)(({ theme }) => ({
 }));
 
 const images = [
-  { src: image1, alt: 'Bath Essentials', link: '/page1' },
-  { src: image2, alt: 'Dohar', link: '/page2' },
-  { src: image3, alt: 'Quilt', link: '/page3' },
-  { src: image4, alt: 'Bedsheet', link: '/page4' },
-  { src: image5, alt: 'Bedding', link: '/page5' },
-  { src: image6, alt: 'Bedding', link: '/page6' },
+  { src: image4, alt: 'BEDSHEET', link: '/shop?categoryId=1' },
+  { src: image6, alt: 'BEDDING SET', link: '/shop?categoryId=2' },
+  { src: image3, alt: 'QUILT', link: '/shop?categoryId=3' },
+  { src: image2, alt: 'DOHAR', link: '/shop?categoryId=4' },
+  { src: image5, alt: 'BEDCOVER', link: '/shop?categoryId=5' },
+  { src: image1, alt: 'BATH ESSENTIALS', link: '/shop?categoryId=6' },
 ];
 
 const ImageGrid = () => {
@@ -125,9 +125,9 @@ const ImageGrid = () => {
   return (
     <ImageContainer container>
       {images.map((image, index) => (
-        <ImageItem key={index} index={index}>
+        <ImageItem key={index} index={index} onClick={() => handleButtonClick(image.link)}>
           <Image src={image.src} alt={image.alt} layout="fill" objectFit="cover" />
-          <OverlayButton onClick={() => handleButtonClick(image.link)}>{image.alt}</OverlayButton>
+          <OverlayButton >{image.alt}</OverlayButton>
         </ImageItem>
       ))}
     </ImageContainer>

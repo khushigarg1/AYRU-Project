@@ -1,10 +1,13 @@
 "use client";
 import Head from 'next/head';
-import { Container, Typography } from '@mui/material';
-import { Button } from '@mui/material';
+import { Container, Typography, Button } from '@mui/material';
 import { WhatsappIcon } from 'next-share';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
 export default function ShippingPolicy() {
   const whatsappMessage = "";
+  const router = useRouter();
   return (
     <>
       <Head>
@@ -78,7 +81,11 @@ export default function ShippingPolicy() {
           Any import duties, customs duties, or taxes related to the shipment in the destination country will be the responsibility of the customer.
         </Typography>
         <Typography paragraph>
-          Once your product is shipped, you will receive an update on your {' '}
+          Once your product is shipped, you will receive an update on {' '}
+          <span style={{ padding: '0', textDecoration: "underline", color: "#FFD54F", fontSize: "14px", cursor: "pointer" }} onClick={() => router.push("/orders")}>
+            My Orders
+          </span>
+          {/* your {' '}
           <Button
             aria-label="Chat on WhatsApp"
             href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
@@ -95,7 +102,7 @@ export default function ShippingPolicy() {
           >
             WhatsApp
           </Button>
-          {' '} number.
+          {' '} number. */}
         </Typography>
         <Typography paragraph>
           Thank you for your understanding and cooperation. We are committed to ensuring that your shopping experience with AYRU JAIPUR is smooth and satisfactory.

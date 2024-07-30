@@ -5,7 +5,7 @@ import { WhatsappIcon } from 'next-share';
 
 export default function CancellationAndRefundPolicy() {
   const theme = useTheme();
-  const whatsappMessage = "";
+  // const whatsappMessage = "";
   return (
     <>
       <Head>
@@ -26,8 +26,9 @@ export default function CancellationAndRefundPolicy() {
           Once an order has been placed and payment has been processed, it cannot be cancelled or modified. This policy helps us streamline our operations and maintain efficiency. Our system is designed to process orders promptly, making it challenging to accommodate cancellations after the order is submitted.
         </Typography>
         <Typography paragraph>
-          If you have any questions or need further assistance, please don't hesitate to connect with us on {' '}
-          <Button
+          If you have any questions or need further assistance, please don't hesitate to connect with us.
+          {/* on {' '} */}
+          {/* <Button
             aria-label="Chat on WhatsApp"
             href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
             target="_blank"
@@ -43,7 +44,7 @@ export default function CancellationAndRefundPolicy() {
           >
             WhatsApp
           </Button>
-          {' '}.
+          {' '}. */}
         </Typography>
         <Typography paragraph>
           Thank you for your understanding and cooperation.

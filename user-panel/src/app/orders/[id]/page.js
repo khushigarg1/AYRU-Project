@@ -47,7 +47,24 @@ const OrderDetails = ({ params }) => {
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
   };
-  const whatsappMessage = "";
+
+  const whatsappMessage = `Hi, I recently placed an order on the website AYRU JAIPUR and haven't received it yet. Could you please provide an update on the status?
+
+Here are my order details:
+  - Name: ${user?.name || '[Your Name]'}
+  - Order ID: ${order.orderid}
+  - Date: ${formatDate(order.createdAt)}
+  - Total Amount: Rs.${order.Total}`;
+
+  const whatsappMessage2 = `Hi, I have just placed an order on the AYRU JAIPUR website and am interested in your express shipping service.
+Could you please provide me with the details regarding the process, any additional cost, and the estimated delivery time?
+
+Here are my order details:
+  - Name: ${user?.name || '[Your Name]'}
+  - Order ID: ${order.orderid}
+  - Date: ${formatDate(order.createdAt)}
+  - Total Amount: Rs.${order.Total}`;
+
   return (
     <Container p={0} mb={14}>
       {/* <Typography variant="h4" gutterBottom>Order Details</Typography> */}
@@ -65,7 +82,7 @@ const OrderDetails = ({ params }) => {
             padding: "15px 5px",
             boxShadow: "none"
           }}
-            onClick={() => router.push(`/order/${order.id}`)}
+          // onClick={() => router.push(`/order/${order.id}`)}
           >
             <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" }, paddingTop: "0px" }}>
               <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>OrderId: {order.orderid}</Typography>
@@ -79,9 +96,44 @@ const OrderDetails = ({ params }) => {
           </Card>
           <Divider />
 
+          <Card sx={{
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            cursor: "pointer",
+            backgroundColor: "#F0F0F0",
+            maxHeight: "100%", boxShadow: "none",
+            padding: "10px",
+            marginTop: "10px"
+          }}>
+            <Box mb={2}>
+              <Typography>
+                Note: Need your order urgently? Our Express Shipping service delivers in 2-4 days. Simply click on {" "}
+                <Button
+                  aria-label="Chat on WhatsApp"
+                  href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage2)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  endIcon={<WhatsappIcon style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
+                  sx={{
+                    color: '#25D366',
+                    fontWeight: 'bold',
+                    textTransform: 'none',
+                    mb: 0,
+                    padding: "0px",
+                  }}
+                >
+                  WhatsApp
+                </Button>
+                {" "}
+                to proceed.  Additional charges will apply. (Note:  Kindly inform us within one hour of placing your order)
+              </Typography>
+            </Box>
+          </Card>
           {/* Tracking Details */}
           {order?.status === "success" ?
-            (order?.trekkingId1 ? (
+            (!order?.trekkingId1 ? (
               <>
                 <Typography variant="h6" gutterBottom mt={2} sx={{ fontWeight: "bolder" }}>Tracking Details</Typography>
                 <Card sx={{
@@ -174,7 +226,6 @@ const OrderDetails = ({ params }) => {
                       >
                         WhatsApp
                       </Button>
-                      {' '}with your name and order ID.
                     </Typography>
                   </Box>
                 </Card>
@@ -198,10 +249,10 @@ const OrderDetails = ({ params }) => {
                   </Typography>
                   <Typography>
                     Note: once your order is placed successfully, it cannot be modified or canceled.
-                    For any further assistance, please send your queries to us on{' '}
+                    {/* For any further assistance, please send your queries to us on{' '}
                     <Button
                       aria-label="Chat on WhatsApp"
-                      href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
+                      href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage2)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       endIcon={<WhatsappIcon style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
@@ -214,7 +265,7 @@ const OrderDetails = ({ params }) => {
                       }}
                     >
                       WhatsApp
-                    </Button>
+                    </Button> */}
                   </Typography>
                 </Card>
               </>

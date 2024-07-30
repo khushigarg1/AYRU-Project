@@ -13,6 +13,7 @@ import { ProductSlider } from '@/components/productSlider';
 import ClientLoveCarousel from '@/components/clientLove';
 import Footer from '@/components/Footer';
 import { FeedbackComponent } from '@/components/Extra/FeedbackComponent';
+import FloatingWhatsAppButton from '@/components/floatingButton';
 
 const Home = ({ openTab }) => {
 

@@ -1,8 +1,15 @@
 import React from 'react';
-import { Box, Typography, Accordion, AccordionSummary, AccordionDetails, Link, List, ListItem, ListItemText, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from '@mui/material';
+import { Box, Typography, Accordion, AccordionSummary, AccordionDetails, Link, List, ListItem, ListItemText, Table, TableBody, TableCell, TableContainer, TableRow, Paper, Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useRouter } from 'next/navigation';
+import { WhatsappIcon } from 'next-share';
 
 export const FeatureAccordions = ({ product }) => {
+  const router = useRouter();
+  const whatsappMessage = `Hi, I am interested in your Express shipping service.
+
+Could you please provide me with the details regarding the process, any additional cost, and the estimated delivery time ? `;
+
   return (
     <Box>
       {/* Disclaimer Accordion */}
@@ -135,16 +142,40 @@ export const FeatureAccordions = ({ product }) => {
       {/* Shipping Policy Accordion */}
       <Accordion disableGutters>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6">Shipping Policy</Typography>
+          <Typography variant="h6">Shipping & Delivery</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <List dense>
-            <ListItem sx={{ padding: '0' }}><ListItemText primary="• Free Shipping within INDIA" /></ListItem>
             <ListItem sx={{ padding: '0' }}><ListItemText primary="• Only Prepaid orders are accepted (NO COD)." /></ListItem>
+            <ListItem sx={{ padding: '0' }}><ListItemText primary="• Standard Shipping FREE within INDIA" /></ListItem>
             <ListItem sx={{ padding: '0' }}><ListItemText primary="• Ships within 1-3 working days." /></ListItem>
-            <ListItem sx={{ padding: '0' }}><ListItemText primary="• Delivers within 5-10 working days from the shipping date" /></ListItem>
+            <ListItem sx={{ padding: '0' }}><ListItemText primary="• Delivers within 5-9 working days from the shipping date" /></ListItem>
             <ListItem sx={{ padding: '0' }}>
-              <Link href="shipping policy link" target="_blank">For more details</Link>
+              <ListItemText
+                primary={
+                  `• To get Express Shipping (within 2-4 days), reach out to us on ` +
+                  <Button
+                    aria-label="Chat on WhatsApp"
+                    href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    endIcon={<WhatsappIcon style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
+                    sx={{
+                      color: '#25D366',
+                      fontWeight: 'bold',
+                      textTransform: 'none',
+                      mb: 0,
+                      padding: "0px",
+                    }}
+                  >
+                    WhatsApp
+                  </Button>
+                  + ` after placing your order (additional charges will apply)`
+                }
+              />
+            </ListItem>
+            <ListItem sx={{ padding: '0', textDecoration: "underline", color: "#FFD54F", fontSize: "14px", cursor: "pointer" }} onClick={() => router.push("/policies/Shipping")}>
+              For more details
             </ListItem>
           </List>
         </AccordionDetails>
@@ -153,14 +184,14 @@ export const FeatureAccordions = ({ product }) => {
       {/* Exchange & Return Policy Accordion */}
       <Accordion disableGutters>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6">Exchange & Return Policy</Typography>
+          <Typography variant="h6">Exchange & Return</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <List dense>
-            <ListItem sx={{ padding: '0' }}><ListItemText primary="• We perform strict quality checks before dispatch." /></ListItem>
-            <ListItem sx={{ padding: '0' }}><ListItemText primary="• Easy exchanges are allowed for damaged or defective products only." /></ListItem>
-            <ListItem sx={{ padding: '0' }}>
-              <Link href="exchange policy link" target="_blank">For more details</Link>
+            <ListItem sx={{ padding: '0' }}><ListItemText primary="• We ensure strict quality checks before dispatch." /></ListItem>
+            <ListItem sx={{ padding: '0' }}><ListItemText primary="• Exchanges are allowed for damaged or defective products only." /></ListItem>
+            <ListItem sx={{ padding: '0', textDecoration: "underline", color: "#FFD54F", fontSize: "14px", cursor: "pointer" }} onClick={() => router.push("/policies/Exchange-refund")}>
+              For more details
             </ListItem>
           </List>
         </AccordionDetails>

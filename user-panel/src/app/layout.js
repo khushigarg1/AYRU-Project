@@ -14,6 +14,7 @@ import { AuthProvider } from "../contexts/auth";
 import Marquee from "@/components/marquee";
 import api from "../../api";
 import Footer from "@/components/Footer";
+import FloatingWhatsAppButton from "@/components/floatingButton";
 
 
 const materialTheme = createTheme({
@@ -91,6 +92,8 @@ export default function RootLayout({ children }) {
               {children}
             </PageNav>
             <Footer />
+            <FloatingWhatsAppButton />
+
           </AuthProvider>
         </ThemeProvider>
       </body>

@@ -173,7 +173,37 @@ const CartPage = () => {
 
     router.push(`/shop/${item?.Inventory?.id}?${params.toString()}`);
   };
-  const whatsappMessage = "heyy"
+
+
+  const whatsappMessage = cartItems?.map(item => {
+    let itemDetails = `Product: ${item?.Inventory?.productName}\n` +
+      `ProductUrl: ${process.env.REACT_APP_BASE_URL}/shop/${item?.Inventory?.id}\n` +
+      `Quantity: ${item.quantity}\n` +
+      `Selling Price: ₹${item.sellingPrice}\n` +
+      `Size Option: ${item.sizeOption}\n`;
+
+    if (item.sizeOption === 'flat') {
+      itemDetails += `Flat Item: ${item.selectedFlatItem}\n`;
+    } else if (item.sizeOption === 'fitted') {
+      itemDetails += `Fitted Item: ${item.selectedFittedItem}\n`;
+    } else if (item.sizeOption === 'custom') {
+      itemDetails += `Custom Item: ${item.selectedCustomFittedItem}\n` +
+        `Dimensions: ${item.length} x ${item.width} x ${item.height} ${item.unit}\n`;
+    }
+
+    return itemDetails;
+  }).join('\n');
+
+  const userDetails = `\n\My Details are here:\n` +
+    `Name: ${cartItems[0]?.User?.firstName} ${cartItems[0]?.User?.lastName}\n` +
+    `Email: ${cartItems[0]?.User?.email}\n` +
+    `Phone Number: ${cartItems[0]?.User?.phoneNumber}\n` +
+    `Address: ${cartItems[0]?.User?.address1}, ${cartItems[0]?.User?.address2}, ${cartItems[0]?.User?.city}, ${cartItems[0]?.User?.state}, ${cartItems[0]?.User?.zip}\n` +
+    `Country: ${cartItems[0]?.User?.country}`;
+
+  const whatsappURL = `https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(
+    `Hi, I'd like to place an international order for the following items:\n\n${whatsappMessage}${userDetails}\n\nCould you please provide details on the process, shipping costs, and delivery times?`
+  )}`;
   return (
     <Box p={1} mt={2} style={{ paddingLeft: isMobile ? "1%" : "8%", paddingRight: isMobile ? "1%" : "8%", backgroundColor: "#F0F0F0" }}>
       <Box display="flex" alignItems="center" justifyContent="center">
@@ -390,15 +420,15 @@ const CartPage = () => {
             <Grid container direction="column" spacing={2} style={{ padding: "0px 5px" }}>
               <Grid item>
                 <Typography variant='body2' style={{ color: "black", fontSize: "12px" }}>
-                  Enjoy FREE SHIPPING for all orders within INDIA
+                  Enjoy our standard SHIPPING FREE for all orders within INDIA
                 </Typography>
               </Grid>
               <Grid item>
                 <Typography variant='body2' style={{ color: "black", fontSize: "12px", lineHeight: 1 }}>
-                  To know the INTERNATIONAL SHIPPING cost, {' '}
+                  To ship all these items internationally, simply click on{' '}
                   <Button
                     aria-label="Chat on WhatsApp"
-                    href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
+                    href={whatsappURL}
                     target="_blank"
                     rel="noopener noreferrer"
                     endIcon={<WhatsappIcon style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
@@ -413,7 +443,6 @@ const CartPage = () => {
                   >
                     WhatsApp
                   </Button>
-                  {' '}us with your city & zipcode
                 </Typography>
               </Grid>
             </Grid>

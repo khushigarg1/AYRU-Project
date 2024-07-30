@@ -5,7 +5,7 @@ import { WhatsappIcon } from 'next-share';
 
 export default function ReturnAndExchangePolicy() {
 
-  const whatsappMessage = "";
+  // const whatsappMessage = "";
   return (
     <>
       <Head>
@@ -24,14 +24,14 @@ export default function ReturnAndExchangePolicy() {
         </Typography>
         <Typography paragraph>
           <strong>1. Parcel or Unboxing Video:</strong> To assist us in processing your return or exchange efficiently and resolving any issues effectively, we require a parcel or unboxing video as part of the return policy.
-          <ul>
-            <li>Before opening the package, start recording a video using a smartphone.</li>
-            <li>Show the package from all angles, including any visible signs of damage or tampering.</li>
-            <li>Carefully unbox the item, making sure to capture the process on video.</li>
-            <li>Clearly display the item and any accompanying accessories or documentation in the video.</li>
-            <li>If there are any defects, damages, or missing parts, please zoom in and provide a detailed close-up view.</li>
-          </ul>
         </Typography>
+        <ul>
+          <li>Before opening the package, start recording a video using a smartphone.</li>
+          <li>Show the package from all angles, including any visible signs of damage or tampering.</li>
+          <li>Carefully unbox the item, making sure to capture the process on video.</li>
+          <li>Clearly display the item and any accompanying accessories or documentation in the video.</li>
+          <li>If there are any defects, damages, or missing parts, please zoom in and provide a detailed close-up view.</li>
+        </ul>
         <Typography paragraph>
           <strong>2. Purpose of the Video:</strong> The parcel or unboxing video helps us verify the condition of the returned item, determine if any damages occurred during transit, and resolve any issues promptly and fairly.
         </Typography>
@@ -52,7 +52,8 @@ export default function ReturnAndExchangePolicy() {
           Return Shipping
         </Typography>
         <Typography paragraph>
-          <strong>1. Customer Responsibility:</strong> Customers are responsible for return shipping costs, unless the return is due to an error on our part. To ensure a smooth return process, please use the original packaging and affix the provided return shipping label/address. If you need assistance with the return shipping process, please contact our {' '}
+          <strong>1. Customer Responsibility:</strong> Customers are responsible for return shipping costs, unless the return is due to an error on our part. To ensure a smooth return process, please use the original packaging and affix the provided return shipping label/address. If you need assistance with the return shipping process, please contact us on whatsapp.
+          {/* our {' '}
           <Button
             aria-label="Chat on WhatsApp"
             href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
@@ -69,7 +70,7 @@ export default function ReturnAndExchangePolicy() {
           >
             WhatsApp
           </Button>
-          {' '}.
+          {' '}. */}
         </Typography>
         <Typography paragraph>
           <strong>2. Shipping Loss/Damage:</strong> We are not responsible for the loss of shipment while returning the product or damage to the product incurred during the return process.
@@ -92,8 +93,8 @@ export default function ReturnAndExchangePolicy() {
           Additional Information
         </Typography>
         <Typography paragraph>
-          <strong>1. Further Questions:</strong> For any further questions or concerns regarding our return and refund policy, please reach out to our
-          {' '}
+          <strong>1. Further Questions:</strong> For any further questions or concerns regarding our return and refund policy, please reach out to us.
+          {/* {' '}
           <Button
             aria-label="Chat on WhatsApp"
             href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
@@ -110,7 +111,7 @@ export default function ReturnAndExchangePolicy() {
           >
             WhatsApp
           </Button>
-          {' '}.
+          {' '}. */}
         </Typography>
         <Typography paragraph>
           <strong>2. Policy Copy:</strong> Please retain a copy of this policy for your reference. This policy is subject to change without prior notice.
