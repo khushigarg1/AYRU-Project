@@ -302,7 +302,7 @@ const CartPage = () => {
                             {`${item?.selectedCustomFittedItem}`}
                           </Typography>
                           <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1", fontWeight: "600" }}>
-                            {`L×W×H =  ${item?.length}×${item?.width}×${item?.height} ${item?.unit}`}
+                            {`Fitted Size L×W×H =  ${item?.length}×${item?.width}×${item?.height} ${item?.unit}`}
                           </Typography>
                         </>
                       )

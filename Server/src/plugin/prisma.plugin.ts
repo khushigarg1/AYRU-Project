@@ -1,10 +1,10 @@
-import fp from "fastify-plugin";
-import { FastifyInstance, FastifyPluginAsync } from "fastify";
-import { PrismaClient } from "@prisma/client";
+// src/plugin/prisma.plugin.ts
 
-const prismaPlugin: FastifyPluginAsync = fp(async function prismaPlugin(
-  fastify: FastifyInstance
-) {
+import fp from "fastify-plugin";
+import { PrismaClient } from "@prisma/client";
+import { FastifyPluginAsync } from "fastify";
+
+const prismaPlugin: FastifyPluginAsync = fp(async (fastify) => {
   const prisma = new PrismaClient();
 
   fastify.decorate("prisma", prisma);

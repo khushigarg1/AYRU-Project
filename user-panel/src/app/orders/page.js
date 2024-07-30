@@ -46,6 +46,10 @@ const Orders = () => {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
+  // const formatDate = (dateString) => {
+  //   const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+  //   return new Date(dateString).toLocaleDateString(undefined, options);
+  // };
   return (
     <Container p={0}>
       <Typography variant="h4" gutterBottom sx={{ fontWeight: "bolder" }}>My Orders</Typography>

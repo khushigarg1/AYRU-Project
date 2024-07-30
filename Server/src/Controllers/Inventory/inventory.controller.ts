@@ -87,6 +87,7 @@ export const getInventoryById = async (
   reply: FastifyReply
 ) => {
   const { id } = request.params as { id: string };
+  console.log("heyyyy");
   try {
     const inventory = await inventoryService.getInventoryById(Number(id));
     reply.send({ data: inventory });
@@ -382,40 +383,59 @@ export const searchInventory = async (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
+  console.log("heyy1");
   const { searchQuery, categoryId, subCategoryId } = request.query as {
     searchQuery: string;
     categoryId?: string;
-    subCategoryId?: string;
+    subCategoryId?: string | string[]; // Adjust to handle arrays if needed
   };
+  console.log(searchQuery);
 
   try {
+    // Initialize the whereClause
     const whereClause: any = {
       OR: [
         { productName: { contains: searchQuery, mode: "insensitive" } },
         { colorVariation: { contains: searchQuery, mode: "insensitive" } },
         { fabric: { contains: searchQuery, mode: "insensitive" } },
         {
-          category: {
+          Category: {
             categoryName: { contains: searchQuery, mode: "insensitive" },
           },
         },
         {
-          subCategory: {
-            subcategoryName: { contains: searchQuery, mode: "insensitive" },
+          InventorySubcategory: {
+            some: {
+              SubCategory: {
+                subcategoryName: { contains: searchQuery, mode: "insensitive" },
+              },
+            },
           },
         },
       ],
     };
 
+    // Add categoryId filter
     if (categoryId) {
       whereClause.AND = whereClause.AND || [];
       whereClause.AND.push({ categoryId: parseInt(categoryId) });
     }
+
+    // Handle subCategoryId as an array
     if (subCategoryId) {
-      whereClause.AND = whereClause.AND || [];
-      whereClause.AND.push({ subCategoryId: parseInt(subCategoryId) });
+      const subCategoryIds = Array.isArray(subCategoryId)
+        ? subCategoryId.map((id) => parseInt(id))
+        : [parseInt(subCategoryId)];
+      whereClause.InventorySubcategory = {
+        some: {
+          subcategoryid: { in: subCategoryIds },
+        },
+      };
     }
 
+    console.log("Where Clause:", JSON.stringify(whereClause, null, 2));
+
+    // Query the database
     const inventories = await prisma.inventory.findMany({
       where: whereClause,
       include: {
@@ -428,17 +448,13 @@ export const searchInventory = async (
         relatedByInventories: true,
         SizeChartMedia: true,
         InventoryFlat: { include: { Flat: true } },
-        // customFittedInventory: { include: { customFitted: true } },
-        InventoryFitted: {
-          include: {
-            Fitted: true,
-          },
-        },
+        InventoryFitted: { include: { Fitted: true } },
       },
     });
 
     reply.send({ data: inventories });
   } catch (error) {
+    console.error("Error in searchInventory:", error);
     reply
       .status(500)
       .send({ error: "Failed to search inventories", details: error });

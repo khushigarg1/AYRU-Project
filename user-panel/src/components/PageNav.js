@@ -343,6 +343,74 @@ export default function PageNav({ children }) {
             )
           ))}
 
+          <Divider />
+          {isAuthenticated && (
+            <>
+              <Link href="/orders">
+                <ListItem
+                  key={"orders"}
+                  onClick={() => setOpenTab("orders".toLowerCase())}
+                  disablePadding
+                  sx={{ display: "block" }}
+                >
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemText
+                      primary={"My Orders"}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+              <Link href="/cart">
+                <ListItem
+                  key={"cart"}
+                  onClick={() => setOpenTab("cart".toLowerCase())}
+                  disablePadding
+                  sx={{ display: "block" }}
+                >
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemText
+                      primary={"Cart"}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+              <Link href="/wishlist">
+                <ListItem
+                  key={"wishlist"}
+                  onClick={() => setOpenTab("wishlist".toLowerCase())}
+                  disablePadding
+                  sx={{ display: "block" }}
+                >
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemText
+                      primary={"Wishlist"}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            </>
+          )}
           <Link href="/about">
             <ListItem
               key={"about"}

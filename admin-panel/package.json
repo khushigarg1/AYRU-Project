@@ -28,11 +28,13 @@
     "react-router-dom": "^6.23.1",
     "react-slick": "^0.30.2",
     "react-to-print": "^2.15.1",
+    "sharp": "^0.33.4",
     "skeleton": "^0.1.2",
     "slick-carousel": "^1.8.1",
     "swr": "^2.2.4"
   },
   "devDependencies": {
+    "eslint": "^9.8.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1"
   }
