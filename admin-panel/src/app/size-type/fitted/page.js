@@ -123,7 +123,7 @@ export default function HomePage() {
         width: 200,
         renderCell: (params) => (
           <ul>
-            {params.row.FittedDimensions.map((dim) => (
+            {params?.row?.FittedDimensions?.map((dim) => (
               <li key={dim.id}>{dim.dimensions}</li>
             ))}
           </ul>
@@ -217,7 +217,7 @@ export default function HomePage() {
               <TableHead>
                 <TableRow>
                   <TableCell>Fitted Name</TableCell>
-                  <TableCell>Dimensions</TableCell>
+                  {/* <TableCell>Dimensions</TableCell> */}
                   <TableCell>Actions</TableCell>
                 </TableRow>
               </TableHead>
@@ -226,13 +226,13 @@ export default function HomePage() {
                   fitted) => (
                   <TableRow key={fitted.id}>
                     <TableCell>{fitted.name}</TableCell>
-                    <TableCell>
+                    {/* <TableCell>
                       <ul>
-                        {fitted.FittedDimensions.map((dim) => (
+                        {fitted?.FittedDimensions?.map((dim) => (
                           <li key={dim.id}>{dim.dimensions}</li>
                         ))}
                       </ul>
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>
                       <Button color="primary" onClick={() => handleEditFittedOpen(fitted)}>
                         Edit

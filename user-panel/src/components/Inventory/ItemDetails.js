@@ -218,9 +218,12 @@ const ItemDetails = ({ product, queryParams }) => {
         inventoryId: product.id,
         // userId: user?.id,
         quantity: quantity || 1,
-        flatId: selectedFlat ? parseInt(selectedFlat.id) : null,
-        fittedId: selectedFitted ? parseInt(selectedFitted.id) : null,
-        customId: selectedCustomFitted ? parseInt(selectedCustomFitted.id) : null,
+        flatId: selectedFlatItem || null,
+        fittedId: selectedFittedItem || null,
+        customId: selectedCustomFittedItem || null,
+        // flatId: selectedFlat ? parseInt(selectedFlat.id) : null,
+        // fittedId: selectedFitted ? parseInt(selectedFitted.id) : null,
+        // customId: selectedCustomFitted ? parseInt(selectedCustomFitted.id) : null,
         ...getPricesBasedOnSizeOption(selections?.selectedOption, product),
         sizeOption: selections?.selectedOption,
         selectedFlatItem: selectedFlat?.Flat?.name + selectedFlat?.Flat?.size,
@@ -478,7 +481,7 @@ Thank you so much!`;
                           International Orders
                         </Typography>
                         <Typography variant="body2" sx={{ lineHeight: '1', display: "flex", flexDirection: "column", alignItems: "center", paddingBottom: "0px" }}>
-                          For Order & Shipping Details, Connect with us for personalized assistance on{' '} <br />
+                          For International Order & Shipping Details, Connect with us for personalized assistance on{' '} <br />
                           <Button
                             aria-label="Chat on WhatsApp"
                             href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}

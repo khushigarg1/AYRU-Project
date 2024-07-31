@@ -102,7 +102,7 @@ export default function CreateFittedModal({ setAddFittedOpen, refresh }) {
           fullWidth
           margin="normal"
         />
-        <Box ref={dimensionsContainerRef} maxHeight="300px" overflow="auto">
+        {/* <Box ref={dimensionsContainerRef} maxHeight="300px" overflow="auto">
           {dimensions.map((dimension, index) => (
             <Box display="flex" alignItems="center" key={index}>
               <TextField
@@ -119,15 +119,15 @@ export default function CreateFittedModal({ setAddFittedOpen, refresh }) {
                 <GridCloseIcon />
               </IconButton>
             </Box>
-          ))}
-        </Box>
+          ))} */}
+        {/* </Box>
         <Button
           startIcon={<AddIcon />}
           onClick={handleAddDimension}
           color="primary"
         >
           Add Dimension
-        </Button>
+        </Button> */}
         <Box mt={2}>
           <Button
             variant="contained"

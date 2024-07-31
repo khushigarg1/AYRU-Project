@@ -13,7 +13,7 @@ import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector
 import { StepIconProps } from '@mui/material/StepIcon';
 import { ArrowBackIosNewSharp } from '@mui/icons-material';
 
-const steps = ['Billing and Shipping', 'Payment', 'Review and Confirm'];
+const steps = ['Billing and Shipping', 'Review and Confirm'];
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 12,
@@ -162,10 +162,10 @@ const CheckoutPage = () => {
             {activeStep === 0 && (
               <BillingAndShippingStep user={user} onLogin={handleLogin} handleNext={handleNext} cartItems={cartItems} Totalcount={Totalcount} orderData={orderData} setOrderData={handleSetOrderData} />
             )}
-            {activeStep === 1 && (
+            {/* {activeStep === 1 && (
               <PaymentStep handleNext={handleNext} cartItems={cartItems} Totalcount={Totalcount} orderData={orderData} setOrderData={handleSetOrderData} />
-            )}
-            {activeStep === 2 && (
+            )} */}
+            {activeStep === 1 && (
               <ReviewAndConfirmStep handleNext={handleNext} cartItems={cartItems} Totalcount={Totalcount} orderData={orderData} setOrderData={handleSetOrderData} />
             )}
             <Box>

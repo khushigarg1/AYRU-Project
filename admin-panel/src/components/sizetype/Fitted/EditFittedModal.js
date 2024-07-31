@@ -18,7 +18,7 @@ export default function EditFittedModal({ fitted, setEditFittedOpen, refresh }) 
   useEffect(() => {
     if (fitted) {
       setName(fitted.name);
-      setDimensions(fitted.FittedDimensions.map((dim) => dim.dimensions));
+      setDimensions(fitted?.FittedDimensions?.map((dim) => dim.dimensions));
     }
   }, [fitted]);
 
@@ -98,7 +98,7 @@ export default function EditFittedModal({ fitted, setEditFittedOpen, refresh }) 
           fullWidth
           margin="normal"
         />
-        <Box ref={dimensionsContainerRef} maxHeight="300px" overflow="auto">
+        {/* <Box ref={dimensionsContainerRef} maxHeight="300px" overflow="auto">
           {dimensions.map((dimension, index) => (
             <Box display="flex" alignItems="center" key={index} mb={2}>
               <TextField
@@ -116,14 +116,14 @@ export default function EditFittedModal({ fitted, setEditFittedOpen, refresh }) 
               </IconButton>
             </Box>
           ))}
-        </Box>
-        <Button
+        </Box> */}
+        {/* <Button
           startIcon={<AddIcon />}
           onClick={handleAddDimension}
           color="primary"
         >
           Add Dimension
-        </Button>
+        </Button> */}
         <Box mt={2}>
           <Button
             variant="contained"

@@ -124,34 +124,33 @@ const CartPage = () => {
     let fittedId = item.fittedId;
 
     // If customId is provided, find the corresponding flatId from customFittedInventory
-    if (customId) {
-      const customFittedItem = item.Inventory.customFittedInventory.find(
-        (inventory) => inventory.id === item.customId
-      );
+    // if (item?.sizeOption === "custom") {
+    //   const customFittedItem = item.Inventory.customFittedInventory.find(
+    //     (inventory) => inventory.id === item.customId
+    //   );
 
-      if (customFittedItem) {
-        customId = customFittedItem?.InventoryFlat?.Flat?.id;
-      }
-    }
-    if (flatId) {
-      const FlatItem = item.Inventory.InventoryFlat.find(
-        (inventory) => inventory.id === flatId
-      );
+    //   if (customFittedItem) {
+    //     customId = customFittedItem?.InventoryFlat?.Flat?.id;
+    //   }
+    // }
+    // if (item?.sizeOption === "flat") {
+    //   const FlatItem = item.Inventory.InventoryFlat.find(
+    //     (inventory) => inventory.id === flatId
+    //   );
+    //   if (FlatItem) {
+    //     flatId = FlatItem?.Flat?.id;
+    //   }
+    // }
+    // if (item?.sizeOption === "fitted") {
+    //   const FittedItem = item.Inventory.InventoryFitted.find(
+    //     (inventory) => inventory.id === fittedId
+    //   );
 
-      if (FlatItem) {
-        flatId = FlatItem?.Flat?.id;
-      }
-    }
-    if (fittedId) {
-      const FittedItem = item.Inventory.InventoryFitted.find(
-        (inventory) => inventory.id === fittedId
-      );
-
-      if (FittedItem) {
-        fittedId = FittedItem?.Fitted?.id;
-      }
-    }
-
+    //   if (FittedItem) {
+    //     fittedId = FittedItem?.Fitted?.id;
+    //   }
+    // }
+    console.log(flatId, fittedId, customId);
     const details = {
       sizeOption: item?.sizeOption,
       flatId: flatId,
@@ -205,7 +204,7 @@ const CartPage = () => {
     `Hi, I'd like to place an international order for the following items:\n\n${whatsappMessage}${userDetails}\n\nCould you please provide details on the process, shipping costs, and delivery times?`
   )}`;
   return (
-    <Box p={1} mt={2} style={{ paddingLeft: isMobile ? "1%" : "8%", paddingRight: isMobile ? "1%" : "8%", backgroundColor: "#F0F0F0" }}>
+    <Box mt={2} style={{ paddingLeft: isMobile ? "1%" : "8%", paddingRight: isMobile ? "1%" : "8%", backgroundColor: "#F0F0F0" }}>
       <Box display="flex" alignItems="center" justifyContent="center">
         <Typography variant='h4' gutterBottom style={{ fontWeight: "bold" }}>
           Shopping Cart
@@ -311,9 +310,9 @@ const CartPage = () => {
                         <strong>Category: </strong>{item?.Inventory?.Category?.categoryName}
                       </Typography> */}
 
-                      <Typography variant="body2" gutterBottom sx={{ lineHeight: "1", fontSize: "0.55em" }}>
+                      {/* <Typography variant="body2" gutterBottom sx={{ lineHeight: "1", fontSize: "0.55em" }}>
                         <strong>SKU: </strong>{item?.Inventory?.skuId}
-                      </Typography>
+                      </Typography> */}
                       {item?.discountedPrice ? (
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                           <Typography variant="body2" sx={{ textDecoration: 'line-through', fontSize: "0.7em" }}>

@@ -7,6 +7,11 @@ import { ExpandMoreSharp } from '@mui/icons-material';
 import api from '../../../api';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import RajorPay from "../../../public/images/razorpay.png";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import PaymentIcon from '@mui/icons-material/Payment';
+import SecurityIcon from '@mui/icons-material/Security';
 
 const ShippingDetailsBox = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -53,7 +58,7 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
   };
   return (
     <>
-      <Paper sx={{ p: 2, backgroundColor: "transparent", boxShadow: "none" }}>
+      <Paper sx={{ p: 1, backgroundColor: "transparent", boxShadow: "none" }}>
         <Typography variant="h6">Review and Confirm</Typography>
         <Accordion defaultExpanded style={{ backgroundColor: "whitesmoke" }}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -62,7 +67,7 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
           <AccordionDetails>
             {cartItems.length !== 0 && (
               <>
-                <Grid container spacing={1} pl={1} pr={1}>
+                <Grid container spacing={1} pl={0} pr={0}>
                   {cartItems.map((item) => (
                     <Grid item key={item.id} xs={12} sm={12} md={12} lg={12} sx={{ height: "auto", marginBottom: "5px" }}>
                       <Card sx={{
@@ -114,40 +119,40 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
                           />
                         </Box>
                         <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" } }}>
-                          <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "bolder" }}>
+                          <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "bolder", fontSize: "12px" }}>
                             {item?.Inventory?.productName}
                           </Typography>
-                          <Typography variant="body2" gutterBottom sx={{ lineHeight: "1", fontSize: "0.6em" }}>
+                          {/* <Typography variant="body2" gutterBottom sx={{ lineHeight: "1", fontSize: "0.6em" }}>
                             <strong>SKU: </strong>{item?.Inventory?.skuId}
-                          </Typography>
+                          </Typography> */}
                           {item?.sizeOption === "flat" && (
-                            <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "400" }}>
+                            <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "400", fontSize: "10px" }}>
                               {item?.selectedFlatItem}
                             </Typography>
                           )}
                           {item?.sizeOption === "fitted" && (
-                            <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "400" }}>
+                            <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "400", fontSize: "10px" }}>
                               {item?.selectedFittedItem}
                             </Typography>
                           )}
                           {item?.sizeOption === "custom" && (
                             <>
-                              <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "400" }}>
+                              <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "400", fontSize: "10px" }}>
                                 {`${item?.selectedCustomFittedItem}`}
                               </Typography>
-                              <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "600", fontSize: "10px" }}>
-                                {`L×W×H =  ${item?.length}×${item?.width}×${item?.height} ${item?.unit}`}
+                              <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "600", fontSize: "10px" }}>
+                                {`Fitted Size L×W×H =  ${item?.length}×${item?.width}×${item?.height} ${item?.unit}`}
                               </Typography>
                             </>
                           )}
-                          <Grid container justifyContent="space-between" alignItems="flex-start" style={{ position: "absolute", bottom: "3px", width: "100%", overflow: "hidden", paddingRight: "20px" }}>
+                          <Grid container justifyContent="space-between" alignItems="flex-start" style={{ position: "absolute", bottom: "1px", width: "100%", overflow: "hidden", paddingRight: "20px" }}>
                             <Grid item>
-                              <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "12px" }}>
-                                {`🛒 QTY: ${item?.quantity || 0} × ₹${item?.Inventory?.discountedPrice ? item?.Inventory?.discountedPrice : item?.Inventory?.sellingPrice} =`}
+                              <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
+                                {`QTY: ${item?.quantity || 0} × ₹${item?.Inventory?.discountedPrice ? item?.Inventory?.discountedPrice : item?.Inventory?.sellingPrice} =`}
                               </Typography>
                             </Grid>
                             <Grid item>
-                              <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "12px" }}>
+                              <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
                                 {`₹${(item?.quantity * (item?.Inventory?.discountedPrice || item?.Inventory?.sellingPrice)).toFixed(2)}`}
                               </Typography>
                             </Grid>
@@ -227,6 +232,35 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
         </Accordion>
         {/* <Button>Place Order</Button> */}
 
+        <Typography mt={2} variant="h6">
+          {/* 💳  */}
+          Payment</Typography>
+        <Box p={2} style={{ backgroundColor: "#fff" }}>
+          <Typography variant="body2" color="textSecondary">
+            🔒 Razorpay is a trusted payment gateway offering seamless and secure transactions. Enjoy a smooth checkout experience with Razorpay.
+          </Typography>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 1, mb: 1 }}>
+            {/* <RazorpayIcon sx={{ fontSize: 30, color: 'green', mr: 2 }} /> */}
+            {/* <Typography variant="h6">💵 Razorpay</Typography> */}
+            <Image src={RajorPay}></Image>
+          </Box>
+
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+              <CheckCircleIcon color="success" sx={{ mr: 1 }} fontSize='4' />
+              <Typography variant="body2">Easy to Use</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+              <PaymentIcon color="primary" sx={{ mr: 1 }} fontSize='4' />
+              <Typography variant="body2">Multiple Payment Methods</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+              <SecurityIcon color="action" sx={{ mr: 1 }} fontSize='4' />
+              <Typography variant="body2">Highly Secure</Typography>
+            </Box>
+          </Box>
+        </Box>
         <Typography variant="h6">Pricing Details</Typography>
         <Box style={{ backgroundColor: "#fff" }} p={2}>
           <Grid container justifyContent="space-between" alignItems="flex-start" style={{ padding: "0px 5px" }}>
@@ -271,6 +305,7 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
             </Grid>
           </Grid>
         </Box>
+
       </Paper>
 
       <Button variant='contained' onClick={handleOrder} sx={{ width: "100%" }}>

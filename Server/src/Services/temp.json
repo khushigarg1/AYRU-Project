@@ -1,0 +1,109 @@
+{
+  "account_id": "acc_KA9GxcGilYz8wC",
+  "contains": ["payment_link", "order", "payment"],
+  "created_at": 1722432747,
+  "entity": "event",
+  "event": "payment_link.paid",
+  "payload": {
+    "order": {
+      "entity": {
+        "amount": 1329600,
+        "amount_due": 0,
+        "amount_paid": 1329600,
+        "attempts": 1,
+        "created_at": 1722432749,
+        "currency": "INR",
+        "entity": "order",
+        "id": "order_OfFzgj8nW5dk6H",
+        "notes": { "policy_name": "Jeevan Bima" },
+        "offer_id": null,
+        "receipt": "124",
+        "status": "paid"
+      }
+    },
+    "payment": {
+      "entity": {
+        "acquirer_data": { "auth_code": "741206" },
+        "amount": 1329600,
+        "amount_refunded": 0,
+        "amount_transferred": 0,
+        "bank": null,
+        "base_amount": 1329600,
+        "captured": true,
+        "card": {
+          "emi": false,
+          "entity": "card",
+          "id": "card_OfG02BOM9EQQlR",
+          "international": false,
+          "issuer": null,
+          "last4": "1111",
+          "name": "",
+          "network": "Visa",
+          "sub_type": "consumer",
+          "token_iin": null,
+          "type": "prepaid"
+        },
+        "card_id": "card_OfG02BOM9EQQlR",
+        "contact": "+919166564901",
+        "created_at": 1722432770,
+        "currency": "INR",
+        "description": "#OfFzeITW5Bo5kt",
+        "email": "void@razorpay.com",
+        "entity": "payment",
+        "error_code": null,
+        "error_description": null,
+        "error_reason": null,
+        "error_source": null,
+        "error_step": null,
+        "fee": 31378,
+        "fee_bearer": "platform",
+        "id": "pay_OfG01zZi1LJ1sr",
+        "international": false,
+        "invoice_id": null,
+        "method": "card",
+        "notes": { "policy_name": "Jeevan Bima" },
+        "order_id": "order_OfFzgj8nW5dk6H",
+        "refund_status": null,
+        "status": "captured",
+        "tax": 4786,
+        "token_id": "token_OfG02nX80sq5aC",
+        "vpa": null,
+        "wallet": null
+      }
+    },
+    "payment_link": {
+      "entity": {
+        "accept_partial": false,
+        "amount": 1329600,
+        "amount_paid": 1329600,
+        "callback_method": "get",
+        "callback_url": "https://7q0xhxzq-3000.inc1.devtunnels.ms/orders",
+        "cancelled_at": 0,
+        "created_at": 1722432747,
+        "currency": "INR",
+        "customer": {
+          "contact": "{09166564901}",
+          "email": "gaurav.kumar@example.com",
+          "name": "{Khushi Garg}"
+        },
+        "description": "Payment for order##121",
+        "expire_by": 1722434246,
+        "expired_at": 0,
+        "first_min_partial_amount": 0,
+        "id": "plink_OfFzeITW5Bo5kt",
+        "notes": { "policy_name": "Jeevan Bima" },
+        "notify": { "email": true, "sms": true, "whatsapp": false },
+        "order_id": "order_OfFzgj8nW5dk6H",
+        "reference_id": "124",
+        "reminder_enable": false,
+        "reminders": {},
+        "short_url": "https://rzp.io/i/41hitR8",
+        "status": "paid",
+        "updated_at": 1722432774,
+        "upi_link": false,
+        "user_id": "",
+        "whatsapp_link": false
+      }
+    }
+  }
+}

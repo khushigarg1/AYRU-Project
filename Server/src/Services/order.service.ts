@@ -115,7 +115,7 @@ export async function createOrderService(
     let newPayment;
     try {
       const currentTimestamp = Math.floor(Date.now() / 1000);
-      const expireBy = currentTimestamp + 25 * 60;
+      const expireBy = currentTimestamp + 15 * 60;
       console.log(expireBy);
 
       newPayment = await razorpayInstance.paymentLink.create({
@@ -354,62 +354,71 @@ export async function razorPayWebhookService(data: any) {
     }
 
     const orderId = parseInt(referenceId, 10);
+    console.log(
+      "orderiiiiiiiiiiiiiiiiiddddddddddddddddd-----------------------------------------------------------------------------------------------------",
+      orderId
+    );
 
-    if (isNaN(orderId)) {
-      throw new Error(`Invalid reference_id: ${referenceId}`);
-    }
+    // if (isNaN(orderId)) {
+    //   throw new Error(`Invalid reference_id: ${referenceId}`);
+    // }
 
     if (data?.event === "payment_link.paid") {
+      console.log(
+        "---------------------------------------------------------paid-------------------"
+      );
+
       const orderItems = await prisma.orderItem.findMany({
         where: { orderId: orderId },
       });
 
       for (const item of orderItems) {
-        const inventory = await prisma.inventory.findUnique({
-          where: { id: item.inventoryId },
-          include: {
-            customFittedInventory: {
-              include: { InventoryFlat: { include: { Flat: true } } },
-            },
-            InventoryFlat: { include: { Flat: true } },
-            InventoryFitted: {
-              include: {
-                Fitted: true,
-              },
-            },
-          },
-        });
+        // const inventory = await prisma.inventory.findUnique({
+        //   where: { id: item.inventoryId },
+        //   include: {
+        //     customFittedInventory: {
+        //       include: { InventoryFlat: { include: { Flat: true } } },
+        //     },
+        //     InventoryFlat: { include: { Flat: true } },
+        //     InventoryFitted: {
+        //       include: {
+        //         Fitted: true,
+        //       },
+        //     },
+        //   },
+        // });
 
-        if (!inventory) {
-          console.error(`Inventory item not found for ID: ${item.inventoryId}`);
-          throw new Error("Inventory item not found");
-        }
+        // if (!inventory) {
+        //   console.error(`Inventory item not found for ID: ${item.inventoryId}`);
+        //   throw new Error("Inventory item not found");
+        // }
 
-        const newQuantity = (inventory.quantity ?? 0) - item.quantity;
-        const newSoldQuantity = (inventory.soldQuantity ?? 0) + item.quantity;
-        const newMaxQuantity = (inventory.maxQuantity ?? 0) - item.quantity;
-        let newMinQuantity = inventory.minQuantity ?? 0;
+        // const newQuantity = (inventory.quantity ?? 0) - item.quantity;
+        // const newSoldQuantity = (inventory.soldQuantity ?? 0) + item.quantity;
+        // const newMaxQuantity = (inventory.maxQuantity ?? 0) - item.quantity;
+        // let newMinQuantity = inventory.minQuantity ?? 0;
 
-        if (newMinQuantity > newMaxQuantity) {
-          newMinQuantity = newMaxQuantity - 1;
-        }
+        // if (newMinQuantity > newMaxQuantity) {
+        //   newMinQuantity = newMaxQuantity - 1;
+        // }
 
-        let updatedQuantity = newQuantity < 0 ? 0 : newQuantity;
-        let updatedSoldQuantity = newSoldQuantity < 0 ? 0 : newSoldQuantity;
-        let updatedMaxQuantity = newMaxQuantity < 0 ? 0 : newMaxQuantity;
-        let updatedMinQuantity = newMinQuantity < 0 ? 0 : newMinQuantity;
+        // let updatedQuantity = newQuantity < 0 ? 0 : newQuantity;
+        // let updatedSoldQuantity = newSoldQuantity < 0 ? 0 : newSoldQuantity;
+        // let updatedMaxQuantity = newMaxQuantity < 0 ? 0 : newMaxQuantity;
+        // let updatedMinQuantity = newMinQuantity < 0 ? 0 : newMinQuantity;
 
-        await prisma.inventory.update({
-          where: { id: item.inventoryId },
-          data: {
-            quantity: updatedQuantity,
-            soldQuantity: updatedSoldQuantity,
-            maxQuantity: updatedMaxQuantity,
-            minQuantity: updatedMinQuantity,
-            extraOptionOutOfStock: updatedQuantity <= 0,
-          },
-        });
+        // await prisma.inventory.update({
+        //   where: { id: item.inventoryId },
+        //   data: {
+        //     quantity: updatedQuantity,
+        //     soldQuantity: updatedSoldQuantity,
+        //     maxQuantity: updatedMaxQuantity,
+        //     minQuantity: updatedMinQuantity,
+        //     extraOptionOutOfStock: updatedQuantity <= 0,
+        //   },
+        // });
         let cartdata;
+        let totalquantity = 0;
         if (item?.cartId) {
           cartdata = await prisma.cart.findFirst({
             where: { id: item?.cartId },
@@ -424,11 +433,14 @@ export async function razorPayWebhookService(data: any) {
         switch (item.sizeOption) {
           case "flat":
             if (cartdata?.flatId) {
-              const flatInventory = await prisma.inventoryFlat.findUnique({
+              const flatInventory = await prisma.inventoryFlat.findFirst({
                 where: {
-                  id: cartdata?.flatId,
+                  inventoryId: cartdata?.inventoryId,
+                  flatId: cartdata?.flatId,
                 },
               });
+              console.log(flatInventory);
+
               const newQuantity =
                 (flatInventory?.quantity ?? 0) - item.quantity;
               const newSoldQuantity =
@@ -438,13 +450,30 @@ export async function razorPayWebhookService(data: any) {
               let newMinQuantity = flatInventory?.minQuantity ?? 0;
 
               if (newMinQuantity > newMaxQuantity) {
-                newMinQuantity = newMaxQuantity - 1;
+                newMinQuantity = newMaxQuantity;
               }
               let updatedQuantity = newQuantity < 0 ? 0 : newQuantity;
               let updatedSoldQuantity =
                 newSoldQuantity < 0 ? 0 : newSoldQuantity;
               let updatedMaxQuantity = newMaxQuantity < 0 ? 0 : newMaxQuantity;
               let updatedMinQuantity = newMinQuantity < 0 ? 0 : newMinQuantity;
+
+              totalquantity += updatedQuantity;
+
+              console.log(
+                "flat prev",
+                flatInventory?.quantity,
+                flatInventory?.soldQuantity,
+                flatInventory?.minQuantity,
+                flatInventory?.maxQuantity
+              );
+              console.log(
+                "flat updated",
+                updatedQuantity,
+                updatedSoldQuantity,
+                updatedMinQuantity,
+                updatedMaxQuantity
+              );
 
               if (flatInventory) {
                 await prisma.inventoryFlat.update({
@@ -462,9 +491,10 @@ export async function razorPayWebhookService(data: any) {
 
           case "fitted":
             if (cartdata?.fittedId) {
-              const fittedInventory = await prisma.inventoryFitted.findUnique({
+              const fittedInventory = await prisma.inventoryFitted.findFirst({
                 where: {
-                  id: cartdata?.fittedId,
+                  inventoryId: cartdata?.inventoryId,
+                  fittedId: cartdata?.fittedId,
                 },
               });
               const newQuantity =
@@ -476,13 +506,29 @@ export async function razorPayWebhookService(data: any) {
               let newMinQuantity = fittedInventory?.minQuantity ?? 0;
 
               if (newMinQuantity > newMaxQuantity) {
-                newMinQuantity = newMaxQuantity - 1;
+                newMinQuantity = newMaxQuantity;
               }
               let updatedQuantity = newQuantity < 0 ? 0 : newQuantity;
               let updatedSoldQuantity =
                 newSoldQuantity < 0 ? 0 : newSoldQuantity;
               let updatedMaxQuantity = newMaxQuantity < 0 ? 0 : newMaxQuantity;
               let updatedMinQuantity = newMinQuantity < 0 ? 0 : newMinQuantity;
+
+              totalquantity += updatedQuantity;
+              console.log(
+                "flat prev",
+                fittedInventory?.quantity,
+                fittedInventory?.soldQuantity,
+                fittedInventory?.minQuantity,
+                fittedInventory?.maxQuantity
+              );
+              console.log(
+                "flat updated",
+                updatedQuantity,
+                updatedSoldQuantity,
+                updatedMinQuantity,
+                updatedMaxQuantity
+              );
 
               if (fittedInventory) {
                 await prisma.inventoryFitted.update({
@@ -500,10 +546,17 @@ export async function razorPayWebhookService(data: any) {
 
           case "custom":
             if (cartdata?.customId) {
+              const flatInventory = await prisma.inventoryFlat.findFirst({
+                where: {
+                  inventoryId: cartdata?.inventoryId,
+                  flatId: cartdata?.customId,
+                },
+              });
               const customInventory =
-                await prisma.customFittedInventory.findUnique({
+                await prisma.customFittedInventory.findFirst({
                   where: {
-                    id: cartdata?.customId,
+                    inventoryId: flatInventory?.inventoryId,
+                    inventoryFlatId: flatInventory?.id,
                   },
                 });
 
@@ -524,7 +577,7 @@ export async function razorPayWebhookService(data: any) {
                 let newMinQuantity = finalCustomInventory?.minQuantity ?? 0;
 
                 if (newMinQuantity > newMaxQuantity) {
-                  newMinQuantity = newMaxQuantity - 1;
+                  newMinQuantity = newMaxQuantity;
                 }
                 let updatedQuantity = newQuantity < 0 ? 0 : newQuantity;
                 let updatedSoldQuantity =
@@ -533,6 +586,23 @@ export async function razorPayWebhookService(data: any) {
                   newMaxQuantity < 0 ? 0 : newMaxQuantity;
                 let updatedMinQuantity =
                   newMinQuantity < 0 ? 0 : newMinQuantity;
+
+                totalquantity += updatedQuantity;
+
+                console.log(
+                  "flat prev",
+                  finalCustomInventory?.quantity,
+                  finalCustomInventory?.soldQuantity,
+                  finalCustomInventory?.minQuantity,
+                  finalCustomInventory?.maxQuantity
+                );
+                console.log(
+                  "flat updated",
+                  updatedQuantity,
+                  updatedSoldQuantity,
+                  updatedMinQuantity,
+                  updatedMaxQuantity
+                );
 
                 if (finalCustomInventory) {
                   await prisma.inventoryFlat.update({
@@ -553,8 +623,15 @@ export async function razorPayWebhookService(data: any) {
             console.error(`Unknown size option: ${item.sizeOption}`);
             break;
         }
+        if (totalquantity === 0) {
+          await prisma.inventory.update({
+            where: { id: item.inventoryId },
+            data: {
+              extraOptionOutOfStock: true,
+            },
+          });
+        }
       }
-
       // Update order status
       await prisma.order.update({
         where: { id: orderId },
@@ -566,6 +643,10 @@ export async function razorPayWebhookService(data: any) {
     }
 
     if (data?.event === "payment_link.expired") {
+      console.log(
+        "---------------------------------------------------------expired--------------------------------"
+      );
+
       await prisma.order.update({
         where: { id: orderId },
         data: {

@@ -57,7 +57,7 @@ export const PaymentStep = ({ handleNext, orderData, setOrderData }) => {
 
   return (
     <>
-      <Paper sx={{ p: 2, backgroundColor: "transparent", boxShadow: "none" }}>
+      <Paper sx={{ p: 1, backgroundColor: "transparent", boxShadow: "none" }}>
         <ShippingInfoBox>
           <Typography variant="body2">
             {/* <CircleWrapper>

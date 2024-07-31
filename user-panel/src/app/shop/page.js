@@ -585,7 +585,7 @@ const ShopPageContent = () => {
         open={isDrawerOpen}
         onClose={handleDrawerClose}
       >
-        <Box sx={{ padding: '20px' }}>
+        <Box sx={{ padding: '40px 20px' }}>
           <IconButton
             onClick={handleDrawerClose}
             sx={{

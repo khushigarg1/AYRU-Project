@@ -159,7 +159,7 @@ Could you please provide me with the details regarding the process, any addition
                     href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    endIcon={<WhatsappIcon style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
+                    endIcon={<WhatsappIcon       style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
                     sx={{
                       color: '#25D366',
                       fontWeight: 'bold',

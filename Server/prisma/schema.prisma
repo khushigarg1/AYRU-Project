@@ -405,6 +405,7 @@ model Order {
   paymentStatus     String
   deliveryStatus    String
   giftOption        Boolean?
+  sale              Boolean?
   Total             Int
   paymentMethodId   Int?
   deliveryAddressId Int
