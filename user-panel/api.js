@@ -6,9 +6,9 @@ import Axios from "axios";
 //     production: 'https://zljf0gm0-3000.inc1.devtunnels.ms/api/v1/'
 // }
 let urls = {
-  test: `http://localhost:8080`,
-  development: "https://7q0xhxzq-8080.inc1.devtunnels.ms/api/",
-  // development: "http://localhost:8080/api/",
+  test: `https://ayru-project.onrender.com/`,
+  // development: "https://7q0xhxzq-8080.inc1.devtunnels.ms/api/",
+  development: "https://ayru-project.onrender.com/",
   // production: "https://closedgroupapi.onrender.com/api/v1/",
 };
 const api = Axios.create({
