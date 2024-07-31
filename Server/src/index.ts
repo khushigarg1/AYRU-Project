@@ -56,18 +56,16 @@ server.get("/api/image/:imageUrl", getImage);
 // }
 registerRoutes(server);
 
-const port = process.env.PORT || 4000;
-server.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+const port = parseInt(process.env.PORT ?? "4000", 10);
+
+server.listen({ port, host: "0.0.0.0" }, (err, address) => {
+  if (err) {
+    server.log.error(err);
+    console.error(err);
+    process.exit(1);
+  }
+  console.log(`Server listening on ${address}`);
 });
-// server.listen({ port: 8080 }, (err, address) => {
-//   if (err) {
-//     server.log.error(err);
-//     console.error(err);
-//     process.exit(1);
-//   }
-//   console.log(`Server listening on ${address}`);
-// });
 
 // const start = async () => {
 //   try {
