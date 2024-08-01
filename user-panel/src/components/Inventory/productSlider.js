@@ -226,7 +226,7 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
         >
           {/* <Share /> */}
           <ShareButton
-            imageUrl={`https://ayru-jaipur.s3.amazonaws.com/${item?.url}`}
+            imageUrl={`https://ayru-jaipur.s3.amazonaws.com/${itemlist?.Media[0]?.url}`}
             title={itemlist.productName}
             text={getProductShareText()}
             // url={`www.ayrujaipur.com`}
