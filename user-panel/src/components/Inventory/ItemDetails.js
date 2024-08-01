@@ -309,7 +309,7 @@ Thank you so much!`;
               <Typography variant="h5" gutterBottom sx={{ mt: 1 }}>
                 {product?.productName}
               </Typography>
-              {discountedPriceToDisplay ? (
+              {discountedPriceToDisplay && discountedPriceToDisplay !== "0.00" && discountedPriceToDisplay !== 0 ? (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                   <Typography variant="body2">
                     MRP

@@ -319,25 +319,18 @@ class CartService {
                             unit,
                         },
                     });
-                    const customfitted = yield prisma.customFittedInventory.findFirst({
+                    const inventoryflatItem = yield prisma.inventoryFlat.findFirst({
                         where: {
-                            id: customId,
+                            inventoryId,
+                            flatId: customId,
                         },
                     });
-                    if (customfitted === null || customfitted === void 0 ? void 0 : customfitted.inventoryFlatId) {
-                        const flatinventoryitem = yield prisma.inventoryFlat.findFirst({
-                            where: {
-                                inventoryId,
-                                id: customfitted === null || customfitted === void 0 ? void 0 : customfitted.inventoryFlatId,
-                            },
-                        });
-                        cartsizeItem = yield prisma.inventoryFlat.findFirst({
-                            where: {
-                                inventoryId,
-                                flatId: flatinventoryitem === null || flatinventoryitem === void 0 ? void 0 : flatinventoryitem.flatId,
-                            },
-                        });
-                    }
+                    cartsizeItem = yield prisma.customFittedInventory.findFirst({
+                        where: {
+                            inventoryId,
+                            inventoryFlatId: inventoryflatItem === null || inventoryflatItem === void 0 ? void 0 : inventoryflatItem.id,
+                        },
+                    });
                 }
                 console.log(existingCartItem, userId, inventoryId, flatId, fittedId, customId);
                 // Check existing cart item and update quantity
@@ -487,10 +480,16 @@ class CartService {
                 }
                 else if (cartItem.sizeOption === "custom" &&
                     cartItem.customId !== null) {
-                    cartSizeItem = yield prisma.inventoryFlat.findFirst({
+                    const inventoryflatItem = yield prisma.inventoryFlat.findFirst({
                         where: {
-                            inventoryId: cartItem.inventoryId,
-                            flatId: cartItem.customId,
+                            inventoryId: cartItem === null || cartItem === void 0 ? void 0 : cartItem.inventoryId,
+                            flatId: cartItem === null || cartItem === void 0 ? void 0 : cartItem.customId,
+                        },
+                    });
+                    cartSizeItem = yield prisma.customFittedInventory.findFirst({
+                        where: {
+                            inventoryId: cartItem === null || cartItem === void 0 ? void 0 : cartItem.inventoryId,
+                            inventoryFlatId: inventoryflatItem === null || inventoryflatItem === void 0 ? void 0 : inventoryflatItem.id,
                         },
                     });
                 }
