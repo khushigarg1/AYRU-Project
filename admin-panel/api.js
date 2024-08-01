@@ -7,7 +7,9 @@ import Axios from "axios";
 // }
 let urls = {
   test: `http://localhost:8080`,
-  development: "https://7q0xhxzq-8080.inc1.devtunnels.ms/api/",
+  development: "https://ayru-project.onrender.com/api/",
+
+  // development: "https://7q0xhxzq-8080.inc1.devtunnels.ms/api/",
   // development: "http://localhost:8080/api/",
   // production: "https://closedgroupapi.onrender.com/api/v1/",
 };
