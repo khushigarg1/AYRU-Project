@@ -149,7 +149,7 @@ const CartPage = () => {
     let itemDetails = `Product: ${item?.Inventory?.productName}\n` +
       `ProductUrl: ${process.env.REACT_APP_BASE_URL}/shop/${item?.Inventory?.id}\n` +
       `Quantity: ${item.quantity}\n` +
-      `Selling Price: ₹${item.sellingPrice}\n` +
+      `Selling Price: ₹${item?.carcartSizeItem?.sellingPrice}\n` +
       `Size Option: ${item.sizeOption}\n`;
 
     if (item.sizeOption === 'flat') {
@@ -284,24 +284,24 @@ const CartPage = () => {
                       {/* <Typography variant="body2" gutterBottom sx={{ lineHeight: "1", fontSize: "0.55em" }}>
                         <strong>SKU: </strong>{item?.Inventory?.skuId}
                       </Typography> */}
-                      {item?.discountedPrice ? (
+                      {item?.carcartSizeItem?.discountedPrice ? (
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                           <Typography variant="body2" sx={{ textDecoration: 'line-through', fontSize: "0.7em" }}>
-                            Rs.{item?.sellingPrice}
+                            Rs.{item?.carcartSizeItem?.sellingPrice}
                           </Typography>
                           <Typography variant="body2" color={theme?.palette?.text?.contrastText} sx={{ fontSize: "0.7em" }}>
-                            Rs.{item?.discountedPrice}
+                            Rs.{item?.carcartSizeItem?.discountedPrice}
                           </Typography>
                           <Typography variant="body2" color="error" sx={{
                             background: 'inherit',
                             color: "black", fontSize: "0.7em"
                           }}>
-                            {`(${Math.round(((item?.sellingPrice - item?.discountedPrice) / item?.sellingPrice) * 100)}% OFF)`}
+                            {`(${Math.round(((item?.carcartSizeItem?.sellingPrice - item?.carcartSizeItem?.discountedPrice) / item?.carcartSizeItem?.sellingPrice) * 100)}% OFF)`}
                           </Typography>
                         </Box>
                       ) : (
                         <Typography variant="body2" sx={{ fontSize: "0.7em" }}>
-                          Rs.{item?.sellingPrice}
+                          Rs.{item?.carcartSizeItem?.sellingPrice}
                         </Typography>
                       )}
                       <Typography variant='body2' sx={{ color: item?.Inventory?.extraOptionOutOfStock ? 'red' : 'green', fontSize: "0.6em", marginBottom: "15px" }}>
@@ -337,12 +337,12 @@ const CartPage = () => {
                     >
                       <Grid item>
                         <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
-                          {`QTY: ${item?.quantity || 0} × ₹${item?.discountedPrice ? item?.discountedPrice : item?.sellingPrice} =`}
+                          {`QTY: ${item?.quantity || 0} × ₹${item?.carcartSizeItem?.discountedPrice ? item?.carcartSizeItem?.discountedPrice : item?.carcartSizeItem?.sellingPrice} =`}
                         </Typography>
                       </Grid>
                       <Grid item>
                         <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
-                          {`Rs. ${(item?.quantity * (item?.discountedPrice || item?.sellingPrice)).toFixed(2)}`}
+                          {`Rs. ${(item?.quantity * (item?.carcartSizeItem?.discountedPrice || item?.carcartSizeItem?.sellingPrice)).toFixed(2)}`}
                         </Typography>
                       </Grid>
                     </Grid>

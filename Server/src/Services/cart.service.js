@@ -275,6 +275,7 @@ class CartService {
             try {
                 // Find an existing cart item
                 let existingCartItem;
+                let cartsizeItem;
                 // Find an existing cart item based on sizeOption
                 if (sizeOption === "flat") {
                     existingCartItem = yield prisma.cart.findFirst({
@@ -284,11 +285,23 @@ class CartService {
                             flatId,
                         },
                     });
+                    cartsizeItem = yield prisma.inventoryFlat.findFirst({
+                        where: {
+                            inventoryId,
+                            flatId,
+                        },
+                    });
                 }
                 else if (sizeOption === "fitted") {
                     existingCartItem = yield prisma.cart.findFirst({
                         where: {
                             userId,
+                            inventoryId,
+                            fittedId,
+                        },
+                    });
+                    cartsizeItem = yield prisma.inventoryFitted.findFirst({
+                        where: {
                             inventoryId,
                             fittedId,
                         },
@@ -306,6 +319,25 @@ class CartService {
                             unit,
                         },
                     });
+                    const customfitted = yield prisma.customFittedInventory.findFirst({
+                        where: {
+                            id: customId,
+                        },
+                    });
+                    if (customfitted === null || customfitted === void 0 ? void 0 : customfitted.inventoryFlatId) {
+                        const flatinventoryitem = yield prisma.inventoryFlat.findFirst({
+                            where: {
+                                inventoryId,
+                                id: customfitted === null || customfitted === void 0 ? void 0 : customfitted.inventoryFlatId,
+                            },
+                        });
+                        cartsizeItem = yield prisma.inventoryFlat.findFirst({
+                            where: {
+                                inventoryId,
+                                flatId: flatinventoryitem === null || flatinventoryitem === void 0 ? void 0 : flatinventoryitem.flatId,
+                            },
+                        });
+                    }
                 }
                 console.log(existingCartItem, userId, inventoryId, flatId, fittedId, customId);
                 // Check existing cart item and update quantity
@@ -339,7 +371,7 @@ class CartService {
                         remark,
                     },
                 });
-                return newCartItem;
+                return { newCartItem, cartsize: cartsizeItem };
             }
             catch (error) {
                 throw new errors_1.ApiBadRequestError(error.message);
@@ -400,9 +432,7 @@ class CartService {
     getUserCart(userId) {
         return __awaiter(this, void 0, void 0, function* () {
             const userCart = yield prisma.cart.findMany({
-                where: {
-                    userId,
-                },
+                where: { userId },
                 include: {
                     User: true,
                     Inventory: {
@@ -413,62 +443,60 @@ class CartService {
                             InventoryFlat: { include: { Flat: true } },
                             InventorySubcategory: { include: { SubCategory: true } },
                             InventoryFitted: {
-                                include: {
-                                    Fitted: true,
-                                },
+                                include: { Fitted: true },
                             },
                             Category: true,
                             Wishlist: true,
                             ColorVariations: { include: { Color: true } },
-                            relatedInventories: {
-                                include: {
-                                    Media: true,
-                                },
-                            },
-                            relatedByInventories: {
-                                include: {
-                                    Media: true,
-                                },
-                            },
+                            relatedInventories: { include: { Media: true } },
+                            relatedByInventories: { include: { Media: true } },
                             Media: true,
                             SizeChartMedia: true,
                         },
                     },
                 },
-                orderBy: {
-                    updatedAt: "desc",
-                },
+                orderBy: { updatedAt: "desc" },
             });
             let totalPrice = 0;
             userCart.forEach((cartItem) => {
                 var _a, _b, _c;
-                const price = (cartItem === null || cartItem === void 0 ? void 0 : cartItem.discountedPrice) !== undefined &&
-                    (cartItem === null || cartItem === void 0 ? void 0 : cartItem.discountedPrice) !== 0
+                const price = cartItem.discountedPrice !== undefined && cartItem.discountedPrice !== 0
                     ? (_a = cartItem.discountedPrice) !== null && _a !== void 0 ? _a : 0
-                    : (_b = cartItem === null || cartItem === void 0 ? void 0 : cartItem.sellingPrice) !== null && _b !== void 0 ? _b : 0;
-                const quantity = (_c = cartItem === null || cartItem === void 0 ? void 0 : cartItem.quantity) !== null && _c !== void 0 ? _c : 1;
+                    : (_b = cartItem.sellingPrice) !== null && _b !== void 0 ? _b : 0;
+                const quantity = (_c = cartItem.quantity) !== null && _c !== void 0 ? _c : 1;
                 totalPrice += price * quantity;
             });
-            // let totalPrice = 0;
-            // userCart.forEach((cartItem) => {
-            //   const inventory = cartItem.Inventory;
-            //   if (
-            //     inventory &&
-            //     inventory.discountedPrice !== null &&
-            //     inventory.discountedPrice !== undefined
-            //   ) {
-            //     totalPrice += inventory.discountedPrice;
-            //   } else if (
-            //     inventory &&
-            //     inventory.costPrice !== null &&
-            //     inventory.costPrice !== undefined &&
-            //     (inventory.discountedPrice == null ||
-            //       inventory.discountedPrice == undefined)
-            //   ) {
-            //     totalPrice += inventory.costPrice;
-            //   }
-            // });
-            return { userCart, totalPrice };
+            const cartSizeItems = yield Promise.all(userCart.map((cartItem) => __awaiter(this, void 0, void 0, function* () {
+                let cartSizeItem;
+                if (cartItem.sizeOption === "flat" && cartItem.flatId !== null) {
+                    cartSizeItem = yield prisma.inventoryFlat.findFirst({
+                        where: {
+                            inventoryId: cartItem.inventoryId,
+                            flatId: cartItem.flatId,
+                        },
+                    });
+                }
+                else if (cartItem.sizeOption === "fitted" &&
+                    cartItem.fittedId !== null) {
+                    cartSizeItem = yield prisma.inventoryFitted.findFirst({
+                        where: {
+                            inventoryId: cartItem.inventoryId,
+                            fittedId: cartItem.fittedId,
+                        },
+                    });
+                }
+                else if (cartItem.sizeOption === "custom" &&
+                    cartItem.customId !== null) {
+                    cartSizeItem = yield prisma.inventoryFlat.findFirst({
+                        where: {
+                            inventoryId: cartItem.inventoryId,
+                            flatId: cartItem.customId,
+                        },
+                    });
+                }
+                return Object.assign(Object.assign({}, cartItem), { cartSizeItem });
+            })));
+            return { userCart: cartSizeItems, totalPrice };
         });
     }
     getAllCart() {
