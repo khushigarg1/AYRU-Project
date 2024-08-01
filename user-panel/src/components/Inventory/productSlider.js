@@ -127,7 +127,7 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
 
   const getProductShareText = () => {
     const productName = itemlist.productName;
-    const description = itemlist.description;
+    // const description = itemlist.description;
     const price = discountedPriceToDisplay ? `Now available at a discounted price of $${discountedPriceToDisplay}! (Original price: $${sellingPriceToDisplay})` : `Price: $${sellingPriceToDisplay}`;
     return `Check out this amazing product: ${productName} 🌟\n\n${description}\n\n${price}\n\n🛒 Don't miss out! Click the link to view more details and make a purchase!`;
   };
@@ -226,11 +226,12 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
         >
           {/* <Share /> */}
           <ShareButton
-            imageUrl={`https://ayru-jaipur.s3.amazonaws.com/${itemlist?.Media[0]?.url}`}
+            imageUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/shop/${itemlist.id}`}
             title={itemlist.productName}
             text={getProductShareText()}
             // url={`www.ayrujaipur.com`}
-            url={`${process.env.NEXT_PUBLIC_BASE_URL}/shop/${itemlist.id}`}
+            // url={`${process.env.NEXT_PUBLIC_BASE_URL}/shop/${itemlist.id}`}
+            url={`https://ayru-jaipur.s3.amazonaws.com/${itemlist?.Media[0]?.url}`}
           />
         </IconButton>
       </Box >
