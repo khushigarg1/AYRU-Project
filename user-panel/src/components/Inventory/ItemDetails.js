@@ -19,12 +19,11 @@ const ItemDetails = ({ product, queryParams }) => {
   //-------------------------------------------------------------------------------
 
   const hasBedsheets = product?.InventoryFitted.length > 0 || product.customFittedInventory.length > 0;
-  console.log(queryParams);
   const [selections, setSelections] = useState({
     selectedOption: queryParams?.sizeOption || 'flat',
-    selectedFlatItem: queryParams?.flatId || '',
-    selectedFittedItem: queryParams?.fittedId || '',
-    selectedCustomFittedItem: queryParams?.customId || '',
+    selectedFlatItem: Number(queryParams?.flatId) || '',
+    selectedFittedItem: Number(queryParams?.fittedId) || '',
+    selectedCustomFittedItem: Number(queryParams?.customId) || '',
     selectedUnit: queryParams?.unit || 'inch',
     dimensions: {
       width: queryParams?.width || '',
@@ -32,54 +31,20 @@ const ItemDetails = ({ product, queryParams }) => {
       length: queryParams?.length || ''
     }
   });
-  console.log(selections);
   const selectedFlatItem = selections?.selectedFlatItem;
   const selectedFittedItem = selections?.selectedFittedItem;
   const selectedCustomFittedItem = selections?.selectedCustomFittedItem;
+  console.log(selections, selectedFlatItem, selectedFittedItem, selectedCustomFittedItem);
 
-  let discountedPriceToDisplay = product?.discountedPrice?.toFixed(2);
-  let sellingPriceToDisplay = product?.sellingPrice?.toFixed(2);
-  let displayQuantity = product?.quantity;
-  let displayMinQuantity = product?.minQuantity;
-  let displayMaxQuantity = product?.maxQuantity;
-  let displayAvailability = product?.extraOptionOutOfStock;
+  const [discountedPriceToDisplay, setDiscountedPriceToDisplay] = useState(product?.discountedPrice?.toFixed(2));
+  const [sellingPriceToDisplay, setSellingPriceToDisplay] = useState(product?.sellingPrice?.toFixed(2));
+  const [displayQuantity, setDisplayQuantity] = useState(product?.quantity);
+  const [quantity, setQuantity] = useState(product?.quantity);
+  const [displayMinQuantity, setDisplayMinQuantity] = useState(0);
+  const [displayMaxQuantity, setDisplayMaxQuantity] = useState(0);
+  const [displayAvailability, setDisplayAvailability] = useState(product?.extraOptionOutOfStock);
 
-  if (selectedFlatItem !== '' && product?.InventoryFlat) {
-    const selectedFlat = product.InventoryFlat.find(item => item.flatId === selectedFlatItem);
-    if (selectedFlat) {
-      discountedPriceToDisplay = selectedFlat.discountedPrice.toFixed(2);
-      sellingPriceToDisplay = selectedFlat?.sellingPrice?.toFixed(2);
-      displayQuantity = selectedFlat?.quantity;
-      displayMinQuantity = selectedFlat?.minQuantity;
-      displayMaxQuantity = selectedFlat?.maxQuantity;
-      displayAvailability = selectedFlat?.quantity == 0 ? true : false;
-    }
-  }
-  if (selectedFittedItem !== '' && product?.InventoryFitted) {
-    const selectedFitted = product.InventoryFitted.find(item => item.fittedId === selectedFittedItem);
-    if (selectedFitted) {
-      discountedPriceToDisplay = selectedFitted.discountedPrice.toFixed(2);
-      sellingPriceToDisplay = selectedFitted?.sellingPrice?.toFixed(2);
-      displayQuantity = selectedFitted?.quantity;
-      displayMinQuantity = selectedFitted?.minQuantity;
-      displayMaxQuantity = selectedFitted?.maxQuantity;
-      displayAvailability = selectedFitted?.quantity == 0 ? true : false;
-    }
-  }
-  if (selectedCustomFittedItem !== '' && product?.customFittedInventory) {
-    const selectedCustomFitted = product.customFittedInventory.find(item => item?.InventoryFlat?.flatId === selectedCustomFittedItem);
-    if (selectedCustomFitted) {
-      discountedPriceToDisplay = selectedCustomFitted.discountedPrice.toFixed(2);
-      sellingPriceToDisplay = selectedCustomFitted?.sellingPrice?.toFixed(2);
-      displayQuantity = selectedCustomFitted?.InventoryFlat?.quantity;
-      displayMinQuantity = selectedCustomFitted?.InventoryFlat?.minQuantity;
-      displayMaxQuantity = selectedCustomFitted?.InventoryFlat?.maxQuantity;
-      displayAvailability = selectedCustomFitted?.InventoryFlat?.quantity == 0 ? true : false;
-    }
-  }
-  //-------------------------------------------------------------------------------
   const theme = useTheme();
-  const [quantity, setQuantity] = useState(queryParams?.quantity || displayMinQuantity || 1);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -89,32 +54,78 @@ const ItemDetails = ({ product, queryParams }) => {
   const [cartItems, setcartItems] = useState({});
   const token = Cookies.get('token');
 
+  const updateProductDetails = () => {
+    // console.log("calleddd useeffect", selectedFlatItem, selectedCustomFittedItem, selectedFittedItem);
+    if (selections.selectedFlatItem && product?.InventoryFlat) {
+      const selectedFlat = product.InventoryFlat.find(item => item.flatId === selections.selectedFlatItem);
+      if (selectedFlat) {
+        setDiscountedPriceToDisplay(selectedFlat.discountedPrice.toFixed(2));
+        setSellingPriceToDisplay(selectedFlat.sellingPrice.toFixed(2));
+        setDisplayQuantity(selectedFlat.minQuantity);
+        setQuantity(selectedFlat.quantity);
+        setDisplayMinQuantity(selectedFlat.minQuantity);
+        setDisplayMaxQuantity(selectedFlat.maxQuantity);
+        setDisplayAvailability(selectedFlat.quantity === 0);
+      }
+    } else if (selections.selectedFittedItem && product?.InventoryFitted) {
+      const selectedFitted = product.InventoryFitted.find(item => item.fittedId === selections.selectedFittedItem);
+      if (selectedFitted) {
+        setDiscountedPriceToDisplay(selectedFitted.discountedPrice.toFixed(2));
+        setSellingPriceToDisplay(selectedFitted.sellingPrice.toFixed(2));
+        setDisplayQuantity(selectedFitted?.minQuantity);
+        setQuantity(selectedFitted.quantity);
+        setDisplayMinQuantity(selectedFitted.minQuantity);
+        setDisplayMaxQuantity(selectedFitted.maxQuantity);
+        setDisplayAvailability(selectedFitted.quantity === 0);
+      }
+    } else if (selections.selectedCustomFittedItem && product?.customFittedInventory) {
+      const selectedCustomFitted = product.customFittedInventory.find(item => item?.InventoryFlat?.flatId === selections.selectedCustomFittedItem);
+
+      if (selectedCustomFitted) {
+        setDiscountedPriceToDisplay(selectedCustomFitted.discountedPrice.toFixed(2));
+        setSellingPriceToDisplay(selectedCustomFitted.sellingPrice.toFixed(2));
+        setDisplayQuantity(selectedCustomFitted.InventoryFlat?.minQuantity);
+        setQuantity(selectedCustomFitted.InventoryFlat.quantity);
+        setDisplayMinQuantity(selectedCustomFitted.InventoryFlat.minQuantity);
+        setDisplayMaxQuantity(selectedCustomFitted.InventoryFlat.maxQuantity);
+        setDisplayAvailability(selectedCustomFitted.InventoryFlat.quantity === 0);
+      }
+    }
+    console.log("called", selections?.selectedFlatItem, selectedFlatItem, typeof (selections?.selectedFlatItem), typeof (selectedFlatItem), displayQuantity);
+
+  };
+  useEffect(() => {
+    updateProductDetails();
+  }, [])
+  useEffect(() => {
+
+    updateProductDetails();
+    // }, [selections, product]);
+  }, [selections, queryParams])
+  //-------------------------------------------------------------------------------
+
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
 
   const handleDecrement = () => {
-    if (quantity > (displayMinQuantity || 1)) {
-      setQuantity(quantity - 1);
+    if (displayQuantity > (displayMinQuantity || 1)) {
+      setDisplayQuantity(displayQuantity - 1);
     }
   };
 
   const handleIncrement = () => {
-    if (quantity < (displayMaxQuantity || Infinity)) {
-      setQuantity(quantity + 1);
+    if (displayQuantity < (displayMaxQuantity || Infinity)) {
+      setDisplayQuantity(displayQuantity + 1);
     }
   };
 
   const handleChange = (e) => {
     const value = Number(e.target.value);
     if (value >= (displayMinQuantity || 1) && value <= (displayMaxQuantity || Infinity)) {
-      setQuantity(value);
+      setDisplayQuantity(value);
     }
   };
-  useEffect(() => {
-    console.log("hey");
-    setQuantity(displayMinQuantity)
-  }, [selections])
   //-------------------------------------------------------------------------------
   useEffect(() => {
     const fetchcartStatus = async () => {
@@ -179,7 +190,7 @@ const ItemDetails = ({ product, queryParams }) => {
 
 
   const handleAddToCart = async () => {
-    console.log(selections);
+    // console.log(selections);
     if (selections?.selectedOption === '') {
       setSnackbarMessage('Please select a size option before adding to the cart.');
       setOpenSnackbar(true);
@@ -298,7 +309,7 @@ Thank you so much!`;
               <Typography variant="h5" gutterBottom sx={{ mt: 1 }}>
                 {product?.productName}
               </Typography>
-              {product.discountedPrice ? (
+              {discountedPriceToDisplay ? (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                   <Typography variant="body2">
                     MRP
@@ -356,7 +367,7 @@ Thank you so much!`;
               <Divider sx={{ borderStyle: "dotted", mt: 2, mb: 2 }} />
               {product?.availability === false ?
                 '' :
-                (displayQuantity === 0 ? (
+                (quantity === 0 ? (
                   <Typography variant="caption" sx={{
                     fontSize: '1rem',
                     color: "red",
@@ -378,7 +389,7 @@ Thank you so much!`;
                       margin: "10px 0px"
                     }}
                     >
-                      Only {displayQuantity} units left
+                      Only {quantity} units left
                     </Typography>
                   )
                 )
@@ -400,11 +411,11 @@ Thank you so much!`;
                     width: "40%"
                   }}
                 >
-                  <Tooltip title={quantity <= (displayMinQuantity || 1) ? 'Minimum quantity reached' : ''}>
+                  <Tooltip title={displayQuantity <= (displayMinQuantity || 1) ? 'Minimum quantity reached' : ''}>
                     <span>
                       <IconButton
                         onClick={handleDecrement}
-                        disabled={quantity <= (displayMinQuantity || 1)}
+                        disabled={displayQuantity <= (displayMinQuantity || 1)}
                         size='small'
                       >
                         <RemoveSharp />
@@ -413,7 +424,7 @@ Thank you so much!`;
                   </Tooltip>
                   <TextField
                     variant='standard'
-                    value={quantity}
+                    value={displayQuantity}
                     // onChange={handleChange}
                     // disabled
                     inputProps={{
@@ -431,11 +442,11 @@ Thank you so much!`;
                       border: "none",
                     }}
                   />
-                  <Tooltip title={quantity >= (displayMaxQuantity || Infinity) ? 'Maximum quantity reached' : ''}>
+                  <Tooltip title={displayQuantity >= (displayMaxQuantity || Infinity) ? 'Maximum quantity reached' : ''}>
                     <span>
                       <IconButton
                         onClick={handleIncrement}
-                        disabled={quantity >= (displayMaxQuantity || Infinity)}
+                        disabled={displayQuantity >= (displayMaxQuantity || Infinity)}
                         size='small'
                       >
                         <AddSharp />

@@ -123,34 +123,6 @@ const CartPage = () => {
     let flatId = item.flatId;
     let fittedId = item.fittedId;
 
-    // If customId is provided, find the corresponding flatId from customFittedInventory
-    // if (item?.sizeOption === "custom") {
-    //   const customFittedItem = item.Inventory.customFittedInventory.find(
-    //     (inventory) => inventory.id === item.customId
-    //   );
-
-    //   if (customFittedItem) {
-    //     customId = customFittedItem?.InventoryFlat?.Flat?.id;
-    //   }
-    // }
-    // if (item?.sizeOption === "flat") {
-    //   const FlatItem = item.Inventory.InventoryFlat.find(
-    //     (inventory) => inventory.id === flatId
-    //   );
-    //   if (FlatItem) {
-    //     flatId = FlatItem?.Flat?.id;
-    //   }
-    // }
-    // if (item?.sizeOption === "fitted") {
-    //   const FittedItem = item.Inventory.InventoryFitted.find(
-    //     (inventory) => inventory.id === fittedId
-    //   );
-
-    //   if (FittedItem) {
-    //     fittedId = FittedItem?.Fitted?.id;
-    //   }
-    // }
-    console.log(flatId, fittedId, customId);
     const details = {
       sizeOption: item?.sizeOption,
       flatId: flatId,
@@ -162,7 +134,6 @@ const CartPage = () => {
       height: item.height
     };
 
-    // Create a URLSearchParams object and append the details
     const params = new URLSearchParams();
     Object.entries(details).forEach(([key, value]) => {
       if (value !== null && value !== undefined) {

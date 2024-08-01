@@ -121,7 +121,7 @@ const InventoryItem = ({ item }) => {
             }}
           />
         )}
-        {item.extraOptionOutOfStock && (
+        {item?.extraOptionOutOfStock && (
           <Chip
             label={
               <div style={{ textAlign: 'center' }}>

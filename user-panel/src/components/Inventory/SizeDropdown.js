@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Box, Select, MenuItem, TextField, Typography, Grid } from '@mui/material';
 
 const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
-  // Initialize the default flat size if available
   const defaultFlatItem = data.InventoryFlat.length > 0 ? data.InventoryFlat[0].Flat.id : '';
   console.log(selections);
   useEffect(() => {
     setSelections({
       selectedOption: selections?.selectedOption || 'flat',
-      selectedFlatItem: selections?.selectedFlatItem || defaultFlatItem,
+      selectedFlatItem: selections?.selectedFlatItem ||
+        (selections?.selectedFittedItem || selections?.selectedCustomFittedItem ? null : defaultFlatItem),
       selectedFittedItem: selections?.selectedFittedItem || '',
       selectedCustomFittedItem: selections?.selectedCustomFittedItem || '',
       selectedUnit: selections?.selectedUnit || 'inch',
