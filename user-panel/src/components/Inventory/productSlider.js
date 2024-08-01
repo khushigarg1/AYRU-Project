@@ -129,7 +129,7 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
     const productName = itemlist.productName;
     // const description = itemlist.description;
     const price = discountedPriceToDisplay ? `Now available at a discounted price of $${discountedPriceToDisplay}! (Original price: $${sellingPriceToDisplay})` : `Price: $${sellingPriceToDisplay}`;
-    return `Check out this amazing product: ${productName} 🌟\n\n${description}\n\n${price}\n\n🛒 Don't miss out! Click the link to view more details and make a purchase!`;
+    return `Check out this amazing product: ${productName} 🌟\n\n${price}\n\n🛒 Don't miss out! Click the link to view more details and make a purchase!`;
   };
 
   return (
