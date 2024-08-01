@@ -649,4 +649,13 @@ const ShopPageContent = () => {
   );
 };
 
-export default ShopPageContent;
+
+const ShopPage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ShopPageContent />
+    </Suspense>
+  );
+};
+
+export default ShopPage;
