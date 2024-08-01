@@ -340,10 +340,16 @@ export class CartService {
           },
         });
 
-        cartsizeItem = await prisma.inventoryFlat.findFirst({
+        const inventoryflatItem = await prisma.inventoryFlat.findFirst({
           where: {
             inventoryId,
             flatId: customId,
+          },
+        });
+        cartsizeItem = await prisma.customFittedInventory.findFirst({
+          where: {
+            inventoryId,
+            inventoryFlatId: inventoryflatItem?.id,
           },
         });
       }
@@ -518,10 +524,16 @@ export class CartService {
           cartItem.sizeOption === "custom" &&
           cartItem.customId !== null
         ) {
-          cartSizeItem = await prisma.inventoryFlat.findFirst({
+          const inventoryflatItem = await prisma.inventoryFlat.findFirst({
             where: {
-              inventoryId: cartItem.inventoryId,
-              flatId: cartItem.customId,
+              inventoryId: cartItem?.inventoryId,
+              flatId: cartItem?.customId,
+            },
+          });
+          cartSizeItem = await prisma.customFittedInventory.findFirst({
+            where: {
+              inventoryId: cartItem?.inventoryId,
+              inventoryFlatId: inventoryflatItem?.id,
             },
           });
         }
