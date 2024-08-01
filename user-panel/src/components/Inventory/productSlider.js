@@ -10,7 +10,7 @@ import { RWebShare } from "react-web-share";
 import Instructions from "../../../..../../public/images/instruction.png";
 import Image from 'next/image';
 import ImagePopup from '@/modals/imagepopup';
-import ShareButton from '../Share';
+import ShareButton from './ShareButton';
 
 export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceToDisplay, sellingPriceToDisplay }) => {
   const theme = useTheme();
@@ -226,6 +226,7 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
         >
           {/* <Share /> */}
           <ShareButton
+            imageUrl={`https://ayru-jaipur.s3.amazonaws.com/${item?.url}`}
             title={itemlist.productName}
             text={getProductShareText()}
             // url={`www.ayrujaipur.com`}

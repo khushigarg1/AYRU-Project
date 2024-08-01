@@ -6,7 +6,7 @@ const ShareButton = ({ title, text, url }) => {
     <RWebShare
       data={{
         title: title,
-        text: "heyyyyyyyyyyyyyyy",
+        text: text,
         url: url,
       }}
     >
