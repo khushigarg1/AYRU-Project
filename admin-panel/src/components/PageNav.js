@@ -200,7 +200,7 @@ export default function PageNav({ children }) {
             </DrawerHeader>
             <Divider />
             <List>
-              <Link href="/category">
+              <Link onClick={handleDrawerClose} href="/category">
                 <ListItem
                   key={"Cycles"}
                   onClick={() => setOpenTab("Cycles".toLowerCase())}
@@ -230,7 +230,7 @@ export default function PageNav({ children }) {
                   </ListItemButton>
                 </ListItem>
               </Link>
-              <Link href="/subcategory">
+              <Link onClick={handleDrawerClose} href="/subcategory">
                 <ListItem
                   key={"Cycles"}
                   onClick={() => setOpenTab("Cycles".toLowerCase())}
@@ -260,7 +260,7 @@ export default function PageNav({ children }) {
                   </ListItemButton>
                 </ListItem>
               </Link>
-              <Link href="/color">
+              <Link onClick={handleDrawerClose} href="/color">
                 <ListItem
                   key={"Colors"}
                   onClick={() => setOpenTab("Cycles".toLowerCase())}
@@ -290,7 +290,7 @@ export default function PageNav({ children }) {
                   </ListItemButton>
                 </ListItem>
               </Link>
-              <Link href="/size-type/chart">
+              <Link onClick={handleDrawerClose} href="/size-type/chart">
                 <ListItem
                   key={"SizeChart"}
                   onClick={() => setOpenTab("Cycles".toLowerCase())}
@@ -342,7 +342,7 @@ export default function PageNav({ children }) {
               </ListItemButton>
               <Collapse in={nestedOpen} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                  <Link href="/size-type/flat">
+                  <Link onClick={handleDrawerClose} href="/size-type/flat">
                     <ListItemButton sx={{ pl: open ? 4 : 2.5, justifyContent: open ? "initial" : "center" }}>
                       <ListItemIcon
                         sx={{
@@ -356,7 +356,7 @@ export default function PageNav({ children }) {
                       <ListItemText primary="Flat" sx={{ opacity: open ? 1 : 0 }} />
                     </ListItemButton>
                   </Link>
-                  <Link href="/size-type/fitted">
+                  <Link onClick={handleDrawerClose} href="/size-type/fitted">
                     <ListItemButton sx={{ pl: open ? 4 : 2.5, justifyContent: open ? "initial" : "center" }}>
                       <ListItemIcon
                         sx={{
@@ -370,7 +370,7 @@ export default function PageNav({ children }) {
                       <ListItemText primary="Fitted" sx={{ opacity: open ? 1 : 0 }} />
                     </ListItemButton>
                   </Link>
-                  {/* <Link href="/size-type/custom-fitted">
+                  {/* <Link onClick={handleDrawerClose} href="/size-type/custom-fitted">
                     <ListItemButton sx={{ pl: open ? 4 : 2.5, justifyContent: open ? "initial" : "center" }}>
                       <ListItemIcon
                         sx={{
@@ -386,7 +386,7 @@ export default function PageNav({ children }) {
                   </Link> */}
                 </List>
               </Collapse>
-              <Link href="/client-love">
+              <Link onClick={handleDrawerClose} href="/client-love">
                 <ListItem
                   key={"ClientLoves"}
                   onClick={() => setOpenTab("Options".toLowerCase())}
@@ -438,7 +438,7 @@ export default function PageNav({ children }) {
               </ListItemButton>
               <Collapse in={inventoryOpen} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                  <Link href="/inventory">
+                  <Link onClick={handleDrawerClose} href="/inventory">
                     <ListItem
                       key={"Inventory"}
                       onClick={() => setOpenTab("Options".toLowerCase())}
@@ -463,7 +463,7 @@ export default function PageNav({ children }) {
                       </ListItemButton>
                     </ListItem>
                   </Link>
-                  <Link href="/cart">
+                  <Link onClick={handleDrawerClose} href="/cart">
                     <ListItem
                       key={"Cart"}
                       onClick={() => setOpenTab("Options".toLowerCase())}
@@ -488,7 +488,7 @@ export default function PageNav({ children }) {
                       </ListItemButton>
                     </ListItem>
                   </Link>
-                  <Link href="/wishlist">
+                  <Link onClick={handleDrawerClose} href="/wishlist">
                     <ListItem
                       key={"Wishlist"}
                       onClick={() => setOpenTab("Options".toLowerCase())}
@@ -513,7 +513,7 @@ export default function PageNav({ children }) {
                       </ListItemButton>
                     </ListItem>
                   </Link>
-                  <Link href="/order">
+                  <Link onClick={handleDrawerClose} href="/order">
                     <ListItem
                       key={"order"}
                       onClick={() => setOpenTab("Order".toLowerCase())}
@@ -546,7 +546,7 @@ export default function PageNav({ children }) {
                 disablePadding
                 sx={{ display: "block" }}
               >
-                <Link href="/customermedia">
+                <Link onClick={handleDrawerClose} href="/customermedia">
                   <ListItemButton
                     sx={{
                       minHeight: 48,
@@ -576,7 +576,7 @@ export default function PageNav({ children }) {
                 disablePadding
                 sx={{ display: "block" }}
               >
-                <Link href="/customerside">
+                <Link onClick={handleDrawerClose} href="/customerside">
                   <ListItemButton
                     sx={{
                       minHeight: 48,
@@ -642,7 +642,7 @@ export default function PageNav({ children }) {
             </List>
             <Divider />
 
-            <Link href="/admin-details">
+            <Link onClick={handleDrawerClose} href="/admin-details">
               <ListItem
                 key={"Settings"}
                 onClick={() => setOpenTab("Options".toLowerCase())}

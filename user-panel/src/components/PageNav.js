@@ -208,7 +208,7 @@ export default function PageNav({ children }) {
         <ListItem disablePadding>
           <ListItemButton onClick={() => handleClickCategory(category.id, !!category.subcategories)}>
             {/* {categories?.subcategories.length() === 0 && (
-              <Link href={`/shop?categoryId=${category.id}`}>
+              <Link onClick={handleDrawerClose} href={`/shop?categoryId=${category.id}`}>
                 <ListItemText primary={category.categoryName} />
               </Link>
             )}
@@ -218,7 +218,7 @@ export default function PageNav({ children }) {
             </>
             )} */}
             {category.subcategories.length === 0 ? (
-              <Link href={`/shop?categoryId=${category.id}`} passHref>
+              <Link onClick={handleDrawerClose} href={`/shop?categoryId=${category.id}`} passHref>
                 <ListItemText primary={category.categoryName} />
               </Link>
             ) : (
@@ -237,7 +237,7 @@ export default function PageNav({ children }) {
                 disablePadding
                 sx={{ display: "block" }}
               >
-                <Link href={`/shop?categoryId=${category.id}&subcategoryId=${subcategory.id}`}>
+                <Link onClick={handleDrawerClose} href={`/shop?categoryId=${category.id}&subcategoryId=${subcategory.id}`}>
                   <ListItemButton
                     onClick={() => handleClickCategory(category.id, false)}
                     sx={{ pl: 4 }}
@@ -266,7 +266,7 @@ export default function PageNav({ children }) {
           >
             {open ? <ChevronLeftIcon /> : <MenuIcon />}
           </IconButton>
-          {/* <Link href={'/'} style={{ padding: "0px" }}> */}
+          {/* <Link onClick={handleDrawerClose} href={'/'} style={{ padding: "0px" }}> */}
           <Image component={Link} href={'/'} src={logo} alt="Logo" id="logo-img" width={110} height={40} style={{
             position: 'absolute',
             left: '50%',
@@ -301,7 +301,7 @@ export default function PageNav({ children }) {
         {isAuthenticated ? (
           <AuthenticatedSection>
             <DrawerHeader>
-              <Link href="/setting">
+              <Link onClick={handleDrawerClose} href="/setting">
                 <Box display="flex" alignItems="center">
                   <CustomAccountIcon sx={{ marginLeft: 1, marginTop: 1 }} />
                 </Box>
@@ -310,7 +310,7 @@ export default function PageNav({ children }) {
                 <CancelRounded />
               </IconButton>
             </DrawerHeader>
-            <Link href="/setting">
+            <Link onClick={handleDrawerClose} href="/setting">
               <ListItem
                 key={"setting"}
                 onClick={() => setOpenTab("setting".toLowerCase())}
@@ -353,7 +353,7 @@ export default function PageNav({ children }) {
         }
         <Divider />
         <List style={{ padding: "0px" }}>
-          <Link href="/">
+          <Link onClick={handleDrawerClose} href="/">
             <ListItem
               key={"Cycles"}
               onClick={() => setOpenTab("Cycles".toLowerCase())}
@@ -374,7 +374,7 @@ export default function PageNav({ children }) {
               </ListItemButton>
             </ListItem>
           </Link>
-          <Link href="/shop">
+          <Link onClick={handleDrawerClose} href="/shop">
             <ListItem
               key={"Shop"}
               onClick={() => setOpenTab("Shop".toLowerCase())}
@@ -396,7 +396,7 @@ export default function PageNav({ children }) {
             </ListItem>
           </Link>
 
-          <Link href="/sale">
+          <Link onClick={handleDrawerClose} href="/sale">
             <ListItem
               key={"sale"}
               onClick={() => setOpenTab("Sale".toLowerCase())}
@@ -432,7 +432,7 @@ export default function PageNav({ children }) {
           <Divider />
           {isAuthenticated && (
             <>
-              <Link href="/orders">
+              <Link onClick={handleDrawerClose} href="/orders">
                 <ListItem
                   key={"orders"}
                   onClick={() => setOpenTab("orders".toLowerCase())}
@@ -453,7 +453,7 @@ export default function PageNav({ children }) {
                   </ListItemButton>
                 </ListItem>
               </Link>
-              <Link href="/cart">
+              <Link onClick={handleDrawerClose} href="/cart">
                 <ListItem
                   key={"cart"}
                   onClick={() => setOpenTab("cart".toLowerCase())}
@@ -474,7 +474,7 @@ export default function PageNav({ children }) {
                   </ListItemButton>
                 </ListItem>
               </Link>
-              <Link href="/wishlist">
+              <Link onClick={handleDrawerClose} href="/wishlist">
                 <ListItem
                   key={"wishlist"}
                   onClick={() => setOpenTab("wishlist".toLowerCase())}
@@ -497,7 +497,7 @@ export default function PageNav({ children }) {
               </Link>
             </>
           )}
-          <Link href="/about">
+          <Link onClick={handleDrawerClose} href="/about">
             <ListItem
               key={"about"}
               onClick={() => setOpenTab("about".toLowerCase())}
