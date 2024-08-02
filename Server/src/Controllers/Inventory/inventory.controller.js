@@ -260,10 +260,11 @@ const filterInventory = (request, reply) => __awaiter(void 0, void 0, void 0, fu
             baseFilterOptions.sale = true;
         }
         if (availability) {
-            baseFilterOptions.available = availability === "true";
+            baseFilterOptions.availability = availability === "true";
         }
         if (extraOptionOutOfStock) {
-            baseFilterOptions.outOfStock = extraOptionOutOfStock === "true";
+            baseFilterOptions.extraOptionOutOfStock =
+                extraOptionOutOfStock === "true";
         }
         const baseInventories = yield prisma.inventory.findMany({
             where: baseFilterOptions,

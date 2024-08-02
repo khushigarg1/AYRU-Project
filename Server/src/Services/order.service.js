@@ -120,10 +120,10 @@ function createOrderService(data, userId) {
                 });
             }
             let newPayment;
+            const currentTimestamp = Math.floor(Date.now() / 1000);
+            const expireBy = currentTimestamp + 15 * 60;
+            console.log(expireBy);
             try {
-                const currentTimestamp = Math.floor(Date.now() / 1000);
-                const expireBy = currentTimestamp + 15 * 60;
-                console.log(expireBy);
                 newPayment = yield razorpayInstance.paymentLink.create({
                     // amount: newOrder.Total,
                     amount: newOrder.Total * 100,
