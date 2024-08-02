@@ -329,8 +329,39 @@ export const filterInventory = async (
     const baseInventories = await prisma.inventory.findMany({
       where: baseFilterOptions,
       include: {
-        Category: true,
+        customFittedInventory: {
+          include: { InventoryFlat: { include: { Flat: true } } },
+        },
+        InventoryFlat: { include: { Flat: true } },
         InventorySubcategory: { include: { SubCategory: true } },
+        InventoryFitted: {
+          include: {
+            Fitted: true,
+          },
+        },
+        Category: true,
+        Wishlist: true,
+        // ProductInventory: {
+        //   include: {
+        //     product: {
+        //       include: { sizes: true },
+        //     },
+        //     selectedSizes: true,
+        //   },
+        // },
+        ColorVariations: { include: { Color: true } },
+        relatedInventories: {
+          include: {
+            Media: true,
+          },
+        },
+        relatedByInventories: {
+          include: {
+            Media: true,
+          },
+        },
+        Media: true,
+        SizeChartMedia: true,
       },
     });
 
