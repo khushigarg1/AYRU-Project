@@ -136,14 +136,14 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
   return (
     <div>
 
-      <Helmet>
+      <head>
         <title>{itemlist?.productName}</title>
         <meta property="og:title" content={itemlist?.productName} />
         <meta property="og:description" content={getProductShareText()} />
-        <meta property="og:image:secure_url" itemprop="image" content={`https://ayru-jaipur.s3.amazonaws.com/${itemlist?.Media[0]?.url}`} />
+        <meta property="og:image" itemprop="image" content={`https://ayru-jaipur.s3.amazonaws.com/${itemlist?.Media[0]?.url}`} />
         <meta property="og:url" content={`${process.env.NEXT_PUBLIC_BASE_URL}/shop/${itemlist.id}`} />
         <meta property="og:type" content="website" />
-      </Helmet>
+      </head>
 
       <Box sx={{ position: 'relative' }}>
         {(discountedPriceToDisplay != 0 && discountedPriceToDisplay != null) && (
