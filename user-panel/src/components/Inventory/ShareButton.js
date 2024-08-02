@@ -2,7 +2,7 @@ import { ShareOutlined } from "@mui/icons-material";
 import { RWebShare } from "react-web-share";
 
 const ShareButton = ({ title, text, url, imageUrl }) => {
-  const combinedText = `${text}\n\n Product: ${imageUrl}\n\n`;
+  const combinedText = `${text}\n\n Product Image: ${imageUrl}\n\n`;
 
   return (
     <RWebShare
