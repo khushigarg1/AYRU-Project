@@ -334,10 +334,11 @@ export const filterInventory = async (
       baseFilterOptions.sale = true;
     }
     if (availability) {
-      baseFilterOptions.available = availability === "true";
+      baseFilterOptions.availability = availability === "true";
     }
     if (extraOptionOutOfStock) {
-      baseFilterOptions.outOfStock = extraOptionOutOfStock === "true";
+      baseFilterOptions.extraOptionOutOfStock =
+        extraOptionOutOfStock === "true";
     }
 
     const baseInventories = await prisma.inventory.findMany({
