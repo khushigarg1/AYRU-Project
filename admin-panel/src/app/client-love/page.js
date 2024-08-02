@@ -100,10 +100,10 @@ export default function ClientLove() {
       renderCell: (params) => (
         params.value && (
           <img
-            src={`https://ayru-jaipur.s3.amazonaws.com/${params.value}`}
+            src={`https://ayrujaipur.s3.amazonaws.com/${params.value}`}
             alt="Client Love"
             style={{ width: 80, cursor: "pointer" }}
-            onClick={() => handleOpenImageModal(`https://ayru-jaipur.s3.amazonaws.com/${params.value}`)}
+            onClick={() => handleOpenImageModal(`https://ayrujaipur.s3.amazonaws.com/${params.value}`)}
           />
         )
       ),
@@ -146,11 +146,11 @@ export default function ClientLove() {
       renderCell: (params) => (
         params.value && (
           <img
-            src={`https://ayru-jaipur.s3.amazonaws.com/${params.value}`}
-            // src={`https://ayru-jaipur.s3.amazonaws.com/${params.value}`}
+            src={`https://ayrujaipur.s3.amazonaws.com/${params.value}`}
+            // src={`https://ayrujaipur.s3.amazonaws.com/${params.value}`}
             alt="Client Love"
             style={{ width: 100, height: 50, cursor: "pointer" }}
-            onClick={() => handleOpenImageModal(`https://ayru-jaipur.s3.amazonaws.com/${params.value}`)}
+            onClick={() => handleOpenImageModal(`https://ayrujaipur.s3.amazonaws.com/${params.value}`)}
           />
         )
       ),

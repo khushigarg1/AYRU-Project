@@ -189,7 +189,7 @@ Here are my order details:
                     <Box sx={{ position: 'relative' }}>
                       <CardMedia
                         component="img"
-                        image={`https://ayru-jaipur.s3.amazonaws.com/${order?.imageurl}`}
+                        image={`https://ayrujaipur.s3.amazonaws.com/${order?.imageurl}`}
                         alt="Tracking Image"
                         sx={{
                           objectFit: 'fit',
@@ -376,7 +376,7 @@ Here are my order details:
                             />
                             <CardMedia
                               component="img"
-                              image={`https://ayru-jaipur.s3.amazonaws.com/${item?.inventory?.Media[0]?.url}`}
+                              image={`https://ayrujaipur.s3.amazonaws.com/${item?.inventory?.Media[0]?.url}`}
                               alt={item.inventory.productName}
                               onClick={() => router.push(`/shop/${item?.inventory?.id}`)}
                               sx={{

@@ -29,7 +29,7 @@ export default function VideoPopup({ open, videoUrl, onClose }) {
           controls
           autoPlay
           style={{ width: "100%" }}
-          src={`https://ayru-jaipur.s3.amazonaws.com/${videoUrl}`}
+          src={`https://ayrujaipur.s3.amazonaws.com/${videoUrl}`}
           type="video/mp4"
         />
       </Box>

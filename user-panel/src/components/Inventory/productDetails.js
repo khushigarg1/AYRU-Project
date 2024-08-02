@@ -110,7 +110,7 @@ export const ProductDetails = () => {
             <CardMedia
               key={media.id}
               component="img"
-              image={`https://ayru-jaipur.s3.amazonaws.com/${media.url}`}
+              image={`https://ayrujaipur.s3.amazonaws.com/${media.url}`}
               alt={product.productName}
             />
           ))}

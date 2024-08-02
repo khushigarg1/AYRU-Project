@@ -238,7 +238,7 @@ const CartPage = () => {
                       <CardMedia
                         component="img"
                         // height="100"
-                        image={`https://ayru-jaipur.s3.amazonaws.com/${item?.Inventory?.Media[0]?.url}`}
+                        image={`https://ayrujaipur.s3.amazonaws.com/${item?.Inventory?.Media[0]?.url}`}
                         alt={item.Inventory.productName}
                         onClick={() => handleClick(item)}
                         // onClick={() => router.push(`/shop/${item?.Inventory?.id}`)}

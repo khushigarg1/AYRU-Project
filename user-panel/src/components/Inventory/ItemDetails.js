@@ -588,12 +588,12 @@ Thank you so much!`;
                     {product?.SizeChartMedia.map(chart => (
                       <Card
                         key={chart.id}
-                        onClick={() => handleOpenImageModal(`https://ayru-jaipur.s3.amazonaws.com/${chart?.url}`)}
+                        onClick={() => handleOpenImageModal(`https://ayrujaipur.s3.amazonaws.com/${chart?.url}`)}
                         sx={{ columnGap: "2px", padding: "0px", boxShadow: "none", cursor: "pointer" }}
                       >
                         <CardMedia
                           component="img"
-                          image={chart?.url ? `https://ayru-jaipur.s3.amazonaws.com/${chart?.url}` : '/fallback_image_url'}
+                          image={chart?.url ? `https://ayrujaipur.s3.amazonaws.com/${chart?.url}` : '/fallback_image_url'}
                           alt="size chart"
                           sx={{
                             objectFit: 'contain',

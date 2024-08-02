@@ -148,7 +148,7 @@ const OrderAccordion = ({ params }) => {
                           <CardMedia
                             component="img"
                             // height="100"
-                            image={`https://ayru-jaipur.s3.amazonaws.com/${item?.inventory?.Media[0]?.url}`}
+                            image={`https://ayrujaipur.s3.amazonaws.com/${item?.inventory?.Media[0]?.url}`}
                             alt={item.inventory.productName}
                             // onClick={() => router.push(`/shop/${item?.inventory?.id}`)}
                             sx={{

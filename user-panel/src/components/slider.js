@@ -146,7 +146,7 @@ const ImageCarousel = () => {
           {images.map((image, index) => (
             <Box key={index} sx={{ position: 'relative', height: '100vh' }}>
               <StyledImage
-                src={`https://ayru-jaipur.s3.amazonaws.com/${image.imageUrl}`}
+                src={`https://ayrujaipur.s3.amazonaws.com/${image.imageUrl}`}
                 alt={`Slide ${index}`}
                 style={{ transform: `translateX(${currentIndex * -100}%)`, height: isMobile ? "90%" : "120%", objectFit: "contain" }}
               />

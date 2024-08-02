@@ -106,7 +106,7 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
                           />
                           <CardMedia
                             component="img"
-                            image={`https://ayru-jaipur.s3.amazonaws.com/${item?.Inventory?.Media[0]?.url}`}
+                            image={`https://ayrujaipur.s3.amazonaws.com/${item?.Inventory?.Media[0]?.url}`}
                             alt={item.Inventory.productName}
                             onClick={() => router.push(`/shop/${item?.Inventory?.id}`)}
                             sx={{

@@ -120,7 +120,7 @@ const Orders = () => {
                   />
                   <CardMedia
                     component="img"
-                    image={`https://ayru-jaipur.s3.amazonaws.com/${order?.orderItems[0]?.inventory?.Media[0]?.url}`}
+                    image={`https://ayrujaipur.s3.amazonaws.com/${order?.orderItems[0]?.inventory?.Media[0]?.url}`}
                     alt={order?.orderItems[0]?.inventory.productName}
                     // onClick={(e) => {
                     //   e.stopPropagation();

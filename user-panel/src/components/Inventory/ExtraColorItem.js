@@ -42,7 +42,7 @@ export const InventoryAccordion = ({ relatedInventories }) => {
               }}>
               <CardMedia
                 component="img"
-                image={inventory.Media && inventory.Media.length > 0 ? `https://ayru-jaipur.s3.amazonaws.com/${inventory.Media[0].url}` : '/fallback_image_url'}
+                image={inventory.Media && inventory.Media.length > 0 ? `https://ayrujaipur.s3.amazonaws.com/${inventory.Media[0].url}` : '/fallback_image_url'}
                 alt={inventory.productName}
                 sx={{
                   objectFit: 'contain',

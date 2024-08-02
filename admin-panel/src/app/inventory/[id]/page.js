@@ -203,12 +203,12 @@ const HomePage = ({ params }) => {
               {sizeChartImage ? (
                 <Box position="relative">
                   <img
-                    src={`https://ayru-jaipur.s3.amazonaws.com/${sizeChartImage}`}
+                    src={`https://ayrujaipur.s3.amazonaws.com/${sizeChartImage}`}
                     alt="Size Chart Image"
                     width={200}
                     height={200}
                     style={{ borderRadius: '8px', cursor: 'pointer' }}
-                    onClick={() => handleOpenImageModal(`https://ayru-jaipur.s3.amazonaws.com/${sizeChartImage}`)}
+                    onClick={() => handleOpenImageModal(`https://ayrujaipur.s3.amazonaws.com/${sizeChartImage}`)}
                   />
                   <IconButton
                     onClick={handleSizeChartImageDelete}
@@ -276,12 +276,12 @@ const HomePage = ({ params }) => {
                       </Button>
                     ) : (
                       <img
-                        src={`https://ayru-jaipur.s3.amazonaws.com/${media.url}`}
+                        src={`https://ayrujaipur.s3.amazonaws.com/${media.url}`}
                         alt="Product Image"
                         width={100}
                         height={100}
                         style={{ cursor: 'pointer', borderRadius: '8px' }}
-                        onClick={() => handleOpenImageModal(`https://ayru-jaipur.s3.amazonaws.com/${media.url}`)}
+                        onClick={() => handleOpenImageModal(`https://ayrujaipur.s3.amazonaws.com/${media.url}`)}
                       />
                     )}
                     <IconButton

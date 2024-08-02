@@ -138,12 +138,12 @@
 //               {mainImages.map((image) => (
 //                 <Box key={image.id} position="relative">
 //                   <img
-//                     src={`https://ayru-jaipur.s3.amazonaws.com/${image.imageUrl}`}
+//                     src={`https://ayrujaipur.s3.amazonaws.com/${image.imageUrl}`}
 //                     alt="Uploaded Image"
 //                     width={100}
 //                     height={100}
 //                     style={{ cursor: 'pointer', borderRadius: '8px' }}
-//                     onClick={() => handleOpenImageModal(`https://ayru-jaipur.s3.amazonaws.com/${image?.imageUrl}`)}
+//                     onClick={() => handleOpenImageModal(`https://ayrujaipur.s3.amazonaws.com/${image?.imageUrl}`)}
 //                   />
 //                   <IconButton
 //                     onClick={() => handleImageDelete(image.id, 'main')}
@@ -203,12 +203,12 @@
 //               {secondaryImages.map((image) => (
 //                 <Box key={image.id} position="relative">
 //                   <img
-//                     src={`https://ayru-jaipur.s3.amazonaws.com/${image.imageUrl}`}
+//                     src={`https://ayrujaipur.s3.amazonaws.com/${image.imageUrl}`}
 //                     alt="Uploaded Image"
 //                     width={100}
 //                     height={100}
 //                     style={{ cursor: 'pointer', borderRadius: '8px' }}
-//                     onClick={() => handleOpenImageModal(`https://ayru-jaipur.s3.amazonaws.com/${image?.imageUrl}`)}
+//                     onClick={() => handleOpenImageModal(`https://ayrujaipur.s3.amazonaws.com/${image?.imageUrl}`)}
 //                   />
 //                   <IconButton
 //                     onClick={() => handleImageDelete(image.id, 'secondary')}
@@ -394,12 +394,12 @@ const CustomerMediaPage = () => {
                 <Box key={media.id} position="relative">
                   {determineMediaType(media.imageUrl) === 'image' ? (
                     <img
-                      src={`https://ayru-jaipur.s3.amazonaws.com/${media.imageUrl}`}
+                      src={`https://ayrujaipur.s3.amazonaws.com/${media.imageUrl}`}
                       alt="Uploaded Image"
                       width={100}
                       height={100}
                       style={{ cursor: 'pointer', borderRadius: '8px' }}
-                      onClick={() => handleOpenMediaModal(`https://ayru-jaipur.s3.amazonaws.com/${media?.imageUrl}`)}
+                      onClick={() => handleOpenMediaModal(`https://ayrujaipur.s3.amazonaws.com/${media?.imageUrl}`)}
                     />
                   ) : determineMediaType(media.imageUrl) === 'video' ? (
                     <video
@@ -470,17 +470,17 @@ const CustomerMediaPage = () => {
                 <Box key={media.id} position="relative">
                   {determineMediaType(media.imageUrl) === 'image' ? (
                     <img
-                      src={`https://ayru-jaipur.s3.amazonaws.com/${media.imageUrl}`}
+                      src={`https://ayrujaipur.s3.amazonaws.com/${media.imageUrl}`}
                       alt="Uploaded Image"
                       width={100}
                       height={100}
                       style={{ cursor: 'pointer', borderRadius: '8px' }}
-                      onClick={() => handleOpenMediaModal(`https://ayru-jaipur.s3.amazonaws.com/${media?.imageUrl}`)}
+                      onClick={() => handleOpenMediaModal(`https://ayrujaipur.s3.amazonaws.com/${media?.imageUrl}`)}
                     />
                   ) : determineMediaType(media.imageUrl) === 'video' ? (
                     <video
                       controls
-                      src={`https://ayru-jaipur.s3.amazonaws.com/${media.imageUrl}`}
+                      src={`https://ayrujaipur.s3.amazonaws.com/${media.imageUrl}`}
                       width={200}
                       height={150}
                       style={{ cursor: 'pointer', borderRadius: '8px' }}
