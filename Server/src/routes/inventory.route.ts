@@ -11,6 +11,7 @@ import {
   getInventoriesByCategory,
   searchInventory,
   filterInventory,
+  filterSaleItem,
 } from "../Controllers/Inventory/inventory.controller";
 import {
   handleUploadChartMedia,
@@ -59,4 +60,5 @@ export default async function inventoryRoutes(server: FastifyInstance) {
   //------------------------------------FOR SEARCHIGN AND FILTERING------------------------------
   server.get("/search", searchInventory);
   server.get("/filter", filterInventory);
+  server.get("/sale", filterSaleItem);
 }

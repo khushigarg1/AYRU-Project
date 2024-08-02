@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.searchInventory = exports.filterInventory = exports.deleteMedia = exports.getallMedia = exports.uploadMedia = exports.deleteInventory = exports.updateInventory = exports.getInventoryById = exports.getInventories = exports.getInventoriesByCategory = exports.createInventory = void 0;
+exports.filterSaleItem = exports.searchInventory = exports.filterInventory = exports.deleteMedia = exports.getallMedia = exports.uploadMedia = exports.deleteInventory = exports.updateInventory = exports.getInventoryById = exports.getInventories = exports.getInventoriesByCategory = exports.createInventory = void 0;
 const client_1 = require("@prisma/client");
 const inventory_service_1 = require("../../Services/Inventory/inventory.service");
 const inventoryService = new inventory_service_1.InventoryService();
@@ -382,3 +382,33 @@ const searchInventory = (request, reply) => __awaiter(void 0, void 0, void 0, fu
     }
 });
 exports.searchInventory = searchInventory;
+const filterSaleItem = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // Fetch all inventory items where sale is true
+        const inventories = yield prisma.inventory.findMany({
+            where: {
+                sale: true,
+            },
+            include: {
+                Category: true,
+                InventorySubcategory: { include: { SubCategory: true } },
+                Media: true,
+                Wishlist: true,
+                ColorVariations: { include: { Color: true } },
+                relatedInventories: true,
+                relatedByInventories: true,
+                SizeChartMedia: true,
+                InventoryFlat: { include: { Flat: true } },
+                InventoryFitted: { include: { Fitted: true } },
+            },
+        });
+        reply.send({ data: inventories });
+    }
+    catch (error) {
+        console.error("Error in filterSaleItems:", error);
+        reply
+            .status(500)
+            .send({ error: "Failed to filter sale items", details: error });
+    }
+});
+exports.filterSaleItem = filterSaleItem;

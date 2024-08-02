@@ -29,6 +29,7 @@ function inventoryRoutes(server) {
         //------------------------------------FOR SEARCHIGN AND FILTERING------------------------------
         server.get("/search", inventory_controller_1.searchInventory);
         server.get("/filter", inventory_controller_1.filterInventory);
+        server.get("/sale", inventory_controller_1.filterSaleItem);
     });
 }
 exports.default = inventoryRoutes;

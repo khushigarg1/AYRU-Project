@@ -462,3 +462,35 @@ export const searchInventory = async (
       .send({ error: "Failed to search inventories", details: error });
   }
 };
+export const filterSaleItem = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  try {
+    // Fetch all inventory items where sale is true
+    const inventories = await prisma.inventory.findMany({
+      where: {
+        sale: true,
+      },
+      include: {
+        Category: true,
+        InventorySubcategory: { include: { SubCategory: true } },
+        Media: true,
+        Wishlist: true,
+        ColorVariations: { include: { Color: true } },
+        relatedInventories: true,
+        relatedByInventories: true,
+        SizeChartMedia: true,
+        InventoryFlat: { include: { Flat: true } },
+        InventoryFitted: { include: { Fitted: true } },
+      },
+    });
+
+    reply.send({ data: inventories });
+  } catch (error) {
+    console.error("Error in filterSaleItems:", error);
+    reply
+      .status(500)
+      .send({ error: "Failed to filter sale items", details: error });
+  }
+};
