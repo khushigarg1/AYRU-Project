@@ -38,7 +38,7 @@ const ShopPageContent = () => {
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(10000);
   const [availability, setAvailability] = useState('');
-  const [outOfStock, setOutOfStock] = useState(false);
+  const [extraOptionOutOfStock, setextraOptionOutOfStock] = useState('');
   const theme = useTheme();
 
   const handlePriceRangeChange = (event, newValue) => {
@@ -164,7 +164,7 @@ const ShopPageContent = () => {
     setMinPrice(0);
     setMaxPrice(10000);
     setAvailability('');
-    setOutOfStock(false);
+    setextraOptionOutOfStock('');
     fetchAllInventory();
     handleDrawerClose();
   };
@@ -183,7 +183,7 @@ const ShopPageContent = () => {
       selectedSubcategory,
       sale: "true",
       availability,
-      extraOptionOutOfStock: outOfStock,
+      extraOptionOutOfStock: extraOptionOutOfStock,
       minPrice,
       maxPrice
     };
@@ -195,6 +195,8 @@ const ShopPageContent = () => {
       .catch(error => {
         console.error('Error fetching inventory:', error);
       });
+
+    handleDrawerClose();
   };
 
   const handleSortChange = (event) => {
@@ -239,6 +241,13 @@ const ShopPageContent = () => {
     setIsDrawerOpen(false);
   };
 
+  const handleOutOfStockChange = (event) => {
+    setextraOptionOutOfStock(event.target.value || '');
+  };
+
+  const handleAvailabilityChange = (event) => {
+    setAvailability(event.target.value || '');
+  };
   return (
     <>
       <Box sx={{
@@ -454,7 +463,7 @@ const ShopPageContent = () => {
                 <InputLabel>Availability</InputLabel>
                 <Select
                   value={availability}
-                  onChange={(e) => setAvailability(e.target.value)}
+                  onChange={handleAvailabilityChange}
                 >
                   <MenuItem value="">All Availability</MenuItem>
                   <MenuItem value="true">Available</MenuItem>
@@ -462,15 +471,15 @@ const ShopPageContent = () => {
                 </Select>
               </FormControl>
               <FormControl fullWidth sx={{ marginTop: 2 }}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={outOfStock}
-                      onChange={(e) => setOutOfStock(e.target.checked)}
-                    />
-                  }
-                  label="Out of Stock"
-                />
+                <InputLabel>Stock</InputLabel>
+                <Select
+                  value={extraOptionOutOfStock}
+                  onChange={handleOutOfStockChange}
+                >
+                  <MenuItem value="">All</MenuItem>
+                  <MenuItem value="false">In stock</MenuItem>
+                  <MenuItem value="true">Out of stock</MenuItem>
+                </Select>
               </FormControl>
 
               <Button

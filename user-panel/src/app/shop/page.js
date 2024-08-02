@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, Suspense } from 'react';
-import { Grid, Select, MenuItem, FormControl, InputLabel, Box, Paper, Typography, useTheme, Button, Drawer, TextField, IconButton, Divider, FormControlLabel, Checkbox, Slider, styled } from '@mui/material';
+import { Grid, Select, MenuItem, FormControl, InputLabel, Box, Paper, Typography, useTheme, Button, Drawer, TextField, IconButton, Divider, Slider, FormControlLabel, Checkbox, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import api from '../../../api';
@@ -19,7 +19,6 @@ const CustomBox = styled(Box)(({ theme }) => ({
     width: '45%',
   },
 }));
-
 const ShopPageContent = () => {
   const searchParams = useSearchParams();
   const categoryId = searchParams.get('categoryId');
@@ -39,7 +38,7 @@ const ShopPageContent = () => {
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(10000);
   const [availability, setAvailability] = useState('');
-  const [outOfStock, setOutOfStock] = useState(false);
+  const [extraOptionOutOfStock, setextraOptionOutOfStock] = useState('');
   const theme = useTheme();
 
   const handlePriceRangeChange = (event, newValue) => {
@@ -159,13 +158,33 @@ const ShopPageContent = () => {
 
   //-------------------------------sorting and searching----------------------------
 
+  const handleResetFilters = () => {
+    setSelectedCategory('');
+    setSelectedSubcategory('');
+    setMinPrice(0);
+    setMaxPrice(10000);
+    setAvailability('');
+    setextraOptionOutOfStock('');
+    fetchAllInventory();
+    handleDrawerClose();
+  };
+
+  const handleFilterChange = () => {
+    fetchSort();
+  };
+
+
   const fetchSort = () => {
     let url = '/inventory/filter';
     const params = {
       sortBy,
       sortOrder,
-      categoryId: selectedCategory || '',
-      subCategoryId: selectedSubcategory || ''
+      selectedCategory,
+      selectedSubcategory,
+      availability,
+      extraOptionOutOfStock,
+      minPrice,
+      maxPrice
     };
 
     api.get(url, { params })
@@ -175,27 +194,14 @@ const ShopPageContent = () => {
       .catch(error => {
         console.error('Error fetching inventory:', error);
       });
-  };
 
-  const handleFilterChange = () => {
-    fetchSort();
+    handleDrawerClose();
   };
-
 
   const handleSortChange = (event) => {
     const [newSortBy, newSortOrder] = event.target.value.split('-');
     setSortBy(newSortBy);
     setSortOrder(newSortOrder);
-  };
-  const handleResetFilters = () => {
-    setSelectedCategory('');
-    setSelectedSubcategory('');
-    setMinPrice(0);
-    setMaxPrice(10000);
-    setAvailability('');
-    setOutOfStock(false);
-    fetchAllInventory();
-    handleDrawerClose();
   };
 
 
@@ -233,7 +239,13 @@ const ShopPageContent = () => {
   const handleDrawerClose = () => {
     setIsDrawerOpen(false);
   };
+  const handleOutOfStockChange = (event) => {
+    setextraOptionOutOfStock(event.target.value || '');
+  };
 
+  const handleAvailabilityChange = (event) => {
+    setAvailability(event.target.value || '');
+  };
   return (
     <>
       <Box sx={{
@@ -449,7 +461,7 @@ const ShopPageContent = () => {
                 <InputLabel>Availability</InputLabel>
                 <Select
                   value={availability}
-                  onChange={(e) => setAvailability(e.target.value)}
+                  onChange={handleAvailabilityChange}
                 >
                   <MenuItem value="">All Availability</MenuItem>
                   <MenuItem value="true">Available</MenuItem>
@@ -457,15 +469,15 @@ const ShopPageContent = () => {
                 </Select>
               </FormControl>
               <FormControl fullWidth sx={{ marginTop: 2 }}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={outOfStock}
-                      onChange={(e) => setOutOfStock(e.target.checked)}
-                    />
-                  }
-                  label="Out of Stock"
-                />
+                <InputLabel>Stock</InputLabel>
+                <Select
+                  value={extraOptionOutOfStock}
+                  onChange={handleOutOfStockChange}
+                >
+                  <MenuItem value="">All</MenuItem>
+                  <MenuItem value="true">Out of stock</MenuItem>
+                  <MenuItem value="false">In stock</MenuItem>
+                </Select>
               </FormControl>
 
               <Button
