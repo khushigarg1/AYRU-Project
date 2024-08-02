@@ -113,11 +113,10 @@ export async function createOrderService(
     }
 
     let newPayment;
+    const currentTimestamp = Math.floor(Date.now() / 1000);
+    const expireBy = currentTimestamp + 15 * 60;
+    console.log(expireBy);
     try {
-      const currentTimestamp = Math.floor(Date.now() / 1000);
-      const expireBy = currentTimestamp + 15 * 60;
-      console.log(expireBy);
-
       newPayment = await razorpayInstance.paymentLink.create({
         // amount: newOrder.Total,
         amount: newOrder.Total * 100,

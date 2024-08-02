@@ -153,26 +153,29 @@ Could you please provide me with the details regarding the process, any addition
             <ListItem sx={{ padding: '0' }}>
               <ListItemText
                 primary={
-                  `• To get Express Shipping (within 2-4 days), reach out to us on ` +
-                  <Button
-                    aria-label="Chat on WhatsApp"
-                    href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    endIcon={<WhatsappIcon       style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
-                    sx={{
-                      color: '#25D366',
-                      fontWeight: 'bold',
-                      textTransform: 'none',
-                      mb: 0,
-                      padding: "0px",
-                    }}
-                  >
-                    WhatsApp
-                  </Button>
-                  + ` after placing your order (additional charges will apply)`
+                  <>
+                    • To get Express Shipping (within 2-4 days), reach out to us on{" "}
+                    <Button
+                      aria-label="Chat on WhatsApp"
+                      href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      endIcon={<WhatsappIcon style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
+                      sx={{
+                        color: '#25D366',
+                        fontWeight: 'bold',
+                        textTransform: 'none',
+                        mb: 0,
+                        padding: "0px",
+                      }}
+                    >
+                      WhatsApp
+                    </Button>{" "}
+                    after placing your order (additional charges will apply)
+                  </>
                 }
               />
+
             </ListItem>
             <ListItem sx={{ padding: '0', textDecoration: "underline", color: "#FFD54F", fontSize: "14px", cursor: "pointer" }} onClick={() => router.push("/policies/Shipping")}>
               For more details

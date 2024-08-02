@@ -60,7 +60,7 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
     <>
       <Paper sx={{ p: 1, backgroundColor: "transparent", boxShadow: "none" }}>
         <Typography variant="h6">Review and Confirm</Typography>
-        <Accordion defaultExpanded style={{ backgroundColor: "whitesmoke" }}>
+        <Accordion style={{ backgroundColor: "whitesmoke" }}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography>Order Summary ({cartItems.length})</Typography>
           </AccordionSummary>
@@ -215,7 +215,18 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
           <Divider />
           <AccordionDetails style={{ paddingTop: "0px" }}>
             <ShippingDetailsBox>
-              <Typography variant="body2"><strong>First Name:</strong> {orderData?.firstName || 'N/A'}</Typography>
+              <Typography variant="subtitle1">{orderData?.firstName} {orderData?.user?.lastName}</Typography>
+              <Typography variant="subtitle1">{orderData?.email}</Typography>
+              <Typography variant="body1">{orderData?.addressLine1}</Typography>
+              <Typography variant="body1">{orderData?.addressLine2}</Typography>
+              <Typography variant="body1">{orderData?.city}, {orderData?.state}</Typography>
+              <Typography variant="body1">{orderData?.country}</Typography>
+              <Typography variant="body1">Pin: {orderData?.pincode}</Typography>
+              <Typography variant="body1">Phone Number1: {orderData?.phoneNumber}</Typography>
+              {orderData.alternateMobileNumber &&
+                <Typography variant="body1">Phone Number2: {orderData?.alternateMobileNumber}</Typography>
+              }
+              {/* <Typography variant="body2"><strong>First Name:</strong> {orderData?.firstName || 'N/A'}</Typography>
               <Typography variant="body2"><strong>Last Name:</strong> {orderData?.lastName || 'N/A'}</Typography>
               <Typography variant="body2"><strong>Email:</strong> {orderData?.email || 'N/A'}</Typography>
               <Typography variant="body2"><strong>Phone Number:</strong> {orderData?.phoneNumber || 'N/A'}</Typography>
@@ -226,7 +237,7 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
               <Typography variant="body2"><strong>State:</strong> {orderData?.state || 'N/A'}</Typography>
               <Typography variant="body2"><strong>City:</strong> {orderData?.city || 'N/A'}</Typography>
               <Typography variant="body2"><strong>Pincode:</strong> {orderData?.pincode || 'N/A'}</Typography>
-              <Typography variant="body2"><strong>Seller Instructions:</strong> {orderData?.extraNote || 'N/A'}</Typography>
+              <Typography variant="body2"><strong>Seller Instructions:</strong> {orderData?.extraNote || 'N/A'}</Typography> */}
             </ShippingDetailsBox>
           </AccordionDetails>
         </Accordion>

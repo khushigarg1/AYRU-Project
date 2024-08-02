@@ -6,7 +6,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function ShippingPolicy() {
-  const whatsappMessage = "";
+  const whatsappMessage = `Hi, I am interested in your Express shipping service.
+
+Could you please provide me with the details regarding the process, any additional cost, and the estimated delivery time?`;
   const router = useRouter();
   return (
     <>

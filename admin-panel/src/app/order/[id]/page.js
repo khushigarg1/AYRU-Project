@@ -314,7 +314,7 @@ const OrderAccordion = ({ params }) => {
                   <Typography variant="body1">{order.shippingAddress.country}</Typography>
                   <Typography variant="body1">Pin: {order.shippingAddress.pincode}</Typography>
                   <Typography variant="body1">Phone Number1: {order.shippingAddress.phoneNumber}</Typography>
-                  {!order.shippingAddress.alternateMobileNumber &&
+                  {order.shippingAddress.alternateMobileNumber &&
                     <Typography variant="body1">Phone Number2: {order.shippingAddress.alternateMobileNumber}</Typography>
                   }
                 </Grid>

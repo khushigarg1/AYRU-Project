@@ -7,7 +7,7 @@ import { useAuth } from '@/contexts/auth';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useRouter } from 'next/navigation';
 const WishlistPage = () => {
-  const { openAuthModal, user, wishlistCount, setWishlistCount } = useAuth();
+  const { openAuthModal, user, wishlistCount, setWishlistCount, handleLogin } = useAuth();
   const [wishlistItems, setWishlistItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
@@ -66,7 +66,7 @@ const WishlistPage = () => {
       </Box>
       {wishlistItems.length === 0 && (
         <Typography variant="body1">
-          Your wishlist is empty. <Link href="/shop">Browse products</Link> to add items.
+          Your wishlist is empty. <Link href="/shop">Browse products</Link> to add items or <strong style={{ cursor: "pointer" }} onClick={handleLogin}>Login</strong> to see your saved wishlistitems.
         </Typography>
       )}
       {wishlistItems.length > 0 &&

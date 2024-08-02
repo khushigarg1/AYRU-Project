@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container, Card, CardContent, Typography, Grid, Box, CardMedia, Chip, IconButton, Divider, Accordion, AccordionSummary, AccordionDetails, Tooltip, useTheme, Button } from '@mui/material';
+import { Container, Card, CardContent, Typography, Grid, Box, CardMedia, Chip, IconButton, Divider, Accordion, AccordionSummary, AccordionDetails, Tooltip, useTheme, Button, styled, Paper } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import api from '../../../../api';
 import Cookies from 'js-cookie';
@@ -10,6 +10,21 @@ import { useRouter } from 'next/navigation';
 import { GridExpandMoreIcon } from '@mui/x-data-grid';
 import { FileCopyOutlined, FileCopySharp } from '@mui/icons-material';
 import { WhatsappIcon } from 'next-share';
+
+const ShippingDetailsBox = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(2),
+  marginTop: theme.spacing(2),
+  backgroundColor: "#fff",
+}));
+
+const ShippingInfoBox = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(2),
+  marginTop: theme.spacing(2),
+  backgroundColor: "#fff",
+  display: 'flex',
+  flexDirection: "column",
+  gap: theme.spacing(1),
+}));
 
 const OrderDetails = ({ params }) => {
   const { id } = params;
@@ -108,6 +123,17 @@ Here are my order details:
             marginTop: "10px"
           }}>
             <Box mb={2}>
+              {order?.status === "success" &&
+
+                <ShippingInfoBox>
+                  <Typography variant="body2">
+                    <strong>Standard Shipping</strong>
+                  </Typography>
+                  <Typography variant="body2" style={{ color: theme.palette.primary.contrastText }}>
+                    Your order will be dispatched within 2 days. Thank you for your patience! 😊
+                  </Typography>
+                </ShippingInfoBox>
+              }
               <Typography>
                 Note: Need your order urgently? Our Express Shipping service delivers in 2-4 days. Simply click on {" "}
                 <Button

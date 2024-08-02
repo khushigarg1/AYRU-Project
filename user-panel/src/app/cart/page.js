@@ -150,6 +150,7 @@ const CartPage = () => {
       `ProductUrl: ${process.env.REACT_APP_BASE_URL}/shop/${item?.Inventory?.id}\n` +
       `Quantity: ${item.quantity}\n` +
       `Selling Price: ₹${item?.cartSizeItem?.sellingPrice}\n` +
+      `Discounted Price: ₹${item?.cartSizeItem?.discountedPrice}\n` +
       `Size Option: ${item.sizeOption}\n`;
 
     if (item.sizeOption === 'flat') {
@@ -183,7 +184,7 @@ const CartPage = () => {
       </Box>
       {cartItems.length === 0 && (
         <Typography variant="body1">
-          Your cart is empty <strong><Link href="/shop">Browse products</Link></strong> to add items or log in to see your saved cart <strong style={{ cursor: "pointer" }} onClick={handleLogin}>Login</strong>.
+          Your cart is empty <strong><Link href="/shop">Browse products</Link></strong> to add items or  <strong style={{ cursor: "pointer" }} onClick={handleLogin}>Login</strong> to see your saved cart.
         </Typography>
       )}
       {cartItems.length !== 0 &&

@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Stepper, Step, StepLabel, Typography, Paper, Accordion, AccordionSummary, AccordionDetails, TextField, Checkbox, FormControlLabel, useTheme, useMediaQuery, Divider, Grid, Card, CardContent, CardMedia, Chip, IconButton, MenuItem } from '@mui/material';
+import { Box, Button, Stepper, Step, StepLabel, Typography, Paper, Accordion, AccordionSummary, AccordionDetails, TextField, Checkbox, FormControlLabel, useTheme, useMediaQuery, Divider, Grid, Card, CardContent, CardMedia, Chip, IconButton, MenuItem, Snackbar, Alert } from '@mui/material';
 import { Close, DeleteForever, Edit } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useAuth } from '@/contexts/auth';
@@ -23,15 +23,40 @@ const ShippingInfoBox = styled(Paper)(({ theme }) => ({
   gap: theme.spacing(1),
 }));
 
-
-
 export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, Totalcount, orderData, setOrderData }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { user: currentUser } = useAuth();
-
+  const [snackbar, setSnackbar] = useState(false);
   const [extraNote, setExtraNote] = useState(orderData?.extraNote || '');
+  const [errors, setErrors] = useState({});
 
+  const handleContinue = () => {
+    const newErrors = {};
+
+    if (!orderData.firstName) newErrors.firstName = 'This field is mandatory';
+    if (!orderData.lastName) newErrors.lastName = 'This field is mandatory';
+    if (!orderData.email) newErrors.email = 'This field is mandatory';
+    if (!orderData.phoneNumber) newErrors.phoneNumber = 'This field is mandatory';
+    if (!orderData.country) newErrors.country = 'This field is mandatory';
+    if (!orderData.state) newErrors.state = 'This field is mandatory';
+    if (!orderData.city) newErrors.city = 'This field is mandatory';
+    if (!orderData.pincode) newErrors.pincode = 'This field is mandatory';
+    if (!orderData.addressLine1) newErrors.addressLine1 = 'This field is mandatory';
+    if (!orderData.addressLine2) newErrors.addressLine2 = 'This field is mandatory';
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      validateFields();
+    } else {
+      setSnackbar(true);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar(false);
+  };
   const handleExtraNoteChange = (event) => {
     setExtraNote(event.target.value);
     setOrderData({
@@ -104,6 +129,21 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
       [name]: value,
     });
   };
+  const validateFields = () => {
+    const requiredFields = [
+      'firstName', 'lastName', 'email', 'phoneNumber', 'country', 'state', 'city', 'pincode'
+    ];
+
+    for (let field of requiredFields) {
+      if (!orderData[field] || orderData[field].trim() === '') {
+        setSnackbar(true);
+        return false;
+      }
+    }
+
+    handleNext();
+  };
+
   return (
     <>
       <Paper sx={{ p: 1, backgroundColor: "transparent", boxShadow: "none" }} mt={2}>
@@ -258,9 +298,14 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
               </AccordionDetails>
             </Accordion>
             <Divider sx={{ marginTop: "16px", marginBottom: "16px" }} />
-            <Grid container spacing={isMobile ? 0 : 1}>
+
+            <Typography mt={2} mb={1} variant="h6">
+              Shipping Address
+            </Typography>
+            <Grid container spacing={1}>
               <Grid item xs={12} md={6}>
                 <TextField
+                  required
                   label="First Name"
                   name="firstName"
                   fullWidth
@@ -268,10 +313,13 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                   sx={{ backgroundColor: 'white' }}
                   value={orderData.firstName}
                   onChange={handleInputChange}
+                  error={Boolean(errors.firstName)}
+                  helperText={errors.firstName}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
+                  required
                   label="Last Name"
                   name="lastName"
                   fullWidth
@@ -279,10 +327,13 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                   sx={{ backgroundColor: 'white' }}
                   value={orderData.lastName}
                   onChange={handleInputChange}
+                  error={Boolean(errors.lastName)}
+                  helperText={errors.lastName}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
+                  required
                   label="Email"
                   name="email"
                   fullWidth
@@ -290,10 +341,13 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                   sx={{ backgroundColor: 'white' }}
                   value={orderData.email}
                   onChange={handleInputChange}
+                  error={Boolean(errors.email)}
+                  helperText={errors.email}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
+                  required
                   label="Phone Number"
                   name="phoneNumber"
                   fullWidth
@@ -301,6 +355,8 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                   sx={{ backgroundColor: 'white' }}
                   value={orderData.phoneNumber}
                   onChange={handleInputChange}
+                  error={Boolean(errors.phoneNumber)}
+                  helperText={errors.phoneNumber}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -316,6 +372,7 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
+                  required
                   select
                   label="Country"
                   name="country"
@@ -324,6 +381,8 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                   sx={{ backgroundColor: 'white' }}
                   value={orderData.country}
                   onChange={handleInputChange}
+                  error={Boolean(errors.country)}
+                  helperText={errors.country}
                 >
                   {countries.map((country) => (
                     <MenuItem key={country.name} value={country.name}>
@@ -334,6 +393,7 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
+                  required
                   select
                   label="State"
                   name="state"
@@ -342,6 +402,8 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                   sx={{ backgroundColor: 'white' }}
                   value={orderData.state}
                   onChange={handleInputChange}
+                  error={Boolean(errors.state)}
+                  helperText={errors.state}
                 >
                   {states.map((state) => (
                     <MenuItem key={state.name} value={state.name}>
@@ -352,6 +414,7 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
+                  required
                   label="City"
                   name="city"
                   fullWidth
@@ -359,10 +422,13 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                   sx={{ backgroundColor: 'white' }}
                   value={orderData.city}
                   onChange={handleInputChange}
+                  error={Boolean(errors.city)}
+                  helperText={errors.city}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
+                  required
                   label="Pincode"
                   name="pincode"
                   fullWidth
@@ -370,11 +436,13 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                   sx={{ backgroundColor: 'white' }}
                   value={orderData.pincode}
                   onChange={handleInputChange}
+                  error={Boolean(errors.pincode)}
+                  helperText={errors.pincode}
                 />
               </Grid>
-
               <Grid item xs={12} md={6}>
                 <TextField
+                  required
                   label="Address Line 1"
                   name="addressLine1"
                   fullWidth
@@ -382,10 +450,13 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                   sx={{ backgroundColor: 'white' }}
                   value={orderData.addressLine1}
                   onChange={handleInputChange}
+                  error={Boolean(errors.addressLine1)}
+                  helperText={errors.addressLine1}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
+                  required
                   label="Address Line 2"
                   name="addressLine2"
                   fullWidth
@@ -393,12 +464,14 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                   sx={{ backgroundColor: 'white' }}
                   value={orderData.addressLine2}
                   onChange={handleInputChange}
+                  error={Boolean(errors.addressLine2)}
+                  helperText={errors.addressLine2}
                 />
               </Grid>
             </Grid>
             <Typography mt={2} mb={1} variant="h6">
-              {/* 🗒  */}
-              Special Instructions for Seller</Typography>
+              Special Instructions for Seller (optional)
+            </Typography>
             <Box>
               <TextField
                 label="How can we help you?"
@@ -411,23 +484,19 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                 sx={{ backgroundColor: '#fff' }}
               />
             </Box>
-            <ShippingInfoBox>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
+              <Button fullWidth variant="contained" color="primary" onClick={handleContinue}>
+                Continue ➡️
+              </Button>
+            </Box>
+            {/* <ShippingInfoBox>
               <Typography variant="body2">
-                {/* <CircleWrapper>
-              <InnerCircle />
-            </CircleWrapper> */}
-                {/* 🚚  */}
                 <strong>Standard Shipping</strong>
               </Typography>
               <Typography variant="body2" style={{ color: theme.palette.primary.contrastText }}>
                 Your order will be dispatched within 2 days. Thank you for your patience! 😊
               </Typography>
-            </ShippingInfoBox>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
-              <Button fullWidth variant="contained" color="primary" onClick={handleNext}>
-                Continue ➡️
-              </Button>
-            </Box>
+            </ShippingInfoBox> */}
           </>
         ) : (
           <>
@@ -437,6 +506,12 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
             </Button>
           </>
         )}
+        {snackbar && !errors &&
+          <Snackbar open={snackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+            <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
+              Please fill all required fields!!!
+            </Alert>
+          </Snackbar>}
       </Paper>
     </>
   );
