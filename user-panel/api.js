@@ -1,4 +1,5 @@
 import Axios from "axios";
+import { setupCache } from 'axios-cache-interceptor';
 
 // let urls = {
 //     test: `https://zljf0gm0-3000.inc1.devtunnels.ms/api/v1/`,
@@ -19,5 +20,24 @@ const api = Axios.create({
     "Content-Type": "application/json",
   },
 });
+
+const cacheConfig = {
+  ttl: 1000 * 60 * 5,
+  interpretHeader: true,
+};
+
+setupCache(api, cacheConfig);
+axios.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export default api;
