@@ -8,7 +8,7 @@ import { useAuth } from '../../contexts/auth';
 import { useRouter } from 'next/navigation';
 import { Helmet } from 'react-helmet';
 import Image from 'next/image';
-import Instructions from '../../../../public/images/instruction.png';
+import Instructions from '../../../public/images/instruction.png';
 import ImagePopup from '@/modals/imagepopup';
 import ShareButton from './ShareButton';
 
