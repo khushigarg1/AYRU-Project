@@ -11,6 +11,7 @@ import Instructions from "../../../..../../public/images/instruction.png";
 import Image from 'next/image';
 import ImagePopup from '@/modals/imagepopup';
 import ShareButton from './ShareButton';
+import { Helmet } from 'react-helmet';
 
 export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceToDisplay, sellingPriceToDisplay }) => {
   const theme = useTheme();
@@ -133,7 +134,13 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
   };
 
   return (
-    <>
+    <div>
+      <Helmet>
+        <title>{itemlist?.productName}</title>
+        <meta property="og:title" content={itemlist?.productName} />
+        <meta property="og:image" content={`https://ayru-jaipur.s3.amazonaws.com/${itemlist?.Media[0]?.url}`} />
+      </Helmet>
+
       <Box sx={{ position: 'relative' }}>
         {(discountedPriceToDisplay != 0 && discountedPriceToDisplay != null) && (
           <Chip
@@ -226,12 +233,12 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
         >
           {/* <Share /> */}
           <ShareButton
-            imageUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/shop/${itemlist.id}`}
+            // imageUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/shop/${itemlist.id}`}
+            imageUrl={`https://ayru-jaipur.s3.amazonaws.com/${itemlist?.Media[0]?.url}`}
             title={itemlist.productName}
             text={getProductShareText()}
             // url={`www.ayrujaipur.com`}
-            // url={`${process.env.NEXT_PUBLIC_BASE_URL}/shop/${itemlist.id}`}
-            url={`https://ayru-jaipur.s3.amazonaws.com/${itemlist?.Media[0]?.url}`}
+            url={`${process.env.NEXT_PUBLIC_BASE_URL}/shop/${itemlist.id}`}
           />
         </IconButton>
       </Box >
@@ -246,6 +253,6 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
         <ImagePopup imageUrl={selectedImage} onClose={handleCloseImageModal} />
       </Modal>
 
-    </>
+    </div>
   );
 };
