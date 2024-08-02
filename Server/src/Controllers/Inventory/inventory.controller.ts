@@ -298,6 +298,8 @@ export const filterInventory = async (
     fittedSize,
     customFittedId,
     sale,
+    availability,
+    extraOptionOutOfStock,
   } = request.query as {
     categoryId?: string;
     subCategoryId?: string;
@@ -311,6 +313,8 @@ export const filterInventory = async (
     fittedSize?: string;
     customFittedId?: string;
     sale?: string;
+    availability?: string;
+    extraOptionOutOfStock?: string;
   };
 
   try {
@@ -320,10 +324,20 @@ export const filterInventory = async (
       baseFilterOptions.categoryId = Number(categoryId);
     }
     if (subCategoryId) {
-      baseFilterOptions.subCategoryId = Number(subCategoryId);
+      baseFilterOptions.InventorySubcategory = {
+        some: {
+          subcategoryid: subCategoryId,
+        },
+      };
     }
     if (sale === "true") {
       baseFilterOptions.sale = true;
+    }
+    if (availability) {
+      baseFilterOptions.available = availability === "true";
+    }
+    if (extraOptionOutOfStock) {
+      baseFilterOptions.outOfStock = extraOptionOutOfStock === "true";
     }
 
     const baseInventories = await prisma.inventory.findMany({

@@ -243,23 +243,64 @@ exports.deleteMedia = deleteMedia;
 //   }
 // };
 const filterInventory = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
-    const { categoryId, subCategoryId, fabric, style, minPrice, maxPrice, sortBy, sortOrder, flatSize, fittedSize, customFittedId, sale, } = request.query;
+    const { categoryId, subCategoryId, fabric, style, minPrice, maxPrice, sortBy, sortOrder, flatSize, fittedSize, customFittedId, sale, availability, extraOptionOutOfStock, } = request.query;
     try {
         const baseFilterOptions = {};
         if (categoryId) {
             baseFilterOptions.categoryId = Number(categoryId);
         }
         if (subCategoryId) {
-            baseFilterOptions.subCategoryId = Number(subCategoryId);
+            baseFilterOptions.InventorySubcategory = {
+                some: {
+                    subcategoryid: subCategoryId,
+                },
+            };
         }
         if (sale === "true") {
             baseFilterOptions.sale = true;
         }
+        if (availability) {
+            baseFilterOptions.available = availability === "true";
+        }
+        if (extraOptionOutOfStock) {
+            baseFilterOptions.outOfStock = extraOptionOutOfStock === "true";
+        }
         const baseInventories = yield prisma.inventory.findMany({
             where: baseFilterOptions,
             include: {
-                Category: true,
+                customFittedInventory: {
+                    include: { InventoryFlat: { include: { Flat: true } } },
+                },
+                InventoryFlat: { include: { Flat: true } },
                 InventorySubcategory: { include: { SubCategory: true } },
+                InventoryFitted: {
+                    include: {
+                        Fitted: true,
+                    },
+                },
+                Category: true,
+                Wishlist: true,
+                // ProductInventory: {
+                //   include: {
+                //     product: {
+                //       include: { sizes: true },
+                //     },
+                //     selectedSizes: true,
+                //   },
+                // },
+                ColorVariations: { include: { Color: true } },
+                relatedInventories: {
+                    include: {
+                        Media: true,
+                    },
+                },
+                relatedByInventories: {
+                    include: {
+                        Media: true,
+                    },
+                },
+                Media: true,
+                SizeChartMedia: true,
             },
         });
         const filteredInventories = baseInventories.filter((inventory) => {
