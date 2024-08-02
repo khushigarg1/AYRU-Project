@@ -6,12 +6,11 @@ import Cookies from 'js-cookie';
 import api from '../../../api';
 import { useAuth } from '../../contexts/auth';
 import { useRouter } from 'next/navigation';
-import { RWebShare } from "react-web-share";
-import Instructions from "../../../..../../public/images/instruction.png";
+import { Helmet } from 'react-helmet';
 import Image from 'next/image';
+import Instructions from '../../../../public/images/instruction.png';
 import ImagePopup from '@/modals/imagepopup';
 import ShareButton from './ShareButton';
-import { Helmet } from 'react-helmet';
 
 export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceToDisplay, sellingPriceToDisplay }) => {
   const theme = useTheme();
@@ -96,10 +95,9 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
     arrows: false,
   };
 
-
   const handleShare = async () => {
-    const productUrl = `${process.env.REACT_APP_BASE_URL}/${itemlist.id}`;
-    const text = `Check out this amazing product: ${itemlist.productName} - ${itemlist.description}. Available now at a discounted price of ${discountedPriceToDisplay} !${productUrl}`;
+    const productUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/shop/${itemlist.id}`;
+    const text = `Check out this amazing product: ${itemlist.productName} - ${itemlist.description}. Available now at a discounted price of ${discountedPriceToDisplay}! ${productUrl}`;
 
     try {
       if (navigator.share) {
@@ -117,18 +115,17 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
     }
   };
 
-
   const handleOpenImageModal = (imageUrl) => {
     setSelectedImage(imageUrl);
     setImageModalOpen(true);
   };
+
   const handleCloseImageModal = () => {
     setImageModalOpen(false);
   };
 
   const getProductShareText = () => {
     const productName = itemlist.productName;
-    // const description = itemlist.description;
     const price = discountedPriceToDisplay ? `Now available at a discounted price of $${discountedPriceToDisplay}! (Original price: $${sellingPriceToDisplay})` : `Price: $${sellingPriceToDisplay}`;
     return `Check out this amazing product: ${productName} 🌟\n\n${price}\n\n🛒 Don't miss out! Click the link to view more details and make a purchase!`;
   };
@@ -138,7 +135,10 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
       <Helmet>
         <title>{itemlist?.productName}</title>
         <meta property="og:title" content={itemlist?.productName} />
+        <meta property="og:description" content={itemlist?.description} />
         <meta property="og:image" content={`https://ayru-jaipur.s3.amazonaws.com/${itemlist?.Media[0]?.url}`} />
+        <meta property="og:url" content={`${process.env.NEXT_PUBLIC_BASE_URL}/shop/${itemlist.id}`} />
+        <meta property="og:type" content="product" />
       </Helmet>
 
       <Box sx={{ position: 'relative' }}>
@@ -181,9 +181,6 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
                 <Typography variant="caption" component="h6" sx={{ lineHeight: 1, fontWeight: "bolder", color: "white" }}>
                   Sold Out
                 </Typography>
-                {/* <Typography variant="caption" component="div" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
-                Out
-              </Typography> */}
               </div>
             }
             color="secondary"
@@ -194,11 +191,6 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
               right: 4,
               zIndex: 1,
               padding: '7px 2px',
-              // display: 'flex',
-              // flexDirection: 'column',
-              // alignItems: 'center',
-              // height: '50px',
-              // width: '50px',
               borderRadius: '15px',
               fontSize: '1px',
               fontWeight: '800',
@@ -228,31 +220,18 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
         </IconButton>
         <IconButton
           aria-label="Share"
-          // onClick={handleShare}
+          onClick={handleShare}
           sx={{ position: 'absolute', bottom: 90, right: 8, zIndex: 1, backgroundColor: 'white', '&:hover': { backgroundColor: 'lightgray' } }}
         >
-          {/* <Share /> */}
-          <ShareButton
-            // imageUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/shop/${itemlist.id}`}
-            imageUrl={`https://ayru-jaipur.s3.amazonaws.com/${itemlist?.Media[0]?.url}`}
-            title={itemlist.productName}
-            text={getProductShareText()}
-            // url={`www.ayrujaipur.com`}
-            url={`${process.env.NEXT_PUBLIC_BASE_URL}/shop/${itemlist.id}`}
-          />
+          <Share />
         </IconButton>
-      </Box >
+      </Box>
       {!istablet &&
-        <Image src={Instructions} alt="Image"
-          style={{ marginTop: "20%", width: "35rem", height: "35rem", padding: "5px" }}
-        // style={{ position: 'absolute', left: '-8px', top: '50%', transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto' }}
-        />
+        <Image src={Instructions} alt="Instructions" width="270" height="280" />
       }
-
       <Modal open={imageModalOpen} onClose={handleCloseImageModal}>
         <ImagePopup imageUrl={selectedImage} onClose={handleCloseImageModal} />
       </Modal>
-
     </div>
   );
 };
