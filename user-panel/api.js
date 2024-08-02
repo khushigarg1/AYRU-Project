@@ -1,4 +1,6 @@
 import Axios from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+
 import { setupCache } from 'axios-cache-interceptor';
 
 // let urls = {
