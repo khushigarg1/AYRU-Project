@@ -467,7 +467,6 @@ export const filterSaleItem = async (
   reply: FastifyReply
 ) => {
   try {
-    // Fetch all inventory items where sale is true
     const inventories = await prisma.inventory.findMany({
       where: {
         sale: true,

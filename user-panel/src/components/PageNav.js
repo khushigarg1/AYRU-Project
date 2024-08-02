@@ -395,6 +395,28 @@ export default function PageNav({ children }) {
               </ListItemButton>
             </ListItem>
           </Link>
+
+          <Link href="/sale">
+            <ListItem
+              key={"sale"}
+              onClick={() => setOpenTab("Sale".toLowerCase())}
+              disablePadding
+              sx={{ display: "block" }}
+            >
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+              >
+                <ListItemText
+                  primary={"Sale"}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+              </ListItemButton>
+            </ListItem>
+          </Link>
           {categories.map((category) => (
             category.subcategories ? (
               <NestedList key={category.id} category={category} />
