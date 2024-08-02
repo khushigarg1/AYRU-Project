@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, Suspense } from 'react';
-import { Grid, Select, MenuItem, FormControl, InputLabel, Box, Paper, Typography, useTheme, Button, Drawer, TextField, IconButton, Divider } from '@mui/material';
+import { Grid, Select, MenuItem, FormControl, InputLabel, Box, Paper, Typography, useTheme, Button, Drawer, TextField, IconButton, Divider, Slider, FormControlLabel, Checkbox, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import api from '../../../api';
@@ -10,6 +10,15 @@ import Image from 'next/image';
 import WebpImage from '../../../public/images/blog1.webp';
 import CloseIcon from '@mui/icons-material/Close';
 
+const CustomBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginTop: theme.spacing(2),
+  '& > *': {
+    width: '45%',
+  },
+}));
 const ShopPageContent = () => {
   const searchParams = useSearchParams();
   const categoryId = searchParams.get('categoryId');
