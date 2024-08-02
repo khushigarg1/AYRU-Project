@@ -142,6 +142,8 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
         <meta property="og:description" content={getProductShareText()} />
         <meta property="og:image" itemprop="image" content={`https://ayru-jaipur.s3.amazonaws.com/${itemlist?.Media[0]?.url}`} />
         <meta property="og:url" content={`${process.env.NEXT_PUBLIC_BASE_URL}/shop/${itemlist.id}`} />
+        <meta property="og:image:width" content="300" />
+        <meta property="og:image:height" content="300" />
         <meta property="og:type" content="website" />
       </head>
 
