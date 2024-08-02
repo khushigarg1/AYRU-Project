@@ -83,6 +83,12 @@ const GroupDetails = ({ details }) => {
         </Typography>
         <Typography variant="body1">{details.extraOptionOutOfStock ? 'Out of Stock' : 'Available'}</Typography>
       </Grid>
+      <Grid item xs={12} sm={6} md={6} lg={4}>
+        <Typography variant="h6" color="primary">
+          Sale Item:
+        </Typography>
+        <Typography variant="body1">{details.sale ? 'Sale Item' : 'Not a sale Item'}</Typography>
+      </Grid>
 
     </Grid>
   );

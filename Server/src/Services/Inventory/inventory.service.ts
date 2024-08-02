@@ -195,7 +195,8 @@ export class InventoryService {
           productstatus: data?.productstatus || "DRAFT",
           soldQuantity: data.soldQuantity || 0,
           availability: data.availability || true,
-          extraOptionOutOfStock: data.extraOptionOutOfStock || false,
+          extraOptionOutOfStock: data?.extraOptionOutOfStock || false,
+          sale: data?.sale || false,
         },
       });
 
@@ -338,6 +339,7 @@ export class InventoryService {
       itemDimensions,
       colorVariation,
       extraOptionOutOfStock,
+      sale,
       specialFeatures,
       threadCount,
       origin,
@@ -390,6 +392,7 @@ export class InventoryService {
           itemDimensions,
           colorVariation,
           extraOptionOutOfStock,
+          sale,
           specialFeatures,
           threadCount,
           origin,

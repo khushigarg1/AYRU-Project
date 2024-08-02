@@ -15,7 +15,7 @@ const inventory_service_1 = require("../../Services/Inventory/inventory.service"
 const inventoryService = new inventory_service_1.InventoryService();
 const prisma = new client_1.PrismaClient();
 const createInventory = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
-    const { productName, skuId, categoryId, subCategoryIds, quantity, soldQuantity, sellingPrice, availability, productstatus, extraOptionOutOfStock, } = request.body;
+    const { productName, skuId, categoryId, subCategoryIds, quantity, soldQuantity, sellingPrice, availability, productstatus, extraOptionOutOfStock, sale, } = request.body;
     try {
         const inventory = yield inventoryService.createInventory({
             productName,
@@ -28,6 +28,7 @@ const createInventory = (request, reply) => __awaiter(void 0, void 0, void 0, fu
             availability,
             productstatus,
             extraOptionOutOfStock,
+            sale,
         });
         reply.status(201).send({ data: inventory });
     }

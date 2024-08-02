@@ -564,8 +564,44 @@ class CartService {
                     maxCategoryName = `Category ID: ${categoryId}`;
                 }
             }
+            const cartSizeItems = yield Promise.all(userCart.map((cartItem) => __awaiter(this, void 0, void 0, function* () {
+                let cartSizeItem;
+                if (cartItem.sizeOption === "flat" && cartItem.flatId !== null) {
+                    cartSizeItem = yield prisma.inventoryFlat.findFirst({
+                        where: {
+                            inventoryId: cartItem.inventoryId,
+                            flatId: cartItem.flatId,
+                        },
+                    });
+                }
+                else if (cartItem.sizeOption === "fitted" &&
+                    cartItem.fittedId !== null) {
+                    cartSizeItem = yield prisma.inventoryFitted.findFirst({
+                        where: {
+                            inventoryId: cartItem.inventoryId,
+                            fittedId: cartItem.fittedId,
+                        },
+                    });
+                }
+                else if (cartItem.sizeOption === "custom" &&
+                    cartItem.customId !== null) {
+                    const inventoryflatItem = yield prisma.inventoryFlat.findFirst({
+                        where: {
+                            inventoryId: cartItem === null || cartItem === void 0 ? void 0 : cartItem.inventoryId,
+                            flatId: cartItem === null || cartItem === void 0 ? void 0 : cartItem.customId,
+                        },
+                    });
+                    cartSizeItem = yield prisma.customFittedInventory.findFirst({
+                        where: {
+                            inventoryId: cartItem === null || cartItem === void 0 ? void 0 : cartItem.inventoryId,
+                            inventoryFlatId: inventoryflatItem === null || inventoryflatItem === void 0 ? void 0 : inventoryflatItem.id,
+                        },
+                    });
+                }
+                return Object.assign(Object.assign({}, cartItem), { cartSizeItem });
+            })));
             return {
-                userCart,
+                userCart: cartSizeItems,
                 totalProducts,
                 categoryCounts,
                 maxCategoryName,

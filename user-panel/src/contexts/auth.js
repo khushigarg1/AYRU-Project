@@ -70,8 +70,8 @@ export const AuthProvider = ({ children }) => {
     Cookies.remove('token');
     setUser(null);
     delete api.defaults.headers.Authorization;
-    // router.push('/login');
-    window.location.reload();
+    router.push('/');
+    // window.location.reload();
   };
 
   const openAuthModal = () => setAuthModalOpen(true);

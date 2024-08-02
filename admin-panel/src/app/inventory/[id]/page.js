@@ -144,6 +144,10 @@ const HomePage = ({ params }) => {
   const handleToggleExtraOptionOutOfStock = (event) => {
     updateInventory(id, { extraOptionOutOfStock: event.target.checked }, inventory);
   };
+  const handleToggleSale = (event) => {
+    console.log(event.target.checked);
+    updateInventory(id, { sale: event.target.checked }, inventory);
+  };
 
   const handleProductStatusChange = (event) => {
     updateInventory(id, { productstatus: event.target.value }, inventory);
@@ -461,6 +465,19 @@ const HomePage = ({ params }) => {
                     />
                   }
                   label={inventory.extraOptionOutOfStock ? 'Out of Stock' : 'Available'}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h6">Sale Item</Typography>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={inventory.sale || false}
+                      onChange={handleToggleSale}
+                      color="primary"
+                    />
+                  }
+                  label={inventory.sale ? 'sale item' : 'not a sale item'}
                 />
               </Grid>
             </Grid>

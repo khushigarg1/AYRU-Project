@@ -185,7 +185,8 @@ class InventoryService {
                         productstatus: (data === null || data === void 0 ? void 0 : data.productstatus) || "DRAFT",
                         soldQuantity: data.soldQuantity || 0,
                         availability: data.availability || true,
-                        extraOptionOutOfStock: data.extraOptionOutOfStock || false,
+                        extraOptionOutOfStock: (data === null || data === void 0 ? void 0 : data.extraOptionOutOfStock) || false,
+                        sale: (data === null || data === void 0 ? void 0 : data.sale) || false,
                     },
                 });
                 if (data.subCategoryIds && data.subCategoryIds.length > 0) {
@@ -305,7 +306,7 @@ class InventoryService {
     updateInventory(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
             var _a, _b, _c;
-            const { productName, skuId, quantity, soldQuantity, minQuantity, maxQuantity, sellingPrice, costPrice, discountedPrice, availability, weight, itemWeight, productstatus, status, style, pattern, fabric, type, size, includedItems, itemDimensions, colorVariation, extraOptionOutOfStock, specialFeatures, threadCount, origin, extraNote, disclaimer, description, careInstructions, categoryId, subCategoryIds, flatIds, fittedIds, customFittedIds, others, others1, colorIds, relatedInventoriesIds, } = data;
+            const { productName, skuId, quantity, soldQuantity, minQuantity, maxQuantity, sellingPrice, costPrice, discountedPrice, availability, weight, itemWeight, productstatus, status, style, pattern, fabric, type, size, includedItems, itemDimensions, colorVariation, extraOptionOutOfStock, sale, specialFeatures, threadCount, origin, extraNote, disclaimer, description, careInstructions, categoryId, subCategoryIds, flatIds, fittedIds, customFittedIds, others, others1, colorIds, relatedInventoriesIds, } = data;
             const deleteManyOptions = { where: { inventoryId: id } };
             yield prisma.inventoryFitted.deleteMany(deleteManyOptions);
             yield prisma.inventoryFlat.deleteMany(deleteManyOptions);
@@ -339,6 +340,7 @@ class InventoryService {
                         itemDimensions,
                         colorVariation,
                         extraOptionOutOfStock,
+                        sale,
                         specialFeatures,
                         threadCount,
                         origin,

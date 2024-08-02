@@ -4,11 +4,12 @@ import Link from 'next/link';
 import { Button, TextField, Box, Typography, Paper, Grid, CircularProgress } from '@mui/material';
 import { useAuth } from '@/contexts/auth';
 import api from '../../../api';
+import { useRouter } from 'next/navigation';
 
 const SettingsPage = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [password, setPassword] = useState('');
-
+  const router = useRouter();
   const handlePasswordChange = () => {
     api.post('/auth/set-password', { email: user?.email, role: "user", newPassword: password }).then(() => {
       alert('Password updated successfully');
@@ -17,6 +18,26 @@ const SettingsPage = () => {
       alert('Error updating password: ' + error.message);
     });
   };
+
+  const formatAddress = () => {
+    const addressParts = [
+      user?.address1,
+      user?.address2,
+      user?.city,
+      user?.state,
+      user?.country,
+      user?.pincode
+    ];
+    return addressParts.filter(part => part).join(', ');
+  };
+
+
+  const handleLogout = () => {
+    // router.push('/');
+    logout();
+  };
+
+
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" gutterBottom>Settings</Typography>
@@ -63,7 +84,7 @@ const SettingsPage = () => {
             variant="outlined"
             fullWidth
             disabled
-            value={`${user?.firstName} ${user?.lastName}`}
+            value={`${user?.firstName ?? ''}${user?.lastName ?? ''}`}
             sx={{ my: 2 }}
           />
           <TextField
@@ -71,7 +92,7 @@ const SettingsPage = () => {
             variant="outlined"
             fullWidth
             disabled
-            value={user?.email}
+            value={user?.email ?? ''}
             sx={{ my: 2 }}
           />
           <TextField
@@ -79,17 +100,20 @@ const SettingsPage = () => {
             variant="outlined"
             fullWidth
             disabled
-            value={user?.phoneNumber}
+            value={user?.phoneNumber ?? ''}
             sx={{ my: 2 }}
           />
+
           <TextField
             label="Address"
             variant="outlined"
             fullWidth
             disabled
-            value={`${user?.address1}, ${user?.address2}, ${user?.city}, ${user?.state}, ${user?.country}, ${user?.pincode}`}
+            value={formatAddress()}
             sx={{ my: 2 }}
           />
+          <Button fullWidth variant='contained' onClick={handleLogout}
+          >Logout</Button>
         </Paper>
 
       </Box>

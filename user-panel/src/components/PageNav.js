@@ -19,12 +19,12 @@ import ListItemText from "@mui/material/ListItemText";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
-import { Badge } from "@mui/material";
+import { Badge, SvgIcon } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useAuth } from "../contexts/auth";
 import Link from "next/link";
-import { CancelRounded } from "@mui/icons-material";
+import { AccountCircle, CancelRounded } from "@mui/icons-material";
 import api from "../../api";
 import logo from "../../public/images/logo.png"
 import Image from "next/image";
@@ -80,7 +80,7 @@ const closedMixin = (theme) => ({
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  justifyContent: "flex-end",
+  justifyContent: "space-between",
   padding: theme.spacing(0, 1),
   ...theme.mixins.toolbar,
 }));
@@ -122,8 +122,18 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
+const CustomAccountIcon = (props) => (
+  <SvgIcon {...props}>
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="m12 4a5 5 0 1 1 -5 5 5 5 0 0 1 5-5m0-2a7 7 0 1 0 7 7 7 7 0 0 0 -7-7z" /><path d="m22 30h-2v-5a5 5 0 0 0 -5-5h-6a5 5 0 0 0 -5 5v5h-2v-5a7 7 0 0 1 7-7h6a7 7 0 0 1 7 7z" /><path d="m22 4h10v2h-10z" /><path d="m22 9h10v2h-10z" /><path d="m22 14h7v2h-7z" /><path d="m0 0h32v32h-32z" fill="none" /></svg>
+  </SvgIcon>
+);
+const AuthenticatedSection = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.background.contrast,
+  padding: theme.spacing(0),
+}));
+
 export default function PageNav({ children }) {
-  const { isAuthenticated, isLoading, logout, openTab, setOpenTab, wishlistCount, cartCount } = useAuth();
+  const { isAuthenticated, isLoading, logout, openTab, setOpenTab, wishlistCount, cartCount, user, openAuthModal } = useAuth();
   const theme = useTheme();
   const [open, setOpen] = useState(isAuthenticated);
   const [categories, setCategories] = useState([]);
@@ -282,11 +292,65 @@ export default function PageNav({ children }) {
         </Toolbar>
       </StyledAppBar>
       <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
+        {/* <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             <CancelRounded />
           </IconButton>
-        </DrawerHeader>
+        </DrawerHeader> */}
+
+        {isAuthenticated ? (
+          <AuthenticatedSection>
+            <DrawerHeader>
+              <Link href="/setting">
+                <Box display="flex" alignItems="center">
+                  <CustomAccountIcon sx={{ marginLeft: 1, marginTop: 1 }} />
+                </Box>
+              </Link>
+              <IconButton onClick={handleDrawerClose}>
+                <CancelRounded />
+              </IconButton>
+            </DrawerHeader>
+            <Link href="/setting">
+              <ListItem
+                key={"setting"}
+                onClick={() => setOpenTab("setting".toLowerCase())}
+                disablePadding
+                sx={{ display: "block" }}
+              >
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                >
+                  <ListItemText
+                    primary={user?.email}
+                    // primary={"Account"}
+                    sx={{
+                      opacity: open ? 1 : 0,
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  />
+                  <ChevronRightIcon />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+          </AuthenticatedSection>
+        ) :
+          <>
+            <DrawerHeader>
+              <Box display="flex" alignItems="center" onClick={openAuthModal} sx={{ cursor: "pointer" }}>
+                <AccountCircle sx={{ marginLeft: 1, marginTop: 0 }} />Login/signup
+              </Box>
+              <IconButton onClick={handleDrawerClose}>
+                <CancelRounded />
+              </IconButton>
+            </DrawerHeader>
+          </>
+        }
         <Divider />
         <List style={{ padding: "0px" }}>
           <Link href="/">
@@ -434,29 +498,9 @@ export default function PageNav({ children }) {
           </Link>
         </List>
         <Divider />
+
         {isAuthenticated && (
           <>
-            <Link href="/setting">
-              <ListItem
-                key={"setting"}
-                onClick={() => setOpenTab("setting".toLowerCase())}
-                disablePadding
-                sx={{ display: "block" }}
-              >
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemText
-                    primary={"Settings"}
-                    sx={{ opacity: open ? 1 : 0 }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            </Link>
             <ListItem
               key={"Logout"}
               onClick={() => logout()}

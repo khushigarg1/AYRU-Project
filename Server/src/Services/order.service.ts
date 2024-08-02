@@ -95,8 +95,8 @@ export async function createOrderService(
         data: {
           orderId: newOrder?.id,
           cartId: item?.id,
-          discountedPrice: item?.discountedPrice,
-          sellingPrice: item?.sellingPrice,
+          discountedPrice: item?.cartSizeItem?.discountedPrice,
+          sellingPrice: item?.cartSizeItem?.sellingPrice,
           costPrice: item?.costPrice,
           inventoryId: item?.inventoryId,
           quantity: item?.quantity,

@@ -23,6 +23,7 @@ export const createInventory = async (
     availability,
     productstatus,
     extraOptionOutOfStock,
+    sale,
   } = request.body as InventoryAttributes;
 
   try {
@@ -37,6 +38,7 @@ export const createInventory = async (
       availability,
       productstatus,
       extraOptionOutOfStock,
+      sale,
     });
     reply.status(201).send({ data: inventory });
   } catch (error) {

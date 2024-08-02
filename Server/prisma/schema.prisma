@@ -182,6 +182,7 @@ model Inventory {
   itemDimensions        String[]
   colorVariation        String?
   extraOptionOutOfStock Boolean?
+  sale                  Boolean?
   specialFeatures       String[]
   threadCount           String?
   categoryid            Int?
@@ -405,7 +406,6 @@ model Order {
   paymentStatus     String
   deliveryStatus    String
   giftOption        Boolean?
-  sale              Boolean?
   Total             Int
   paymentMethodId   Int?
   deliveryAddressId Int

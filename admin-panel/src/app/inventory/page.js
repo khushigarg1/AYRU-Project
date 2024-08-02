@@ -87,6 +87,7 @@ const HomePage = () => {
     { field: "productstatus", headerName: "Product Status", width: 170 },
     { field: "availability", headerName: "Availability", width: 150, type: 'boolean' },
     { field: "extraOptionOutOfStock", headerName: "Out of Stock", width: 180, type: 'boolean' },
+    { field: "sale", headerName: "SaleItem", width: 180, type: 'boolean' },
     {
       field: "actions",
       headerName: "Actions",
@@ -113,6 +114,7 @@ const HomePage = () => {
     { field: "productstatus", headerName: "Product Status", width: 180 },
     { field: "availability", headerName: "Availability", width: 180, type: 'boolean' },
     { field: "extraOptionOutOfStock", headerName: "Out of Stock", width: 180, type: 'boolean' },
+    { field: "sale", headerName: "SaleItem", width: 180, type: 'boolean' },
     {
       field: "actions",
       headerName: "Actions",

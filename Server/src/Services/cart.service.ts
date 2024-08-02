@@ -615,8 +615,51 @@ export class CartService {
       }
     }
 
+    const cartSizeItems = await Promise.all(
+      userCart.map(async (cartItem) => {
+        let cartSizeItem;
+
+        if (cartItem.sizeOption === "flat" && cartItem.flatId !== null) {
+          cartSizeItem = await prisma.inventoryFlat.findFirst({
+            where: {
+              inventoryId: cartItem.inventoryId,
+              flatId: cartItem.flatId,
+            },
+          });
+        } else if (
+          cartItem.sizeOption === "fitted" &&
+          cartItem.fittedId !== null
+        ) {
+          cartSizeItem = await prisma.inventoryFitted.findFirst({
+            where: {
+              inventoryId: cartItem.inventoryId,
+              fittedId: cartItem.fittedId,
+            },
+          });
+        } else if (
+          cartItem.sizeOption === "custom" &&
+          cartItem.customId !== null
+        ) {
+          const inventoryflatItem = await prisma.inventoryFlat.findFirst({
+            where: {
+              inventoryId: cartItem?.inventoryId,
+              flatId: cartItem?.customId,
+            },
+          });
+          cartSizeItem = await prisma.customFittedInventory.findFirst({
+            where: {
+              inventoryId: cartItem?.inventoryId,
+              inventoryFlatId: inventoryflatItem?.id,
+            },
+          });
+        }
+
+        return { ...cartItem, cartSizeItem };
+      })
+    );
+
     return {
-      userCart,
+      userCart: cartSizeItems,
       totalProducts,
       categoryCounts,
       maxCategoryName,

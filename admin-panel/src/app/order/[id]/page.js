@@ -217,6 +217,9 @@ const OrderAccordion = ({ params }) => {
                           <Typography variant='body2' sx={{ color: item?.inventory?.extraOptionOutOfStock ? 'red' : 'green', fontSize: "0.6em", marginBottom: "15px" }}>
                             {item?.inventory?.extraOptionOutOfStock === true || item?.quantity === 0 ? "Out of Stock" : "In Stock"}
                           </Typography>
+                          <Typography variant='body2' sx={{ color: item?.inventory?.sale ? 'red' : 'green', fontSize: "0.6em", marginBottom: "15px" }}>
+                            {item?.inventory?.sale === true || item?.quantity === 0 ? "Sale Item" : "not a sale item"}
+                          </Typography>
                           {/* <Grid container justifyContent="space-between" alignItems="flex-start" style={{ position: "absolute", bottom: "3px", width: "100%", overflow: "hidden", paddingRight: "150px" }}
                       >
                         <Grid item>

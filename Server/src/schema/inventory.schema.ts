@@ -8,6 +8,7 @@ export interface InventoryAttributes {
   sellingPrice: number;
   soldQuantity?: number;
   extraOptionOutOfStock?: boolean;
+  sale?: boolean;
   quantity: number;
   productstatus?: ProductStatus;
   availability?: boolean;
@@ -68,6 +69,7 @@ export interface InventoryUpdateAttributes {
   itemDimensions?: string[];
   colorVariation?: string;
   extraOptionOutOfStock?: boolean;
+  sale?: boolean;
   specialFeatures?: string[];
   threadCount?: string;
   origin?: string;

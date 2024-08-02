@@ -29,6 +29,7 @@ function generateOrderId() {
 }
 function createOrderService(data, userId) {
     return __awaiter(this, void 0, void 0, function* () {
+        var _a, _b;
         try {
             const orderId = yield generateOrderId();
             // let shippingAddress = await prisma.shippingAddress.findFirst({
@@ -102,8 +103,8 @@ function createOrderService(data, userId) {
                     data: {
                         orderId: newOrder === null || newOrder === void 0 ? void 0 : newOrder.id,
                         cartId: item === null || item === void 0 ? void 0 : item.id,
-                        discountedPrice: item === null || item === void 0 ? void 0 : item.discountedPrice,
-                        sellingPrice: item === null || item === void 0 ? void 0 : item.sellingPrice,
+                        discountedPrice: (_a = item === null || item === void 0 ? void 0 : item.cartSizeItem) === null || _a === void 0 ? void 0 : _a.discountedPrice,
+                        sellingPrice: (_b = item === null || item === void 0 ? void 0 : item.cartSizeItem) === null || _b === void 0 ? void 0 : _b.sellingPrice,
                         costPrice: item === null || item === void 0 ? void 0 : item.costPrice,
                         inventoryId: item === null || item === void 0 ? void 0 : item.inventoryId,
                         quantity: item === null || item === void 0 ? void 0 : item.quantity,
