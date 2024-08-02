@@ -243,66 +243,70 @@ exports.deleteMedia = deleteMedia;
 //   }
 // };
 const filterInventory = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
-    const { categoryId, subCategoryId, fabric, style, minPrice, maxPrice, sortBy, sortOrder, flatSize, fittedSize, customFittedId, } = request.query;
+    const { categoryId, subCategoryId, fabric, style, minPrice, maxPrice, sortBy, sortOrder, flatSize, fittedSize, customFittedId, sale, } = request.query;
     try {
-        const filterOptions = {};
+        const baseFilterOptions = {};
         if (categoryId) {
-            filterOptions.categoryId = Number(categoryId);
+            baseFilterOptions.categoryId = Number(categoryId);
         }
         if (subCategoryId) {
-            filterOptions.subCategoryId = Number(subCategoryId);
+            baseFilterOptions.subCategoryId = Number(subCategoryId);
         }
-        if (fabric) {
-            filterOptions.fabric = { equals: fabric, mode: "insensitive" };
+        if (sale === "true") {
+            baseFilterOptions.sale = true;
         }
-        if (style) {
-            filterOptions.style = { equals: style, mode: "insensitive" };
-        }
-        if (minPrice && maxPrice) {
-            filterOptions.sellingPrice = {
-                gte: parseFloat(minPrice),
-                lte: parseFloat(maxPrice),
-            };
-        }
-        const orderBy = {};
-        if (sortBy) {
-            orderBy[sortBy] = sortOrder === "desc" ? "desc" : "asc";
-        }
-        const inventories = yield prisma.inventory.findMany({
-            where: filterOptions,
-            orderBy,
+        const baseInventories = yield prisma.inventory.findMany({
+            where: baseFilterOptions,
             include: {
                 Category: true,
                 InventorySubcategory: { include: { SubCategory: true } },
-                Media: true,
-                Wishlist: true,
-                relatedInventories: true,
-                relatedByInventories: true,
-                SizeChartMedia: true,
-                ColorVariations: { include: { Color: true } },
-                InventoryFlat: {
-                    where: flatSize ? { Flat: { size: flatSize } } : undefined,
-                    include: { Flat: true },
-                },
-                // customFittedInventory: {
-                //   where: customFittedId
-                //     ? { customFittedId: Number(customFittedId) }
-                //     : undefined,
-                //   include: { customFitted: true },
-                // },
-                // InventoryFitted: {
-                //   where: fittedSize
-                //     ? {
-                //         fittedDimensions: { some: { dimensions: fittedSize } },
-                //       }
-                //     : undefined,
-                //   include: {
-                //     Fitted: true,
-                //   },
-                // },
             },
         });
-        reply.send({ data: inventories });
+        const filteredInventories = baseInventories.filter((inventory) => {
+            let isValid = true;
+            if (fabric &&
+                inventory.fabric &&
+                inventory.fabric.toLowerCase() !== fabric.toLowerCase()) {
+                isValid = false;
+            }
+            if (style &&
+                inventory.style &&
+                inventory.style.toLowerCase() !== style.toLowerCase()) {
+                isValid = false;
+            }
+            if (minPrice && maxPrice) {
+                const sellingPrice = inventory.sellingPrice;
+                if (sellingPrice &&
+                    (sellingPrice < parseFloat(minPrice) ||
+                        sellingPrice > parseFloat(maxPrice))) {
+                    isValid = false;
+                }
+            }
+            return isValid;
+        });
+        const sortedInventories = filteredInventories.sort((a, b) => {
+            if (sortBy) {
+                const order = sortOrder === "desc" ? -1 : 1;
+                const aValue = a[sortBy];
+                const bValue = b[sortBy];
+                if (aValue == null || bValue == null) {
+                    return 0;
+                }
+                if (typeof aValue === "number" && typeof bValue === "number") {
+                    return (aValue - bValue) * order;
+                }
+                if (typeof aValue === "string" && typeof bValue === "string") {
+                    return aValue.localeCompare(bValue) * order;
+                }
+                if (aValue < bValue)
+                    return -1 * order;
+                if (aValue > bValue)
+                    return 1 * order;
+                return 0;
+            }
+            return 0;
+        });
+        reply.send({ data: sortedInventories });
     }
     catch (error) {
         reply
@@ -384,7 +388,6 @@ const searchInventory = (request, reply) => __awaiter(void 0, void 0, void 0, fu
 exports.searchInventory = searchInventory;
 const filterSaleItem = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // Fetch all inventory items where sale is true
         const inventories = yield prisma.inventory.findMany({
             where: {
                 sale: true,

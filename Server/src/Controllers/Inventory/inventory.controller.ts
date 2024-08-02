@@ -280,6 +280,7 @@ export const deleteMedia = async (
 //       .send({ error: "Failed to filter inventories", details: error });
 //   }
 // };
+
 export const filterInventory = async (
   request: FastifyRequest,
   reply: FastifyReply
@@ -296,6 +297,7 @@ export const filterInventory = async (
     flatSize,
     fittedSize,
     customFittedId,
+    sale,
   } = request.query as {
     categoryId?: string;
     subCategoryId?: string;
@@ -308,71 +310,87 @@ export const filterInventory = async (
     flatSize?: string;
     fittedSize?: string;
     customFittedId?: string;
+    sale?: string;
   };
 
   try {
-    const filterOptions: any = {};
+    const baseFilterOptions: any = {};
 
     if (categoryId) {
-      filterOptions.categoryId = Number(categoryId);
+      baseFilterOptions.categoryId = Number(categoryId);
     }
     if (subCategoryId) {
-      filterOptions.subCategoryId = Number(subCategoryId);
+      baseFilterOptions.subCategoryId = Number(subCategoryId);
     }
-    if (fabric) {
-      filterOptions.fabric = { equals: fabric, mode: "insensitive" };
-    }
-    if (style) {
-      filterOptions.style = { equals: style, mode: "insensitive" };
-    }
-    if (minPrice && maxPrice) {
-      filterOptions.sellingPrice = {
-        gte: parseFloat(minPrice),
-        lte: parseFloat(maxPrice),
-      };
+    if (sale === "true") {
+      baseFilterOptions.sale = true;
     }
 
-    const orderBy: any = {};
-    if (sortBy) {
-      orderBy[sortBy] = sortOrder === "desc" ? "desc" : "asc";
-    }
-
-    const inventories = await prisma.inventory.findMany({
-      where: filterOptions,
-      orderBy,
+    const baseInventories = await prisma.inventory.findMany({
+      where: baseFilterOptions,
       include: {
         Category: true,
         InventorySubcategory: { include: { SubCategory: true } },
-        Media: true,
-        Wishlist: true,
-        relatedInventories: true,
-        relatedByInventories: true,
-        SizeChartMedia: true,
-        ColorVariations: { include: { Color: true } },
-        InventoryFlat: {
-          where: flatSize ? { Flat: { size: flatSize } } : undefined,
-          include: { Flat: true },
-        },
-        // customFittedInventory: {
-        //   where: customFittedId
-        //     ? { customFittedId: Number(customFittedId) }
-        //     : undefined,
-        //   include: { customFitted: true },
-        // },
-        // InventoryFitted: {
-        //   where: fittedSize
-        //     ? {
-        //         fittedDimensions: { some: { dimensions: fittedSize } },
-        //       }
-        //     : undefined,
-        //   include: {
-        //     Fitted: true,
-        //   },
-        // },
       },
     });
 
-    reply.send({ data: inventories });
+    const filteredInventories = baseInventories.filter((inventory) => {
+      let isValid = true;
+
+      if (
+        fabric &&
+        inventory.fabric &&
+        inventory.fabric.toLowerCase() !== fabric.toLowerCase()
+      ) {
+        isValid = false;
+      }
+      if (
+        style &&
+        inventory.style &&
+        inventory.style.toLowerCase() !== style.toLowerCase()
+      ) {
+        isValid = false;
+      }
+      if (minPrice && maxPrice) {
+        const sellingPrice = inventory.sellingPrice;
+        if (
+          sellingPrice &&
+          (sellingPrice < parseFloat(minPrice) ||
+            sellingPrice > parseFloat(maxPrice))
+        ) {
+          isValid = false;
+        }
+      }
+
+      return isValid;
+    });
+
+    const sortedInventories = filteredInventories.sort((a, b) => {
+      if (sortBy) {
+        const order = sortOrder === "desc" ? -1 : 1;
+        const aValue = a[sortBy as keyof typeof a];
+        const bValue = b[sortBy as keyof typeof b];
+
+        if (aValue == null || bValue == null) {
+          return 0;
+        }
+
+        if (typeof aValue === "number" && typeof bValue === "number") {
+          return (aValue - bValue) * order;
+        }
+
+        if (typeof aValue === "string" && typeof bValue === "string") {
+          return aValue.localeCompare(bValue) * order;
+        }
+
+        if (aValue < bValue) return -1 * order;
+        if (aValue > bValue) return 1 * order;
+        return 0;
+      }
+      return 0;
+    });
+
+    reply.send({ data: sortedInventories });
   } catch (error) {
     reply
       .status(500)
@@ -389,7 +407,7 @@ export const searchInventory = async (
   const { searchQuery, categoryId, subCategoryId } = request.query as {
     searchQuery: string;
     categoryId?: string;
-    subCategoryId?: string | string[]; // Adjust to handle arrays if needed
+    subCategoryId?: string | string[];
   };
   console.log(searchQuery);
 
