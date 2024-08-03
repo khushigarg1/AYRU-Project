@@ -419,9 +419,6 @@ export class CartService {
     userId: number,
     cartItemId: number,
     quantity: number,
-    // flatId: number,
-    // fittedId: number,
-    // customId: number,
     sizeOption: string,
     selectedFlatItem: string,
     selectedFittedItem: string,
@@ -439,9 +436,6 @@ export class CartService {
         },
         data: {
           quantity,
-          // flatId: flatId ?? null,
-          // fittedId: fittedId ?? null,
-          // customId: customId ?? null,
           sizeOption,
           selectedFlatItem,
           selectedFittedItem,
@@ -536,6 +530,12 @@ export class CartService {
               inventoryFlatId: inventoryflatItem?.id,
             },
           });
+          cartSizeItem = {
+            ...cartSizeItem,
+            quantity: inventoryflatItem?.quantity,
+            minQuantity: inventoryflatItem?.minQuantity,
+            maxQuantity: inventoryflatItem?.maxQuantity,
+          };
         }
 
         return { ...cartItem, cartSizeItem };

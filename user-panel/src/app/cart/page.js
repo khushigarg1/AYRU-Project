@@ -15,6 +15,7 @@ import SecuredPayment from "../../../public/images/securedPayment.png"
 import VerifiedSeller from "../../../public/images/verifiedSeller.png"
 import { WhatsappIcon } from 'next-share';
 import ConfirmModal from '@/components/cart/modal';
+import { CartItem } from '@/components/cart/cartItem';
 
 const CartPage = () => {
   const { openAuthModal, user, setCartCount, setWishlistCount } = useAuth();
@@ -28,32 +29,16 @@ const CartPage = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [modalOpen, setModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
-
-  const handleOpenModal = (item) => {
-    setItemToDelete(item);
-    setModalOpen(true);
-  };
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const handleCloseModal = () => {
     setItemToDelete(null);
     setModalOpen(false);
   };
 
-  const handleAddToWishlist = async () => {
-    if (itemToDelete) {
-      const response = await api.post('/wishlist', { inventoryId: itemToDelete?.Inventory?.id, userId: user?.id }, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      handleRemoveFromCart();
-      if (!response?.data?.data?.addedAlready) {
-        setWishlistCount(prevCount => prevCount + 1);
-      }
-    }
-    handleCloseModal();
-  }
   const fetchcartStatus = async () => {
+    console.log("dcalll");
+
     try {
       if (token) {
         const response = await api.get(`/cart/user`, {
@@ -80,70 +65,42 @@ const CartPage = () => {
     // }
   }, [user?.id, setCartCount]);
 
-
-  const handleRemoveFromCart = async () => {
-    if (itemToDelete) {
-      try {
-        await api.delete(`/cart/${itemToDelete.id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setCartItems(prevItems => prevItems.filter(item => item.id !== itemToDelete.id));
-        fetchcartStatus();
-        handleCloseModal();
-      } catch (error) {
-        console.error('Error removing item from cart:', error);
-      }
-    }
-
-    handleCloseModal();
-  };
   const handleCheckout = () => {
     const outOfStockItems = cartItems.filter(item => item?.Inventory?.extraOptionOutOfStock);
-    if (outOfStockItems.length > 0) {
+    const quantityIssues = cartItems.some(item => {
+      const cartSizeItem = item?.cartSizeItem;
+      return (
+        item?.quantity > (cartSizeItem?.quantity) ||
+        item?.quantity < (cartSizeItem?.minQuantity)
+      );
+    });
+
+    let message = '';
+    if (outOfStockItems.length > 0 && quantityIssues) {
+      message = "Some items in your cart are out of stock and/or have quantity issues.";
+    } else if (outOfStockItems.length > 0) {
+      message = "Some items in your cart are out of stock.";
+    } else if (quantityIssues) {
+      message = "Some items in your cart have quantity issues.";
+    }
+
+    if (message) {
+      setSnackbarMessage(message);
       setSnackbarOpen(true);
     } else {
       router.push('/checkout');
     }
   };
 
+
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
 
-  // Calculate pagination range
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = cartItems.slice(indexOfFirstItem, indexOfLastItem);
   const handleLogin = () => {
     openAuthModal();
     return;
   }
-  const handleClick = (item) => {
-    let customId = item.customId;
-    let flatId = item.flatId;
-    let fittedId = item.fittedId;
-
-    const details = {
-      sizeOption: item?.sizeOption,
-      flatId: flatId,
-      customId: customId,
-      fittedId: fittedId,
-      unit: item.unit,
-      length: item.length,
-      width: item.width,
-      height: item.height
-    };
-
-    const params = new URLSearchParams();
-    Object.entries(details).forEach(([key, value]) => {
-      if (value !== null && value !== undefined) {
-        params.append(key, value);
-      }
-    });
-
-    router.push(`/shop/${item?.Inventory?.id}?${params.toString()}`);
-  };
-
 
   const whatsappMessage = cartItems?.map(item => {
     let itemDetails = `Product: ${item?.Inventory?.productName}\n` +
@@ -198,165 +155,7 @@ const CartPage = () => {
           <Grid container spacing={1} pl={1} mt={1} pr={1}>
             {cartItems?.map((item) => (
               <>
-                <Grid item key={item.id} xs={12} sm={12} md={12} lg={12} sx={{ height: "auto", marginBottom: "5px" }}>
-                  <Card sx={{
-                    position: 'relative',
-                    display: 'flex', flexDirection: 'row', height: '100%', cursor: "pointer",
-                    backgroundColor: "white",
-                    maxHeight: "100%",
-                    padding: "15px 5px"
-                  }}
-                  >
-                    <Box sx={{ position: 'relative' }}>
-                      <Chip
-                        label={
-                          <div style={{ textAlign: 'center' }}>
-                            <Typography variant="caption" component="span" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
-                              {item?.quantity}
-                              {/* {`${((item.sellingPrice - item.discountedPrice) / item.sellingPrice * 100).toFixed(0)}%`} */}
-                            </Typography>
-                          </div>
-                        }
-                        color="secondary"
-                        size="small"
-                        sx={{
-                          position: 'absolute',
-                          top: 0,
-                          right: 0,
-                          zIndex: 1,
-                          padding: '4px',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          height: '18px',
-                          width: '18px',
-                          borderRadius: '50%',
-                          fontSize: '1px',
-                          fontWeight: 'bold',
-                        }}
-                      />
-                      <CardMedia
-                        component="img"
-                        // height="100"
-                        image={`https://ayrujaipur.s3.amazonaws.com/${item?.Inventory?.Media[0]?.url}`}
-                        alt={item.Inventory.productName}
-                        onClick={() => handleClick(item)}
-                        // onClick={() => router.push(`/shop/${item?.Inventory?.id}`)}
-                        sx={{
-                          objectFit: 'fit',
-                          height: "130px",
-                          width: "110px",
-                          // maxHeight: "100%",
-                          // maxWidth: "100%",
-                          padding: "5px",
-                          borderRadius: "0px"
-                        }}
-                      />
-                    </Box>
-                    <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" }, paddingTop: "0px" }}>
-                      <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "bolder" }}>
-                        {item?.Inventory?.productName}
-                      </Typography>
-                      {item?.sizeOption === "flat" &&
-                        <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1", fontWeight: "400" }}>
-                          {item?.selectedFlatItem}
-                        </Typography>
-                      }
-                      {item?.sizeOption === "fitted" &&
-                        <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1", fontWeight: "400" }}>
-                          {item?.selectedFittedItem}
-                        </Typography>
-                      }
-                      {item?.sizeOption === "custom" && (
-                        <>
-                          <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1", fontWeight: "400" }}>
-                            {`${item?.selectedCustomFittedItem}`}
-                          </Typography>
-                          <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1", fontWeight: "600" }}>
-                            {`Fitted Size L×W×H =  ${item?.length}×${item?.width}×${item?.height} ${item?.unit}`}
-                          </Typography>
-                        </>
-                      )
-                      }
-                      {/* <Typography variant="body2" color="text.secondary" gutterBottom sx={{ fontSize: "10px" }}>
-                        <strong>Category: </strong>{item?.Inventory?.Category?.categoryName}
-                      </Typography> */}
-
-                      {/* <Typography variant="body2" gutterBottom sx={{ lineHeight: "1", fontSize: "0.55em" }}>
-                        <strong>SKU: </strong>{item?.Inventory?.skuId}
-                      </Typography> */}
-                      {item?.cartSizeItem?.discountedPrice ? (
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Typography variant="body2" sx={{ textDecoration: 'line-through', fontSize: "0.7em" }}>
-                            Rs.{item?.cartSizeItem?.sellingPrice}
-                          </Typography>
-                          <Typography variant="body2" color={theme?.palette?.text?.contrastText} sx={{ fontSize: "0.7em" }}>
-                            Rs.{item?.cartSizeItem?.discountedPrice}
-                          </Typography>
-                          <Typography variant="body2" color="error" sx={{
-                            background: 'inherit',
-                            color: "black", fontSize: "0.7em"
-                          }}>
-                            {`(${Math.round(((item?.cartSizeItem?.sellingPrice - item?.cartSizeItem?.discountedPrice) / item?.cartSizeItem?.sellingPrice) * 100)}% OFF)`}
-                          </Typography>
-                        </Box>
-                      ) : (
-                        <Typography variant="body2" sx={{ fontSize: "0.7em" }}>
-                          Rs.{item?.cartSizeItem?.sellingPrice}
-                        </Typography>
-                      )}
-                      <Typography variant='body2' sx={{ color: item?.Inventory?.extraOptionOutOfStock ? 'red' : 'green', fontSize: "0.6em", marginBottom: "15px" }}>
-                        {item?.Inventory?.extraOptionOutOfStock === true || item?.quantity === 0 ? "Out of Stock" : "In Stock"}
-                      </Typography>
-
-                      <Button
-                        variant='outlined'
-                        sx={{
-                          position: "absolute", color: "black", fontSize: "8px",
-                          padding: "2px",
-                          right: "5px", bottom: "30px"
-                        }}
-                      >
-                        <Edit fontSize='10px' /> Edit
-                      </Button>
-                      {/* <Grid container justifyContent="space-between" alignItems="flex-start" style={{ position: "absolute", bottom: "3px", width: "100%", overflow: "hidden", paddingRight: "150px" }}
-                      >
-                        <Grid item>
-                          <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
-                            {`QTY: ${item?.quantity || 0} × ₹${item?.Inventory?.discountedPrice ? item?.Inventory?.discountedPrice : item?.Inventory?.sellingPrice} =`}
-                          </Typography>
-                        </Grid>
-                        <Grid item>
-                          <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
-                            {`Rs. ${(item?.quantity * (item?.Inventory?.discountedPrice || item?.Inventory?.sellingPrice)).toFixed(2)}`}
-                          </Typography>
-                        </Grid>
-                      </Grid> */}
-                    </CardContent>
-
-                    <Grid container justifyContent="space-between" alignItems="flex-start" style={{ position: "absolute", bottom: "3px", width: "100%", overflow: "hidden", paddingLeft: "120px", paddingRight: "15px" }}
-                    >
-                      <Grid item>
-                        <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
-                          {`QTY: ${item?.quantity || 0} × ₹${item?.cartSizeItem?.discountedPrice ? item?.cartSizeItem?.discountedPrice : item?.cartSizeItem?.sellingPrice} =`}
-                        </Typography>
-                      </Grid>
-                      <Grid item>
-                        <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
-                          {`Rs. ${(item?.quantity * (item?.cartSizeItem?.discountedPrice || item?.cartSizeItem?.sellingPrice)).toFixed(2)}`}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                    <IconButton
-                      aria-label="Add to Wishlist"
-                      onClick={() => handleOpenModal(item)}
-                      // onClick={() => handleRemoveFromCart(item.id)}
-                      sx={{ position: 'absolute', top: 4, right: 4, zIndex: 1, padding: "2px", backgroundColor: "#F0F0F0" }}
-                    >
-                      <DeleteForever sx={{ width: "15px", height: "15px", color: "black" }} />
-                    </IconButton>
-                  </Card>
-                </Grid>
+                <CartItem key={item.id} item={item} fetchCartStatus={fetchcartStatus} />
                 <Divider mt={1} />
               </>
             ))}
@@ -480,71 +279,17 @@ const CartPage = () => {
           open={snackbarOpen}
           autoHideDuration={6000}
           onClose={handleSnackbarClose}
-          message={"Some items in your cart are out of stock."}
+          message={snackbarMessage}
         >
           <SnackbarContent style={{
             backgroundColor: theme.palette.background.primary,
             color: "black"
           }}
-            message={"Some items in your cart are out of stock."}
+            message={snackbarMessage}
           />
         </Snackbar>
       }
-      {/* <ConfirmModal
-        open={modalOpen}
-        handleClose={handleCloseModal}
-        handleRemove={handleRemove}
-        handleAddToWishlist={handleAddToWishlistClick}
-      /> */}
-      {/* Pagination controls */}
-      {/* <Box mt={3} display="flex" justifyContent="center">
-        {Array.from({ length: Math.ceil(cartItems.length / itemsPerPage) }, (_, index) => (
-          <Button key={index} onClick={() => setCurrentPage(index + 1)}>
-            {index + 1}
-          </Button>
-        ))}
-      </Box> */}
 
-      <Modal open={modalOpen} onClose={handleCloseModal}>
-        <Box sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 400,
-          bgcolor: 'background.paper',
-          boxShadow: 24,
-          padding: "16px 32px",
-          borderRadius: 2,
-        }}>
-          <IconButton onClick={handleCloseModal} sx={{ position: 'absolute', top: 4, right: 4 }}>
-            <Close />
-          </IconButton>
-          <Typography variant="h6" component="h2">
-            Are you sure you want to delete this item?
-          </Typography>
-          <Divider />
-          <Box sx={{ mt: 2 }}>
-            <Button
-              variant="ghost"
-              color="secondary"
-              onClick={() => handleAddToWishlist()}
-              sx={{ width: "55%" }}
-            >
-              Add to Wishlist
-            </Button>
-            {/* <Divider orientation="vertical" variant="middle" flexItem /> */}
-            <Button
-              variant="ghost"
-              color="secondary"
-              onClick={() => handleRemoveFromCart()}
-              sx={{ width: "40%" }}
-            >
-              Remove
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
     </Box >
   );
 };
