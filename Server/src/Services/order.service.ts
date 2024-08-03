@@ -1,5 +1,7 @@
 import { PrismaClient, Order } from "@prisma/client";
 import Razorpay from "razorpay";
+import { ApiBadRequestError } from "../errors";
+import { deleteImageFromS3, uploadImageToS3 } from "../../config/awsfunction";
 
 const prisma = new PrismaClient();
 const razorpayInstance = new Razorpay({
@@ -661,5 +663,53 @@ export async function razorPayWebhookService(data: any) {
     // Handle the error appropriately, e.g., log it, send notifications, etc.
   } finally {
     await prisma.$disconnect();
+  }
+}
+
+//--------------------media
+
+interface MediaData {
+  orderId: number;
+  images: any[] | any;
+}
+
+export async function uploadOrderMediaService(data: MediaData) {
+  try {
+    const { orderId, images } = data;
+
+    const existingOrder = await prisma.order.findUnique({
+      where: { id: orderId },
+    });
+    if (!existingOrder) {
+      throw new ApiBadRequestError("Order not found");
+    }
+
+    let imageUploadPromises: Promise<any>[] = [];
+
+    if (Array.isArray(images)) {
+      imageUploadPromises = images
+        .filter((file: any) => file.mimetype.startsWith("image"))
+        .map((image: any) => uploadImageToS3(image));
+    } else if (images && images.mimetype.startsWith("image")) {
+      imageUploadPromises.push(uploadImageToS3(images));
+    }
+
+    const imageResults = await Promise.all(imageUploadPromises);
+    const urls = imageResults.map((result) => result?.key);
+
+    if (urls.length > 0) {
+      const newImageUrl = urls[0];
+      const updatedOrder = await prisma.order.update({
+        where: { id: orderId },
+        data: { imageurl: newImageUrl },
+      });
+
+      return updatedOrder;
+    }
+
+    throw new Error("No valid image URLs found");
+  } catch (error) {
+    console.error("Error in uploadOrderMedia:", error);
+    throw new Error("Failed to process media upload: " + error);
   }
 }

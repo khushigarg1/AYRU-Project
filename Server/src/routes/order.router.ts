@@ -8,6 +8,7 @@ import {
   getOrderbyId,
   getOrderbyAdminId,
   razorPayWebhook,
+  uploadOrderMedia,
 } from "../Controllers/order.controller";
 
 export default async function orderRoutes(server: FastifyInstance) {
@@ -25,4 +26,12 @@ export default async function orderRoutes(server: FastifyInstance) {
   server.get("/all", { onRequest: [server.authenticateAdmin] }, getOrders);
   server.put("/:id", updateOrder);
   server.delete("/:id", { onRequest: [server.authenticateAdmin] }, deleteOrder);
+
+  //--------------------upload media and all
+
+  server.put(
+    "/upload",
+    { onRequest: [server.authenticateAdmin] },
+    uploadOrderMedia
+  );
 }

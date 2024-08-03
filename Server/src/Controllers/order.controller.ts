@@ -8,6 +8,7 @@ import {
   razorPayWebhookService,
   getOrderByIdService,
   getOrderByAdminIdService,
+  uploadOrderMediaService,
 } from "../Services/order.service";
 
 import crypto from "crypto";
@@ -159,3 +160,26 @@ export async function razorPayWebhook(
     return reply.code(500).send(error);
   }
 }
+
+//--------------------------media
+
+interface MediaData {
+  orderId: number;
+  images: any[] | any;
+}
+
+export const uploadOrderMedia = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  try {
+    const data: MediaData = request.body as {
+      orderId: number;
+      images: any[] | any;
+    };
+    const result = await uploadOrderMediaService(data);
+    reply.send({ message: "Created successfully", data: result });
+  } catch (error) {
+    reply.status(500).send({ error: "Failed to upload media", details: error });
+  }
+};

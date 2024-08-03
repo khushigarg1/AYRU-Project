@@ -23,7 +23,8 @@ import {
   CardMedia,
   CardContent,
   useTheme,
-  useMediaQuery
+  useMediaQuery,
+  IconButton
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import axios from 'axios';
@@ -32,6 +33,7 @@ import Cookies from 'js-cookie';
 import TrekkingDetails from '@/src/components/order/trekkingDetail';
 import { useRouter } from 'next/navigation';
 import { useReactToPrint } from 'react-to-print';
+import { AddPhotoAlternate } from '@mui/icons-material';
 
 const OrderAccordion = ({ params }) => {
   const { id } = params;
@@ -42,7 +44,41 @@ const OrderAccordion = ({ params }) => {
   const print2Ref = useRef();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [selectedMedia, setSelectedMedia] = useState(null);
+  const [media, setMedia] = useState(null);
+  const [uploadFile, setUploadFile] = useState(null);
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    setUploadFile(file);
+  };
+
+  const handleUpload = async () => {
+    if (!uploadFile) return;
+
+    const formData = new FormData();
+    formData.append('image', uploadFile);
+    formData.append('orderId', id);
+
+    try {
+      const response = await api.put('order/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      const uploadedMedia = response.data.data;
+      setMedia(uploadedMedia);
+      setUploadFile(null);
+      getOrder();
+    } catch (error) {
+      console.error("Error uploading media:", error);
+    }
+  };
+
+
+  //-----------------print
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
     documentTitle: 'Order Summary',
@@ -52,18 +88,18 @@ const OrderAccordion = ({ params }) => {
     documentTitle: 'Order Bill',
   });
 
-  useEffect(() => {
-    const getOrder = async () => {
-      const admintoken = Cookies.get("admintoken");
-      api.defaults.headers.Authorization = `Bearer ${admintoken}`;
-      try {
-        const response = await api.get(`/order/admin/${id}`);
-        setOrder(response?.data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching order:", error);
-      }
+  const getOrder = async () => {
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
+    try {
+      const response = await api.get(`/order/admin/${id}`);
+      setOrder(response?.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching order:", error);
     }
+  }
+  useEffect(() => {
     getOrder();
   }, [id]);
 
@@ -88,6 +124,73 @@ const OrderAccordion = ({ params }) => {
           <TrekkingDetails order={order} />
         </AccordionDetails>
       </Accordion>
+
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography>Main Section</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Box display="flex" flexDirection="column" width="100%">
+            <Typography variant="h5" gutterBottom>Trekking Image</Typography>
+            <Box mb={2}>
+              <input
+                accept="image/*"
+                style={{ display: 'none' }}
+                id="main-section-file-upload"
+                type="file"
+                onChange={handleFileChange}
+              />
+              <label htmlFor="main-section-file-upload">
+                <IconButton component="span">
+                  <AddPhotoAlternate />
+                </IconButton>
+              </label>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleUpload}
+              >
+                Upload
+              </Button>
+            </Box>
+            <Box display="flex" flexWrap="wrap" gap={3}>
+              {order?.imageurl ? (
+                <Box key={media.id} position="relative">
+                  <img
+                    src={`https://ayrujaipur.s3.amazonaws.com/${order?.imageUul}`}
+                    alt="Uploaded Image"
+                    width={100}
+                    height={100}
+                    style={{ cursor: 'pointer', borderRadius: '8px' }}
+                    onClick={() => handleOpenMediaModal(`https://ayrujaipur.s3.amazonaws.com/${order?.imageurl}`)}
+                  />
+                  <IconButton
+                    onClick={() => handleDeleteMedia(media.id, 'main')}
+                    sx={{
+                      width: '10px',
+                      height: '10px',
+                      position: 'absolute',
+                      top: -7,
+                      right: -7,
+                      backgroundColor: 'red',
+                      borderRadius: '50%',
+                      '&:hover': {
+                        backgroundColor: 'red',
+                        color: 'white',
+                      },
+                    }}
+                  >
+                    -
+                  </IconButton>
+                </Box>
+              ) : (
+                <Typography>No media uploaded</Typography>
+              )}
+            </Box>
+          </Box>
+        </AccordionDetails>
+      </Accordion>
+
 
       <Accordion key={order?.id}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>

@@ -23,7 +23,7 @@ const TrekkingDetails = ({ order }) => {
 
   const handleSave = async () => {
     try {
-      await axios.put(`/api/orders/${order.id}`, {
+      await axios.put(`order/${order.id}`, {
         deliveryStatus,
         imageurl: imageUrl,
         couriername: courierName,
