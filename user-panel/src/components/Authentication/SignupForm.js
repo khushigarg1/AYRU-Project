@@ -77,7 +77,7 @@ const SignUpForm = ({ switchToLogin }) => {
               <Button fullWidth variant="contained" color="primary" onClick={handleSendEmailOTP} sx={{ mt: 2 }}>
                 Send OTP
               </Button>
-              <Button fullWidth variant="text" color="primary" onClick={switchToLogin} sx={{ mt: 2 }}>
+              <Button fullWidth variant="outlined" color="primary" onClick={switchToLogin} sx={{ mt: 2 }}>
                 Already have an account? Sign In
               </Button>
             </Box>

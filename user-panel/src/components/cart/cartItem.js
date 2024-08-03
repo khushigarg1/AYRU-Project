@@ -175,25 +175,25 @@ export const CartItem = ({ item, fetchCartStatus }) => {
             />
           </Box>
           <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" }, paddingTop: "0px" }}>
-            <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "bolder" }}>
+            <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.1", fontWeight: "bolder" }}>
               {item?.Inventory?.productName}
             </Typography>
             {item?.sizeOption === "flat" &&
-              <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1", fontWeight: "400" }}>
+              <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1.2", fontWeight: "400" }}>
                 {item?.selectedFlatItem}
               </Typography>
             }
             {item?.sizeOption === "fitted" &&
-              <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1", fontWeight: "400" }}>
+              <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1.2", fontWeight: "400" }}>
                 {item?.selectedFittedItem}
               </Typography>
             }
             {item?.sizeOption === "custom" && (
               <>
-                <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1", fontWeight: "400" }}>
+                <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1.2", fontWeight: "400" }}>
                   {`${item?.selectedCustomFittedItem}`}
                 </Typography>
-                <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1", fontWeight: "600" }}>
+                <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1.2", fontWeight: "600" }}>
                   {`Fitted Size L×W×H =  ${item?.length}×${item?.width}×${item?.height} ${item?.unit}`}
                 </Typography>
               </>
@@ -226,7 +226,7 @@ export const CartItem = ({ item, fetchCartStatus }) => {
                 Rs.{item?.cartSizeItem?.sellingPrice}
               </Typography>
             )}
-            <Typography variant='body2' sx={{ color: item?.Inventory?.extraOptionOutOfStock ? 'red' : 'green', fontSize: "0.6em", marginBottom: "15px" }}>
+            <Typography variant='body2' sx={{ color: item?.Inventory?.extraOptionOutOfStock ? 'red' : 'green', fontSize: "0.6em" }}>
               {item?.Inventory?.extraOptionOutOfStock === true || item?.quantity === 0 ? "Out of Stock" : "In Stock"}
             </Typography>
             <Box
@@ -239,7 +239,7 @@ export const CartItem = ({ item, fetchCartStatus }) => {
                 gap: 1,
                 width: '150px',
               }}
-              mt={2}
+              mt={1}
             >
               <Tooltip title={displayQuantity <= (displayMinQuantity || 1) ? 'Minimum quantity reached' : ''}>
                 <span>

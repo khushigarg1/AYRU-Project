@@ -51,7 +51,7 @@ const OrderDetails = ({ params }) => {
   }, [user]);
 
   const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
@@ -385,7 +385,8 @@ Here are my order details:
                                 height: "130px",
                                 width: "110px",
                                 padding: "10px",
-                                borderRadius: "0px"
+                                borderRadius: "0px",
+                                marginBottom: "20px"
                               }}
                             />
                           </Box>
@@ -394,21 +395,21 @@ Here are my order details:
                               {item?.inventory?.productName}
                             </Typography>
                             {item?.sizeOption === "flat" && (
-                              <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "400", fontSize: "10px" }}>
+                              <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "400", fontSize: "10px" }}>
                                 {item?.selectedFlatItem}
                               </Typography>
                             )}
                             {item?.sizeOption === "fitted" && (
-                              <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "400", fontSize: "10px" }}>
+                              <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "400", fontSize: "10px" }}>
                                 {item?.selectedFittedItem}
                               </Typography>
                             )}
                             {item?.sizeOption === "custom" && (
                               <>
-                                <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "400", fontSize: "10px" }}>
+                                <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "400", fontSize: "10px" }}>
                                   {`${item?.selectedCustomFittedItem}`}
                                 </Typography>
-                                <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "600", fontSize: "9px" }}>
+                                <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "600", fontSize: "9px" }}>
                                   {`L×W×H =  ${item?.length}×${item?.width}×${item?.height} ${item?.unit}`}
                                 </Typography>
                               </>
