@@ -1,6 +1,6 @@
 module.exports = {
   env: {
-    REACT_APP_BASE_URL: 'http://localhost:4000',
-    WHATSAPP_NUMBER: '9166564901'
+    REACT_APP_BASE_URL: 'https://ayrujaipur.in/',
+    WHATSAPP_NUMBER: '9680581792'
   },
 }

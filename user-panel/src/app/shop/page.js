@@ -179,8 +179,8 @@ const ShopPageContent = () => {
     const params = {
       sortBy,
       sortOrder,
-      selectedCategory,
-      selectedSubcategory,
+      categoryId: selectedCategory,
+      subCategoryId: selectedSubcategory,
       availability,
       extraOptionOutOfStock,
       minPrice,
