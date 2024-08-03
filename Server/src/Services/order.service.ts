@@ -126,16 +126,17 @@ export async function createOrderService(
         expire_by: expireBy,
         reference_id: `${newOrder.id}`,
         description: `Payment for ${newOrder.orderid}`,
-        // customer: {
-        //   name: `{${updateduser?.firstName} ${updateduser?.lastName}}`,
-        //   contact: `{${updateduser?.phoneNumber}}`,
-        //   email: `{${updateduser?.email}}`,
-        // },
         customer: {
           name: `{${updateduser?.firstName} ${updateduser?.lastName}}`,
           contact: `{${updateduser?.phoneNumber}}`,
-          email: `{${updateduser?.email}}`,
+          email: `khushigarg.64901@gmail.com`,
+          // email: `{${updateduser?.email}}`,
         },
+        // customer: {
+        //   name: `{${updateduser?.firstName} ${updateduser?.lastName}}`,
+        //   contact: `{${updateduser?.phoneNumber}}`,
+        //   email: "gaurav.kumar@example.com",
+        // },
         notify: {
           sms: true,
           email: true,
