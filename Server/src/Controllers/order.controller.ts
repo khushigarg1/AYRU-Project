@@ -165,7 +165,7 @@ export async function razorPayWebhook(
 
 interface MediaData {
   orderId: number;
-  images: any[] | any;
+  image: any[] | any;
 }
 
 export const uploadOrderMedia = async (
@@ -175,7 +175,7 @@ export const uploadOrderMedia = async (
   try {
     const data: MediaData = request.body as {
       orderId: number;
-      images: any[] | any;
+      image: any[] | any;
     };
     const result = await uploadOrderMediaService(data);
     reply.send({ message: "Created successfully", data: result });
