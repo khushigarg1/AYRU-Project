@@ -134,7 +134,7 @@ export async function createOrderService(
         customer: {
           name: `{${updateduser?.firstName} ${updateduser?.lastName}}`,
           contact: `{${updateduser?.phoneNumber}}`,
-          email: "gaurav.kumar@example.com",
+          email: `{${updateduser?.email}}`,
         },
         notify: {
           sms: true,
@@ -144,7 +144,7 @@ export async function createOrderService(
         notes: {
           policy_name: "Jeevan Bima",
         },
-        callback_url: "https://7q0xhxzq-3000.inc1.devtunnels.ms/orders",
+        callback_url: "https://ayrujaipur.in/",
         callback_method: "get",
       });
       console.log(newPayment);
