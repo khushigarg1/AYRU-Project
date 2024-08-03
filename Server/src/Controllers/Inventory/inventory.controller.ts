@@ -398,11 +398,12 @@ export const filterInventory = async (
         isValid = false;
       }
       if (minPrice && maxPrice) {
-        const sellingPrice = inventory.sellingPrice;
+        const priceToCompare =
+          inventory.discountedPrice || inventory.sellingPrice;
         if (
-          sellingPrice &&
-          (sellingPrice < parseFloat(minPrice) ||
-            sellingPrice > parseFloat(maxPrice))
+          priceToCompare &&
+          (priceToCompare < parseFloat(minPrice) ||
+            priceToCompare > parseFloat(maxPrice))
         ) {
           isValid = false;
         }
@@ -526,6 +527,7 @@ export const searchInventory = async (
       .send({ error: "Failed to search inventories", details: error });
   }
 };
+
 export const filterSaleItem = async (
   request: FastifyRequest,
   reply: FastifyReply
