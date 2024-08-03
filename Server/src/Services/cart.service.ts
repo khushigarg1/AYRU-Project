@@ -478,7 +478,7 @@ export class CartService {
           },
         },
       },
-      orderBy: { updatedAt: "desc" },
+      orderBy: { createdAt: "desc" },
     });
 
     let totalPrice = 0;
@@ -580,7 +580,7 @@ export class CartService {
         },
       },
       orderBy: {
-        updatedAt: "desc",
+        createdAt: "desc",
       },
     });
 

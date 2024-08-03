@@ -423,7 +423,7 @@ export default function PageNav({ children }) {
                 }}
               >
                 <ListItemText
-                  primary={"Sale"}
+                  primary={"SALE"}
                   sx={{ opacity: open ? 1 : 0 }}
                 />
               </ListItemButton>
