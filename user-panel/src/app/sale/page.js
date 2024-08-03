@@ -16,7 +16,7 @@ const CustomBox = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   marginTop: theme.spacing(2),
   '& > *': {
-    width: '45%',
+    width: '49%',
   },
 }));
 const ShopPageContent = () => {
@@ -438,61 +438,57 @@ const ShopPageContent = () => {
                   min={0}
                   max={10000}
                 />
-                <CustomBox>
-                  <TextField
-                    label="Min Price"
-                    type="number"
-                    value={minPrice}
-                    onChange={handleMinPriceChange}
-                    InputProps={{
-                      inputProps: { min: 0, max: maxPrice }
-                    }}
-                  />
-                  <TextField
-                    label="Max Price"
-                    type="number"
-                    value={maxPrice}
-                    onChange={handleMaxPriceChange}
-                    InputProps={{
-                      inputProps: { min: minPrice, max: 10000 }
-                    }}
-                  />
-                </CustomBox>
+
               </FormControl>
+              <CustomBox>
+                <TextField
+                  label="Min Price"
+                  type="number"
+                  value={minPrice}
+                  onChange={handleMinPriceChange}
+                  InputProps={{
+                    inputProps: { min: 0, max: maxPrice }
+                  }}
+                />
+                <TextField
+                  label="Max Price"
+                  type="number"
+                  value={maxPrice}
+                  onChange={handleMaxPriceChange}
+                  InputProps={{
+                    inputProps: { min: minPrice, max: 10000 }
+                  }}
+                />
+              </CustomBox>
               <FormControl fullWidth sx={{ marginTop: 2 }}>
                 <InputLabel>Availability</InputLabel>
-                <Select
-                  value={availability}
-                  onChange={handleAvailabilityChange}
-                >
-                  <MenuItem value="">All Availability</MenuItem>
-                  <MenuItem value="true">Available</MenuItem>
-                  <MenuItem value="false">Not Available</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl fullWidth sx={{ marginTop: 2 }}>
-                <InputLabel>Stock</InputLabel>
                 <Select
                   value={extraOptionOutOfStock}
                   onChange={handleOutOfStockChange}
                 >
                   <MenuItem value="">All</MenuItem>
-                  <MenuItem value="false">In stock</MenuItem>
                   <MenuItem value="true">Out of stock</MenuItem>
+                  <MenuItem value="false">In stock</MenuItem>
                 </Select>
               </FormControl>
 
-              <Button
-                onClick={handleResetFilters}
-                fullWidth
-                variant="outlined"
-                sx={{ marginTop: 2 }}
-              >
-                Reset Filters
-              </Button>
-              <Button onClick={handleFilterChange} fullWidth variant="contained" color="primary" sx={{ marginTop: 2 }}>
-                Apply Filters
-              </Button>
+              <Grid container spacing={1} sx={{ marginTop: 0 }}>
+                <Grid item xs={6}>
+                  <Button
+                    fullWidth
+                    onClick={handleResetFilters}
+                    variant="contained"
+                    sx={{ marginTop: 2 }}
+                  >
+                    Reset Filters
+                  </Button>
+                </Grid>
+                <Grid item xs={6}>
+                  <Button fullWidth onClick={handleFilterChange} variant="contained" color="primary" sx={{ marginTop: 2 }}>
+                    Apply Filters
+                  </Button>
+                </Grid>
+              </Grid>
             </>
           )}
         </Box>

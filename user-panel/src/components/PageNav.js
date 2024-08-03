@@ -219,11 +219,11 @@ export default function PageNav({ children }) {
             )} */}
             {category.subcategories.length === 0 ? (
               <Link onClick={handleDrawerClose} href={`/shop?categoryId=${category.id}`} passHref>
-                <ListItemText primary={category.categoryName} />
+                <ListItemText primary={category.categoryName} sx={{ paddingLeft: "5px" }} />
               </Link>
             ) : (
               <>
-                <ListItemText primary={category.categoryName} />
+                <ListItemText primary={category.categoryName} sx={{ paddingLeft: "5px" }} />
                 {nestedOpen ? <ExpandLess /> : <ExpandMore />}
               </>
             )}
@@ -396,6 +396,18 @@ export default function PageNav({ children }) {
             </ListItem>
           </Link>
 
+          {categories.map((category) => (
+            category.subcategories ? (
+              <NestedList key={category.id} category={category} />
+            ) : (
+              <ListItem key={category.id} disablePadding>
+                <ListItemButton onClick={() => handleClickCategory(category.id, false)}>
+                  <ListItemText primary={category.categoryName} />
+                </ListItemButton>
+              </ListItem>
+            )
+          ))}
+
           <Link onClick={handleDrawerClose} href="/sale">
             <ListItem
               key={"sale"}
@@ -417,18 +429,6 @@ export default function PageNav({ children }) {
               </ListItemButton>
             </ListItem>
           </Link>
-          {categories.map((category) => (
-            category.subcategories ? (
-              <NestedList key={category.id} category={category} />
-            ) : (
-              <ListItem key={category.id} disablePadding>
-                <ListItemButton onClick={() => handleClickCategory(category.id, false)}>
-                  <ListItemText primary={category.categoryName} />
-                </ListItemButton>
-              </ListItem>
-            )
-          ))}
-
           <Divider />
           {isAuthenticated && (
             <>

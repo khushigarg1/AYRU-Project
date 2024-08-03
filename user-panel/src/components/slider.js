@@ -3,6 +3,7 @@ import Carousel from 'react-material-ui-carousel';
 import { Box, Button, styled, useMediaQuery, useTheme } from '@mui/material';
 import api from '../../api';
 import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
+import { useRouter } from 'next/navigation';
 
 const OverlayText = styled('div')(({ theme }) => ({
   position: 'absolute',
@@ -84,6 +85,11 @@ const ImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const router = useRouter();
+
+  const handleShop = () => {
+    router.push("/shop");
+  }
 
   useEffect(() => {
     fetchImages();
@@ -151,7 +157,7 @@ const ImageCarousel = () => {
                 style={{ transform: `translateX(${currentIndex * -100}%)`, height: isMobile ? "90%" : "120%", objectFit: "contain" }}
               />
               <OverlayText style={{ top: isMobile ? "70%" : "60%", fontSize: "1.2rem" }}>
-                <StyledButton style={{ fontSize: isMobile ? "0.7rem" : "1rem" }}>Shop Now</StyledButton>
+                <StyledButton style={{ fontSize: isMobile ? "0.7rem" : "1rem" }} onClick={handleShop}>Shop Now</StyledButton>
               </OverlayText>
             </Box>
           ))}
