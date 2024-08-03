@@ -338,7 +338,7 @@ Here are my order details:
             <AccordionDetails>
               {order?.orderItems.length !== 0 && (
                 <>
-                  <Grid container spacing={1} pl={1} pr={1}>
+                  <Grid container spacing={1} pl={0} pr={0}>
                     {order?.orderItems.map((item) => (
                       <Grid item key={item.id} xs={12} sm={12} md={12} lg={12} sx={{ height: "auto", marginBottom: "5px" }}>
                         <Card sx={{
@@ -390,35 +390,32 @@ Here are my order details:
                             />
                           </Box>
                           <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" } }}>
-                            <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "bolder" }}>
+                            <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "bolder", fontSize: "12px" }}>
                               {item?.inventory?.productName}
                             </Typography>
-                            <Typography variant="body2" gutterBottom sx={{ lineHeight: "1", fontSize: "0.6em" }}>
-                              <strong>SKU: </strong>{item?.inventory?.skuId}
-                            </Typography>
                             {item?.sizeOption === "flat" && (
-                              <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "400" }}>
+                              <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "400", fontSize: "10px" }}>
                                 {item?.selectedFlatItem}
                               </Typography>
                             )}
                             {item?.sizeOption === "fitted" && (
-                              <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "400" }}>
+                              <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "400", fontSize: "10px" }}>
                                 {item?.selectedFittedItem}
                               </Typography>
                             )}
                             {item?.sizeOption === "custom" && (
                               <>
-                                <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "400" }}>
+                                <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "400", fontSize: "10px" }}>
                                   {`${item?.selectedCustomFittedItem}`}
                                 </Typography>
-                                <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "600", fontSize: "10px" }}>
+                                <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "600", fontSize: "9px" }}>
                                   {`L×W×H =  ${item?.length}×${item?.width}×${item?.height} ${item?.unit}`}
                                 </Typography>
                               </>
                             )}
 
 
-                            <Typography variant="body2" gutterBottom sx={{ lineHeight: "1", fontSize: "0.55em" }}>
+                            <Typography variant="body2" gutterBottom sx={{ lineHeight: "1", fontSize: "9px" }}>
                               <strong>SKU: </strong>{item?.inventory?.skuId}
                             </Typography>
                             {item?.discountedPrice ? (
@@ -441,10 +438,11 @@ Here are my order details:
                                 Rs.{item?.sellingPrice}
                               </Typography>
                             )}
+
                             <Grid container justifyContent="space-between" alignItems="flex-start" style={{ position: "absolute", bottom: "3px", width: "100%", overflow: "hidden", paddingRight: "20px" }}>
                               <Grid item>
                                 <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "12px" }}>
-                                  {`🛒 QTY: ${item?.quantity || 0} × ₹${item?.discountedPrice ? item?.discountedPrice : item?.sellingPrice} =`}
+                                  {`QTY: ${item?.quantity || 0} × ₹${item?.discountedPrice ? item?.discountedPrice : item?.sellingPrice} =`}
                                 </Typography>
                               </Grid>
                               <Grid item>
