@@ -156,33 +156,15 @@ const OrderAccordion = ({ params }) => {
             </Box>
             <Box display="flex" flexWrap="wrap" gap={3}>
               {order?.imageurl ? (
-                <Box key={media.id} position="relative">
+                <Box key={order.id} position="relative">
                   <img
-                    src={`https://ayrujaipur.s3.amazonaws.com/${order?.imageUul}`}
+                    src={`https://ayrujaipur.s3.amazonaws.com/${order?.imageurl}`}
                     alt="Uploaded Image"
                     width={100}
                     height={100}
                     style={{ cursor: 'pointer', borderRadius: '8px' }}
                     onClick={() => handleOpenMediaModal(`https://ayrujaipur.s3.amazonaws.com/${order?.imageurl}`)}
                   />
-                  <IconButton
-                    onClick={() => handleDeleteMedia(media.id, 'main')}
-                    sx={{
-                      width: '10px',
-                      height: '10px',
-                      position: 'absolute',
-                      top: -7,
-                      right: -7,
-                      backgroundColor: 'red',
-                      borderRadius: '50%',
-                      '&:hover': {
-                        backgroundColor: 'red',
-                        color: 'white',
-                      },
-                    }}
-                  >
-                    -
-                  </IconButton>
                 </Box>
               ) : (
                 <Typography>No media uploaded</Typography>

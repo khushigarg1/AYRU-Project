@@ -278,11 +278,11 @@ Hi, I'd like to place an international order for this amazing item: ${product.pr
 
 Here’s the product link: ${productUrl}
 
-Here are my details:
-Your State Name:
-Your Country:
-Your City Name:
-Your Zip Code:
+My details are here:
+Country:
+State:
+City:
+Zip Code:
 
 
 Could you please provide details on the process, shipping costs, and delivery times?

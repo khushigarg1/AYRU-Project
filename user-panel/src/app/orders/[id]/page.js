@@ -75,7 +75,7 @@ Here are my order details:
 Could you please provide me with the details regarding the process, any additional cost, and the estimated delivery time?
 
 Here are my order details:
-  - Name: ${user?.name || '[Your Name]'}
+  - Name: ${user?.firstName + user?.lastName || '[Your Name]'}
   - Order ID: ${order.orderid}
   - Date: ${formatDate(order.createdAt)}
   - Total Amount: Rs.${order.Total}`;
@@ -153,7 +153,8 @@ Here are my order details:
                   WhatsApp
                 </Button>
                 {" "}
-                to proceed.  Additional charges will apply. (Note:  Kindly inform us within one hour of placing your order)
+                to proceed.
+                Additional charges will apply. (Kindly inform us within one hour of placing your order)
               </Typography>
             </Box>
           </Card>

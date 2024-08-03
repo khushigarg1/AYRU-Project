@@ -101,33 +101,31 @@ const CartPage = () => {
     openAuthModal();
     return;
   }
-
-  const whatsappMessage = cartItems?.map(item => {
-    let itemDetails = `Product: ${item?.Inventory?.productName}\n` +
-      `ProductUrl: ${process.env.REACT_APP_BASE_URL}/shop/${item?.Inventory?.id}\n` +
-      `Quantity: ${item.quantity}\n` +
-      `Selling Price: ₹${item?.cartSizeItem?.sellingPrice}\n` +
-      `Discounted Price: ₹${item?.cartSizeItem?.discountedPrice}\n` +
-      `Size Option: ${item.sizeOption}\n`;
+  const whatsappMessage = cartItems?.map((item, index) => {
+    let itemDetails = `${index + 1} Product: ${item?.Inventory?.productName}\n` +
+      `   ProductUrl: ${process.env.REACT_APP_BASE_URL}/shop/${item?.Inventory?.id}\n` +
+      `   Quantity: ${item.quantity}\n` +
+      `   Selling Price: ₹${item?.cartSizeItem?.sellingPrice}\n` +
+      `   Discounted Price: ₹${item?.cartSizeItem?.discountedPrice}\n` +
+      `   Size Option: ${item.sizeOption}\n`;
 
     if (item.sizeOption === 'flat') {
-      itemDetails += `Flat Item: ${item.selectedFlatItem}\n`;
+      itemDetails += `   Size: ${item.selectedFlatItem}\n`;
     } else if (item.sizeOption === 'fitted') {
-      itemDetails += `Fitted Item: ${item.selectedFittedItem}\n`;
+      itemDetails += `   Fitted Item: ${item.selectedFittedItem}\n`;
     } else if (item.sizeOption === 'custom') {
-      itemDetails += `Custom Item: ${item.selectedCustomFittedItem}\n` +
-        `Dimensions: ${item.length} x ${item.width} x ${item.height} ${item.unit}\n`;
+      itemDetails += `   Custom Item: ${item.selectedCustomFittedItem}\n` +
+        `   Dimensions: ${item.length} x ${item.width} x ${item.height} ${item.unit}\n`;
     }
 
     return itemDetails;
   }).join('\n');
-
-  const userDetails = `\n\My Details are here:\n` +
-    `Name: ${cartItems[0]?.User?.firstName} ${cartItems[0]?.User?.lastName}\n` +
-    `Email: ${cartItems[0]?.User?.email}\n` +
-    `Phone Number: ${cartItems[0]?.User?.phoneNumber}\n` +
-    `Address: ${cartItems[0]?.User?.address1}, ${cartItems[0]?.User?.address2}, ${cartItems[0]?.User?.city}, ${cartItems[0]?.User?.state}, ${cartItems[0]?.User?.zip}\n` +
-    `Country: ${cartItems[0]?.User?.country}`;
+  const userDetails = `\n\nMy Details are here:\n` +
+    `${cartItems[0]?.User?.firstName || cartItems[0]?.User?.lastName ? `Name: ${cartItems[0]?.User.firstName || ''} ${cartItems[0]?.User.lastName || ''}\n` : ''}` +
+    `${cartItems[0]?.User?.email ? `Email: ${cartItems[0]?.User.email}\n` : ''}` +
+    `${cartItems[0]?.User?.phoneNumber ? `Phone Number: ${cartItems[0]?.User.phoneNumber}\n` : ''}` +
+    `${cartItems[0]?.User?.address1 || cartItems[0]?.User?.address2 || cartItems[0]?.User?.city || cartItems[0]?.User?.state || cartItems[0]?.User?.zip ? `Address: ${[cartItems[0]?.User.address1, cartItems[0]?.User.address2, cartItems[0]?.User.city, cartItems[0]?.User.state, cartItems[0]?.User.pincode].filter(Boolean).join(', ')}\n` : ''}` +
+    `${cartItems[0]?.User?.country ? `Country: ${cartItems[0]?.User.country}\n` : ''}`;
 
   const whatsappURL = `https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(
     `Hi, I'd like to place an international order for the following items:\n\n${whatsappMessage}${userDetails}\n\nCould you please provide details on the process, shipping costs, and delivery times?`
