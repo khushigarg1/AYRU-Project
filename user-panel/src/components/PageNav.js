@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTheme, styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -139,6 +139,27 @@ export default function PageNav({ children }) {
   const [categories, setCategories] = useState([]);
   const [scrolledstate, setScrolledstate] = useState(false);
   const router = useRouter();
+  const drawerRef = useRef(null);
+
+
+  const handleClickOutside = (event) => {
+    if (drawerRef.current && !drawerRef.current.contains(event.target)) {
+      setOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
   const handleNestedClick = () => {
     setNestedOpen(!nestedOpen);
   };
@@ -291,7 +312,7 @@ export default function PageNav({ children }) {
           </IconButton>
         </Toolbar>
       </StyledAppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={open} ref={drawerRef}>
         {/* <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             <CancelRounded />
@@ -343,7 +364,7 @@ export default function PageNav({ children }) {
           <>
             <DrawerHeader>
               <Box display="flex" alignItems="center" onClick={openAuthModal} sx={{ cursor: "pointer" }}>
-                <AccountCircle sx={{ marginLeft: 1, marginTop: 0 }} />Login/signup
+                <AccountCircle sx={{ marginLeft: 1, marginTop: 0 }} />Login
               </Box>
               <IconButton onClick={handleDrawerClose}>
                 <CancelRounded />

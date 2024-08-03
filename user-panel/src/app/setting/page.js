@@ -79,14 +79,14 @@ const SettingsPage = () => {
         </Paper>
         <Paper elevation={3} sx={{ p: 3, mt: 2 }}>
           <Typography variant="h6">User Details</Typography>
-          <TextField
+          {/* <TextField
             label="Name"
             variant="outlined"
             fullWidth
             disabled
             value={`${user?.firstName ?? ''}${user?.lastName ?? ''}`}
             sx={{ my: 2 }}
-          />
+          /> */}
           <TextField
             label="Email"
             variant="outlined"
@@ -95,7 +95,7 @@ const SettingsPage = () => {
             value={user?.email ?? ''}
             sx={{ my: 2 }}
           />
-          <TextField
+          {/* <TextField
             label="Phone Number"
             variant="outlined"
             fullWidth
@@ -111,7 +111,7 @@ const SettingsPage = () => {
             disabled
             value={formatAddress()}
             sx={{ my: 2 }}
-          />
+          /> */}
           <Button fullWidth variant='contained' onClick={handleLogout}
           >Logout</Button>
         </Paper>

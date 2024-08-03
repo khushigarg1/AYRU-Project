@@ -66,7 +66,7 @@ const OrderDetails = ({ params }) => {
   const whatsappMessage = `Hi, I recently placed an order on the website AYRU JAIPUR and haven't received it yet. Could you please provide an update on the status?
 
 Here are my order details:
-  - Name: ${user?.name || '[Your Name]'}
+  - Name: ${order?.shippingAddress?.userName || '[Your Name]'}
   - Order ID: ${order.orderid}
   - Date: ${formatDate(order.createdAt)}
   - Total Amount: Rs.${order.Total}`;
@@ -75,7 +75,7 @@ Here are my order details:
 Could you please provide me with the details regarding the process, any additional cost, and the estimated delivery time?
 
 Here are my order details:
-  - Name: ${user?.firstName + user?.lastName || '[Your Name]'}
+  - Name: ${order?.shippingAddress?.userName || '[Your Name]'}
   - Order ID: ${order.orderid}
   - Date: ${formatDate(order.createdAt)}
   - Total Amount: Rs.${order.Total}`;

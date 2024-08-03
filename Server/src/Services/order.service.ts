@@ -42,6 +42,11 @@ export async function createOrderService(
         alternateMobileNumber: data.alternateMobileNumber,
       },
     });
+    let userdetails = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+    });
     // } else {
     //   shippingAddress = await prisma.shippingAddress.update({
     //     where: { id: shippingAddress.id },
@@ -62,7 +67,6 @@ export async function createOrderService(
       data: {
         firstName: data.firstName,
         lastName: data.lastName,
-        email: data.email,
         phoneNumber: data.phoneNumber,
         address1: data.addressLine1,
         address2: data.addressLine2,
@@ -129,10 +133,10 @@ export async function createOrderService(
         reference_id: `${newOrder.id}`,
         description: `Payment for ${newOrder.orderid}`,
         customer: {
-          name: `{${updateduser?.firstName} ${updateduser?.lastName}}`,
-          contact: `{${updateduser?.phoneNumber}}`,
-          email: `khushigarg.64901@gmail.com`,
-          // email: `{${updateduser?.email}}`,
+          name: `{${shippingAddress?.userName}}`,
+          contact: `{${shippingAddress?.phoneNumber}}`,
+          // email: `khushigarg.64901@gmail.com`,
+          email: `{${userdetails?.email}}`,
         },
         // customer: {
         //   name: `{${updateduser?.firstName} ${updateduser?.lastName}}`,

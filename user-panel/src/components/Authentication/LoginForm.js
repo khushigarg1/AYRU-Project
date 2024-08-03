@@ -21,12 +21,11 @@ const LoginForm = ({ switchToSignUp }) => {
   const handleSendEmailOTP = async () => {
     try {
       const response = await api.post('/auth/send-email-otp', { email, role: 'user' });
-      setStep(2);
       setSnackbarMessage(response?.data?.message || 'OTP sent to your email');
       setSnackbarSeverity('success');
       setSnackbarOpen(true);
+      setStep(2);
     } catch (error) {
-      console.error('Error sending email OTP:', error);
       setSnackbarMessage(error?.response?.data?.message || 'Failed to send email OTP');
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
@@ -38,15 +37,15 @@ const LoginForm = ({ switchToSignUp }) => {
       const response = await api.post('/auth/verify-email-otp', { email, OTP: emailOTP, role: 'user' });
       const { isPhoneVerified, isEmailVerified } = response?.data?.data?.userdata;
       if (isEmailVerified) {
-        setSnackbarMessage(response?.data?.message || 'OTP verified successfully!');
-        setSnackbarSeverity('success');
-        setSnackbarOpen(true);
         const token = response?.data?.accessToken;
         Cookies.set('token', token, { expires: 365 });
 
         api.defaults.headers.Authorization = `Bearer ${token}`;
         const { data: user } = await api.get(`auth/${response?.data?.data.userdata.id}`);
         setUser(user);
+        setSnackbarMessage(response?.data?.message || 'OTP verified successfully!');
+        setSnackbarSeverity('success');
+        setSnackbarOpen(true);
         closeAuthModal();
       } else {
         setSnackbarMessage(response?.data?.message || 'Invalid email OTP');
@@ -95,14 +94,14 @@ const LoginForm = ({ switchToSignUp }) => {
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column', backgroundColor: theme.palette.background.paper }}>
-      <Typography variant="h5" sx={{ mb: 2 }}>Ayru Jaipur</Typography>
+      <Typography variant="h3" sx={{ mb: 2 }}>Ayru Jaipur</Typography>
       <Paper sx={{ maxWidth: 400, mx: 'auto', p: 3, boxShadow: 3 }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Avatar variant="circular" sx={{ bgcolor: 'white', alignSelf: 'center' }}>
             <LockIcon color="primary" />
           </Avatar>
           <Typography alignSelf="center" mb="1rem" component="h1" variant="h4">
-            Sign In
+            Log In
           </Typography>
           <Divider />
           {step === 1 && (
@@ -114,9 +113,9 @@ const LoginForm = ({ switchToSignUp }) => {
               <Button fullWidth variant="contained" color="primary" onClick={() => setStep(3)} sx={{ mt: 2 }}>
                 Sign in with Email and Password
               </Button>
-              <Button fullWidth variant="text" color="primary" onClick={switchToSignUp} sx={{ mt: 2 }}>
+              {/* <Button fullWidth variant="text" color="primary" onClick={switchToSignUp} sx={{ mt: 2 }}>
                 Don't have an account? Sign Up
-              </Button>
+              </Button> */}
             </Box>
           )}
           {step === 2 && (
@@ -136,7 +135,7 @@ const LoginForm = ({ switchToSignUp }) => {
                 Sign In
               </Button>
               <Button fullWidth variant="text" color="primary" onClick={() => setStep(1)} sx={{ mt: 2 }}>
-                Sign in with OTP
+                Verify with OTP
               </Button>
             </Box>
           )}

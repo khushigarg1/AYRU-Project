@@ -106,8 +106,7 @@ const CartPage = () => {
       `   ProductUrl: ${process.env.REACT_APP_BASE_URL}/shop/${item?.Inventory?.id}\n` +
       `   Quantity: ${item.quantity}\n` +
       `   Selling Price: ₹${item?.cartSizeItem?.sellingPrice}\n` +
-      `   Discounted Price: ₹${item?.cartSizeItem?.discountedPrice}\n` +
-      `   Size Option: ${item.sizeOption}\n`;
+      `   Discounted Price: ₹${item?.cartSizeItem?.discountedPrice}\n`;
 
     if (item.sizeOption === 'flat') {
       itemDetails += `   Size: ${item.selectedFlatItem}\n`;
@@ -115,7 +114,7 @@ const CartPage = () => {
       itemDetails += `   Fitted Item: ${item.selectedFittedItem}\n`;
     } else if (item.sizeOption === 'custom') {
       itemDetails += `   Custom Item: ${item.selectedCustomFittedItem}\n` +
-        `   Dimensions: ${item.length} x ${item.width} x ${item.height} ${item.unit}\n`;
+        `   Dimensions(L*W*H): ${item.length} x ${item.width} x ${item.height} ${item.unit}\n`;
     }
 
     return itemDetails;

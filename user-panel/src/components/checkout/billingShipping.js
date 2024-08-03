@@ -337,6 +337,7 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                   label="Email"
                   name="email"
                   fullWidth
+                  disabled
                   margin="normal"
                   sx={{ backgroundColor: 'white' }}
                   value={orderData.email}
