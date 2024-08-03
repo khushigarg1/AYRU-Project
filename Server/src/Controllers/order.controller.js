@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.razorPayWebhook = exports.deleteOrder = exports.updateOrder = exports.getOrders = exports.getOrderbyAdminId = exports.getOrderbyId = exports.getOrder = exports.createOrder = void 0;
+exports.uploadOrderMedia = exports.razorPayWebhook = exports.deleteOrder = exports.updateOrder = exports.getOrders = exports.getOrderbyAdminId = exports.getOrderbyId = exports.getOrder = exports.createOrder = void 0;
 const order_service_1 = require("../Services/order.service");
 const crypto_1 = __importDefault(require("crypto"));
 // Create Order
@@ -160,3 +160,14 @@ function razorPayWebhook(request, reply) {
     });
 }
 exports.razorPayWebhook = razorPayWebhook;
+const uploadOrderMedia = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = request.body;
+        const result = yield (0, order_service_1.uploadOrderMediaService)(data);
+        reply.send({ message: "Created successfully", data: result });
+    }
+    catch (error) {
+        reply.status(500).send({ error: "Failed to upload media", details: error });
+    }
+});
+exports.uploadOrderMedia = uploadOrderMedia;

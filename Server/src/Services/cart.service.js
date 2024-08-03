@@ -388,11 +388,7 @@ class CartService {
             }
         });
     }
-    updateCart(userId, cartItemId, quantity, 
-    // flatId: number,
-    // fittedId: number,
-    // customId: number,
-    sizeOption, selectedFlatItem, selectedFittedItem, selectedCustomFittedItem, unit, length, width, height, remark) {
+    updateCart(userId, cartItemId, quantity, sizeOption, selectedFlatItem, selectedFittedItem, selectedCustomFittedItem, unit, length, width, height, remark) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const updatedCartItem = yield prisma.cart.update({
@@ -401,9 +397,6 @@ class CartService {
                     },
                     data: {
                         quantity,
-                        // flatId: flatId ?? null,
-                        // fittedId: fittedId ?? null,
-                        // customId: customId ?? null,
                         sizeOption,
                         selectedFlatItem,
                         selectedFittedItem,
@@ -448,7 +441,7 @@ class CartService {
                         },
                     },
                 },
-                orderBy: { updatedAt: "desc" },
+                orderBy: { createdAt: "desc" },
             });
             let totalPrice = 0;
             userCart.forEach((cartItem) => {
@@ -492,6 +485,7 @@ class CartService {
                             inventoryFlatId: inventoryflatItem === null || inventoryflatItem === void 0 ? void 0 : inventoryflatItem.id,
                         },
                     });
+                    cartSizeItem = Object.assign(Object.assign({}, cartSizeItem), { quantity: inventoryflatItem === null || inventoryflatItem === void 0 ? void 0 : inventoryflatItem.quantity, minQuantity: inventoryflatItem === null || inventoryflatItem === void 0 ? void 0 : inventoryflatItem.minQuantity, maxQuantity: inventoryflatItem === null || inventoryflatItem === void 0 ? void 0 : inventoryflatItem.maxQuantity });
                 }
                 return Object.assign(Object.assign({}, cartItem), { cartSizeItem });
             })));
@@ -534,7 +528,7 @@ class CartService {
                     },
                 },
                 orderBy: {
-                    updatedAt: "desc",
+                    createdAt: "desc",
                 },
             });
             // Calculate total number of products and count by category

@@ -22,6 +22,8 @@ function orderRoutes(server) {
         server.get("/all", { onRequest: [server.authenticateAdmin] }, order_controller_1.getOrders);
         server.put("/:id", order_controller_1.updateOrder);
         server.delete("/:id", { onRequest: [server.authenticateAdmin] }, order_controller_1.deleteOrder);
+        //--------------------upload media and all
+        server.put("/upload", { onRequest: [server.authenticateAdmin] }, order_controller_1.uploadOrderMedia);
     });
 }
 exports.default = orderRoutes;

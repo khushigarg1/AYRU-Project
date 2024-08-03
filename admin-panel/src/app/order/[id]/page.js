@@ -56,6 +56,7 @@ const OrderAccordion = ({ params }) => {
 
   const handleUpload = async () => {
     if (!uploadFile) return;
+    console.log(uploadFile);
 
     const formData = new FormData();
     formData.append('image', uploadFile);
@@ -121,7 +122,7 @@ const OrderAccordion = ({ params }) => {
           <Typography>Order ID: {order?.orderid}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <TrekkingDetails order={order} />
+          <TrekkingDetails order={order} getOrder={getOrder} />
         </AccordionDetails>
       </Accordion>
 

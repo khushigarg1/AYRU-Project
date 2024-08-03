@@ -216,7 +216,6 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
           <AccordionDetails style={{ paddingTop: "0px" }}>
             <ShippingDetailsBox>
               <Typography variant="subtitle1">{orderData?.firstName} {orderData?.user?.lastName}</Typography>
-              <Typography variant="subtitle1">{orderData?.email}</Typography>
               <Typography variant="body1">{orderData?.addressLine1}</Typography>
               <Typography variant="body1">{orderData?.addressLine2}</Typography>
               <Typography variant="body1">{orderData?.city}, {orderData?.state}</Typography>
@@ -226,6 +225,7 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
               {orderData.alternateMobileNumber &&
                 <Typography variant="body1">Phone Number2: {orderData?.alternateMobileNumber}</Typography>
               }
+              <Typography variant="subtitle1">{orderData?.email}</Typography>
               {/* <Typography variant="body2"><strong>First Name:</strong> {orderData?.firstName || 'N/A'}</Typography>
               <Typography variant="body2"><strong>Last Name:</strong> {orderData?.lastName || 'N/A'}</Typography>
               <Typography variant="body2"><strong>Email:</strong> {orderData?.email || 'N/A'}</Typography>

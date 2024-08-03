@@ -667,14 +667,14 @@ export async function razorPayWebhookService(data: any) {
 }
 
 //--------------------media
-
 interface MediaData {
   orderId: number;
-  images: any[] | any;
+  image: any;
 }
+
 export async function uploadOrderMediaService(data: MediaData) {
   try {
-    const { orderId, images } = data;
+    const { orderId, image } = data;
     const parsedOrderId =
       typeof orderId === "string" ? parseInt(orderId, 10) : orderId;
 
@@ -689,30 +689,25 @@ export async function uploadOrderMediaService(data: MediaData) {
       throw new ApiBadRequestError("Order not found");
     }
 
-    let imageUploadPromises: Promise<any>[] = [];
+    if (!image.mimetype.startsWith("image")) {
+      throw new Error("File is not an image");
+    }
+    console.log(image);
 
-    if (Array.isArray(images)) {
-      imageUploadPromises = images
-        .filter((file: any) => file.mimetype.startsWith("image"))
-        .map((image: any) => uploadImageToS3(image));
-    } else if (images && images.mimetype.startsWith("image")) {
-      imageUploadPromises.push(uploadImageToS3(images));
+    const result = await uploadImageToS3(image);
+
+    console.log(result);
+    if (!result.key) {
+      throw new Error("Failed to upload image to S3");
     }
 
-    const imageResults = await Promise.all(imageUploadPromises);
-    const urls = imageResults.map((result) => result?.key);
+    // Assuming there's a single image for each order, we will update the existing one
+    const updatedOrder = await prisma.order.update({
+      where: { id: parsedOrderId },
+      data: { imageurl: result.key },
+    });
 
-    if (urls.length > 0) {
-      const newImageUrl = urls[0];
-      const updatedOrder = await prisma.order.update({
-        where: { id: parsedOrderId },
-        data: { imageurl: newImageUrl },
-      });
-
-      return updatedOrder;
-    }
-
-    throw new Error("No valid image URLs found");
+    return updatedOrder;
   } catch (error) {
     console.error("Error in uploadOrderMedia:", error);
     throw new Error("Failed to process media upload: " + error);

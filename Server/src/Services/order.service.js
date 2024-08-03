@@ -12,9 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.razorPayWebhookService = exports.deleteOrderService = exports.updateOrderService = exports.getOrdersService = exports.getOrderService = exports.getOrderByAdminIdService = exports.getOrderByIdService = exports.createOrderService = void 0;
+exports.uploadOrderMediaService = exports.razorPayWebhookService = exports.deleteOrderService = exports.updateOrderService = exports.getOrdersService = exports.getOrderService = exports.getOrderByAdminIdService = exports.getOrderByIdService = exports.createOrderService = void 0;
 const client_1 = require("@prisma/client");
 const razorpay_1 = __importDefault(require("razorpay"));
+const errors_1 = require("../errors");
+const awsfunction_1 = require("../../config/awsfunction");
 const prisma = new client_1.PrismaClient();
 const razorpayInstance = new razorpay_1.default({
     key_id: process.env.KEY,
@@ -121,7 +123,8 @@ function createOrderService(data, userId) {
             }
             let newPayment;
             const currentTimestamp = Math.floor(Date.now() / 1000);
-            const expireBy = currentTimestamp + 15 * 60;
+            const time = 20 * 60;
+            const expireBy = currentTimestamp + time;
             console.log(expireBy);
             try {
                 newPayment = yield razorpayInstance.paymentLink.create({
@@ -132,16 +135,17 @@ function createOrderService(data, userId) {
                     expire_by: expireBy,
                     reference_id: `${newOrder.id}`,
                     description: `Payment for ${newOrder.orderid}`,
-                    // customer: {
-                    //   name: `{${updateduser?.firstName} ${updateduser?.lastName}}`,
-                    //   contact: `{${updateduser?.phoneNumber}}`,
-                    //   email: `{${updateduser?.email}}`,
-                    // },
                     customer: {
                         name: `{${updateduser === null || updateduser === void 0 ? void 0 : updateduser.firstName} ${updateduser === null || updateduser === void 0 ? void 0 : updateduser.lastName}}`,
                         contact: `{${updateduser === null || updateduser === void 0 ? void 0 : updateduser.phoneNumber}}`,
-                        email: "gaurav.kumar@example.com",
+                        email: `khushigarg.64901@gmail.com`,
+                        // email: `{${updateduser?.email}}`,
                     },
+                    // customer: {
+                    //   name: `{${updateduser?.firstName} ${updateduser?.lastName}}`,
+                    //   contact: `{${updateduser?.phoneNumber}}`,
+                    //   email: "gaurav.kumar@example.com",
+                    // },
                     notify: {
                         sms: true,
                         email: true,
@@ -150,7 +154,7 @@ function createOrderService(data, userId) {
                     notes: {
                         policy_name: "Jeevan Bima",
                     },
-                    callback_url: "https://7q0xhxzq-3000.inc1.devtunnels.ms/orders",
+                    callback_url: "https://ayrujaipur.in/",
                     callback_method: "get",
                 });
                 console.log(newPayment);
@@ -587,3 +591,45 @@ function razorPayWebhookService(data) {
     });
 }
 exports.razorPayWebhookService = razorPayWebhookService;
+function uploadOrderMediaService(data) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { orderId, images } = data;
+            const parsedOrderId = typeof orderId === "string" ? parseInt(orderId, 10) : orderId;
+            if (isNaN(parsedOrderId)) {
+                throw new errors_1.ApiBadRequestError("Invalid order ID");
+            }
+            const existingOrder = yield prisma.order.findUnique({
+                where: { id: parsedOrderId },
+            });
+            if (!existingOrder) {
+                throw new errors_1.ApiBadRequestError("Order not found");
+            }
+            let imageUploadPromises = [];
+            if (Array.isArray(images)) {
+                imageUploadPromises = images
+                    .filter((file) => file.mimetype.startsWith("image"))
+                    .map((image) => (0, awsfunction_1.uploadImageToS3)(image));
+            }
+            else if (images && images.mimetype.startsWith("image")) {
+                imageUploadPromises.push((0, awsfunction_1.uploadImageToS3)(images));
+            }
+            const imageResults = yield Promise.all(imageUploadPromises);
+            const urls = imageResults.map((result) => result === null || result === void 0 ? void 0 : result.key);
+            if (urls.length > 0) {
+                const newImageUrl = urls[0];
+                const updatedOrder = yield prisma.order.update({
+                    where: { id: parsedOrderId },
+                    data: { imageurl: newImageUrl },
+                });
+                return updatedOrder;
+            }
+            throw new Error("No valid image URLs found");
+        }
+        catch (error) {
+            console.error("Error in uploadOrderMedia:", error);
+            throw new Error("Failed to process media upload: " + error);
+        }
+    });
+}
+exports.uploadOrderMediaService = uploadOrderMediaService;

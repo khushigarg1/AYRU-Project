@@ -11,8 +11,9 @@ import {
   Button,
 } from '@mui/material';
 import axios from 'axios';
+import api from '@/api';
 
-const TrekkingDetails = ({ order }) => {
+const TrekkingDetails = ({ order, getOrder }) => {
   const [editMode, setEditMode] = React.useState(false);
   const [deliveryStatus, setDeliveryStatus] = React.useState(order?.deliveryStatus || '');
   const [imageUrl, setImageUrl] = React.useState(order?.imageurl || '');
@@ -23,7 +24,7 @@ const TrekkingDetails = ({ order }) => {
 
   const handleSave = async () => {
     try {
-      await axios.put(`order/${order.id}`, {
+      await api.put(`order/${order.id}`, {
         deliveryStatus,
         imageurl: imageUrl,
         couriername: courierName,
@@ -32,6 +33,7 @@ const TrekkingDetails = ({ order }) => {
         trekkinglink: trackingLink,
       });
       setEditMode(false);
+      getOrder();
     } catch (error) {
       console.error("Error updating order:", error);
     }

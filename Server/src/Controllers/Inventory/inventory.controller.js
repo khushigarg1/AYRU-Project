@@ -317,10 +317,10 @@ const filterInventory = (request, reply) => __awaiter(void 0, void 0, void 0, fu
                 isValid = false;
             }
             if (minPrice && maxPrice) {
-                const sellingPrice = inventory.sellingPrice;
-                if (sellingPrice &&
-                    (sellingPrice < parseFloat(minPrice) ||
-                        sellingPrice > parseFloat(maxPrice))) {
+                const priceToCompare = inventory.discountedPrice || inventory.sellingPrice;
+                if (priceToCompare &&
+                    (priceToCompare < parseFloat(minPrice) ||
+                        priceToCompare > parseFloat(maxPrice))) {
                     isValid = false;
                 }
             }
