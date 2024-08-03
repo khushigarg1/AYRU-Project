@@ -59,7 +59,7 @@ const OrderAccordion = ({ params }) => {
 
     const formData = new FormData();
     formData.append('image', uploadFile);
-    formData.append('orderId', id);
+    formData.append('orderId', parseInt(id, 10));
 
     try {
       const response = await api.put('order/upload', formData, {
@@ -127,7 +127,7 @@ const OrderAccordion = ({ params }) => {
 
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Main Section</Typography>
+          <Typography>Trekking Image</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Box display="flex" flexDirection="column" width="100%">

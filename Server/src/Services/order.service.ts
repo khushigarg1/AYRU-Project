@@ -672,13 +672,18 @@ interface MediaData {
   orderId: number;
   images: any[] | any;
 }
-
 export async function uploadOrderMediaService(data: MediaData) {
   try {
     const { orderId, images } = data;
+    const parsedOrderId =
+      typeof orderId === "string" ? parseInt(orderId, 10) : orderId;
+
+    if (isNaN(parsedOrderId)) {
+      throw new ApiBadRequestError("Invalid order ID");
+    }
 
     const existingOrder = await prisma.order.findUnique({
-      where: { id: orderId },
+      where: { id: parsedOrderId },
     });
     if (!existingOrder) {
       throw new ApiBadRequestError("Order not found");
@@ -700,7 +705,7 @@ export async function uploadOrderMediaService(data: MediaData) {
     if (urls.length > 0) {
       const newImageUrl = urls[0];
       const updatedOrder = await prisma.order.update({
-        where: { id: orderId },
+        where: { id: parsedOrderId },
         data: { imageurl: newImageUrl },
       });
 
