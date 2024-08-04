@@ -27,12 +27,12 @@ export default function TermsAndConditions() {
           <br />
           Address: Prangan, 302012, Jaipur, Rajasthan, INDIA
         </Typography>
-        <Typography variant="h5" component="h2">
+        {/* <Typography variant="h5" component="h2">
           Effective Date
         </Typography>
         <Typography paragraph>
           These Terms and Conditions are effective as of [Effective Date].
-        </Typography>
+        </Typography> */}
         <Typography variant="h5" component="h2">
           Limitation of Liability and Disclaimer of Warranties
         </Typography>

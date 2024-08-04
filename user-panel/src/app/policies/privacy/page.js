@@ -40,8 +40,9 @@ export default function PrivacyPolicy() {
           <ul>
             <li>Register on our website</li>
             <li>Place an order</li>
-            <li>Subscribe to our newsletter</li>
-            <li>Fill out a form or enter information on our site</li>
+            <li>When you add items to your cart or wishlist</li>
+            {/* <li>Subscribe to our newsletter</li>
+            <li>Fill out a form or enter information on our site</li> */}
           </ul>
         </Typography>
         <Typography variant="h5" component="h2">
@@ -75,9 +76,9 @@ export default function PrivacyPolicy() {
         <Typography variant="h5" component="h2">
           Effective Date
         </Typography>
-        <Typography paragraph>
+        {/* <Typography paragraph>
           This Privacy Policy is effective as of [Effective Date].
-        </Typography>
+        </Typography> */}
         <Typography paragraph>
           If you have any questions about this Privacy Policy, please contact us at:
           <br />

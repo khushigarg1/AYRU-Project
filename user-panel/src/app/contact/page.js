@@ -1,7 +1,9 @@
 "use client"
 import Head from 'next/head';
 import { Container, Typography, Link, Box, Grid, useTheme, Button } from '@mui/material';
-import { WhatsappIcon } from 'next-share';
+import { FacebookIcon, FacebookShareButton, WhatsappIcon } from 'next-share';
+import Insta from "../../../public/images/insta.png"
+import Image from 'next/image';
 
 export default function ContactUs() {
   const theme = useTheme();
@@ -24,7 +26,7 @@ export default function ContactUs() {
           Connect with us using the information provided below ⬇️
         </Typography>
         <Box mt={4}>
-          <Grid container spacing={4}>
+          <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <Typography variant="h5" component="h2" gutterBottom>
                 <Button
@@ -52,7 +54,7 @@ export default function ContactUs() {
                 Email
               </Typography>
               <Typography variant="body1" paragraph>
-                <Link href="mailto:ayrujaipur@gmail.com" color="inherit">ayrujaipur@gmail.com</Link>
+                <Link href="mailto:ayrujaipur@gmail.com" color="inherit" sx={{ textDecoration: "none" }}>ayrujaipur@gmail.com</Link>
               </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -65,12 +67,16 @@ export default function ContactUs() {
               <Typography variant="h5" component="h2" gutterBottom>
                 Social Media
               </Typography>
-              <Typography variant="body1" paragraph>
-                <Link href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" color="inherit">Instagram</Link>
-              </Typography>
-              <Typography variant="body1" paragraph>
-                <Link href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" color="inherit">Facebook</Link>
-              </Typography>
+              <Box display="flex" justifyContent="left" alignItems="left" gap={1} mt={1}>
+                <FacebookShareButton url="https://www.facebook.com/AYRU20?mibextid=LQQJ4d">
+                  <FacebookIcon size={32} round />
+                </FacebookShareButton>
+                <Link
+                  target="_blank" href="https://www.instagram.com/handblock_ayrujaipur?igsh=MTkxbnBvZ3J3dW5ydA%3D%3D&utm_source=qr" passHref>
+                  {/* <InstagramIcon size={32} round /> */}
+                  <Image src={Insta} sidth={30} height={30} />
+                </Link>
+              </Box>
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h5" component="h2" gutterBottom>

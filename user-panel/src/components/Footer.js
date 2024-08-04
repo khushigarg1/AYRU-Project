@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Box, Container, Grid, Typography, IconButton, useTheme, useMediaQuery } from '@mui/material';
-import { Add, Remove, Facebook, Instagram } from '@mui/icons-material';
+import { Add, Remove } from '@mui/icons-material';
 import Image from 'next/image';
 import Img from "../../public/images/footer.JPEG";
+import { FacebookShareButton, InstagramIcon, TwitterShareButton, WhatsappShareButton } from 'next-share';
+import { FacebookIcon, TwitterIcon, WhatsappIcon } from 'next-share';
+import Insta from "../../public/images/insta.png"
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 
 const Footer = () => {
   const theme = useTheme();
@@ -28,13 +34,13 @@ const Footer = () => {
             backgroundColor: "white"
           }} mt={0} />
           <Container maxWidth="lg">
-            <Grid container spacing={3}>
-              {/* Footer Column 1 */}
+            <Grid container spacing={2}>
               <Grid item xs={12} sm={6} md={3}>
                 <Typography variant="h6" gutterBottom>
                   <Link href="/orders">My Order</Link>
                 </Typography>
               </Grid>
+              {/* Footer Column 1 */}
 
               {/* Footer Column 2 */}
               <Grid item xs={12} sm={6} md={3}>
@@ -49,8 +55,8 @@ const Footer = () => {
                     <Typography variant="body1" mt={1}><Link href="/">Home</Link></Typography>
                     <Typography variant="body1"><Link href="/about">About Us</Link></Typography>
                     <Typography variant="body1"><Link href="/contact">Contact Us</Link></Typography>
-                    <Typography variant="body1"><Link href="#">International Orders</Link></Typography>
-                    <Typography variant="body1"><Link href="#">Bulk & Corporate Orders</Link></Typography>
+                    <Typography variant="body1"><Link href="/international-order">International Orders</Link></Typography>
+                    <Typography variant="body1"><Link href="/bulk-corporate">Bulk & Corporate Orders</Link></Typography>
                   </>
                 )}
               </Grid>
@@ -91,34 +97,42 @@ const Footer = () => {
                 )}
               </Grid> */}
 
-              <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={3} mb={2}>
                 <Typography variant="h6" gutterBottom>
                   Contact Info
                 </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Address: Prangan, Jaipur, Rajasthan-302012 , INDIA
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Email: ayrujaipur@gmail.com
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Phone: +91-9785852222
-                </Typography>
-              </Grid>
-
-              {/* Follow Us Section */}
-              <Grid item xs={12} sm={6} md={3}>
-                <Box display="flex" alignItems="center" justifyContent="space-between">
-                  <Typography variant="h6">Follow Us</Typography>
+                <Box display="flex" alignItems="center" mt={1}>
+                  <LocationOnOutlinedIcon sx={{ mr: 1 }} />
+                  <Typography variant="body1">
+                    Prangan, Jaipur, Rajasthan-302012 , INDIA
+                  </Typography>
                 </Box>
-                <>
-                  <IconButton aria-label="Facebook" color="inherit">
-                    <Facebook />
-                  </IconButton>
-                  <IconButton aria-label="Instagram" color="inherit">
-                    <Instagram />
-                  </IconButton>
-                </>
+                <Box display="flex" alignItems="center" mt={1}>
+                  <EmailOutlinedIcon sx={{ mr: 1 }} />
+                  <Typography variant="body1">
+                    Email: ayrujaipur@gmail.com
+                  </Typography>
+                </Box>
+                <Box display="flex" alignItems="center" mt={1}>
+                  <PhoneOutlinedIcon sx={{ mr: 1 }} />
+                  <Typography variant="body1">
+                    Phone: +91-9785852222
+                  </Typography>
+                </Box>
+
+                {/* <Box display="flex" alignItems="center" justifyContent="space-between">
+                  <Typography variant="h6">Follow Us</Typography>
+                </Box> */}
+                <Box display="flex" justifyContent="left" alignItems="left" gap={1} mt={2}>
+                  <FacebookShareButton url="https://www.facebook.com/AYRU20?mibextid=LQQJ4d">
+                    <FacebookIcon size={32} round />
+                  </FacebookShareButton>
+                  <Link
+                    target="_blank" href="https://www.instagram.com/handblock_ayrujaipur?igsh=MTkxbnBvZ3J3dW5ydA%3D%3D&utm_source=qr" passHref>
+                    {/* <InstagramIcon size={32} round /> */}
+                    <Image src={Insta} sidth={30} height={30} />
+                  </Link>
+                </Box>
               </Grid>
             </Grid>
           </Container>
@@ -136,12 +150,16 @@ const Footer = () => {
                 <Typography variant="h6" gutterBottom>
                   Follow Us
                 </Typography>
-                <IconButton aria-label="Facebook" color="inherit">
-                  <Facebook />
-                </IconButton>
-                <IconButton aria-label="Instagram" color="inherit">
-                  <Instagram />
-                </IconButton>
+                <Box display="flex" justifyContent="left" alignItems="left" gap={1} mt={1}>
+                  <FacebookShareButton url="https://www.facebook.com/AYRU20?mibextid=LQQJ4d">
+                    <FacebookIcon size={32} round />
+                  </FacebookShareButton>
+                  <Link
+                    target="_blank" href="https://www.instagram.com/handblock_ayrujaipur?igsh=MTkxbnBvZ3J3dW5ydA%3D%3D&utm_source=qr" passHref>
+                    {/* <InstagramIcon size={32} round /> */}
+                    <Image src={Insta} sidth={30} height={30} />
+                  </Link>
+                </Box>
               </Grid>
 
               {/* Footer Column 2 */}
@@ -159,10 +177,10 @@ const Footer = () => {
                   <Link href="/contact">Contact Us</Link>
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                  <Link href="#">International Orders</Link>
+                  <Link href="/international-order">International Orders</Link>
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                  <Link href="#">Bulk & Corporate Orders</Link>
+                  <Link href="/bulk-corporate">Bulk & Corporate Orders</Link>
                 </Typography>
               </Grid>
 
@@ -192,15 +210,24 @@ const Footer = () => {
                 <Typography variant="h6" gutterBottom>
                   Contact Info
                 </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Address: Prangan, Jaipur, Rajasthan-302012 , INDIA
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Email: ayrujaipur@gmail.com
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Phone: +91-9785852222
-                </Typography>
+                <Box display="flex" alignItems="center" mt={1} gap={1}>
+                  <LocationOnOutlinedIcon sx={{ mr: 1 }} />
+                  <Typography variant="body1">
+                    Prangan, Jaipur, Rajasthan-302012 , INDIA
+                  </Typography>
+                </Box>
+                <Box display="flex" alignItems="center" mt={1}>
+                  <EmailOutlinedIcon sx={{ mr: 1 }} />
+                  <Typography variant="body1">
+                    Email: ayrujaipur@gmail.com
+                  </Typography>
+                </Box>
+                <Box display="flex" alignItems="center" mt={1}>
+                  <PhoneOutlinedIcon sx={{ mr: 1 }} />
+                  <Typography variant="body1">
+                    Phone: +91-9785852222
+                  </Typography>
+                </Box>
               </Grid>
             </Grid>
 
