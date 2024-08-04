@@ -7,9 +7,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 const InternationalOrders = () => {
   const whatsappURL = `https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    `Hello,\n\nI would like to place an international order with AYRU JAIPUR. Could you please provide me with the details on the ordering process, shipping costs, and delivery times? 
-    
-    Thank you!`
+    `Hello,\n\nI would like to place an international order with AYRU JAIPUR. Could you please provide me with the details on the ordering process, shipping costs, and delivery times?\n\nThank you!`
   )}`;
 
   return (
