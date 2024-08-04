@@ -37,12 +37,12 @@ export const FeedbackComponent = () => {
       <Box sx={{ display: 'flex', paddingX: "50px", justifyContent: 'center', marginTop: 1, position: 'relative', width: '100%', backgroundColor: theme.palette.background.paper }}>
         <Image src={backgroundImage} alt="Left Image" width={100} height={100} style={{ position: 'absolute', left: '-8px', top: isMobile ? "75%" : "65%", transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto' }} />
         <Paper sx={{ padding: 2, textAlign: 'center', maxWidth: '800px', boxShadow: "none", fontFamily: theme.palette.typography.fontFamily }}>
-          <Image src={PriceTag} alt="Premium Quality" width={50} height={50} style={{ maxWidth: '60%', height: 'auto', margin: 'auto' }} />
-          {/* <Typography variant="h6" gutterBottom={!isMobile}>
-            Premium Quality
-          </Typography> */}
+          <Image src={PriceTag} alt="Premium Quality" width={50} height={50} style={{ maxWidth: '60%', height: 'auto', margin: 'auto', marginBottom: "10px" }} />
+          <Typography variant="h6" gutterBottom={!isMobile}>
+            Unbeatable Price
+          </Typography>
           <Typography variant="body1" style={{ fontSize: "90%" }}>
-            Offering top-quality products at unbeatable prices to provide the best value for your money.
+            We offer top quality products at most affordable prices, providing the best value for your money.
           </Typography>
         </Paper>
         <Image src={backgroundImage} alt="Right Image" width={100} height={100} style={{ position: 'absolute', right: '-8px', top: isMobile ? "75%" : "65%", transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto' }} />

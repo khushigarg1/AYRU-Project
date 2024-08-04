@@ -9,7 +9,7 @@ import { WhatsappIcon } from 'next-share';
 
 const BulkCorporateOrders = () => {
   const whatsappURL = `https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    `Hello,\n\nI would like to place a bulk or corporate order with AYRU JAIPUR. Could you please provide me with details on the ordering process, minimum order quantities, pricing, shipping costs, and delivery times?\n\nThank you!`
+    `Hello,\n\nI would like to inquire about placing a bulk order with AYRU JAIPUR. Could you please provide me with details regarding pricing, minimum order quantities, and any other relevant information?\n\nThank you!`
   )}`;
 
   return (
