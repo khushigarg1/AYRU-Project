@@ -15,7 +15,7 @@ export default function TermsAndConditions() {
         <Typography paragraph>
           Welcome to AYRU JAIPUR. These terms and conditions outline the rules and regulations for the use of our website.
         </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           Contact Information
         </Typography>
         <Typography paragraph>
@@ -27,19 +27,19 @@ export default function TermsAndConditions() {
           <br />
           Address: Prangan, 302012, Jaipur, Rajasthan, INDIA
         </Typography>
-        {/* <Typography variant="h5" component="h2">
+        {/*         <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           Effective Date
         </Typography>
         <Typography paragraph>
           These Terms and Conditions are effective as of [Effective Date].
         </Typography> */}
-        <Typography variant="h5" component="h2">
+        <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           Limitation of Liability and Disclaimer of Warranties
         </Typography>
         <Typography paragraph>
           AYRU JAIPUR is provided "as is" and without any warranty or condition, express, implied, or statutory. We specifically disclaim any implied warranties of title, merchantability, fitness for a particular purpose, and non-infringement. Our liability is limited to the maximum extent permitted by law.
         </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           Rules of Conduct
         </Typography>
         <Typography paragraph>
@@ -50,7 +50,7 @@ export default function TermsAndConditions() {
             <li>Impersonating any person or entity or misrepresenting your affiliation with any person or entity.</li>
           </ul>
         </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           User Restrictions
         </Typography>
         <Typography paragraph>

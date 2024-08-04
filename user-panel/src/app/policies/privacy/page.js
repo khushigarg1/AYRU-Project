@@ -18,7 +18,7 @@ export default function PrivacyPolicy() {
         <Typography paragraph>
           At AYRU JAIPUR, we are committed to protecting your privacy. This privacy policy outlines how we handle and protect your personal information.
         </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           What Information We Collect
         </Typography>
         <Typography paragraph>
@@ -32,7 +32,7 @@ export default function PrivacyPolicy() {
             <li>Order history</li>
           </ul>
         </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           How We Collect Information
         </Typography>
         <Typography paragraph>
@@ -45,7 +45,7 @@ export default function PrivacyPolicy() {
             <li>Fill out a form or enter information on our site</li> */}
           </ul>
         </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           How We Use Collected Information
         </Typography>
         <Typography paragraph>
@@ -57,14 +57,14 @@ export default function PrivacyPolicy() {
             <li>To send periodic emails regarding your order or other products and services</li>
           </ul>
         </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           How We Keep Information Safe
         </Typography>
         <Typography paragraph>
           We implement various security measures to maintain the safety of your personal information. Your personal information is contained behind
           secured networks and is only accessible by a limited number of persons who have special access rights to such systems, and are required to keep the information confidential. Additionally, all sensitive information you supply is encrypted via Secure Socket Layer (SSL) technology.
         </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           Information Sharing with Third Parties
         </Typography>
         <Typography paragraph>
@@ -73,7 +73,7 @@ export default function PrivacyPolicy() {
         <Typography paragraph>
           However, non-personally identifiable visitor information may be provided to other parties for marketing, advertising, or other uses.
         </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           Effective Date
         </Typography>
         {/* <Typography paragraph>

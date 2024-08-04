@@ -19,7 +19,7 @@ export default function ReturnAndExchangePolicy() {
         <Typography paragraph>
           At AYRU JAIPUR, we strive to ensure that you are satisfied with your purchase. Please read our return and refund policy carefully to understand our procedures and requirements.
         </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           Return/Exchange Requirements
         </Typography>
         <Typography paragraph>
@@ -48,7 +48,7 @@ export default function ReturnAndExchangePolicy() {
           <strong>6. Refund Processing:</strong> Refunds will be processed within 10 days after receiving the returned product. Once the item is received, it will go through a verification process before a refund is issued.
         </Typography>
 
-        <Typography variant="h5" component="h2">
+        <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           Return Shipping
         </Typography>
         <Typography paragraph>
@@ -76,7 +76,7 @@ export default function ReturnAndExchangePolicy() {
           <strong>2. Shipping Loss/Damage:</strong> We are not responsible for the loss of shipment while returning the product or damage to the product incurred during the return process.
         </Typography>
 
-        <Typography variant="h5" component="h2">
+        <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           Conditions for Refusal
         </Typography>
         <Typography paragraph>
@@ -89,7 +89,7 @@ export default function ReturnAndExchangePolicy() {
           <strong>3. Missing Video:</strong> Without the parcel opening video, we are unable to verify the condition of the item or assess any potential issues accurately. In such cases, we will be unable to proceed with your return request until we receive the requested video.
         </Typography>
 
-        <Typography variant="h5" component="h2">
+        <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           Additional Information
         </Typography>
         <Typography paragraph>
