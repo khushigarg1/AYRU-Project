@@ -14,6 +14,7 @@ import { ProductSlider } from './productSlider';
 import { useAuth } from '@/contexts/auth';
 import Cookies from 'js-cookie';
 import api from '../../../api';
+import RequestAvailabilityModal from './AvailabilityModal';
 
 const ItemDetails = ({ product, queryParams }) => {
   //-------------------------------------------------------------------------------
@@ -47,6 +48,8 @@ const ItemDetails = ({ product, queryParams }) => {
   const theme = useTheme();
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [availabilityOpen, setAvailabilityModal] = useState(false);
+  const [availabilitystatus, setAvailabilityStatus] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
@@ -94,8 +97,25 @@ const ItemDetails = ({ product, queryParams }) => {
     console.log("called", selections?.selectedFlatItem, selectedFlatItem, typeof (selections?.selectedFlatItem), typeof (selectedFlatItem), displayQuantity);
 
   };
+
+  const getAvailabilityStatus = async () => {
+    try {
+      const token = Cookies.get("token");
+      api.defaults.headers.Authorization = `Bearer ${token}`;
+      const response = await api.get(`availability/${product?.id}`);
+      const status = response?.data?.data?.status;
+
+      setAvailabilityStatus(status);
+      console.log("status", status, availabilitystatus, product?.availability);
+    } catch (error) {
+      console.error("Error fetching admin details:", error);
+    }
+  };
+
   useEffect(() => {
     updateProductDetails();
+    getAvailabilityStatus();
+
   }, [])
   useEffect(() => {
 
@@ -296,6 +316,10 @@ Thank you so much!`;
 
   const handleCloseImageModal = () => {
     setImageModalOpen(false);
+  };
+
+  const handleCloseAvailabilityModal = () => {
+    setAvailabilityModal(false);
   };
 
   return (
@@ -512,10 +536,46 @@ Thank you so much!`;
                         </Typography>
                       </CardContent>
                     </Card >
-                    {
-                      product?.availability === false ?
-                        (
-                          <>
+
+                    {product?.availability === false && availabilitystatus !== "approved" ? (
+                      availabilitystatus === "rejected" ? (
+                        <>
+                          <Typography
+                            variant="caption"
+                            sx={{
+                              fontSize: '0.9rem',
+                              color: 'text.secondary',
+                              display: 'flex',
+                              flexDirection: "column",
+                              mt: 2,
+                              mb: 1,
+                              lineHeight: "1"
+                            }}
+                          >
+                            Check availability for this product{' '}
+                            <Typography
+                              sx={{ color: theme.palette.text.text, textDecoration: "underline" }}
+                              variant="caption"
+                            >
+                              <Link href="exchange policy link" target="_blank">
+                                {' '}for more details
+                              </Link>
+                            </Typography>
+                          </Typography>
+                          <Grid item xs={12} sx={{ paddingTop: "0px" }}>
+                            <Button
+                              onClick={() => { setAvailabilityModal(true) }}
+                              color="inherit"
+                              fullWidth
+                              sx={{ backgroundColor: theme.palette.background.contrast }}
+                            >
+                              Check Availability
+                            </Button>
+                          </Grid>
+                        </>
+                      ) : (
+                        <>
+                          <Grid item xs={12} sx={{ paddingTop: "0px" }}>
                             <Typography
                               variant="caption"
                               sx={{
@@ -528,52 +588,44 @@ Thank you so much!`;
                                 lineHeight: "1"
                               }}
                             >
-                              Check availability for this product{' '}
-                              <Typography
-                                sx={{ color: theme.palette.text.text, textDecoration: "underline" }}
-                                variant="caption"
-                              >
-                                <Link href="exchange policy link" target="_blank">
-                                  {' '}for more details
-                                </Link>
-                              </Typography>
+                              Your request for availability is pending. We will notify you promptly.
                             </Typography>
-                            <Grid item xs={12} sx={{ paddingTop: "0px" }}>
-                              <Button
-                                onClick={handleAddToCart}
-                                color="inherit"
-                                fullWidth
-                                sx={{ backgroundColor: theme.palette.background.contrast }}
-                              >
-                                Check Availability
-                              </Button>
-                            </Grid>
-                          </>
-                        )
-                        : (
-                          <Grid container spacing={1} sx={{ mt: 1, mb: 1 }}>
-                            <Grid item xs={6} sx={{ paddingTop: "0px" }}>
-                              <Button
-                                onClick={handleAddToCart}
-                                color="inherit"
-                                fullWidth
-                                sx={{ backgroundColor: theme.palette.background.contrast }}
-                              >
-                                Add to Cart
-                              </Button>
-                            </Grid>
-                            <Grid item xs={6} sx={{ paddingTop: "0px" }}>
-                              <Button
-                                onClick={handleBuyNow}
-                                color="inherit"
-                                fullWidth
-                                sx={{ backgroundColor: theme.palette.background.contrast }}
-                              >
-                                Buy Now
-                              </Button>
-                            </Grid>
+
+                            <Button
+                              color="inherit"
+                              disabled
+                              fullWidth
+                              sx={{ backgroundColor: theme.palette.background.contrast }}
+                            >
+                              Reuest Pending for availability
+                            </Button>
                           </Grid>
-                        )
+                        </>
+                      )
+                    ) : (
+                      <Grid container spacing={1} sx={{ mt: 1, mb: 1 }}>
+                        <Grid item xs={6} sx={{ paddingTop: "0px" }}>
+                          <Button
+                            onClick={handleAddToCart}
+                            color="inherit"
+                            fullWidth
+                            sx={{ backgroundColor: theme.palette.background.contrast }}
+                          >
+                            Add to Cart
+                          </Button>
+                        </Grid>
+                        <Grid item xs={6} sx={{ paddingTop: "0px" }}>
+                          <Button
+                            onClick={handleBuyNow}
+                            color="inherit"
+                            fullWidth
+                            sx={{ backgroundColor: theme.palette.background.contrast }}
+                          >
+                            Buy Now
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    )
                     }
                   </>
                 )
@@ -618,6 +670,9 @@ Thank you so much!`;
       </Box>
       <Modal open={imageModalOpen} onClose={handleCloseImageModal}>
         <ImagePopup imageUrl={selectedImage} onClose={handleCloseImageModal} />
+      </Modal>
+      <Modal open={availabilityOpen} onClose={handleCloseAvailabilityModal}>
+        <RequestAvailabilityModal product={product} open={availabilityOpen} handleClose={handleCloseAvailabilityModal} />
       </Modal>
 
       <Snackbar

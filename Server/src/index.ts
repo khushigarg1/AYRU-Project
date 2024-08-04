@@ -56,9 +56,10 @@ server.get("/api/image/:imageUrl", getImage);
 // }
 registerRoutes(server);
 
-const port = parseInt(process.env.PORT ?? "4000", 10);
+const port = 8080;
+const host = "localhost";
 
-server.listen({ port, host: "0.0.0.0" }, (err, address) => {
+server.listen({ port, host }, (err, address) => {
   if (err) {
     server.log.error(err);
     console.error(err);
@@ -67,12 +68,13 @@ server.listen({ port, host: "0.0.0.0" }, (err, address) => {
   console.log(`Server listening on ${address}`);
 });
 
-// const start = async () => {
-//   try {
-//     await server.listen({ port: process.env.PORT, host: "0.0.0.0" });
-//   } catch (err) {
-//     // console.log(err);
-//     // process.exit(1)
+// const port = parseInt(process.env.PORT ?? "4000", 10);
+
+// server.listen({ port, host: "0.0.0.0" }, (err, address) => {
+//   if (err) {
+//     server.log.error(err);
+//     console.error(err);
+//     process.exit(1);
 //   }
-// };
-// start();
+//   console.log(`Server listening on ${address}`);
+// });

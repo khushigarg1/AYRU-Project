@@ -18,6 +18,7 @@ const customer_route_1 = __importDefault(require("./routes/customer.route"));
 const wishlist_route_1 = __importDefault(require("./routes/wishlist.route"));
 const cart_route_1 = __importDefault(require("./routes/cart.route"));
 const order_router_1 = __importDefault(require("./routes/order.router"));
+const availability_route_1 = require("./routes/availability.route");
 function registerRoutes(server) {
     server.register(userAuthRoute_routes_1.default, { prefix: "/api/auth" });
     server.register(adminAuth_route_1.default, { prefix: "/api/auth/admin" });
@@ -31,6 +32,7 @@ function registerRoutes(server) {
     server.register(inventory_route_1.default, { prefix: "/api/inventory" });
     server.register(color_route_1.default, { prefix: "/api/color" });
     server.register(sizechart_route_1.default, { prefix: "/api/sizechart" });
+    server.register(availability_route_1.availabilityRoutes, { prefix: "/api/availability" });
     server.register(customer_route_1.default, {
         prefix: "/api/customer-side-data",
     });

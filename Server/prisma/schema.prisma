@@ -19,12 +19,12 @@ generator client {
 }
 
 model User {
-  id                    Int                 @id @default(autoincrement())
+  id                    Int                   @id @default(autoincrement())
   role                  String
   username              String?
   firstName             String?
   lastName              String?
-  email                 String?             @unique
+  email                 String?               @unique
   pincode               String?
   phoneNumber           String?
   address1              String?
@@ -38,17 +38,18 @@ model User {
   city                  String?
   gender                String?
   age                   Int?
-  isPhoneVerified       Boolean             @default(false)
-  isEmailVerified       Boolean             @default(false)
+  isPhoneVerified       Boolean               @default(false)
+  isEmailVerified       Boolean               @default(false)
   carts                 Cart[]
   wishlists             Wishlist[]
   orders                Order[]
   shippingAddresses     ShippingAddress[]
   paymentMethods        PaymentMethod[]
-  authentication        UserAuthentication? @relation(fields: [userAuthenticationId], references: [id])
+  authentication        UserAuthentication?   @relation(fields: [userAuthenticationId], references: [id])
   userAuthenticationId  Int?
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+  AvailabilityRequest   AvailabilityRequest[]
 }
 
 model UserAuthentication {
@@ -213,6 +214,24 @@ model Inventory {
   Category              Category?               @relation(fields: [categoryId], references: [id])
   categoryId            Int?
   OrderItem             OrderItem[]
+  AvailabilityRequest   AvailabilityRequest[]
+}
+
+model AvailabilityRequest {
+  id           Int    @id @default(autoincrement())
+  userId       Int
+  inventoryid  Int
+  status       String
+  mobilenumber String
+  // requestedAt DateTime  @default(now())
+  // approvedAt  DateTime?
+  // rejectedAt  DateTime?
+  // expiresAt   DateTime?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id])
+  inventory Inventory @relation(fields: [inventoryid], references: [id])
 }
 
 model ColorVariation {

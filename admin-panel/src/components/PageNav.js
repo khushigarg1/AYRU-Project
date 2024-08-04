@@ -24,7 +24,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import CategoryIcon from '@mui/icons-material/Category';
 import CategoryTwoToneIcon from '@mui/icons-material/CategoryTwoTone';
 import SettingsIcon from "@mui/icons-material/Settings";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ThemeProvider } from "@emotion/react";
 import { useAuth } from "../contexts/auth";
 import { Avatar, Button, Collapse } from "@mui/material";
@@ -130,6 +130,25 @@ export default function PageNav({ children }) {
   const [open, setOpen] = React.useState(isAuthenticated);
   const [nestedOpen, setNestedOpen] = useState(false);
   const [inventoryOpen, setInventoryOpen] = useState(false);
+  const drawerRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (drawerRef.current && !drawerRef.current.contains(event.target)) {
+      setOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
 
   const handleNestedClick = () => {
     setNestedOpen(!nestedOpen);
@@ -179,7 +198,7 @@ export default function PageNav({ children }) {
       </AppBar>
       {isAuthenticated ? (
         <>
-          <Drawer variant="permanent" open={open}>
+          <Drawer variant="permanent" open={open} ref={drawerRef}>
             <DrawerHeader>
               <IconButton onClick={handleDrawerClose}>
                 {theme.direction === "rtl" ? (
@@ -200,10 +219,40 @@ export default function PageNav({ children }) {
             </DrawerHeader>
             <Divider />
             <List>
+              <Link onClick={handleDrawerClose} href="/availability">
+                <ListItem
+                  key={"Availability"}
+                  onClick={() => setOpenTab("availability".toLowerCase())}
+                  disablePadding
+                  sx={{ display: "block" }}
+                >
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <CategoryIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={"Availability"}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
               <Link onClick={handleDrawerClose} href="/category">
                 <ListItem
-                  key={"Cycles"}
-                  onClick={() => setOpenTab("Cycles".toLowerCase())}
+                  key={"category"}
+                  onClick={() => setOpenTab("category".toLowerCase())}
                   disablePadding
                   sx={{ display: "block" }}
                 >
@@ -232,8 +281,8 @@ export default function PageNav({ children }) {
               </Link>
               <Link onClick={handleDrawerClose} href="/subcategory">
                 <ListItem
-                  key={"Cycles"}
-                  onClick={() => setOpenTab("Cycles".toLowerCase())}
+                  key={"subcategory"}
+                  onClick={() => setOpenTab("subcategory".toLowerCase())}
                   disablePadding
                   sx={{ display: "block" }}
                 >
@@ -263,7 +312,7 @@ export default function PageNav({ children }) {
               <Link onClick={handleDrawerClose} href="/color">
                 <ListItem
                   key={"Colors"}
-                  onClick={() => setOpenTab("Cycles".toLowerCase())}
+                  onClick={() => setOpenTab("color".toLowerCase())}
                   disablePadding
                   sx={{ display: "block" }}
                 >

@@ -3,7 +3,7 @@ import { Box, Typography, useMediaQuery, useTheme, Paper } from '@mui/material';
 import api from '../../../api';
 import backgroundImage from "../../../public/images/blog3.webp";
 import WebpImage from '../../../public/images/blog1.webp';
-import StarIcon from '@mui/icons-material/Star';  // Importing Star icon from Material-UI
+import StarIcon from '@mui/icons-material/Star';
 import PriceTag from "../../../public/images/pricetag.png";
 import Image from 'next/image';
 

@@ -23,6 +23,7 @@
     "axios-cache-interceptor": "^1.5.3",
     "dotenv": "^16.4.5",
     "js-cookie": "^3.0.5",
+    "libphonenumber-js": "^1.11.5",
     "next": "^14.2.3",
     "next-share": "^0.27.0",
     "notistack": "^3.0.1",

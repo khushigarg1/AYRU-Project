@@ -41,7 +41,7 @@ function createOrderService(data, userId) {
             let shippingAddress = yield prisma.shippingAddress.create({
                 data: {
                     userId: userId,
-                    userName: (data === null || data === void 0 ? void 0 : data.firstName) + (data === null || data === void 0 ? void 0 : data.lastName),
+                    userName: (data === null || data === void 0 ? void 0 : data.firstName) + " " + (data === null || data === void 0 ? void 0 : data.lastName),
                     addressLine1: data.addressLine1,
                     addressLine2: data.addressLine2,
                     pincode: data.pincode,
@@ -50,6 +50,11 @@ function createOrderService(data, userId) {
                     country: data.country,
                     phoneNumber: data.phoneNumber,
                     alternateMobileNumber: data.alternateMobileNumber,
+                },
+            });
+            let userdetails = yield prisma.user.findFirst({
+                where: {
+                    id: userId,
                 },
             });
             // } else {
@@ -71,7 +76,6 @@ function createOrderService(data, userId) {
                 data: {
                     firstName: data.firstName,
                     lastName: data.lastName,
-                    email: data.email,
                     phoneNumber: data.phoneNumber,
                     address1: data.addressLine1,
                     address2: data.addressLine2,
@@ -136,10 +140,10 @@ function createOrderService(data, userId) {
                     reference_id: `${newOrder.id}`,
                     description: `Payment for ${newOrder.orderid}`,
                     customer: {
-                        name: `{${updateduser === null || updateduser === void 0 ? void 0 : updateduser.firstName} ${updateduser === null || updateduser === void 0 ? void 0 : updateduser.lastName}}`,
-                        contact: `{${updateduser === null || updateduser === void 0 ? void 0 : updateduser.phoneNumber}}`,
-                        email: `khushigarg.64901@gmail.com`,
-                        // email: `{${updateduser?.email}}`,
+                        name: `{${shippingAddress === null || shippingAddress === void 0 ? void 0 : shippingAddress.userName}}`,
+                        contact: `{${shippingAddress === null || shippingAddress === void 0 ? void 0 : shippingAddress.phoneNumber}}`,
+                        // email: `khushigarg.64901@gmail.com`,
+                        email: `{${userdetails === null || userdetails === void 0 ? void 0 : userdetails.email}}`,
                     },
                     // customer: {
                     //   name: `{${updateduser?.firstName} ${updateduser?.lastName}}`,
@@ -594,7 +598,7 @@ exports.razorPayWebhookService = razorPayWebhookService;
 function uploadOrderMediaService(data) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { orderId, images } = data;
+            const { orderId, image } = data;
             const parsedOrderId = typeof orderId === "string" ? parseInt(orderId, 10) : orderId;
             if (isNaN(parsedOrderId)) {
                 throw new errors_1.ApiBadRequestError("Invalid order ID");
@@ -605,26 +609,21 @@ function uploadOrderMediaService(data) {
             if (!existingOrder) {
                 throw new errors_1.ApiBadRequestError("Order not found");
             }
-            let imageUploadPromises = [];
-            if (Array.isArray(images)) {
-                imageUploadPromises = images
-                    .filter((file) => file.mimetype.startsWith("image"))
-                    .map((image) => (0, awsfunction_1.uploadImageToS3)(image));
+            if (!image.mimetype.startsWith("image")) {
+                throw new Error("File is not an image");
             }
-            else if (images && images.mimetype.startsWith("image")) {
-                imageUploadPromises.push((0, awsfunction_1.uploadImageToS3)(images));
+            console.log(image);
+            const result = yield (0, awsfunction_1.uploadImageToS3)(image);
+            console.log(result);
+            if (!result.key) {
+                throw new Error("Failed to upload image to S3");
             }
-            const imageResults = yield Promise.all(imageUploadPromises);
-            const urls = imageResults.map((result) => result === null || result === void 0 ? void 0 : result.key);
-            if (urls.length > 0) {
-                const newImageUrl = urls[0];
-                const updatedOrder = yield prisma.order.update({
-                    where: { id: parsedOrderId },
-                    data: { imageurl: newImageUrl },
-                });
-                return updatedOrder;
-            }
-            throw new Error("No valid image URLs found");
+            // Assuming there's a single image for each order, we will update the existing one
+            const updatedOrder = yield prisma.order.update({
+                where: { id: parsedOrderId },
+                data: { imageurl: result.key },
+            });
+            return updatedOrder;
         }
         catch (error) {
             console.error("Error in uploadOrderMedia:", error);
