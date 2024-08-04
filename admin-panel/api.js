@@ -10,8 +10,8 @@ let urls = {
   development: "https://ayru-project.onrender.com/api/",
 
   // development: "https://7q0xhxzq-8080.inc1.devtunnels.ms/api/",
-  development: "http://[::1]:8080/api/",
-  // production: "https://ayru-project.onrender.com/api/",
+  // development: "http://0.0.0.0:8080/api/",
+  production: "https://ayru-project.onrender.com/api/",
 };
 const api = Axios.create({
   baseURL: urls[process.env.NODE_ENV || "production"],

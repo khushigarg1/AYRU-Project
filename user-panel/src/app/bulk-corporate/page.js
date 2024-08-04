@@ -9,7 +9,7 @@ import { WhatsappIcon } from 'next-share';
 
 const BulkCorporateOrders = () => {
   const whatsappURL = `https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    `Hello,\n\nI would like to inquire about placing a bulk order with AYRU JAIPUR. Could you please provide me with details regarding pricing, minimum order quantities, and any other relevant information?\n\nThank you!`
+    `Hello,\n\nI would like to inquire about placing a bulk order with AYRU JAIPUR. Could you please provide me with details regarding pricing, minimum order quantity, and any other relevant information?\n\nThank you for your assistance.s`
   )}`;
 
   return (
@@ -18,7 +18,7 @@ const BulkCorporateOrders = () => {
         Bulk and Corporate Orders
       </Typography>
       <Typography paragraph>
-        At AYRU JAIPUR, we specialize in providing high-quality hand-block products suitable for bulk and corporate orders. Whether you're looking to place a large order for a special event, corporate gifting, or to stock your retail store, we offer competitive wholesale pricing and reliable service to meet your needs.
+        At AYRU JAIPUR, we specialize in providing high-quality hand-block products. Whether you're looking to place a large order for a special event, corporate gifting, or to stock your retail store, we offer competitive wholesale pricing and reliable service to meet your needs.
       </Typography>
 
       <Typography variant="h5" gutterBottom>
@@ -64,10 +64,10 @@ const BulkCorporateOrders = () => {
       </List>
 
       <Typography variant="h5" gutterBottom>
-        Minimum Order Quantities (MOQ) and Pricing
+        Minimum Order Quantity (MOQ) and Pricing
       </Typography>
       <Typography paragraph>
-        Our minimum order quantities (MOQ) and wholesale prices vary depending on the type and quantity of products you wish to order. We aim to provide flexible solutions to suit different business needs.
+        Our minimum order quantity (MOQ) and wholesale prices vary depending on the type and quantity of products you wish to order. We aim to provide flexible solutions to suit different business needs.
       </Typography>
       <Typography paragraph>
         For detailed information about our MOQs and pricing, please

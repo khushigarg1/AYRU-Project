@@ -54,7 +54,7 @@ export default function ContactUs() {
                 Email
               </Typography>
               <Typography variant="body1" paragraph>
-                <Link href="mailto:ayrujaipur@gmail.com" color="inherit" sx={{ textDecoration: "none" }}>ayrujaipur@gmail.com</Link>
+                <Link href="mailto:ayrujaipur@gmail.com" color="inherit" sx={{ fontWeight: "bold" }}>ayrujaipur@gmail.com</Link>
               </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
