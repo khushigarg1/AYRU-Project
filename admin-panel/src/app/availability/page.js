@@ -52,13 +52,13 @@ const OrderPage = () => {
 
   const columns = isMobile
     ? [
-      { field: "id", headerName: "ID", width: 80 },
-      { field: "inventoryid", headerName: "Inventory ID", width: 100 },
-      { field: "userId", headerName: "User ID", width: 80 },
+      { field: "id", headerName: "ID", width: 100 },
+      { field: "inventoryid", headerName: "Inventory ID", width: 150 },
+      { field: "userId", headerName: "User ID", width: 130 },
       {
         field: "status",
         headerName: "Status",
-        width: 100,
+        width: 120,
         renderCell: (params) => {
           let color;
           switch (params.value) {
@@ -102,8 +102,8 @@ const OrderPage = () => {
     ]
     : [
       { field: "id", headerName: "ID", width: 80 },
-      { field: "inventoryid", headerName: "Inventory ID", width: 100 },
-      { field: "userId", headerName: "User ID", width: 80 },
+      { field: "inventoryid", headerName: "Inventory ID", width: 150 },
+      { field: "userId", headerName: "User ID", width: 150 },
       {
         field: "status",
         headerName: "Status",
