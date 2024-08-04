@@ -77,11 +77,11 @@ const CartPage = () => {
 
     let message = '';
     if (outOfStockItems.length > 0 && quantityIssues) {
-      message = "Some items in your cart are out of stock and/or have quantity issues.";
+      message = "Some items in your cart are out of stock and have quantity issues; Please adjust";
     } else if (outOfStockItems.length > 0) {
       message = "Some items in your cart are out of stock.";
     } else if (quantityIssues) {
-      message = "Some items in your cart have quantity issues.";
+      message = "Desired quantity for an item in your cart is unavailable; please adjust.";
     }
 
     if (message) {
@@ -279,7 +279,7 @@ const CartPage = () => {
           message={snackbarMessage}
         >
           <SnackbarContent style={{
-            backgroundColor: theme.palette.background.primary,
+            backgroundColor: "red",
             color: "black"
           }}
             message={snackbarMessage}

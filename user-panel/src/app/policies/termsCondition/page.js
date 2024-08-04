@@ -15,18 +15,6 @@ export default function TermsAndConditions() {
         <Typography paragraph>
           Welcome to AYRU JAIPUR. These terms and conditions outline the rules and regulations for the use of our website.
         </Typography>
-        <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
-          Contact Information
-        </Typography>
-        <Typography paragraph>
-          If you have any questions about these Terms and Conditions, please contact us at:
-          <br />
-          WhatsApp: +91-9785852222
-          <br />
-          Email: ayrujaipur@gmail.com
-          <br />
-          Address: Prangan, 302012, Jaipur, Rajasthan, INDIA
-        </Typography>
         {/*         <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           Effective Date
         </Typography>
@@ -58,6 +46,19 @@ export default function TermsAndConditions() {
         </Typography>
         <Typography paragraph>
           By accessing this website, we assume you accept these terms and conditions. Do not continue to use AYRU JAIPUR if you do not agree to all of the terms and conditions stated on this page.
+        </Typography>
+
+        <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
+          Contact Information
+        </Typography>
+        <Typography paragraph>
+          If you have any questions about these Terms and Conditions, please contact us at:
+          <br />
+          WhatsApp: +91-9785852222
+          <br />
+          Email: ayrujaipur@gmail.com
+          <br />
+          Address: Prangan, 302012, Jaipur, Rajasthan, INDIA
         </Typography>
       </Container>
     </>
