@@ -9,7 +9,7 @@ export default function TermsAndConditions() {
         <meta name="description" content="Terms and Conditions of AYRU JAIPUR website" />
       </Head>
       <Container>
-        <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder" }}>
+        <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder", fontSize: "33px" }}>
           Terms and Conditions
         </Typography>
         <Typography paragraph>

@@ -17,7 +17,7 @@ Could you please provide me with the details regarding the process, any addition
         <meta name="description" content="Shipping and Delivery Policy of our website" />
       </Head>
       <Container>
-        <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder" }}>
+        <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder", fontSize: "33px" }} mt={1} mb={1}>
           Shipping and Delivery Policy
         </Typography>
         <Typography paragraph>
@@ -39,7 +39,7 @@ Could you please provide me with the details regarding the process, any addition
           International Shipping
         </Typography>
         <Typography paragraph>
-          The cost of international shipping is borne by the client.
+          International orders are accepted via WhatsApp only. The cost of international shipping is borne by the client.
         </Typography>
         <Typography variant="h5" component="h2">
           Order Processing

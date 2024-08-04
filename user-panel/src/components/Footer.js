@@ -31,11 +31,8 @@ const Footer = () => {
             <Grid container spacing={3}>
               {/* Footer Column 1 */}
               <Grid item xs={12} sm={6} md={3}>
-                <Box display="flex" alignItems="center" justifyContent="space-between">
-                  <Typography variant="h6">Company Name</Typography>
-                </Box>
-                <Typography variant="body1" mt={1}>
-                  A brief description of the company.
+                <Typography variant="h6" gutterBottom>
+                  <Link href="/orders">My Order</Link>
                 </Typography>
               </Grid>
 
@@ -78,7 +75,7 @@ const Footer = () => {
               </Grid>
 
               {/* Footer Column 4 */}
-              <Grid item xs={12} sm={6} md={3}>
+              {/* <Grid item xs={12} sm={6} md={3}>
                 <Box display="flex" alignItems="center" justifyContent="space-between">
                   <Typography variant="h6">Contact Info</Typography>
                   <IconButton onClick={() => handleExpandClick('panel4')}>
@@ -87,11 +84,26 @@ const Footer = () => {
                 </Box>
                 {expanded['panel4'] && (
                   <>
-                    <Typography variant="body1" mt={1}>Address: 123 Street, City, Country</Typography>
-                    <Typography variant="body1">Email: info@example.com</Typography>
-                    <Typography variant="body1">Phone: +1234567890</Typography>
+                    <Typography variant="body1" mt={1}>Address: Prangan, Jaipur, Rajasthan-302012 , INDIA </Typography>
+                    <Typography variant="body1">Email: ayrujaipur@gmail.com</Typography>
+                    <Typography variant="body1">Phone: +91-9785852222</Typography>
                   </>
                 )}
+              </Grid> */}
+
+              <Grid item xs={12} md={3}>
+                <Typography variant="h6" gutterBottom>
+                  Contact Info
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  Address: Prangan, Jaipur, Rajasthan-302012 , INDIA
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  Email: ayrujaipur@gmail.com
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  Phone: +91-9785852222
+                </Typography>
               </Grid>
 
               {/* Follow Us Section */}
@@ -118,11 +130,18 @@ const Footer = () => {
               {/* Footer Column 1 */}
               <Grid item xs={12} sm={6} md={3}>
                 <Typography variant="h6" gutterBottom>
-                  Company Name
+                  <Link href="/orders">My Order</Link>
                 </Typography>
-                <Typography variant="body1" gutterBottom>
-                  A brief description of the company.
+
+                <Typography variant="h6" gutterBottom>
+                  Follow Us
                 </Typography>
+                <IconButton aria-label="Facebook" color="inherit">
+                  <Facebook />
+                </IconButton>
+                <IconButton aria-label="Instagram" color="inherit">
+                  <Instagram />
+                </IconButton>
               </Grid>
 
               {/* Footer Column 2 */}
@@ -174,28 +193,17 @@ const Footer = () => {
                   Contact Info
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                  Address: 123 Street, City, Country
+                  Address: Prangan, Jaipur, Rajasthan-302012 , INDIA
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                  Email: info@example.com
+                  Email: ayrujaipur@gmail.com
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                  Phone: +1234567890
+                  Phone: +91-9785852222
                 </Typography>
               </Grid>
             </Grid>
 
-            <Grid item xs={12} md={3}>
-              <Typography variant="h6" gutterBottom>
-                Follow Us
-              </Typography>
-              <IconButton aria-label="Facebook" color="inherit">
-                <Facebook />
-              </IconButton>
-              <IconButton aria-label="Instagram" color="inherit">
-                <Instagram />
-              </IconButton>
-            </Grid>
           </Container>
         )
       }

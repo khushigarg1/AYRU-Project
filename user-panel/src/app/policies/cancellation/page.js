@@ -13,7 +13,7 @@ export default function CancellationAndRefundPolicy() {
         <meta name="description" content="Cancellation and Refund Policy of our website" />
       </Head>
       <Container>
-        <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder" }}>
+        <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder", fontSize: "33px" }}>
           Cancellation and Refund Policy
         </Typography>
         <Typography paragraph>

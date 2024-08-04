@@ -13,7 +13,7 @@ export default function ReturnAndExchangePolicy() {
         <meta name="description" content="Return and Exchange Policy of our website" />
       </Head>
       <Container>
-        <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder" }}>
+        <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder", fontSize: "33px" }}>
           Return and Exchange Policy
         </Typography>
         <Typography paragraph>
@@ -93,7 +93,7 @@ export default function ReturnAndExchangePolicy() {
           Additional Information
         </Typography>
         <Typography paragraph>
-          <strong>1. Further Questions:</strong> For any further questions or concerns regarding our return and refund policy, please reach out to us.
+          <strong>1. Further Questions:</strong> For any further questions or concerns regarding our return and refund policy, Please contact us on whatsapp.
           {/* {' '}
           <Button
             aria-label="Chat on WhatsApp"

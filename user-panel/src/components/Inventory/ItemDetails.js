@@ -228,7 +228,7 @@ const ItemDetails = ({ product, queryParams }) => {
       const cartData = {
         inventoryId: product.id,
         // userId: user?.id,
-        quantity: quantity || 1,
+        quantity: displayQuantity || 1,
         flatId: selectedFlatItem || null,
         fittedId: selectedFittedItem || null,
         customId: selectedCustomFittedItem || null,
