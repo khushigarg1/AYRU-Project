@@ -120,8 +120,8 @@ const CartPage = () => {
     return itemDetails;
   }).join('\n');
   const userDetails = `\n\nMy Details are here:\n` +
-    `${cartItems[0]?.User?.firstName || cartItems[0]?.User?.lastName ? `Name: ${cartItems[0]?.User.firstName || ''} ${cartItems[0]?.User.lastName || ''}\n` : ''}` +
-    `${cartItems[0]?.User?.email ? `Email: ${cartItems[0]?.User.email}\n` : ''}` +
+    `${cartItems[0]?.User?.firstName || cartItems[0]?.User?.lastName ? `Name: ${[cartItems[0]?.User?.firstName, cartItems[0]?.User?.lastName].filter(Boolean).join(' ')}\n` : ''}`
+      `${cartItems[0]?.User?.email ? `Email: ${cartItems[0]?.User.email}\n` : ''}` +
     `${cartItems[0]?.User?.phoneNumber ? `Phone Number: ${cartItems[0]?.User.phoneNumber}\n` : ''}` +
     `${cartItems[0]?.User?.address1 || cartItems[0]?.User?.address2 || cartItems[0]?.User?.city || cartItems[0]?.User?.state || cartItems[0]?.User?.zip ? `Address: ${[cartItems[0]?.User.address1, cartItems[0]?.User.address2, cartItems[0]?.User.city, cartItems[0]?.User.state, cartItems[0]?.User.pincode].filter(Boolean).join(', ')}\n` : ''}` +
     `${cartItems[0]?.User?.country ? `Country: ${cartItems[0]?.User.country}\n` : ''}`;

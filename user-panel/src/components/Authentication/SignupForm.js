@@ -61,7 +61,7 @@ const SignUpForm = ({ switchToLogin }) => {
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column', backgroundColor: theme.palette.background.paper }}>
-      <Typography variant="h5" sx={{ mb: 2 }}>Ayru Jaipur</Typography>
+      <Typography variant="h5" sx={{ mb: 2 }}>AYRU JAIPUR</Typography>
       <Paper sx={{ maxWidth: 400, mx: 'auto', p: 3, boxShadow: 3 }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Avatar variant="circular" sx={{ bgcolor: 'white', alignSelf: 'center' }}>

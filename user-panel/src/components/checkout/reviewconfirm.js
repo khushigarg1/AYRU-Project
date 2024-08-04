@@ -215,7 +215,7 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
           <Divider />
           <AccordionDetails style={{ paddingTop: "0px" }}>
             <ShippingDetailsBox>
-              <Typography variant="subtitle1">{orderData?.firstName} {orderData?.user?.lastName}</Typography>
+              <Typography variant="subtitle1">{`${orderData?.firstName} ${orderData?.lastName}`}</Typography>
               <Typography variant="body1">{orderData?.addressLine1}</Typography>
               <Typography variant="body1">{orderData?.addressLine2}</Typography>
               <Typography variant="body1">{orderData?.city}, {orderData?.state}</Typography>

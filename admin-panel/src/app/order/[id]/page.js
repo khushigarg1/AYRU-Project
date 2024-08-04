@@ -437,7 +437,7 @@ const OrderAccordion = ({ params }) => {
                 </Grid>
                 <Grid item xs={5}>
                   <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }} mb={0}>Sold By</Typography>
-                  <Typography variant="body2">Ayru Jaipur</Typography>
+                  <Typography variant="body2">AYRU JAIPUR</Typography>
                   <Typography variant="body2">Prangan, 302012 Jaipur, Rajasthan, INDIA</Typography>
                   <Typography variant="body2">Contact Number: +91-97858 52222</Typography>
                   {/* <Typography variant="body2">Email: ayrujaipur@gmail.com</Typography>
@@ -555,7 +555,7 @@ const OrderAccordion = ({ params }) => {
                       <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>Sold By</Typography>
                       <Grid container spacing={2} ml={0.6} mt={0.1}>
                         <Grid xs={6}>
-                          <Typography variant="body2">Ayru Jaipur</Typography>
+                          <Typography variant="body2">AYRU JAIPUR</Typography>
                           <Typography variant="body2" >www.ayrujaipur.in</Typography>
                         </Grid>
                         <Grid xs={6}>

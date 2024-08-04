@@ -85,7 +85,7 @@ Here are my order details:
       {/* <Typography variant="h4" gutterBottom>Order Details</Typography> */}
       {order && (
         <>
-          <Typography variant="h6" gutterBottom mt={2} sx={{ fontWeight: "bolder" }}>Order Details</Typography>
+          <Typography variant="h6" gutterBottom mt={2} sx={{ fontWeight: "bolder" }}>Order Details ({`${order?.shippingAddress?.userName}`})</Typography>
           <Card sx={{
             position: 'relative',
             display: 'flex',

@@ -247,7 +247,6 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
             imageUrl={`https://ayrujaipur.s3.amazonaws.com/${itemlist?.Media[0]?.url}`}
             title={itemlist.productName}
             text={getProductShareText()}
-            // url={`www.ayrujaipur.com`}
             url={`${process.env.NEXT_PUBLIC_BASE_URL}/shop/${itemlist.id}`}
           />
         </IconButton>

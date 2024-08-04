@@ -31,7 +31,7 @@ export async function createOrderService(
     let shippingAddress = await prisma.shippingAddress.create({
       data: {
         userId: userId,
-        userName: data?.firstName + data?.lastName,
+        userName: data?.firstName + " " + data?.lastName,
         addressLine1: data.addressLine1,
         addressLine2: data.addressLine2,
         pincode: data.pincode,

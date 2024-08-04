@@ -98,12 +98,12 @@ export const ProductSlider = ({ products }) => {
                     maxHeight: "100%",
                   }}
                 />
-                <CardContent sx={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
-                  <Typography gutterBottom variant="body1" component="div">
+                <CardContent sx={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "left" }}>
+                  <Typography gutterBottom variant="body1" component="div" sx={{ lineHeight: "1.1" }}>
                     {product.productName}
                   </Typography>
                   {product.discountedPrice ? (
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'left', gap: 0.5 }}>
                       <Typography variant="body2">
                         MRP
                       </Typography>

@@ -108,7 +108,7 @@ const ShopPageContent = () => {
     setSelectedSubcategory('');
 
     if (categoryId === '') {
-      setCategoryName('All Categories');
+      setCategoryName('SALE');
       fetchAllInventory();
     } else {
       const selectedCategoryData = categories.find(cat => cat.id === parseInt(categoryId));
@@ -146,7 +146,7 @@ const ShopPageContent = () => {
   };
 
   const fetchAllInventory = () => {
-    setCategoryName('All Categories');
+    setCategoryName('SALE');
     api.get('/inventory/sale')
       .then(response => {
         setInventory(response.data.data);
@@ -293,7 +293,7 @@ const ShopPageContent = () => {
               value={selectedCategory}
               onChange={(e) => handleCategoryChange(e.target.value)}
             >
-              <MenuItem value="">All Categories</MenuItem>
+              <MenuItem value="">ALL</MenuItem>
               {categories.map(category => (
                 <MenuItem key={category.id} value={category.id}>{category.categoryName}</MenuItem>
               ))}
@@ -406,7 +406,7 @@ const ShopPageContent = () => {
                   value={selectedCategory}
                   onChange={(e) => handleCategoryChange(e.target.value)}
                 >
-                  <MenuItem value="">All Categories</MenuItem>
+                  <MenuItem value="">ALL</MenuItem>
                   {categories.map(category => (
                     <MenuItem key={category.id} value={category.id}>
                       {category.categoryName}
