@@ -159,7 +159,7 @@ exports.updateAvailabilityRequest = updateAvailabilityRequest;
 function checkExpiredRequests(request, reply) {
     return __awaiter(this, void 0, void 0, function* () {
         const now = new Date();
-        const fortyTwoHoursAgo = new Date(now.getTime() - 42 * 60 * 60 * 1000);
+        const fortyTwoHoursAgo = new Date(now.getTime() - 48 * 60 * 60 * 1000);
         try {
             const expiredRequests = yield prisma.availabilityRequest.findMany({
                 where: {

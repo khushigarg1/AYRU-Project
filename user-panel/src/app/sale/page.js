@@ -7,7 +7,7 @@ import api from '../../../api';
 import InventoryItem from '@/components/Inventory/InventoryItem';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
-import WebpImage from '../../../public/images/blog1.webp';
+import WebpImage from '../../../public/images/blog7.webp';
 import CloseIcon from '@mui/icons-material/Close';
 
 const CustomBox = styled(Box)(({ theme }) => ({

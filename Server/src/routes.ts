@@ -15,6 +15,7 @@ import WishlistRoutes from "./routes/wishlist.route";
 import CartRoutes from "./routes/cart.route";
 import orderRoutes from "./routes/order.router";
 import { availabilityRoutes } from "./routes/availability.route";
+import DashboardRoutes from "./routes/dashboard.route";
 
 export default function registerRoutes(server: FastifyInstance) {
   server.register(AuthRoutes, { prefix: "/api/auth" });
@@ -30,6 +31,7 @@ export default function registerRoutes(server: FastifyInstance) {
   server.register(colorRoutes, { prefix: "/api/color" });
   server.register(productRoutes, { prefix: "/api/sizechart" });
   server.register(availabilityRoutes, { prefix: "/api/availability" });
+  server.register(DashboardRoutes, { prefix: "/api/dashboard" });
   server.register(customerSideDataRoutes, {
     prefix: "/api/customer-side-data",
   });

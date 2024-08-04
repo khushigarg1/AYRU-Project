@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import api from '../../api';
 import Link from 'next/link';
 import Image from 'next/image';
-import WebpImage from "../../public/images/blog2.webp";
+import WebpImage from "../../public/images/blog8.webp";
 import { useMediaQuery, useTheme } from '@mui/material';
 
 
@@ -87,11 +87,12 @@ export const Note = () => {
 
   return (
     <MainContainer>
-      <Image src={WebpImage} alt="Left Image" width={75} height={40} style={{ position: 'absolute', left: '-8px', top: isMobile ? "75%" : "70%", transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto', opacity: "1" }} />
+      <Image src={WebpImage} alt="Left Image" width={100} height={45} style={{ position: 'absolute', left: '-8px', top: isMobile ? "75%" : "70%", transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto', opacity: "1" }} />
       <NoteContainer>
         {notetext || "Loading..."}
+        Welcome to AYRU JAIPUR. We specialize in authentic Jaipur handblock print beddings, blending heritage with modern design. Crafted from premium cotton for comfort and durability, each piece is handcrafted by skilled artisans with rich colors and exceptional finishes. Our commitment to quality and sustainability ensures that you experience excellence in every product.
       </NoteContainer>
-      <Image src={WebpImage} alt="Right Image" width={75} height={40} style={{ position: 'absolute', right: '-8px', top: isMobile ? "75%" : "70%", transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto', opacity: "1" }} />
+      <Image src={WebpImage} alt="Right Image" width={100} height={45} style={{ position: 'absolute', right: '-8px', top: isMobile ? "75%" : "70%", transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto', opacity: "1" }} />
     </MainContainer>
   );
 };

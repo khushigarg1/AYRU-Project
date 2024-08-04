@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography, useTheme, Grid, Paper, useMediaQuery } from '@mui/material';
 import QualityImage from "../../public/images/quality.png";
 import Image from 'next/image';
-import WebpImage from "../../public/images/blog1.webp";
+import WebpImage from "../../public/images/blog4.webp";
 
 
 export const Quality = () => {
