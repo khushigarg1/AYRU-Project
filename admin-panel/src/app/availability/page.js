@@ -175,7 +175,7 @@ const OrderPage = () => {
   return (
     <Container disableGutters maxWidth="fixed">
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-        <Typography variant="h5">Order Management</Typography>
+        <Typography variant="h5">Availability Management</Typography>
       </Box>
       <Box sx={{ height: "80vh" }}>
         <ThemeProvider theme={theme}>
