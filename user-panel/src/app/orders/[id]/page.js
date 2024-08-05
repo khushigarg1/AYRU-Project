@@ -226,8 +226,12 @@ Here are my order details:
                       )}
                       <Typography variant="body2"><strong>Courier Name: </strong>{order.couriername}</Typography>
                       <Typography variant="body2">
-                        <strong>Tracking Link: </strong>
-                        <a href={order.trekkinglink} target="_blank" rel="noopener noreferrer">
+                        <strong>Tracking Link: </strong><a
+                          href={order.trekkinglink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: 'blue', textDecoration: 'underline' }}
+                        >
                           {order.trekkinglink}
                         </a>
                       </Typography>
