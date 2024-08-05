@@ -1,13 +1,13 @@
-import api from "../../../api";
+import api from "../../../../api";
 
 export async function GET() {
   try {
-    const response = await api.get('/check-expired');
+    // const response = await api.get('/check-expired');
 
     return new Response(JSON.stringify({
       success: true,
       message: 'Cron job executed successfully',
-      data: response.data,
+      // data: response.data,
     }), {
       status: 200,
       headers: {

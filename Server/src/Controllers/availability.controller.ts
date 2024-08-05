@@ -185,6 +185,7 @@ export async function checkExpiredRequests(
 ) {
   const now = new Date();
   const fortyTwoHoursAgo = new Date(now.getTime() - 48 * 60 * 60 * 1000);
+  console.log(fortyTwoHoursAgo);
 
   try {
     const expiredRequests = await prisma.availabilityRequest.findMany({
