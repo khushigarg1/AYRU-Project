@@ -1,6 +1,6 @@
 "use client";
 import Head from 'next/head';
-import { Button, Container, Typography } from '@mui/material';
+import { Button, Container, Typography, useTheme } from '@mui/material';
 import { WhatsappIcon } from 'next-share';
 
 export default function PrivacyPolicy() {

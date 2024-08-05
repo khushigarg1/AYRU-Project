@@ -1,6 +1,6 @@
 "use client";
 import Head from 'next/head';
-import { Container, Typography } from '@mui/material';
+import { Container, Typography, useTheme } from '@mui/material';
 
 export default function TermsAndConditions() {
   const theme = useTheme();
