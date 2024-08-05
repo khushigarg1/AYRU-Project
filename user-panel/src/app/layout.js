@@ -1,6 +1,6 @@
 // RootLayout.js
 "use client";
-import "@fontsource/cinzel"; // Ensure this package is installed
+// import "@fontsource/bodoni-moda";
 
 import "./globals.css";
 import "@fontsource/roboto/300.css";
@@ -49,7 +49,9 @@ const materialTheme = createTheme({
       contrast: "#fcc73d"
     },
     typography: {
-      fontFamily: "Cinzel, Roboto, sans-serif !important",
+      fontFamily: "Playball, sans-serif",
+      // fontFamily: "Playfair Display, serif",
+
       // fontFamily: "Cinzel, sans-serif",
     },
   },
