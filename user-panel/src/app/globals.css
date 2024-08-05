@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&display=swap");
+
 a {
   color: inherit;
   text-decoration: none;
@@ -9,13 +11,11 @@ a:hover {
   cursor: pointer;
 }
 /* globals.css */
-
-/* Hide scrollbars for all elements */
 body,
 html {
   overflow-x: hidden;
   scrollbar-width: none; /* For Firefox */
-  font-family: Montserrat, sans-serif !important;
+  font-family: "Cinzel", sans-serif !important;
 }
 
 body::-webkit-scrollbar,
@@ -26,8 +26,5 @@ html::-webkit-scrollbar {
 body,
 html,
 .MuiTypography-root {
-  /* font-family: "Playwrite NO", cursive !important; */
-  /* font-family: "EB Garamond", serif !important; */
-  font-family: serif !important;
-  /* font-family: "serif", "Montserrat", sans-serif !important; */
+  font-family: "Cinzel", sans-serif !important;
 }
