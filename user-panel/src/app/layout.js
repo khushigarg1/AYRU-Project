@@ -1,6 +1,6 @@
 // RootLayout.js
 "use client";
-import "@fontsource/cinzel"; // Ensure this package is installed
+// import "@fontsource/cinzel"; // Ensure this package is installed
 
 import "./globals.css";
 import "@fontsource/roboto/300.css";
