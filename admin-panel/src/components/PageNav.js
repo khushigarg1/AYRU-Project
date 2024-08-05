@@ -30,7 +30,7 @@ import { useAuth } from "../contexts/auth";
 import { Avatar, Button, Collapse } from "@mui/material";
 import LoginForm from "./LoginForm";
 import Link from "next/link";
-import { ColorLens, ExpandLess, ExpandMore, HeatPumpRounded, InventoryOutlined, KingBed, NightShelter, PermMediaOutlined, PersonPinCircleOutlined, ShoppingCart } from "@mui/icons-material";
+import { ArrowOutwardRounded, ColorLens, EventAvailableOutlined, ExpandLess, ExpandMore, HeatPumpRounded, InventoryOutlined, KingBed, MoneyOffCsredSharp, NightShelter, PermMediaOutlined, PersonPinCircleOutlined, PhotoSizeSelectActualOutlined, ShoppingCart } from "@mui/icons-material";
 import BedIcon from '@mui/icons-material/Bed';
 import BedRoundedIcon from '@mui/icons-material/BedRounded';
 import AspectRatioIcon from '@mui/icons-material/AspectRatio';
@@ -240,7 +240,7 @@ export default function PageNav({ children }) {
                         justifyContent: "center",
                       }}
                     >
-                      <CategoryIcon />
+                      <EventAvailableOutlined />
                     </ListItemIcon>
                     <ListItemText
                       primary={"Availability"}
@@ -360,7 +360,7 @@ export default function PageNav({ children }) {
                         justifyContent: "center",
                       }}
                     >
-                      <ColorLens />
+                      <PhotoSizeSelectActualOutlined />
                     </ListItemIcon>
                     <ListItemText
                       primary={"SizeChart"}
@@ -578,7 +578,7 @@ export default function PageNav({ children }) {
                             justifyContent: "center",
                           }}
                         >
-                          <FavoriteIcon />
+                          <MoneyOffCsredSharp />
                         </ListItemIcon>
                         <ListItemText
                           primary={"Order"}

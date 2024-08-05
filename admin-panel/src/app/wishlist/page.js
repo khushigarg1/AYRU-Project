@@ -33,18 +33,6 @@ export default function wishlist() {
     { field: "id", headerName: "ID", width: 90 },
     { field: "userId", headerName: "User ID", width: 90 },
     { field: "userName", headerName: "User Name", width: 150 },
-    {
-      field: "image",
-      headerName: "Image",
-      width: 150,
-      renderCell: (params) => (
-        <img
-          src={`https://ayrujaipur.s3.amazonaws.com/${params.row?.Inventory?.Media[0]?.url}` || "/placeholder-image.png"}
-          alt={params.row.productName}
-          style={{ width: "100px", height: "auto", objectFit: "cover" }}
-        />
-      ),
-    },
     { field: "inventoryId", headerName: "Inventory ID", width: 110 },
     {
       field: "skuId", headerName: "SKU", width: 150,
