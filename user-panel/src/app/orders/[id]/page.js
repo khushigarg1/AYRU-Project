@@ -111,6 +111,17 @@ Here are my order details:
           </Card>
           <Divider />
 
+          {order?.status === "success" &&
+
+            <ShippingInfoBox>
+              <Typography variant="body2">
+                <strong>Standard Shipping</strong>
+              </Typography>
+              <Typography variant="body2" style={{ color: theme.palette.primary.contrastText }}>
+                Your order will be dispatched within 2 days. Thank you for your patience! 😊
+              </Typography>
+            </ShippingInfoBox>
+          }
           <Card sx={{
             position: 'relative',
             display: 'flex',
@@ -123,17 +134,6 @@ Here are my order details:
             marginTop: "10px"
           }}>
             <Box mb={2}>
-              {order?.status === "success" &&
-
-                <ShippingInfoBox>
-                  <Typography variant="body2">
-                    <strong>Standard Shipping</strong>
-                  </Typography>
-                  <Typography variant="body2" style={{ color: theme.palette.primary.contrastText }}>
-                    Your order will be dispatched within 2 days. Thank you for your patience! 😊
-                  </Typography>
-                </ShippingInfoBox>
-              }
               <Typography>
                 Note: Need your order urgently? Our Express Shipping service delivers in 2-4 days. Simply click on {" "}
                 <Button
@@ -160,7 +160,7 @@ Here are my order details:
           </Card>
           {/* Tracking Details */}
           {order?.status === "success" ?
-            (!order?.trekkingId1 ? (
+            (order?.trekkingId1 ? (
               <>
                 <Typography variant="h6" gutterBottom mt={2} sx={{ fontWeight: "bolder" }}>Tracking Details</Typography>
                 <Card sx={{
