@@ -321,13 +321,26 @@ const ShopPageContent = () => {
       </Grid >
       <Grid container spacing={3} className="shop-page" style={{ padding: " 3% 2%" }}>
         <Grid container spacing={1} item xs={12}>
-          {inventory.map(item => (
+          {/* {inventory.map(item => (
             item?.productstatus === "PUBLISHED" && (
               <Grid key={item.id} item xs={6} sm={6} md={4} lg={2.4} xl={2}>
                 <InventoryItem item={item} />
               </Grid>
             )
-          ))}
+          ))} */}
+          {inventory.length > 0 ? (
+            inventory.map((item) => (
+              <Grid item xs={12} sm={6} md={4} key={item.id}>
+                <InventoryItem {...item} />
+              </Grid>
+            ))
+          ) : (
+            <Grid item xs={12}>
+              <Typography variant="h6" align="center">
+                Currently, there are no products on sale. Please revisit soon for future updates.
+              </Typography>
+            </Grid>
+          )}
         </Grid>
       </Grid>
 

@@ -135,8 +135,8 @@ export async function createOrderService(
         customer: {
           name: `{${shippingAddress?.userName}}`,
           contact: `{${shippingAddress?.phoneNumber}}`,
+          email: `${userdetails?.email}`,
           // email: `khushigarg.64901@gmail.com`,
-          email: `{${userdetails?.email}}`,
         },
         // customer: {
         //   name: `{${updateduser?.firstName} ${updateduser?.lastName}}`,

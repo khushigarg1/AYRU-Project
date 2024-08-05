@@ -142,8 +142,8 @@ function createOrderService(data, userId) {
                     customer: {
                         name: `{${shippingAddress === null || shippingAddress === void 0 ? void 0 : shippingAddress.userName}}`,
                         contact: `{${shippingAddress === null || shippingAddress === void 0 ? void 0 : shippingAddress.phoneNumber}}`,
+                        email: `${userdetails === null || userdetails === void 0 ? void 0 : userdetails.email}`,
                         // email: `khushigarg.64901@gmail.com`,
-                        email: `{${userdetails === null || userdetails === void 0 ? void 0 : userdetails.email}}`,
                     },
                     // customer: {
                     //   name: `{${updateduser?.firstName} ${updateduser?.lastName}}`,
