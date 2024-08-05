@@ -18,6 +18,7 @@ import Cookies from "js-cookie";
 import api from "@/api";
 import { useMediaQuery } from "@mui/material";
 import ErrorSnackbar from "@/src/components/errorcomp";
+import Link from "next/link";
 
 export default function Cart() {
   const theme = useTheme();
@@ -33,7 +34,14 @@ export default function Cart() {
     { field: "userId", headerName: "User ID", width: 90 },
     { field: "userName", headerName: "User Name", width: 150 },
     { field: "inventoryId", headerName: "Inventory ID", width: 110 },
-    { field: "productName", headerName: "Product Name", width: 150 },
+    {
+      field: "skuId", headerName: "SKU", width: 150,
+      valueGetter: (params) => params.row.Inventory?.skuId || "-",
+    },
+    { field: "productName", headerName: "Product Name", width: 150 }, {
+      field: "categoryName", headerName: "Category Name", width: 250,
+      valueGetter: (params) => params.row.Inventory?.Category?.categoryName || "-",
+    },
     { field: "quantity", headerName: "Quantity", width: 110 },
     { field: "sizeOption", headerName: "Size Option", width: 120 },
     { field: "selectedFlatItem", headerName: "Selected Flat Item", width: 150 },
@@ -103,7 +111,7 @@ export default function Cart() {
     <>
       <Container disableGutters maxWidth="fixed">
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-          <Typography variant="h5">Carts</Typography>
+          <Typography variant="h5">Carts ({carts?.length})</Typography>
           <Button variant="outlined" onClick={toggleRefresh}>
             Refresh
           </Button>
@@ -135,9 +143,26 @@ export default function Cart() {
             <List>
               {Object.entries(selectedCart).map(([key, value]) => (
                 <Typography key={key} variant="body1" gutterBottom>
-                  <strong>{key}:</strong> {value ? value.toString() : "N/A"}
+                  <strong>{key}:</strong> {value ? value.toString() : "-"}
                 </Typography>
               ))}
+              {selectedCart.Inventory && (
+                <ListItem>
+                  <ListItemText
+                    primary={
+                      <Typography variant="body1">
+                        <strong>Inventory Page:</strong>{" "}
+                        <Link href={`/inventory/${selectedCart.Inventory.id}`} passHref>
+                          <Typography component="a" sx={{ color: theme.palette.primary.main, textDecoration: "underline" }}>
+                            View Inventory
+                          </Typography>
+                        </Link>
+
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              )}
             </List>
           )}
           <Button variant="contained" onClick={handleCloseModal}>
