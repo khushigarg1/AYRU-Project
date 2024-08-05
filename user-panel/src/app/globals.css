@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&display=swap");
 
 a {
   color: inherit;
@@ -10,21 +10,22 @@ a:hover {
   text-decoration: none;
   cursor: pointer;
 }
-
+/* globals.css */
 body,
 html {
   overflow-x: hidden;
-  scrollbar-width: none;
-  font-family: "Playfair Display", serif !important;
+  scrollbar-width: none; /* For Firefox */
+  font-family: "Cinzel", sans-serif !important;
 }
 
 body::-webkit-scrollbar,
 html::-webkit-scrollbar {
-  display: none;
+  display: none; /* For Chrome, Safari, and Opera */
 }
 
 body,
 html,
 .MuiTypography-root {
-  font-family: "Playfair Display", serif !important;
+  font-family: "Cinzel", sans-serif !important;
+  text-transform: lowercase;
 }

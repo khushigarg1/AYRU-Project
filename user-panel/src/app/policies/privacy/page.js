@@ -5,13 +5,15 @@ import { WhatsappIcon } from 'next-share';
 
 export default function PrivacyPolicy() {
   // const whatsappMessage = "";
+  const theme = useTheme();
+
   return (
     <>
       <Head>
         <title>Privacy Policy</title>
         <meta name="description" content="Privacy Policy of AYRU JAIPUR website" />
       </Head>
-      <Container>
+      <Container sx={{ fontFamily: theme.palette.typography.fontFamily2 }}>
         <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder", fontSize: "33px" }}>
           Privacy Policy
         </Typography>

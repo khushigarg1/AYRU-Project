@@ -1,11 +1,12 @@
 "use client";
 import Head from 'next/head';
-import { Container, Typography, Button } from '@mui/material';
+import { Container, Typography, Button, useTheme } from '@mui/material';
 import { WhatsappIcon } from 'next-share';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function ShippingPolicy() {
+  const theme = useTheme();
   const whatsappMessage = `Hi, I am interested in your Express shipping service.
 
 Could you please provide me with the details regarding the process, any additional cost, and the estimated delivery time?`;
@@ -16,7 +17,7 @@ Could you please provide me with the details regarding the process, any addition
         <title>Shipping and Delivery Policy</title>
         <meta name="description" content="Shipping and Delivery Policy of our website" />
       </Head>
-      <Container>
+      <Container sx={{ fontFamily: theme.palette.typography.fontFamily2 }}>
         <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           Shipping and Delivery Policy
         </Typography>

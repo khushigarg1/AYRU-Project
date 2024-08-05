@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Head from 'next/head';
 import { Button, Container, Typography, useTheme } from '@mui/material';
 import { WhatsappIcon } from 'next-share';
@@ -12,7 +12,7 @@ export default function CancellationAndRefundPolicy() {
         <title>Cancellation and Refund Policy</title>
         <meta name="description" content="Cancellation and Refund Policy of our website" />
       </Head>
-      <Container>
+      <Container sx={{ fontFamily: theme.palette.typography.fontFamily2 }}>
         <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder", fontSize: "33px" }}>
           Cancellation and Refund Policy
         </Typography>

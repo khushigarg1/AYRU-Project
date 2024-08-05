@@ -1,6 +1,6 @@
-"use client"
+"use client";
 import React from 'react';
-import { Typography, Container, Box, List, ListItem, ListItemIcon, ListItemText, Button } from '@mui/material';
+import { Typography, Container, Box, List, ListItem, ListItemIcon, ListItemText, Button, useTheme } from '@mui/material';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -8,12 +8,14 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import { WhatsappIcon } from 'next-share';
 
 const BulkCorporateOrders = () => {
+  const theme = useTheme();
+
   const whatsappURL = `https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(
     `Hello,\n\nI would like to inquire about placing a bulk order with AYRU JAIPUR. Could you please provide me with details regarding pricing, minimum order quantity, and any other relevant information?\n\nThank you for your assistance.s`
   )}`;
 
   return (
-    <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
+    <Container maxWidth="md" sx={{ mt: 4, mb: 4, fontFamily: theme.palette.typography.fontFamily2 }}>
       <Typography variant="h4" gutterBottom>
         Bulk and Corporate Orders
       </Typography>

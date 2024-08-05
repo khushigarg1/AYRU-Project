@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import Image from 'next/image';
-import { Box, Typography, Container } from '@mui/material';
+import { Box, Typography, Container, useTheme } from '@mui/material';
 import { styled } from '@mui/system';
 import First from "../../../public/images/about/first.JPG";
 import Second from "../../../public/images/about/second.JPG";
@@ -18,8 +18,9 @@ import Fifth from "../../../public/images/about/fifth.JPG";
 // });
 
 const AboutUs = () => {
+  const theme = useTheme();
   return (
-    <Container maxWidth="md" style={{ padding: '24px' }}>
+    <Container maxWidth="md" style={{ padding: '24px' }} sx={{ fontFamily: theme.palette.typography.fontFamily2 }}>
       <Box style={{ textAlign: 'center', marginBottom: '24px' }}>
         <Typography variant="h4" gutterBottom>About Us</Typography>
       </Box>

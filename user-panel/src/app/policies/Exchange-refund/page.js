@@ -1,9 +1,10 @@
 "use client";
 import Head from 'next/head';
-import { Button, Container, Typography } from '@mui/material';
+import { Button, Container, Typography, useTheme } from '@mui/material';
 import { WhatsappIcon } from 'next-share';
 
 export default function ReturnAndExchangePolicy() {
+  const theme = useTheme();
 
   // const whatsappMessage = "";
   return (
@@ -12,7 +13,7 @@ export default function ReturnAndExchangePolicy() {
         <title>Return and Exchange Policy</title>
         <meta name="description" content="Return and Exchange Policy of our website" />
       </Head>
-      <Container>
+      <Container sx={{ fontFamily: theme.palette.typography.fontFamily2 }}>
         <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder", fontSize: "33px" }}>
           Return and Exchange Policy
         </Typography>

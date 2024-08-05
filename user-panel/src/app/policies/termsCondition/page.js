@@ -1,14 +1,17 @@
+"use client";
 import Head from 'next/head';
 import { Container, Typography } from '@mui/material';
 
 export default function TermsAndConditions() {
+  const theme = useTheme();
+
   return (
     <>
       <Head>
         <title>Terms and Conditions</title>
         <meta name="description" content="Terms and Conditions of AYRU JAIPUR website" />
       </Head>
-      <Container>
+      <Container sx={{ fontFamily: theme.palette.typography.fontFamily2 }}>
         <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder", fontSize: "33px" }}>
           Terms and Conditions
         </Typography>

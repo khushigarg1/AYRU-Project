@@ -1,5 +1,6 @@
+"use client";
 import React from 'react';
-import { Typography, Container, Box, Button, List, ListItem } from '@mui/material';
+import { Typography, Container, Box, Button, List, ListItem, useTheme } from '@mui/material';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
@@ -14,9 +15,10 @@ const InternationalOrders = () => {
   const whatsappURL = `https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(
     `Hello,\n\nI would like to place an international order with AYRU JAIPUR. Could you please provide me with the details on the ordering process, shipping costs, and delivery times?\n\nThank you for your assistance.`
   )}`;
+  const theme = useTheme();
 
   return (
-    <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
+    <Container maxWidth="md" sx={{ mt: 4, mb: 4, fontFamily: theme.palette.typography.fontFamily2 }}>
       <Typography variant="h4" gutterBottom>
         Worldwide Delivery
       </Typography>
