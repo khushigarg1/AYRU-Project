@@ -49,8 +49,8 @@ const materialTheme = createTheme({
       contrast: "#fcc73d"
     },
     typography: {
-      fontFamily: "Playball, sans-serif",
-      // fontFamily: "Playfair Display, serif",
+      // fontFamily: "Playball, sans-serif",
+      fontFamily: "Playfair Display, serif",
 
       // fontFamily: "Cinzel, sans-serif",
     },
