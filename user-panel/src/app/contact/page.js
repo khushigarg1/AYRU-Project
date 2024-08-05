@@ -14,7 +14,7 @@ export default function ContactUs() {
         <title>Contact Us</title>
         <meta name="description" content="Contact Us page of our website" />
       </Head>
-      <Container maxWidth="md" sx={{ padding: theme.spacing(4), fontFamily: theme.palette.typography.fontFamily2 }}>
+      <Container maxWidth="md" sx={{ padding: theme.spacing(4), }}>
         <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder" }}>
           Contact Us
         </Typography>

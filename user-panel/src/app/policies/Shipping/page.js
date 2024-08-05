@@ -17,7 +17,7 @@ Could you please provide me with the details regarding the process, any addition
         <title>Shipping and Delivery Policy</title>
         <meta name="description" content="Shipping and Delivery Policy of our website" />
       </Head>
-      <Container sx={{ fontFamily: theme.palette.typography.fontFamily2 }}>
+      <Container >
         <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           Shipping and Delivery Policy
         </Typography>

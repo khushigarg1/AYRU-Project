@@ -18,7 +18,7 @@ const InternationalOrders = () => {
   const theme = useTheme();
 
   return (
-    <Container maxWidth="md" sx={{ mt: 4, mb: 4, fontFamily: theme.palette.typography.fontFamily2 }}>
+    <Container maxWidth="md" sx={{ mt: 4, mb: 4, }}>
       <Typography variant="h4" gutterBottom>
         Worldwide Delivery
       </Typography>

@@ -20,7 +20,7 @@ import Fifth from "../../../public/images/about/fifth.JPG";
 const AboutUs = () => {
   const theme = useTheme();
   return (
-    <Container maxWidth="md" style={{ padding: '24px' }} sx={{ fontFamily: theme.palette.typography.fontFamily2 }}>
+    <Container maxWidth="md" style={{ padding: '24px' }} >
       <Box style={{ textAlign: 'center', marginBottom: '24px' }}>
         <Typography variant="h4" gutterBottom>About Us</Typography>
       </Box>

@@ -15,7 +15,8 @@ body,
 html {
   overflow-x: hidden;
   scrollbar-width: none; /* For Firefox */
-  font-family: "Cinzel", sans-serif !important;
+  font-family: "Georgia", sans-serif !important;
+  /* font-family: "Cinzel", sans-serif !important; */
 }
 
 body::-webkit-scrollbar,
@@ -26,6 +27,6 @@ html::-webkit-scrollbar {
 body,
 html,
 .MuiTypography-root {
-  font-family: "Cinzel", sans-serif !important;
-  text-transform: lowercase;
+  font-family: "Georgia", sans-serif !important;
+  /* font-family: "Cinzel", sans-serif !important; */
 }

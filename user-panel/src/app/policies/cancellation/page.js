@@ -12,7 +12,7 @@ export default function CancellationAndRefundPolicy() {
         <title>Cancellation and Refund Policy</title>
         <meta name="description" content="Cancellation and Refund Policy of our website" />
       </Head>
-      <Container sx={{ fontFamily: theme.palette.typography.fontFamily2 }}>
+      <Container >
         <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder", fontSize: "33px" }}>
           Cancellation and Refund Policy
         </Typography>

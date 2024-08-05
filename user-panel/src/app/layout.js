@@ -49,7 +49,8 @@ const materialTheme = createTheme({
       contrast: "#fcc73d"
     },
     typography: {
-      fontFamily: "Cinzel, Roboto, sans-serif !important",
+      fontFamily: "Georgia, Roboto, sans-serif !important",
+      // fontFamily: "Cinzel, Roboto, sans-serif !important",
       fontFamily2: "serif, sans-serif",
     },
   },
@@ -85,6 +86,8 @@ export default function RootLayout({ children }) {
       <head>
         <title>Ayru Jaipur</title>
         <link rel="icon" href="/images/AppIcon.png" type="image/x-icon" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=serif:wght@400;700&display=swap" />
+
       </head>
       <body style={{ width: "100%", padding: "0px", fontFamily: "sans-serif", overflowX: "hidden", marginLeft: 0, marginRight: 0 }}>
         <ThemeProvider theme={{ [THEME_ID]: materialTheme }}>

@@ -56,7 +56,7 @@ const ViewDetailsLink = styled('a')(({ theme }) => ({
   marginTop: '2px',
   textDecoration: 'none',
   color: 'inherit',
-  fontSize: '1rem',
+  fontSize: '0.8rem',
   fontWeight: 'bold',
   borderBottom: '2px solid black',
   paddingBottom: '2px',

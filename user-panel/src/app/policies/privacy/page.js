@@ -13,7 +13,7 @@ export default function PrivacyPolicy() {
         <title>Privacy Policy</title>
         <meta name="description" content="Privacy Policy of AYRU JAIPUR website" />
       </Head>
-      <Container sx={{ fontFamily: theme.palette.typography.fontFamily2 }}>
+      <Container >
         <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder", fontSize: "33px" }}>
           Privacy Policy
         </Typography>
