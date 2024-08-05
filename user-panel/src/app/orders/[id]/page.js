@@ -20,7 +20,7 @@ const ShippingDetailsBox = styled(Paper)(({ theme }) => ({
 const ShippingInfoBox = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
   marginTop: theme.spacing(2),
-  backgroundColor: "#fff",
+  backgroundColor: "#F0F0F0",
   display: 'flex',
   flexDirection: "column",
   gap: theme.spacing(1),
@@ -111,8 +111,7 @@ Here are my order details:
           </Card>
           <Divider />
 
-          {order?.status === "success" &&
-
+          {order?.status === "success" && !order?.trekkingId1 &&
             <ShippingInfoBox>
               <Typography variant="body2">
                 <strong>Standard Shipping</strong>
