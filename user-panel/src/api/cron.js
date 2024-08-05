@@ -14,7 +14,7 @@ export async function GET(request) {
       data: response.data,
     });
   } catch (error) {
-    console.error('Error executing cron job:', error);
+    console.error('Error executing cron job::', error);
 
     return NextResponse.json({
       success: false,
