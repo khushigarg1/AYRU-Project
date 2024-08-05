@@ -8,7 +8,7 @@ export default function Home({ openTab }) {
     </Typography>
   );
 }
-"use client";
+// "use client";
 // import api from "@/api";
 // // import PaymentTable from "@/components/paymentTable";
 // import {

@@ -46,21 +46,7 @@ function getAllDashboardData(request, reply) {
                     const inventory = yield prisma.inventory.findUnique({
                         where: { id: item.inventoryId },
                         include: {
-                            // customFittedInventory: {
-                            //   include: { InventoryFlat: { include: { Flat: true } } },
-                            // },
-                            // InventoryFlat: { include: { Flat: true } },
-                            // InventorySubcategory: { include: { SubCategory: true } },
-                            // InventoryFitted: {
-                            //   include: { Fitted: true },
-                            // },
                             Category: true,
-                            // Wishlist: true,
-                            // ColorVariations: { include: { Color: true } },
-                            // relatedInventories: { include: { Media: true } },
-                            // relatedByInventories: { include: { Media: true } },
-                            // Media: true,
-                            // SizeChartMedia: true,
                         },
                     });
                     return Object.assign(Object.assign({}, item), { inventory });
