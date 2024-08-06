@@ -407,7 +407,7 @@ Thank you so much!`;
                   : (
                     <Typography variant="caption" sx={{
                       fontSize: '1rem',
-                      color: theme.palette.text.contrastText,
+                      color: displayAvailability ? 'green' : 'red',
                       lineHeight: '1',
                       padding: 0,
                       display: 'block',

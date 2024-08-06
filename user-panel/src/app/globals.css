@@ -14,7 +14,7 @@ html {
   overflow-x: hidden;
   scrollbar-width: none;
   font-family: "Neuton" serif !important;
-  font-weight: 700;
+  font-weight: 550;
 }
 
 body::-webkit-scrollbar,
@@ -24,7 +24,12 @@ html::-webkit-scrollbar {
 
 body,
 html,
-.MuiTypography-root {
+.MuiTypography-root,
+button,
+.MuiButton-root,
+.MuiContainer-root,
+.MuiBox-root,
+.MuiLink-root {
   font-family: "Neuton", serif !important;
   font-weight: 550;
 }
