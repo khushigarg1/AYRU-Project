@@ -478,7 +478,7 @@ const OrderAccordion = ({ params }) => {
                 <Paper style={{ padding: '20px', margin: '20px', backgroundColor: "#fff" }} ref={print2Ref}>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                      <div style={{ textAlign: 'center', fontWeight: "bolder" }}>
+                      <div style={{ textAlign: 'center', fontWeight: "bolderx" }}>
                         AYRU JAIPUR - BILL DETAILS
                       </div>
                     </Grid>
