@@ -481,18 +481,6 @@ export class CartService {
       orderBy: { createdAt: "desc" },
     });
 
-    let totalPrice = 0;
-
-    userCart.forEach((cartItem) => {
-      const price: number =
-        cartItem.discountedPrice !== undefined && cartItem.discountedPrice !== 0
-          ? cartItem.discountedPrice ?? 0
-          : cartItem.sellingPrice ?? 0;
-
-      const quantity = cartItem.quantity ?? 1;
-      totalPrice += price * quantity;
-    });
-
     const cartSizeItems = await Promise.all(
       userCart.map(async (cartItem) => {
         let cartSizeItem;
@@ -541,6 +529,19 @@ export class CartService {
         return { ...cartItem, cartSizeItem };
       })
     );
+
+    let totalPrice = 0;
+
+    cartSizeItems.forEach((cartItem) => {
+      const price: number =
+        cartItem?.cartSizeItem?.discountedPrice !== undefined &&
+        cartItem.cartSizeItem?.discountedPrice !== 0
+          ? cartItem?.cartSizeItem?.discountedPrice ?? 0
+          : cartItem?.cartSizeItem?.sellingPrice ?? 0;
+
+      const quantity = cartItem.quantity ?? 1;
+      totalPrice += price * quantity;
+    });
 
     return { userCart: cartSizeItems, totalPrice };
   }
