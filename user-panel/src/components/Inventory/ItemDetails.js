@@ -383,10 +383,10 @@ Thank you so much!`;
               }
 
               <Divider sx={{ borderStyle: "dotted", mb: 2 }} />
-              <Typography variant="body2" gutterBottom>
+              <Typography variant="body1" gutterBottom>
                 <strong>Category:</strong> {product?.Category?.categoryName}
               </Typography>
-              <Typography variant='body2' sx={{ fontSize: '0.8rem', mt: 1 }}>
+              <Typography variant='body2' sx={{ fontSize: '0.9rem', mt: 1 }}>
                 SKU: {product?.skuId}
               </Typography>
               <Divider sx={{ borderStyle: "dotted", mt: 2, mb: 2 }} />
@@ -422,7 +422,7 @@ Thank you so much!`;
               <CustomDropdown data={product} selections={selections} setSelections={setSelections} hasBedsheets={hasBedsheets} />
 
               <Box>
-                <Typography variant="body2" gutterBottom sx={{ fontWeight: "bold" }}>
+                <Typography variant="body1" gutterBottom sx={{ fontWeight: "bold" }}>
                   Quantity:
                 </Typography>
                 <Box
@@ -516,7 +516,7 @@ Thank you so much!`;
                         <Typography gutterBottom variant="h6">
                           International Orders
                         </Typography>
-                        <Typography variant="body2" sx={{ lineHeight: '1', display: "flex", flexDirection: "column", alignItems: "center", paddingBottom: "0px" }}>
+                        <Typography variant="body2" sx={{ lineHeight: '1', display: "flex", flexDirection: "column", alignItems: "center", paddingBottom: "0px", fontsize: "0.8rem" }}>
                           For International Order & Shipping Details, Connect with us for personalized assistance on{' '} <br />
                           <Button
                             aria-label="Chat on WhatsApp"

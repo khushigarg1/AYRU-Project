@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Select, MenuItem, TextField, Typography, Grid } from '@mui/material';
+import { Box, Select, MenuItem, TextField, Typography, Grid, useTheme } from '@mui/material';
 
 const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
   const defaultFlatItem = data.InventoryFlat.length > 0 ? data.InventoryFlat[0].Flat.id : '';
-  console.log(selections);
+  // console.log(selections);
+  const theme = useTheme();
   useEffect(() => {
     setSelections({
       selectedOption: selections?.selectedOption || 'flat',
@@ -84,7 +85,7 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
     <Box>
       {hasBedsheets && (
         <>
-          <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>Select Fit Type:</Typography>
+          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Select Fit Type:</Typography>
           <Select
             value={selections.selectedOption}
             onChange={handleSelectChange}
@@ -122,7 +123,8 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
             displayEmpty
             sx={{
               width: '100%', marginBottom: 1,
-              padding: "0px 0px"
+              padding: "0px 0px",
+              fontFamily: theme.palette.typography.fontFamily
             }}
           >
             <MenuItem value="" disabled>Select Size</MenuItem>
@@ -131,13 +133,14 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                 <Typography
                   component="div"
                   style={{
-                    fontSize: item.Flat.name.length > 20 ? '0.7rem' : '1rem',
+                    fontSize: item.Flat.name.length > 20 ? '0.8rem' : '1rem',
                     maxWidth: '100%',
                     textDecoration: item?.quantity === 0 ? 'line-through' : 'none',
                     // transform: item?.quantity === 0 ? 'rotate(-45deg)' : 'none',
                     transformOrigin: item?.quantity === 0 ? 'center center' : 'none',
                     textDecorationColor: "gray",
-                    color: item?.quantity === 0 ? "gray" : "inherit"
+                    color: item?.quantity === 0 ? "gray" : "inherit",
+                    fontFamily: theme.palette.typography.fontFamily
                   }}
                 >
                   {item.Flat.name} {item?.Flat?.size && item?.Flat?.size}

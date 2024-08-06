@@ -55,7 +55,7 @@ export const InfoComponent = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Box sx={{ padding: 1, marginTop: 1, borderRadius: 2, color: theme.palette.text.primary, display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', overflow: 'hidden', fontFamily: theme.palette.typography.fontFamily }}>
+    <Box sx={{ padding: 1, marginTop: 1, borderRadius: 2, color: theme.palette.text.primary, display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', overflow: 'hidden' }}>
       <Carousel
         autoPlay={true}
         interval={2000}
@@ -65,20 +65,19 @@ export const InfoComponent = () => {
         sx={{
           width: '100%',
           maxWidth: '800px',
-          fontFamily: theme.palette.typography.fontFamily
         }}
       >
         {slides.map((slide, index) => (
-          <Box key={index} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 2, width: '100%', boxSizing: 'border-box', fontFamily: theme.palette.typography.fontFamily }}>
+          <Box key={index} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 2, width: '100%', boxSizing: 'border-box' }}>
             <Grid container alignItems="center" spacing={2}>
               <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'center' }}>
                 {slide.icon}
               </Grid>
-              <Grid item xs={10} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', fontFamily: theme.palette.typography.fontFamily }}>
-                <Typography variant="h6" gutterBottom style={{ marginBottom: "0px" }} sx={{ fontFamily: theme.palette.typography.fontFamily }}>
+              <Grid item xs={10} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <Typography variant="h6" gutterBottom style={{ marginBottom: "0px" }}>
                   {slide.title}
                 </Typography>
-                <Typography variant="body1" sx={{ fontFamily: theme.palette.typography.fontFamily }}>
+                <Typography variant="body1">
                   {slide.description}
                 </Typography>
               </Grid>

@@ -50,9 +50,9 @@ const materialTheme = createTheme({
     },
     typography: {
       // fontFamily: "PT serif !important",
-      // fontFamily: "Neuton !important",
+      fontFamily: "Neuton !important",
       // fontFamily: "Libre Baskerville !important",
-      fontFamily: "Cinzel !important",
+      // fontFamily: "Cinzel !important",
       fontFamily2: "Neuton, serif",
     },
   },
