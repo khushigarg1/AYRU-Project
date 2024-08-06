@@ -133,3 +133,11 @@ a:hover {
   text-decoration: none;
   cursor: pointer;
 }
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Neuton", serif;
+  overflow-x: hidden;
+}

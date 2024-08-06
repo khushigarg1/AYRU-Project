@@ -13,7 +13,7 @@ body,
 html {
   overflow-x: hidden;
   scrollbar-width: none;
-  font-family: "EB Garamond", sans-serif;
+  font-family: "Neuton" serif !important;
   /* font-family: "Cinzel", sans-serif !important; */
 }
 
@@ -25,6 +25,6 @@ html::-webkit-scrollbar {
 body,
 html,
 .MuiTypography-root {
-  font-family: "EB Garamond", sans-serif;
+  font-family: "Neuton", serif !important;
   /* font-family: "Cinzel", sans-serif !important; */
 }
