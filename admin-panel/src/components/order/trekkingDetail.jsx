@@ -9,6 +9,7 @@ import {
   Select,
   MenuItem,
   Button,
+  Autocomplete,
 } from '@mui/material';
 import axios from 'axios';
 import api from '@/api';
@@ -39,9 +40,16 @@ const TrekkingDetails = ({ order, getOrder }) => {
     }
   };
 
-  return (
-    <div>
+  const statusOptions = [
+    { label: 'Pending', value: 'pending' },
+    { label: 'Dispatched', value: 'dispatched' },
+    { label: 'Shipped', value: 'shipped' },
+    { label: 'Delivered', value: 'delivered' },
+  ];
 
+
+  return (
+    <div sx={{ width: "100%" }}>
       {editMode ? (
         <div>
           <TextField
@@ -79,18 +87,38 @@ const TrekkingDetails = ({ order, getOrder }) => {
             fullWidth
             style={{ marginBottom: '10px' }}
           />
-          <FormControl fullWidth style={{ marginBottom: '10px' }}>
+          <FormControl fullWidth style={{ marginBottom: '10px', width: '100%' }}>
+            <Autocomplete
+              value={statusOptions.find(option => option.value === deliveryStatus) || null}
+              onChange={(event, newValue) => setDeliveryStatus(newValue?.value || '')}
+              options={statusOptions}
+              getOptionLabel={(option) => option.label}
+              renderInput={(params) => (
+                <TextField {...params} label="Delivery Status" variant="outlined" />
+              )}
+              sx={{ width: '100%', maxWidth: '100%' }}
+            />
+          </FormControl>
+          {/* <FormControl fullWidth style={{
+            marginBottom: '10px',
+            width: "100%"
+          }}>
             <InputLabel>Delivery Status</InputLabel>
             <Select
               value={deliveryStatus}
               onChange={(e) => setDeliveryStatus(e.target.value)}
+              sx={{
+                width: '100%',
+                maxWidth: '100%', // Ensure it does not exceed the container width
+                boxSizing: 'border-box' // Include padding and border in the element's total width and height
+              }}
             >
               <MenuItem value="pending">Pending</MenuItem>
               <MenuItem value="dispatched">Dispatched</MenuItem>
               <MenuItem value="shipped">Shipped</MenuItem>
               <MenuItem value="delivered">Delivered</MenuItem>
             </Select>
-          </FormControl>
+          </FormControl> */}
           <Button
             variant="contained"
             color="primary"

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { Box, Grid, Typography, Card, CardActionArea, CardContent, CardMedia, Button, useTheme, IconButton, useMediaQuery, Snackbar, Divider, Chip, SnackbarContent, Modal, Tooltip, TextField } from '@mui/material';
+import { Box, Grid, Typography, Card, CardActionArea, CardContent, CardMedia, Button, useTheme, IconButton, useMediaQuery, Snackbar, Divider, Chip, SnackbarContent, Modal, Tooltip, TextField, Popover, Alert } from '@mui/material';
 import api from '../../../api';
 import { useAuth } from '@/contexts/auth';
 import { useRouter } from 'next/navigation';
@@ -111,24 +111,178 @@ export const CartItem = ({ item, fetchCartStatus }) => {
 
     router.push(`/shop/${item?.Inventory?.id}?${params.toString()}`);
   };
-  let quantity = 5
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const handleButtonClick = (action, event) => {
+    if (action === 'decrement' && displayQuantity <= (displayMinQuantity || 1)) {
+      setSnackbarMessage('Minimum quantity reached');
+      setSnackbarOpen(true);
+      handleOpenPopover(event)
+    } else if (action === 'increment' && displayQuantity >= (displayMaxQuantity || Infinity)) {
+      setSnackbarMessage('Maximum quantity reached');
+      setSnackbarOpen(true);
+      handleOpenPopover(event)
+    } else {
+      action === 'decrement' ? handleDecrement() : handleIncrement();
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
+  const [timeoutId, setTimeoutId] = useState(null);
+
+  const handleOpenPopover = (event) => {
+    setAnchorEl(event.currentTarget);
+
+    // Clear any existing timeout
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    // Set a new timeout to close the popover
+    const id = setTimeout(() => {
+      setAnchorEl(null);
+    }, 3000); // Timeout duration in milliseconds (e.g., 3000ms = 3 seconds)
+
+    setTimeoutId(id);
+  };
+
+  const handleClosePopover = () => {
+    setAnchorEl(null);
+
+    // Clear timeout if the popover is manually closed
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+  };
+
+  // Clear timeout when component unmounts
+  useEffect(() => {
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [timeoutId]);
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'quantity-popover' : undefined;
+
   return (
     <>
-      <Grid item key={item.id} xs={12} sm={12} md={12} lg={12} sx={{
-        height: "auto", marginBottom: "5px",
-        position: 'relative',
-      }}>
-        <Card sx={{
+      <Grid item key={item.id} xs={12} sm={12} md={12} lg={12}
+        sx={{
+          height: "auto", marginBottom: "5px",
           position: 'relative',
-          display: 'flex', flexDirection: 'row', height: '100%', cursor: "pointer",
-          backgroundColor: "white",
-          maxHeight: "100%",
-          padding: "15px 5px",
-          boxShadow: "none",
-          border: item?.quantity > (item?.cartSizeItem?.quantity) || item?.quantity < (item?.cartSizeItem?.minQuantity) ? '1px solid red' : 'none',
         }}
+
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+      >
+        <Card
+          sx={{
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'row',
+            height: '100%',
+            cursor: "pointer",
+            backgroundColor: "white",
+            maxHeight: "100%",
+            padding: "15px 5px",
+            boxShadow: "none",
+            border: item?.quantity > (item?.cartSizeItem?.quantity) || item?.quantity < (item?.cartSizeItem?.minQuantity) ? '1px solid red' : 'none',
+            outline: "none",
+            '&:focus': {
+              outline: 'none',
+              boxShadow: 'none',
+              backgroundColor: 'white',
+            },
+            '&:active': {
+              outline: 'none !important',
+              boxShadow: 'none !important',
+              backgroundColor: 'white',
+            },
+            '&:hover': {
+              outline: 'none',
+              boxShadow: 'none',
+              backgroundColor: 'white',
+            },
+            '&:visited': {
+              outline: 'none',
+              boxShadow: 'none',
+              backgroundColor: 'white',
+            },
+            '&::before': {
+              outline: 'none',
+              boxShadow: 'none',
+              backgroundColor: 'white',
+            },
+            '&::after': {
+              outline: 'none',
+              boxShadow: 'none',
+              backgroundColor: 'white',
+            },
+            '&:focus-visible': {
+              outline: 'none !important',
+              boxShadow: 'none !important',
+              backgroundColor: 'white',
+            }
+          }}
+
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
         >
-          <Box sx={{ position: 'relative' }}>
+          <Box
+            sx={{
+              position: 'relative',
+              '&:focus': {
+                outline: 'none',
+                boxShadow: 'none',
+                backgroundColor: 'white',
+              },
+              '&:active': {
+                outline: 'none !important',
+                boxShadow: 'none !important',
+                backgroundColor: 'white',
+              },
+              '&:hover': {
+                outline: 'none',
+                boxShadow: 'none',
+                backgroundColor: 'white',
+              },
+              '&:visited': {
+                outline: 'none',
+                boxShadow: 'none',
+                backgroundColor: 'white',
+              },
+              '&::before': {
+                outline: 'none',
+                boxShadow: 'none',
+                backgroundColor: 'white',
+              },
+              '&::after': {
+                outline: 'none',
+                boxShadow: 'none',
+                backgroundColor: 'white',
+              },
+              '&:focus-visible': {
+                outline: 'none !important',
+                boxShadow: 'none !important',
+                backgroundColor: 'white',
+              }
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+          >
             <Chip
               label={
                 <div style={{ textAlign: 'center' }}>
@@ -152,6 +306,7 @@ export const CartItem = ({ item, fetchCartStatus }) => {
                 height: '18px',
                 width: '18px',
                 borderRadius: '50%',
+                boxShadow: 'none',
                 fontSize: '1px',
                 fontWeight: 'bold',
               }}
@@ -174,7 +329,16 @@ export const CartItem = ({ item, fetchCartStatus }) => {
               }}
             />
           </Box>
-          <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" }, paddingTop: "0px" }}>
+          <CardContent sx={{
+            flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" }, paddingTop: "0px", '&:focus': {
+              outline: 'none',
+              boxShadow: 'none',
+              backgroundColor: 'inherit', // Ensure background color remains white
+            },
+            '&:active': {
+              backgroundColor: 'inherit',
+            }
+          }}>
             <Typography variant="body1" gutterBottom sx={{ lineHeight: "1.1", fontWeight: "bolder" }}>
               {item?.Inventory?.productName}
             </Typography>
@@ -235,24 +399,33 @@ export const CartItem = ({ item, fetchCartStatus }) => {
                 alignItems: 'center',
                 border: '1px solid rgba(0, 0, 0, 0.12)',
                 borderRadius: '4px',
-                padding: '0px',
+                padding: '2px',
                 gap: 1,
-                width: '150px',
+                width: '120px',
+                '&:focus': {
+                  outline: 'none',
+                  boxShadow: 'none',
+                  backgroundColor: 'inherit',
+                },
+                '&:active': {
+                  backgroundColor: 'inherit',
+                }
+
               }}
               mt={1}
             >
-              <Tooltip title={displayQuantity <= (displayMinQuantity || 1) ? 'Minimum quantity reached' : ''}>
-                <span>
-                  <IconButton
-                    onClick={handleDecrement}
-                    disabled={displayQuantity <= (displayMinQuantity || 1)}
-                    size='small'
-                    sx={{ padding: '4px' }}
-                  >
-                    <RemoveSharp fontSize="small" />
-                  </IconButton>
-                </span>
-              </Tooltip>
+              {/* <Tooltip title={displayQuantity <= (displayMinQuantity || 1) ? 'Minimum quantity reached' : ''}> */}
+              <span>
+                <IconButton
+                  onClick={(event) => handleButtonClick('decrement', event)}
+                  // disabled={displayQuantity <= (displayMinQuantity || 1)}
+                  size='small'
+                  sx={{ padding: '4px' }}
+                >
+                  <RemoveSharp fontSize="small" />
+                </IconButton>
+              </span>
+              {/* </Tooltip> */}
               <TextField
                 variant='standard'
                 value={displayQuantity}
@@ -274,19 +447,51 @@ export const CartItem = ({ item, fetchCartStatus }) => {
                   fontSize: '12px',
                 }}
               />
-              <Tooltip title={displayQuantity >= (displayMaxQuantity || Infinity) ? 'Maximum quantity reached' : ''}>
-                <span>
-                  <IconButton
-                    onClick={handleIncrement}
-                    disabled={displayQuantity >= (displayMaxQuantity || Infinity)}
-                    size='small'
-                    sx={{ padding: '4px' }}
-                  >
-                    <AddSharp fontSize="small" />
-                  </IconButton>
-                </span>
-              </Tooltip>
+              {/* <Tooltip title={displayQuantity >= (displayMaxQuantity || Infinity) ? 'Maximum quantity reached' : ''}> */}
+              <span>
+                <IconButton
+                  onClick={(event) => handleButtonClick('increment', event)}
+                  // disabled={displayQuantity >= (displayMaxQuantity || Infinity)}
+                  size='small'
+                  sx={{ padding: '4px' }}
+                >
+                  <AddSharp fontSize="small" />
+                </IconButton>
+              </span>
+              {/* </Tooltip> */}
+              <Popover
+                id={id}
+                open={Boolean(anchorEl)}
+                anchorEl={anchorEl}
+                onClose={handleClosePopover}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'center',
+                }}
+              >
+                <Typography variant='body2' sx={{ fontSize: "12px", p: 1, backgroundColor: "#fa6666", color: "whitesmoke" }}>
+                  {displayQuantity <= (displayMinQuantity || 1)
+                    ? 'Minimum quantity reached!'
+                    : 'Maximum quantity reached!'
+                  }
+                </Typography>
+              </Popover>
+
+              {/* <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleCloseSnackbar}
+              >
+                <Alert onClose={handleCloseSnackbar} severity="warning" sx={{ width: '100%', bottom: "15px" }}>
+                  {snackbarMessage}
+                </Alert>
+              </Snackbar> */}
             </Box>
+
           </CardContent>
 
           <Grid container justifyContent="space-between" alignItems="flex-start" style={{ position: "absolute", bottom: "3px", width: "100%", overflow: "hidden", paddingLeft: "120px", paddingRight: "15px" }}
@@ -312,7 +517,7 @@ export const CartItem = ({ item, fetchCartStatus }) => {
           </IconButton>
         </Card>
 
-      </Grid>
+      </Grid >
 
       <Modal open={modalOpen} onClose={handleCloseModal}>
         <Box sx={{

@@ -80,6 +80,7 @@ export default function RootLayout({ children }) {
       <head>
         <title>Ayru Jaipur</title>
         <link rel="icon" href="/images/AppIcon.png" type="image/x-icon" />
+
       </head>
       <body style={{ width: "100%", padding: "0px", overflowX: "hidden", marginLeft: 0, marginRight: 0 }}>
         <ThemeProvider theme={{ [THEME_ID]: materialTheme }}>

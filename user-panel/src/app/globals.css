@@ -304,3 +304,16 @@ button,
     font-weight: 500;
   }
 }
+* {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.Mui-focused {
+  box-shadow: none !important;
+}

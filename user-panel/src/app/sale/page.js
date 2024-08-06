@@ -331,12 +331,12 @@ const ShopPageContent = () => {
           {inventory.length > 0 ? (
             inventory.map((item) => (
               <Grid item xs={12} sm={6} md={4} key={item.id}>
-                <InventoryItem {...item} />
+                <InventoryItem item={item} />
               </Grid>
             ))
           ) : (
             <Grid item xs={12}>
-              <Typography variant="h6" align="center">
+              <Typography variant="h6" align="center" p={4}>
                 Currently, there are no products on sale. Please revisit soon for future updates.
               </Typography>
             </Grid>

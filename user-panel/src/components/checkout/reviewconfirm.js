@@ -221,9 +221,9 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
               <Typography variant="body2">{orderData?.city}, {orderData?.state}</Typography>
               <Typography variant="body2">{orderData?.country}</Typography>
               <Typography variant="body2">Pin: {orderData?.pincode}</Typography>
-              <Typography variant="body2">Phone Number1: {orderData?.phoneNumber}</Typography>
+              <Typography variant="body2">Mobile Number: {orderData?.phoneNumber}</Typography>
               {orderData.alternateMobileNumber &&
-                <Typography variant="body2">Phone Number2: {orderData?.alternateMobileNumber}</Typography>
+                <Typography variant="body2">Alternate Mobile Number: {orderData?.alternateMobileNumber}</Typography>
               }
               <Typography variant="body2">{orderData?.email}</Typography>
               {/* <Typography variant="body2"><strong>First Name:</strong> {orderData?.firstName || 'N/A'}</Typography>

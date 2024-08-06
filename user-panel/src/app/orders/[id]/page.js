@@ -28,6 +28,8 @@ const ShippingInfoBox = styled(Paper)(({ theme }) => ({
 
 const OrderDetails = ({ params }) => {
   const { id } = params;
+  const [open, setOpen] = useState(false);
+
   const [order, setOrder] = useState(null);
   const { user } = useAuth();
   const router = useRouter();
@@ -60,8 +62,19 @@ const OrderDetails = ({ params }) => {
   }
 
   const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text)
+      .then(() => {
+        setOpen(true); // Show feedback message
+      })
+      .catch((err) => {
+        console.error('Failed to copy text: ', err);
+      });
   };
+
+  const handleClose = () => {
+    setOpen(false); // Hide feedback message
+  };
+
 
   const whatsappMessage = `Hi, I recently placed an order on the website AYRU JAIPUR and haven't received it yet. Could you please provide an update on the status?
 
@@ -81,7 +94,7 @@ Here are my order details:
   - Total Amount: Rs.${order.Total}`;
 
   return (
-    <Container p={0} mb={14}>
+    <Container p={0} sx={{ paddingBottom: "30px" }}>
       {/* <Typography variant="h4" gutterBottom>Order Details</Typography> */}
       {order && (
         <>
@@ -100,8 +113,8 @@ Here are my order details:
           // onClick={() => router.push(`/order/${order.id}`)}
           >
             <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" }, paddingTop: "0px" }}>
-              <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>OrderId: {order.orderid}</Typography>
-              <Typography variant="body2" sx={{ fontWeight: "bold" }}>Placed on: {formatDate(order.createdAt)}</Typography>
+              <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}><strong>OrderId: </strong>{order.orderid}</Typography>
+              <Typography variant="body2" sx={{ fontWeight: "bold" }}><strong>Placed on:</strong> {formatDate(order.createdAt)}</Typography>
               <Typography variant="body2"><strong>Order Status: </strong>{order.status}</Typography>
               <Typography variant="body2"><strong>Payment Status: </strong>{order.paymentStatus}</Typography>
               <Typography variant="body2"><strong>Delivery Status: </strong>{order.deliveryStatus}</Typography>
@@ -117,7 +130,10 @@ Here are my order details:
                 <strong>Standard Shipping</strong>
               </Typography>
               <Typography variant="body2" style={{ color: theme.palette.primary.contrastText }}>
-                Your order will be dispatched within 2 days. Thank you for your patience! 😊
+                Your order will be dispatched within 2 days. The standard delivery time is 5-7 days after dispatch. Tracking details will be shared soon. Please keep visiting the "My Order" page for updates.
+              </Typography>
+              <Typography variant="body2" style={{ color: theme.palette.primary.contrastText }}>
+                Thank you for your patience! 😊
               </Typography>
             </ShippingInfoBox>
           }
@@ -133,8 +149,9 @@ Here are my order details:
             marginTop: "10px"
           }}>
             <Box mb={2}>
-              <Typography>
-                Note: Need your order urgently? Our Express Shipping service delivers in 2-4 days. Simply click on {" "}
+              <Typography variant='body2'>
+                <strong>Note:</strong>Need your order urgently? Our Express Shipping service delivers in 2-4 days.
+                Simply click on {" "}
                 <Button
                   aria-label="Chat on WhatsApp"
                   href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage2)}`}
@@ -173,7 +190,7 @@ Here are my order details:
                   padding: "10px"
                 }}>
                   <Box mb={2}>
-                    <Typography>
+                    <Typography variant='body2'>
                       Your parcel has been dispatched. To track your parcel, click on the tracking link and enter the AWB/Shipment/Tracking number provided below.
                     </Typography>
                   </Box>
@@ -211,6 +228,16 @@ Here are my order details:
                                 <FileCopyOutlined fontSize="small" />
                               </IconButton>
                             </Tooltip>
+                            <Snackbar
+                              open={open}
+                              autoHideDuration={3000} // Duration in milliseconds
+                              onClose={handleClose}
+                            >
+                              <Alert onClose={handleClose} severity="success">
+                                Copied to clipboard!
+                              </Alert>
+                            </Snackbar>
+
                           </>
                         )}
                       </Box>
@@ -224,7 +251,7 @@ Here are my order details:
                           </Tooltip>
                         </Box>
                       )}
-                      <Typography variant="body2"><strong>Courier Name: </strong>{order.couriername}</Typography>
+                      {/* <Typography variant="body2"><strong>Courier Name: </strong>{order.couriername}</Typography> */}
                       <Typography variant="body2">
                         <strong>Tracking Link: </strong><a
                           href={order.trekkinglink}
@@ -238,7 +265,7 @@ Here are my order details:
                     </CardContent>
                   </Box>
                   <Box mt={2}>
-                    <Typography>
+                    <Typography variant='body2'>
                       If you don’t receive your parcel within 7 days after dispatch, please inform us immediately on{' '}
                       <Button
                         aria-label="Chat on WhatsApp"
@@ -271,13 +298,13 @@ Here are my order details:
                 }}>
                   <Typography variant="h6" gutterBottom mt={2} sx={{ fontWeight: "bolder" }}>Payment Successfull</Typography>
 
-                  <Typography>
+                  <Typography variant='body2'>
                     Thank you for your order and trust in AYRU JAIPUR 🙏
                   </Typography>
-                  <Typography>
+                  <Typography variant='body2'>
                     Your order has been placed successfully, and you will receive the tracking details here within 1-2 days.
                   </Typography>
-                  <Typography>
+                  <Typography variant='body2'>
                     Note: once your order is placed successfully, it cannot be modified or canceled.
                     {/* For any further assistance, please send your queries to us on{' '}
                     <Button
@@ -413,7 +440,7 @@ Here are my order details:
                                   {`${item?.selectedCustomFittedItem}`}
                                 </Typography>
                                 <Typography variant="body1" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "600", fontSize: "9px" }}>
-                                  {`L×W×H =  ${item?.length}×${item?.width}×${item?.height} ${item?.unit}`}
+                                  {`Fitted size L×W×H =  ${item?.length}×${item?.width}×${item?.height} ${item?.unit}`}
                                 </Typography>
                               </>
                             )}

@@ -132,7 +132,17 @@ const CartPage = () => {
     `Hi, I'd like to place an international order for the following items:\n\n${whatsappMessage}${userDetails}\n\nCould you please provide details on the process, shipping costs, and delivery times?`
   )}`;
   return (
-    <Box mt={2} style={{ paddingLeft: isMobile ? "1%" : "8%", paddingRight: isMobile ? "1%" : "8%", backgroundColor: "#F0F0F0" }}>
+    <Box mt={2} style={{
+      paddingLeft: isMobile ? "1%" : "8%", paddingRight: isMobile ? "1%" : "8%", backgroundColor: "#F0F0F0",
+      '&:focus': {
+        outline: 'none',
+        boxShadow: 'none',
+      },
+      '&:active': {
+        backgroundColor: 'inherit',
+      },
+      paddingBottom: "10px"
+    }}>
       <Box display="flex" alignItems="center" justifyContent="center">
         <Typography variant='h4' gutterBottom style={{ fontWeight: "bold" }}>
           Shopping Cart
@@ -151,7 +161,15 @@ const CartPage = () => {
             </Typography>
             <Divider />
           </Box>
-          <Grid container spacing={1} pl={1} mt={1} pr={1}>
+          <Grid container spacing={1} pl={1} mt={1} pr={1} sx={{
+            '&:focus': {
+              outline: 'none',
+              boxShadow: 'none',
+            },
+            '&:active': {
+              backgroundColor: 'inherit',
+            }
+          }}>
             {cartItems?.map((item) => (
               <>
                 <CartItem key={item.id} item={item} fetchCartStatus={fetchcartStatus} />
@@ -241,8 +259,9 @@ const CartPage = () => {
               // boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
               bottom: "0",
               width: "100%",
-              position: !isMobile && "relative"
+              position: !isMobile && "relative",
             }}
+            pb={2}
           >
             <Grid container style={{ marginTop: "10px" }} spacing={0}>
               <Grid item xs={3} sm={3} md={3} lg={3} container alignItems="center" justifyContent="center">

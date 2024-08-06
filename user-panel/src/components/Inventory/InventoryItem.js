@@ -25,7 +25,7 @@ const InventoryItem = ({ item }) => {
           const wishlistItemsData = response.data.data;
           setWishlistCount(wishlistItemsData.length);
           const wishlistMap = wishlistItemsData.reduce((acc, wishlistItem) => {
-            acc[wishlistItem.inventoryId] = wishlistItem.id;
+            acc[wishlistitem?.inventoryId] = wishlistitem?.id;
             return acc;
           }, {});
           setWishlistItems(wishlistMap);
@@ -48,27 +48,27 @@ const InventoryItem = ({ item }) => {
         return;
       }
 
-      if (wishlistItems[item.id]) {
-        await api.delete(`/wishlist/${wishlistItems[item.id]}`, {
+      if (wishlistItems[item?.id]) {
+        await api.delete(`/wishlist/${wishlistItems[item?.id]}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
         setWishlistItems(prevItems => {
           const newItems = { ...prevItems };
-          delete newItems[item.id];
+          delete newItems[item?.id];
           return newItems;
         });
         setWishlistCount(prevCount => prevCount - 1);
       } else {
-        const response = await api.post('/wishlist', { inventoryId: item.id, userId: user?.id }, {
+        const response = await api.post('/wishlist', { inventoryId: item?.id, userId: user?.id }, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
         setWishlistItems(prevItems => ({
           ...prevItems,
-          [item.id]: response.data.data.id
+          [item?.id]: response.data.data.id
         }));
         setWishlistCount(prevCount => prevCount + 1);
       }
@@ -78,8 +78,8 @@ const InventoryItem = ({ item }) => {
   };
 
   const calculateDiscountPercentage = () => {
-    if (item.discountedPrice) {
-      return ((item.sellingPrice - item.discountedPrice) / item.sellingPrice * 100).toFixed(0);
+    if (item?.discountedPrice) {
+      return ((item?.sellingPrice - item?.discountedPrice) / item?.sellingPrice * 100).toFixed(0);
     }
     return null;
   };
@@ -89,13 +89,13 @@ const InventoryItem = ({ item }) => {
       onClick={() => router.push(`/shop/${item?.id}`)}
     >
       <Box sx={{ position: 'relative' }}>
-        {item.discountedPrice && (
+        {item?.discountedPrice && (
           <Chip
             label={
               <div style={{ textAlign: 'center' }}>
                 <Typography variant="caption" component="span" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
                   {`${calculateDiscountPercentage()}%`}
-                  {/* {`${((item.sellingPrice - item.discountedPrice) / item.sellingPrice * 100).toFixed(0)}%`} */}
+                  {/* {`${((item?.sellingPrice - item?.discountedPrice) / item?.sellingPrice * 100).toFixed(0)}%`} */}
                 </Typography>
                 <Typography variant="caption" component="div" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
                   off
@@ -157,27 +157,27 @@ const InventoryItem = ({ item }) => {
           image={`https://ayrujaipur.s3.amazonaws.com/${item?.Media[0]?.url}`}
           // image={"https://ayrujaipur.s3.ap-south-1.amazonaws.com/1719728584132-1681210423276-Magarpatta.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAXQI4DHNFFJZ44EFQ%2F20240630%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240630T085117Z&X-Amz-Expires=900&X-Amz-Signature=8eea213abd2e69937bccfc57540603d4efb553518633c6fdf16f63cf1e7fdcba&X-Amz-SignedHeaders=host&x-id=GetObject"}
           height="200"
-          alt={item.productName}
+          alt={item?.productName}
         />
         <IconButton
           aria-label="Add to Wishlist"
           onClick={handleToggleWishlist}
           sx={{ position: 'absolute', bottom: 4, right: 4, zIndex: 1, backgroundColor: 'white', '&:hover': { backgroundColor: 'lightgray' } }}
         >
-          {wishlistItems[item.id] ? <FavoriteOutlined style={{ color: 'red' }} /> : <FavoriteBorderOutlined />}
+          {wishlistItems[item?.id] ? <FavoriteOutlined style={{ color: 'red' }} /> : <FavoriteBorderOutlined />}
         </IconButton>
       </Box>
       <CardContent sx={{ flexGrow: 1, padding: "10px", '&:last-child': { paddingBottom: "10px" } }}>
         <Typography variant="body1" gutterBottom sx={{ lineHeight: "1", fontWeight: "bolder" }}>
-          {item.productName}
+          {item?.productName}
         </Typography>
         <Typography variant="body2" color="text.secondary" gutterBottom>
           <strong>Category: </strong>{item?.Category?.categoryName}
         </Typography>
-        {item.discountedPrice ? (
+        {item?.discountedPrice ? (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Typography variant="body2" sx={{ textDecoration: 'line-through' }}>
-              Rs.{item.sellingPrice}
+              Rs.{item?.sellingPrice}
             </Typography>
             <Typography variant="body2" color={theme?.palette?.text?.contrastText}>
               Rs.{item?.discountedPrice}

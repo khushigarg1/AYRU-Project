@@ -147,7 +147,7 @@ const Orders = () => {
                   edge="end"
                   onClick={(e) => {
                     e.stopPropagation();
-                    router.push(`/order/${order.id}`);
+                    router.push(`/orders/${order.id}`);
                   }}
                   sx={{
                     alignSelf: 'center',

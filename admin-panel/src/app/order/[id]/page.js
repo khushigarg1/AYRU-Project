@@ -111,6 +111,13 @@ const OrderAccordion = ({ params }) => {
   const getTotalQuantity = () => {
     return order?.orderItems.reduce((total, item) => total + item.quantity, 0);
   };
+  const formattedSubtotal = (order) => {
+    const subtotal = order.orderItems.reduce((acc, item) =>
+      acc + (item.discountedPrice || item.sellingPrice) * item.quantity, 0);
+
+    // Format the subtotal to 3 decimal places
+    return `₹${subtotal.toFixed(3)}`;
+  };
   return (
     <div>
       {/* <Button
@@ -268,7 +275,7 @@ const OrderAccordion = ({ params }) => {
                                 {`${item?.selectedCustomFittedItem}`}
                               </Typography>
                               <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1", fontWeight: "600" }}>
-                                {`L×W×H =  ${item?.length}×${item?.width}×${item?.height} ${item?.unit}`}
+                                {`Fitted Size L×W×H =  ${item?.length}×${item?.width}×${item?.height} ${item?.unit}`}
                               </Typography>
                             </>
                           )
@@ -399,9 +406,9 @@ const OrderAccordion = ({ params }) => {
                   <Typography variant="body1">{order.shippingAddress.city}, {order.shippingAddress.state}</Typography>
                   <Typography variant="body1">{order.shippingAddress.country}</Typography>
                   <Typography variant="body1">Pin: {order.shippingAddress.pincode}</Typography>
-                  <Typography variant="body1">Phone Number1: {order.shippingAddress.phoneNumber}</Typography>
+                  <Typography variant="body1">Mobile Number: {order.shippingAddress.phoneNumber}</Typography>
                   {order.shippingAddress.alternateMobileNumber &&
-                    <Typography variant="body1">Phone Number2: {order.shippingAddress.alternateMobileNumber}</Typography>
+                    <Typography variant="body1">Alternate Mobile Number: {order.shippingAddress.alternateMobileNumber}</Typography>
                   }
                 </Grid>
                 <Grid item xs={4} container direction="column" alignItems="center" justifyContent="center">
@@ -470,6 +477,11 @@ const OrderAccordion = ({ params }) => {
                 </Button>
                 <Paper style={{ padding: '20px', margin: '20px', backgroundColor: "#fff" }} ref={print2Ref}>
                   <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <div style={{ textAlign: 'center', fontWeight: "bolder" }}>
+                        AYRU JAIPUR - BILL DETAILS
+                      </div>
+                    </Grid>
                     <Grid item xs={8} mt={0}>
                       <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }} mb={0}>
                         Ship to
@@ -479,9 +491,9 @@ const OrderAccordion = ({ params }) => {
                       <Typography variant="body1">{order.shippingAddress.addressLine2}</Typography>
                       <Typography variant="body1">{order.shippingAddress.city}, {order.shippingAddress.state} {order.shippingAddress.country}</Typography>
                       <Typography variant="body1">Pin: {order.shippingAddress.pincode}</Typography>
-                      <Typography variant="body1">Phone Number1: {order.shippingAddress.phoneNumber}</Typography>
+                      <Typography variant="body1">Mobile Number: {order.shippingAddress.phoneNumber}</Typography>
                       {order.shippingAddress.alternateMobileNumber &&
-                        <Typography variant="body1">Phone Number2: {order.shippingAddress.alternateMobileNumber}</Typography>
+                        <Typography variant="body1">Alternate Mobile Number: {order.shippingAddress.alternateMobileNumber}</Typography>
                       }
                     </Grid>
 
@@ -538,7 +550,9 @@ const OrderAccordion = ({ params }) => {
                       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', marginTop: '20px', marginRight: "50px" }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '300px' }}>
                           <Typography variant="body1"><strong>Subtotal:</strong></Typography>
-                          <Typography variant="body1">₹{order.orderItems.reduce((acc, item) => acc + (item.discountedPrice || item.sellingPrice) * item.quantity, 0)}</Typography>
+                          <Typography variant="body1">{formattedSubtotal(order)}</Typography>
+
+                          {/* <Typography variant="body1">₹{order.orderItems.reduce((acc, item) => acc + (item.discountedPrice || item.sellingPrice) * item.quantity, 0)}</Typography> */}
                         </Box>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '300px', marginTop: '8px' }}>
                           <Typography variant="body1"><strong>Shipping Fee:</strong></Typography>
