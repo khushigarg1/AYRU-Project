@@ -81,7 +81,7 @@ export const FeedbackComponent = () => {
             )}
           </Box>
           <Box sx={{ width: "80%", margin: "0 auto", marginBottom: "4%", marginTop: "4%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-            <Typography variant='h5' style={{ textAlign: "center", mb: 1, fontWeight: "bold" }}>
+            <Typography variant='h5' style={{ textAlign: "center", mb: 1, fontWeight: "bold" }} mb={1}>
               FROM JAIPUR STREETS TO YOUR HOME
             </Typography>
             <Typography variant="subtitle1" style={{ textAlign: "center" }}>

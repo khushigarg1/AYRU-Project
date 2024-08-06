@@ -73,7 +73,7 @@ const Orders = () => {
           <>
             {order?.status === "pending" &&
               (<>
-                <Typography color="red" mt={2}>
+                <Typography color="#fa6666" mt={2}>
                   Your payment is still pending. Please proceed to the cart and complete the checkout process again.
                 </Typography>
               </>)}

@@ -189,7 +189,7 @@ const InventoryItem = ({ item }) => {
           </Typography>
         )}
 
-        <Typography variant='body2' sx={{ color: item?.extraOptionOutOfStock ? 'red' : 'green' }}>
+        <Typography variant='body2' sx={{ color: item?.extraOptionOutOfStock ? '#cf2e2e' : 'green' }}>
           {item?.extraOptionOutOfStock === true ? "Out of Stock" : "In Stock"}
         </Typography>
       </CardContent>

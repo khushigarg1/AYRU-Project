@@ -85,9 +85,34 @@ export const CraftedWithLove = () => {
                     <Typography gutterBottom variant="body1" component="div" sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
                       {item.productName}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Price: {item.sellingPrice}
-                    </Typography>
+
+                    {item?.discountedPrice ? (
+                      <Box sx={{ display: 'flex', alignItems: 'left', gap: 0.5 }}>
+                        <Typography variant="body2">
+                          MRP
+                        </Typography>
+                        <Typography variant="body2" sx={{ textDecoration: 'line-through' }}>
+                          ₹{item.sellingPrice?.toFixed(2)}
+                        </Typography>
+                        <Typography variant="body2" sx={{ marginRight: "3px", fontWeight: "bold" }} >
+                          ₹{item.discountedPrice?.toFixed(2)}
+                        </Typography>
+                        {/* <Typography variant="body2" color="error" sx={{
+                        display: 'inline-block',
+                        background: 'linear-gradient(135deg, #FF5733 100%, #FFC300 30%)',
+                        padding: '0px 10px',
+                        borderRadius: '1px',
+                        clipPath: 'polygon(0 0, 100% 0, 90% 100%, 0% 100%)',
+                        color: "white",
+                      }}>
+                        {`${Math.round(((product.sellingPrice?.toFixed(2) - product.discountedPrice?.toFixed(2)) / product.sellingPrice?.toFixed(2)) * 100)}% OFF!`}
+                      </Typography> */}
+                      </Box>
+                    ) : (
+                      <Typography variant="body2" sx={{ marginRight: "3px", fontWeight: "bold" }} >
+                        ₹{item.sellingPrice?.toFixed(2)}
+                      </Typography>
+                    )}
                   </CardContent>
                 </Card>
               </Grid>

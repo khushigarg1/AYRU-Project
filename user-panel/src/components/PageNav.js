@@ -19,7 +19,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
-import { Badge, SvgIcon } from "@mui/material";
+import { Badge, SvgIcon, useMediaQuery } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useAuth } from "../contexts/auth";
@@ -140,6 +140,7 @@ const AuthenticatedSection = styled(Box)(({ theme }) => ({
 }));
 
 export default function PageNav({ children }) {
+
   const { isAuthenticated, isLoading, logout, openTab, setOpenTab, wishlistCount, cartCount, user, openAuthModal } = useAuth();
   const theme = useTheme();
   const [open, setOpen] = useState(isAuthenticated);
@@ -147,6 +148,7 @@ export default function PageNav({ children }) {
   const [scrolledstate, setScrolledstate] = useState(false);
   const router = useRouter();
   const drawerRef = useRef(null);
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
 
   const handleClickOutside = (event) => {
@@ -574,7 +576,7 @@ export default function PageNav({ children }) {
         )}
       </Drawer>
       <Main component="main" sx={{
-        flexGrow: 1, p: 0, minHeight: "100vh", marginTop: scrolledstate ? "64px" : "0px",
+        flexGrow: 1, p: 0, minHeight: "100vh", marginTop: scrolledstate ? "33px" : "0px",
         transition: "margin-top 0.6s ease"
       }}>
         {children}

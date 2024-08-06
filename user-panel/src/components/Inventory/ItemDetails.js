@@ -228,7 +228,7 @@ const ItemDetails = ({ product, queryParams }) => {
       return;
     }
     if (selections?.selectedOption === 'custom' && (selections?.selectedCustomFittedItem === '' || selections?.dimensions?.width === '' || selections?.dimensions?.height === '' || selections?.dimensions?.length === '')) {
-      setSnackbarMessage('Please fill all sizes before adding to the cart.');
+      setSnackbarMessage('Please fill all dimensions before adding to the cart.');
       setOpenSnackbar(true);
       return;
     }
@@ -366,7 +366,7 @@ Thank you so much!`;
               </Typography>
 
               {product?.availability &&
-                <Typography variant='body2' sx={{ color: displayAvailability ? 'red' : 'green', mb: 1 }}>
+                <Typography variant='body2' sx={{ color: displayAvailability ? '#cf2e2e' : 'green', mb: 1 }}>
                   {displayAvailability ? "Out of Stock" : "In Stock"}
                 </Typography>
                 // <Typography variant='body2' sx={{ color: product?.extraOptionOutOfStock ? 'red' : 'green', mb: 1 }}>
@@ -383,11 +383,11 @@ Thank you so much!`;
               }
 
               <Divider sx={{ borderStyle: "dotted", mb: 2 }} />
-              <Typography variant="body1" gutterBottom>
+              <Typography variant="body2" gutterBottom>
                 <strong>Category:</strong> {product?.Category?.categoryName}
               </Typography>
-              <Typography variant='body1' sx={{ fontSize: '0.9rem', mt: 1 }}>
-                SKU: {product?.skuId}
+              <Typography variant='body2' >
+                <strong>SKU:</strong> {product?.skuId}
               </Typography>
               <Divider sx={{ borderStyle: "dotted", mt: 2, mb: 2 }} />
               {product?.availability === false ?
@@ -395,7 +395,7 @@ Thank you so much!`;
                 (quantity === 0 ? (
                   <Typography variant="caption" sx={{
                     fontSize: '1rem',
-                    color: "red",
+                    color: "#cf2e2e",
                     lineHeight: '1',
                     padding: 0,
                     display: 'block',
@@ -407,7 +407,7 @@ Thank you so much!`;
                   : (
                     <Typography variant="caption" sx={{
                       fontSize: '1rem',
-                      color: displayAvailability ? 'green' : 'red',
+                      color: displayAvailability ? 'green' : '#cf2e2e',
                       lineHeight: '1',
                       padding: 0,
                       display: 'block',
@@ -683,7 +683,7 @@ Thank you so much!`;
         message={snackbarMessage}
       >
         <SnackbarContent style={{
-          backgroundColor: "#F44336",
+          backgroundColor: "#fa6666",
           color: "white"
         }}
           message={snackbarMessage}

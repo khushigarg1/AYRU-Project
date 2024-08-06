@@ -28,7 +28,11 @@ button,
 .MuiButton-root,
 .MuiContainer-root,
 .MuiBox-root,
-.MuiLink-root {
+.MuiLink-root,
+.MuiSelect-root,
+.MuiMenuItem-root,
+.MuiInputLabel-root,
+.MuiFormControl-root {
   font-family: "Neuton", serif;
   font-weight: 500;
 }
@@ -81,7 +85,11 @@ button,
   .MuiButton-root,
   .MuiContainer-root,
   .MuiBox-root,
-  .MuiLink-root {
+  .MuiLink-root,
+  .MuiSelect-root,
+  .MuiMenuItem-root,
+  .MuiInputLabel-root,
+  .MuiFormControl-root {
     font-family: "Neuton", serif;
     font-weight: 500;
   }
@@ -134,7 +142,11 @@ button,
   .MuiButton-root,
   .MuiContainer-root,
   .MuiBox-root,
-  .MuiLink-root {
+  .MuiLink-root,
+  .MuiSelect-root,
+  .MuiMenuItem-root,
+  .MuiInputLabel-root,
+  .MuiFormControl-root {
     font-family: "Neuton", serif;
     font-weight: 500;
   }
@@ -187,7 +199,11 @@ button,
   .MuiButton-root,
   .MuiContainer-root,
   .MuiBox-root,
-  .MuiLink-root {
+  .MuiLink-root,
+  .MuiSelect-root,
+  .MuiMenuItem-root,
+  .MuiInputLabel-root,
+  .MuiFormControl-root {
     font-family: "Neuton", serif;
     font-weight: 500;
   }
@@ -240,7 +256,11 @@ button,
   .MuiButton-root,
   .MuiContainer-root,
   .MuiBox-root,
-  .MuiLink-root {
+  .MuiLink-root,
+  .MuiSelect-root,
+  .MuiMenuItem-root,
+  .MuiInputLabel-root,
+  .MuiFormControl-root {
     font-family: "Neuton", serif;
     font-weight: 500;
   }

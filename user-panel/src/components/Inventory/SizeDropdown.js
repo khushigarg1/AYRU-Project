@@ -141,7 +141,7 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                 <Typography
                   component="div"
                   style={{
-                    fontSize: item.Flat.name.length > 20 ? '0.8rem' : '1rem',
+                    fontSize: item.Flat.name.length > 25 ? '0.79rem' : '1rem',
                     maxWidth: '100%',
                     textDecoration: item?.quantity === 0 ? 'line-through' : 'none',
                     // transform: item?.quantity === 0 ? 'rotate(-45deg)' : 'none',

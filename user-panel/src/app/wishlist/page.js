@@ -65,7 +65,7 @@ const WishlistPage = () => {
         </Typography>
       </Box>
       {wishlistItems.length === 0 && (
-        <Typography variant="body1">
+        <Typography variant="body2">
           Your wishlist is empty. <strong><Link href="/shop">Browse products</Link></strong> to add items or <strong style={{ cursor: "pointer" }} onClick={handleLogin}>Login</strong> to see your saved items.
         </Typography>
       )}

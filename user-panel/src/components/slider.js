@@ -147,16 +147,16 @@ const ImageCarousel = () => {
               bottom: '20px',
             }
           }}
-          height={isMobile ? "600px" : "800px"}
+          height={isMobile ? "500px" : "800px"}
         >
           {images.map((image, index) => (
             <Box key={index} sx={{ position: 'relative', height: '100vh' }}>
               <StyledImage
                 src={`https://ayrujaipur.s3.amazonaws.com/${image.imageUrl}`}
                 alt={`Slide ${index}`}
-                style={{ transform: `translateX(${currentIndex * -100}%)`, height: isMobile ? "90%" : "120%", objectFit: "contain" }}
+                style={{ transform: `translateX(${currentIndex * -100}%)`, height: !isMobile && "120%", objectFit: isMobile ? "contain" : "cover" }}
               />
-              <OverlayText style={{ top: isMobile ? "70%" : "60%", fontSize: "1.2rem" }}>
+              <OverlayText style={{ top: isMobile ? "60%" : "60%", fontSize: "1.2rem" }}>
                 <StyledButton style={{ fontSize: isMobile ? "0.7rem" : "1rem" }} onClick={handleShop}>Shop Now</StyledButton>
               </OverlayText>
             </Box>
