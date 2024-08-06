@@ -1,12 +1,15 @@
-import React from 'react';
+"use client";
+import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import { Box, Card, CardContent, CardMedia, Typography, IconButton, useMediaQuery, useTheme, Button, Divider } from '@mui/material';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { FavoriteBorderOutlined, FavoriteOutlined } from '@mui/icons-material';
 import api from '../../api';
 import "./slider.css";
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
+import { useAuth } from '@/contexts/auth';
 
 export const ProductSlider = ({ products }) => {
   const theme = useTheme();
@@ -14,6 +17,73 @@ export const ProductSlider = ({ products }) => {
   const itemsPerPage = isMobile ? 2 : 5;
   const router = useRouter();
   const slicedProducts = products.slice(0, 10);
+  const { openAuthModal, user, wishlistCount, setWishlistCount } = useAuth();
+  const [wishlistItems, setWishlistItems] = useState({});
+  const token = Cookies.get('token');
+
+  useEffect(() => {
+    const fetchWishlistStatus = async () => {
+      try {
+        if (token) {
+          const response = await api.get(`/wishlist/user/${user.id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          const wishlistItemsData = response.data.data;
+          setWishlistCount(wishlistItemsData.length);
+          const wishlistMap = wishlistItemsData.reduce((acc, wishlistItem) => {
+            acc[wishlistItem.inventoryId] = wishlistItem.id;
+            return acc;
+          }, {});
+          setWishlistItems(wishlistMap);
+        }
+      } catch (error) {
+        console.error('Error fetching wishlist:', error);
+      }
+    };
+
+    if (user && user.id && token) {
+      fetchWishlistStatus();
+    }
+  }, [token, user, setWishlistCount]);
+
+  const handleToggleWishlist = async (event, product) => {
+    event.stopPropagation();
+    try {
+      if (!token) {
+        openAuthModal();
+        return;
+      }
+
+      if (wishlistItems[product.id]) {
+        await api.delete(`/wishlist/${wishlistItems[product.id]}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setWishlistItems(prevItems => {
+          const newItems = { ...prevItems };
+          delete newItems[product.id];
+          return newItems;
+        });
+        setWishlistCount(prevCount => prevCount - 1);
+      } else {
+        const response = await api.post('/wishlist', { inventoryId: product.id, userId: user?.id }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setWishlistItems(prevItems => ({
+          ...prevItems,
+          [product.id]: response.data.data.id
+        }));
+        setWishlistCount(prevCount => prevCount + 1);
+      }
+    } catch (error) {
+      console.error('Error toggling wishlist status:', error);
+    }
+  };
 
   const settings = {
     dots: true,
@@ -82,9 +152,9 @@ export const ProductSlider = ({ products }) => {
               >
                 <IconButton
                   sx={{ position: 'absolute', top: 15, right: 10, zIndex: 1, backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
-                  onClick={() => console.log('Add to wishlist', product.id)}
+                  onClick={(event) => handleToggleWishlist(event, product)}
                 >
-                  <FavoriteBorderIcon />
+                  {wishlistItems[product.id] ? <FavoriteOutlined style={{ color: 'red' }} /> : <FavoriteBorderOutlined />}
                 </IconButton>
                 <CardMedia
                   component="img"

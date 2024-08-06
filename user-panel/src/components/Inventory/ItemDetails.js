@@ -604,7 +604,7 @@ Thank you so much!`;
                       )
                     ) : (
                       <Grid container spacing={1} sx={{ mt: 1, mb: 1 }}>
-                        <Grid item xs={6} sx={{ paddingTop: "0px" }}>
+                        <Grid item xs={12} sx={{ paddingTop: "0px" }}>
                           <Button
                             onClick={handleAddToCart}
                             color="inherit"
@@ -614,7 +614,7 @@ Thank you so much!`;
                             Add to Cart
                           </Button>
                         </Grid>
-                        <Grid item xs={6} sx={{ paddingTop: "0px" }}>
+                        {/* <Grid item xs={6} sx={{ paddingTop: "0px" }}>
                           <Button
                             onClick={handleBuyNow}
                             color="inherit"
@@ -623,7 +623,7 @@ Thank you so much!`;
                           >
                             Buy Now
                           </Button>
-                        </Grid>
+                        </Grid> */}
                       </Grid>
                     )
                     }
