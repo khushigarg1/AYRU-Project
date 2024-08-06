@@ -394,25 +394,25 @@ Here are my order details:
                             />
                           </Box>
                           <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" } }}>
-                            <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "bolder", fontSize: "12px" }}>
+                            <Typography variant="body1" gutterBottom sx={{ lineHeight: "1", fontWeight: "bolder", fontSize: "12px" }}>
                               {item?.inventory?.productName}
                             </Typography>
                             {item?.sizeOption === "flat" && (
-                              <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "400", fontSize: "10px" }}>
+                              <Typography variant="body1" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "400", fontSize: "10px" }}>
                                 {item?.selectedFlatItem}
                               </Typography>
                             )}
                             {item?.sizeOption === "fitted" && (
-                              <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "400", fontSize: "10px" }}>
+                              <Typography variant="body1" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "400", fontSize: "10px" }}>
                                 {item?.selectedFittedItem}
                               </Typography>
                             )}
                             {item?.sizeOption === "custom" && (
                               <>
-                                <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "400", fontSize: "10px" }}>
+                                <Typography variant="body1" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "400", fontSize: "10px" }}>
                                   {`${item?.selectedCustomFittedItem}`}
                                 </Typography>
-                                <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "600", fontSize: "9px" }}>
+                                <Typography variant="body1" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "600", fontSize: "9px" }}>
                                   {`L×W×H =  ${item?.length}×${item?.width}×${item?.height} ${item?.unit}`}
                                 </Typography>
                               </>

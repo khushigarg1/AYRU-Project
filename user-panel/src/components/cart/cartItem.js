@@ -175,25 +175,25 @@ export const CartItem = ({ item, fetchCartStatus }) => {
             />
           </Box>
           <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" }, paddingTop: "0px" }}>
-            <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.1", fontWeight: "bolder" }}>
+            <Typography variant="body1" gutterBottom sx={{ lineHeight: "1.1", fontWeight: "bolder" }}>
               {item?.Inventory?.productName}
             </Typography>
             {item?.sizeOption === "flat" &&
-              <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1.2", fontWeight: "400" }}>
+              <Typography variant="body1" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1.2", fontWeight: "400" }}>
                 {item?.selectedFlatItem}
               </Typography>
             }
             {item?.sizeOption === "fitted" &&
-              <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1.2", fontWeight: "400" }}>
+              <Typography variant="body1" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1.2", fontWeight: "400" }}>
                 {item?.selectedFittedItem}
               </Typography>
             }
             {item?.sizeOption === "custom" && (
               <>
-                <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1.2", fontWeight: "400" }}>
+                <Typography variant="body1" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1.2", fontWeight: "400" }}>
                   {`${item?.selectedCustomFittedItem}`}
                 </Typography>
-                <Typography variant="subtitle2" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1.2", fontWeight: "600" }}>
+                <Typography variant="body1" gutterBottom sx={{ fontSize: "0.7em", lineHeight: "1.2", fontWeight: "600" }}>
                   {`Fitted Size L×W×H =  ${item?.length}×${item?.width}×${item?.height} ${item?.unit}`}
                 </Typography>
               </>

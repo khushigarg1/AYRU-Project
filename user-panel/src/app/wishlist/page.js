@@ -114,7 +114,7 @@ const WishlistPage = () => {
                       </IconButton>
                     </Box>
                     <CardContent sx={{ flexGrow: 1, padding: "12px 8px", '&:last-child': { paddingBottom: "10px" } }}>
-                      <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "bolder" }}>
+                      <Typography variant="body1" gutterBottom sx={{ lineHeight: "1", fontWeight: "bolder" }}>
                         {item?.Inventory?.productName}
                       </Typography>
                       <Typography variant="body2" color="text.secondary" gutterBottom sx={{ fontSize: "10px" }}>
@@ -140,7 +140,7 @@ const WishlistPage = () => {
                           Rs.{item?.Inventory?.sellingPrice}
                         </Typography>
                       )}
-                      <Typography variant='body2' sx={{ color: item?.Inventory?.extraOptionOutOfStock ? 'red' : 'green', fontSize: "10px" }}>
+                      <Typography variant='body1' sx={{ color: item?.Inventory?.extraOptionOutOfStock ? 'red' : 'green', fontSize: "10px" }}>
                         {item?.Inventory?.extraOptionOutOfStock === true ? "Out of Stock" : "In Stock"}
                       </Typography>
                     </CardContent>

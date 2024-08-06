@@ -18,7 +18,7 @@ Could you please provide me with the details regarding the process, any addition
           <Typography variant="h6">Description</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>{product.description || "No description available"}</Typography>
+          <Typography variant='subtitle1' sx={{ fontWeight: "200" }}>{product.description || "No description available"}</Typography>
         </AccordionDetails>
       </Accordion>
       {/* Product Details Accordion */}
@@ -121,10 +121,10 @@ Could you please provide me with the details regarding the process, any addition
             {product.careInstructions?.length > 0
               ? product.careInstructions.map((instruction, index) => (
                 <ListItem key={index} sx={{ padding: '0' }}>
-                  <ListItemText primary={`• ${instruction}`} />
+                  <ListItemText variant='subtitle1' primary={`• ${instruction}`} />
                 </ListItem>
               ))
-              : <Typography>No instructions available</Typography>
+              : <Typography variant='subtitle1' >No instructions available</Typography>
             }
           </List>
         </AccordionDetails>
@@ -135,7 +135,7 @@ Could you please provide me with the details regarding the process, any addition
           <Typography variant="h6">Disclaimer</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>{product.disclaimer || "No disclaimer available"}</Typography>
+          <Typography variant='subtitle1' >{product.disclaimer || "No disclaimer available"}</Typography>
         </AccordionDetails>
       </Accordion>
 
@@ -145,7 +145,7 @@ Could you please provide me with the details regarding the process, any addition
           <Typography variant="h6">Shipping & Delivery</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <List dense>
+          <List dense variant='subtitle1' >
             <ListItem sx={{ padding: '0' }}><ListItemText primary="• Only Prepaid orders are accepted (NO COD)." /></ListItem>
             <ListItem sx={{ padding: '0' }}><ListItemText primary="• Standard Shipping FREE within INDIA" /></ListItem>
             <ListItem sx={{ padding: '0' }}><ListItemText primary="• Ships within 1-3 working days." /></ListItem>
@@ -190,7 +190,7 @@ Could you please provide me with the details regarding the process, any addition
           <Typography variant="h6">Exchange & Return</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <List dense>
+          <List dense variant='subtitle1' >
             <ListItem sx={{ padding: '0' }}><ListItemText primary="• We ensure strict quality checks before dispatch." /></ListItem>
             <ListItem sx={{ padding: '0' }}><ListItemText primary="• Exchanges are allowed for damaged or defective products only." /></ListItem>
             <ListItem sx={{ padding: '0', textDecoration: "underline", color: "#FFD54F", fontSize: "14px", cursor: "pointer" }} onClick={() => router.push("/policies/Exchange-refund")}>

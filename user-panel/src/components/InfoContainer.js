@@ -77,7 +77,7 @@ export const InfoComponent = () => {
                 <Typography variant="h6" gutterBottom style={{ marginBottom: "0px" }}>
                   {slide.title}
                 </Typography>
-                <Typography variant="body1">
+                <Typography variant="subtitle1">
                   {slide.description}
                 </Typography>
               </Grid>

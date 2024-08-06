@@ -246,8 +246,8 @@ const CartPage = () => {
           >
             <Grid container style={{ marginTop: "10px" }} spacing={0}>
               <Grid item xs={3} sm={3} md={3} lg={3} container alignItems="center" justifyContent="center">
-                <Image src={Quality} alt={"100% Original products"} width={50} height={50} style={{ color: "black" }} />
-                <Typography variant="body2" sx={{ marginLeft: "8px", fontSize: "10px", marginTop: "10px" }}>
+                <Image src={Quality} alt={"100% Original products"} width={50} height={50} style={{ color: "black", marginTop: "-4px" }} />
+                <Typography variant="body2" sx={{ marginLeft: "8px", fontSize: "10px", marginTop: "0px" }}>
                   Genuine products
                 </Typography>
               </Grid>

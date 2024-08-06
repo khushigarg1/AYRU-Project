@@ -119,28 +119,28 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
                           />
                         </Box>
                         <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" } }}>
-                          <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "bolder", fontSize: "12px" }}>
+                          <Typography variant="body2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "bolder", fontSize: "12px" }}>
                             {item?.Inventory?.productName}
                           </Typography>
                           {/* <Typography variant="body2" gutterBottom sx={{ lineHeight: "1", fontSize: "0.6em" }}>
                             <strong>SKU: </strong>{item?.Inventory?.skuId}
                           </Typography> */}
                           {item?.sizeOption === "flat" && (
-                            <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "400", fontSize: "10px" }}>
+                            <Typography variant="body2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "400", fontSize: "10px" }}>
                               {item?.selectedFlatItem}
                             </Typography>
                           )}
                           {item?.sizeOption === "fitted" && (
-                            <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "400", fontSize: "10px" }}>
+                            <Typography variant="body2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "400", fontSize: "10px" }}>
                               {item?.selectedFittedItem}
                             </Typography>
                           )}
                           {item?.sizeOption === "custom" && (
                             <>
-                              <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "400", fontSize: "10px" }}>
+                              <Typography variant="body2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "400", fontSize: "10px" }}>
                                 {`${item?.selectedCustomFittedItem}`}
                               </Typography>
-                              <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "600", fontSize: "10px" }}>
+                              <Typography variant="body2" gutterBottom sx={{ lineHeight: "1.2", fontWeight: "600", fontSize: "10px" }}>
                                 {`Fitted Size L×W×H =  ${item?.length}×${item?.width}×${item?.height} ${item?.unit}`}
                               </Typography>
                             </>
@@ -215,17 +215,17 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
           <Divider />
           <AccordionDetails style={{ paddingTop: "0px" }}>
             <ShippingDetailsBox>
-              <Typography variant="subtitle1">{`${orderData?.firstName} ${orderData?.lastName}`}</Typography>
-              <Typography variant="body1">{orderData?.addressLine1}</Typography>
-              <Typography variant="body1">{orderData?.addressLine2}</Typography>
-              <Typography variant="body1">{orderData?.city}, {orderData?.state}</Typography>
-              <Typography variant="body1">{orderData?.country}</Typography>
-              <Typography variant="body1">Pin: {orderData?.pincode}</Typography>
-              <Typography variant="body1">Phone Number1: {orderData?.phoneNumber}</Typography>
+              <Typography variant="body2">{`${orderData?.firstName} ${orderData?.lastName}`}</Typography>
+              <Typography variant="body2">{orderData?.addressLine1}</Typography>
+              <Typography variant="body2">{orderData?.addressLine2}</Typography>
+              <Typography variant="body2">{orderData?.city}, {orderData?.state}</Typography>
+              <Typography variant="body2">{orderData?.country}</Typography>
+              <Typography variant="body2">Pin: {orderData?.pincode}</Typography>
+              <Typography variant="body2">Phone Number1: {orderData?.phoneNumber}</Typography>
               {orderData.alternateMobileNumber &&
-                <Typography variant="body1">Phone Number2: {orderData?.alternateMobileNumber}</Typography>
+                <Typography variant="body2">Phone Number2: {orderData?.alternateMobileNumber}</Typography>
               }
-              <Typography variant="subtitle1">{orderData?.email}</Typography>
+              <Typography variant="body2">{orderData?.email}</Typography>
               {/* <Typography variant="body2"><strong>First Name:</strong> {orderData?.firstName || 'N/A'}</Typography>
               <Typography variant="body2"><strong>Last Name:</strong> {orderData?.lastName || 'N/A'}</Typography>
               <Typography variant="body2"><strong>Email:</strong> {orderData?.email || 'N/A'}</Typography>

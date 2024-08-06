@@ -85,7 +85,7 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
     <Box>
       {hasBedsheets && (
         <>
-          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Select Fit Type:</Typography>
+          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Select Fit Type:</Typography>
           <Select
             value={selections.selectedOption}
             onChange={handleSelectChange}
@@ -102,14 +102,22 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
               }
             }}
           >
-            <MenuItem value="" disabled>Select Fit Type</MenuItem>
-            <MenuItem value="flat">Flat</MenuItem>
-            {data.InventoryFitted.length > 0 &&
-              <MenuItem value="fitted">Fitted</MenuItem>
-            }
-            {data.customFittedInventory.length > 0 &&
-              <MenuItem value="custom">Custom Fitted</MenuItem>
-            }
+            <MenuItem value="" disabled>
+              <Typography variant="body1">Select Fit Type</Typography>
+            </MenuItem>
+            <MenuItem value="flat">
+              <Typography variant="body1">Flat</Typography>
+            </MenuItem>
+            {data.InventoryFitted.length > 0 && (
+              <MenuItem value="fitted">
+                <Typography variant="body1">Fitted</Typography>
+              </MenuItem>
+            )}
+            {data.customFittedInventory.length > 0 && (
+              <MenuItem value="custom">
+                <Typography variant="body1">Custom Fitted</Typography>
+              </MenuItem>
+            )}
           </Select>
         </>
       )}

@@ -47,7 +47,7 @@ export const CraftedWithLove = () => {
         <Typography variant={isMobile ? 'h4' : 'h3'} sx={{ mt: 2, color: theme.palette.text.text }}>
           All Categories
         </Typography>
-        <Typography variant='body1' sx={{ mt: 2, mb: 3, textAlign: 'center', fontSize: "14px" }}>
+        <Typography variant='subtitle1' sx={{ mt: 2, mb: 3, textAlign: 'center', fontSize: "14px" }}>
           Explore the timeless beauty and elegance of Hand-Block Printing
         </Typography>
       </Box>
@@ -86,7 +86,7 @@ export const CraftedWithLove = () => {
                       {item.productName}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Price: {item.sellingPrice} USD
+                      Price: {item.sellingPrice}
                     </Typography>
                   </CardContent>
                 </Card>

@@ -659,10 +659,11 @@ Thank you so much!`;
                 </Accordion>
               }
               <Image src={Icons} alt="Left Image"
-                style={{ mt: 2, width: "100%", height: "100%", padding: "10px 5px" }}
-              // style={{ position: 'absolute', left: '-8px', top: '50%', transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto' }}
+                style={{ width: "100%", height: "100%", padding: "15px 5px" }}
+                // style={{ position: 'absolute', left: '-8px', top: '50%', transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto' }}
+                mt={2}
               />
-              <Divider sx={{ borderStyle: "dotted", mt: 2, mb: 2 }} />
+              <Divider sx={{ borderStyle: "dotted", mt: 0, mb: 2 }} />
               <FeatureAccordions product={product} />
             </CardContent >
           </Grid>

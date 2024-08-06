@@ -16,16 +16,16 @@ export default function CancellationAndRefundPolicy() {
         <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder", fontSize: "33px" }}>
           Cancellation and Refund Policy
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="subtitle1">
           Please read our cancellation policy carefully.
         </Typography>
         <Typography variant="h6" component="h2" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           No Cancellations or Modifications
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="subtitle1">
           Once an order has been placed and payment has been processed, it cannot be cancelled or modified. This policy helps us streamline our operations and maintain efficiency. Our system is designed to process orders promptly, making it challenging to accommodate cancellations after the order is submitted.
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="subtitle1">
           If you have any questions or need further assistance, please don't hesitate to connect with us.
           {/* on {' '} */}
           {/* <Button
@@ -46,7 +46,7 @@ export default function CancellationAndRefundPolicy() {
           </Button>
           {' '}. */}
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="subtitle1">
           Thank you for your understanding and cooperation.
         </Typography>
       </Container>

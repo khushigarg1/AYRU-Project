@@ -41,7 +41,7 @@ export const FeedbackComponent = () => {
           <Typography variant="h6" gutterBottom={!isMobile}>
             Unbeatable Price
           </Typography>
-          <Typography variant="body1" style={{ fontSize: "90%" }}>
+          <Typography variant="subtitle1" style={{ fontSize: "90%" }}>
             We offer top quality products at most affordable prices, providing the best value for your money.
           </Typography>
         </Paper>
@@ -84,7 +84,7 @@ export const FeedbackComponent = () => {
             <Typography variant='h5' style={{ textAlign: "center", mb: 1, fontWeight: "bold" }}>
               FROM JAIPUR STREETS TO YOUR HOME
             </Typography>
-            <Typography variant="body1" style={{ textAlign: "center" }}>
+            <Typography variant="subtitle1" style={{ textAlign: "center" }}>
               The Journey of AYRU JAIPUR began in 2020 during the challenging times of COVID-19, and we are proud to be rooted exclusively in Jaipur, a city we fall more in love with each day. Drawing inspiration from the everyday happiness found in Jaipur’s vibrant streets, rich colors, intricate patterns, and lively sounds, we create interwoven stories and styles that define our unique aesthetic.
               We are committed to supporting artisan livelihoods and maintaining exceptional quality in all our products.
             </Typography>

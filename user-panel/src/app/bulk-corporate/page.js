@@ -19,7 +19,7 @@ const BulkCorporateOrders = () => {
       <Typography variant="h4" gutterBottom>
         Bulk and Corporate Orders
       </Typography>
-      <Typography paragraph>
+      <Typography variant="subtitle1">
         At AYRU JAIPUR, we specialize in providing high-quality hand-block products. Whether you're looking to place a large order for a special event, corporate gifting, or to stock your retail store, we offer competitive wholesale pricing and reliable service to meet your needs.
       </Typography>
 
@@ -68,10 +68,10 @@ const BulkCorporateOrders = () => {
       <Typography variant="h5" gutterBottom>
         Minimum Order Quantity (MOQ) and Pricing
       </Typography>
-      <Typography paragraph>
+      <Typography variant="subtitle1">
         Our minimum order quantity (MOQ) and wholesale prices vary depending on the type and quantity of products you wish to order. We aim to provide flexible solutions to suit different business needs.
       </Typography>
-      <Typography paragraph>
+      <Typography variant="subtitle1">
         For detailed information about our MOQs and pricing, please
         contact us on
         <Button
@@ -99,11 +99,11 @@ const BulkCorporateOrders = () => {
         Our team will be happy to assist you and provide all the necessary details to help you make an informed decision.
       </Typography>
 
-      <Typography paragraph>
+      <Typography variant="subtitle1">
         Please reach out to us on WhatsApp for more information about bulk and corporate orders, or to discuss your specific needs. We look forward to partnering with you to provide the best hand-block products for your requirements.
       </Typography>
 
-      <Typography paragraph>
+      <Typography variant="subtitle1">
         At AYRU JAIPUR, we value our clients and strive to offer exceptional service and high-quality products. Let us help you make your next bulk or corporate order a success.
       </Typography>
     </Container>

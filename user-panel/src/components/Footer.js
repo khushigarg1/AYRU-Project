@@ -52,11 +52,11 @@ const Footer = () => {
                 </Box>
                 {expanded['panel2'] && (
                   <>
-                    <Typography variant="body1" mt={1}><Link href="/">Home</Link></Typography>
-                    <Typography variant="body1"><Link href="/about">About Us</Link></Typography>
-                    <Typography variant="body1"><Link href="/contact">Contact Us</Link></Typography>
-                    <Typography variant="body1"><Link href="/international-order">International Orders</Link></Typography>
-                    <Typography variant="body1"><Link href="/bulk-corporate">Bulk & Corporate Orders</Link></Typography>
+                    <Typography variant="subtitle1" mt={1}><Link href="/">Home</Link></Typography>
+                    <Typography variant="subtitle1"><Link href="/about">About Us</Link></Typography>
+                    <Typography variant="subtitle1"><Link href="/contact">Contact Us</Link></Typography>
+                    <Typography variant="subtitle1"><Link href="/international-order">International Orders</Link></Typography>
+                    <Typography variant="subtitle1"><Link href="/bulk-corporate">Bulk & Corporate Orders</Link></Typography>
                   </>
                 )}
               </Grid>
@@ -71,11 +71,11 @@ const Footer = () => {
                 </Box>
                 {expanded['panel3'] && (
                   <>
-                    <Typography variant="body1" mt={1}><Link href="/policies/Shipping">Shipping Policy</Link></Typography>
-                    <Typography variant="body1"><Link href="/policies/cancellation">Cancellation Policy</Link></Typography>
-                    <Typography variant="body1"><Link href="/policies/privacy">Privacy Policy</Link></Typography>
-                    <Typography variant="body1"><Link href="/policies/Exchange-refund">Exchange & Refund Policy</Link></Typography>
-                    <Typography variant="body1"><Link href="/policies/termsCondition">Terms of Service</Link></Typography>
+                    <Typography variant="subtitle1" mt={1}><Link href="/policies/Shipping">Shipping Policy</Link></Typography>
+                    <Typography variant="subtitle1"><Link href="/policies/cancellation">Cancellation Policy</Link></Typography>
+                    <Typography variant="subtitle1"><Link href="/policies/privacy">Privacy Policy</Link></Typography>
+                    <Typography variant="subtitle1"><Link href="/policies/Exchange-refund">Exchange & Refund Policy</Link></Typography>
+                    <Typography variant="subtitle1"><Link href="/policies/termsCondition">Terms of Service</Link></Typography>
                   </>
                 )}
               </Grid>
@@ -90,9 +90,9 @@ const Footer = () => {
                 </Box>
                 {expanded['panel4'] && (
                   <>
-                    <Typography variant="body1" mt={1}>Address: Prangan, Jaipur, Rajasthan-302012 , INDIA </Typography>
-                    <Typography variant="body1">Email: ayrujaipur@gmail.com</Typography>
-                    <Typography variant="body1">Phone: +91-9785852222</Typography>
+                    <Typography variant="subtitle1" mt={1}>Address: Prangan, Jaipur, Rajasthan-302012 , INDIA </Typography>
+                    <Typography variant="subtitle1">Email: ayrujaipur@gmail.com</Typography>
+                    <Typography variant="subtitle1">Phone: +91-9785852222</Typography>
                   </>
                 )}
               </Grid> */}
@@ -103,19 +103,19 @@ const Footer = () => {
                 </Typography>
                 <Box display="flex" alignItems="center" mt={1}>
                   <LocationOnOutlinedIcon sx={{ mr: 1 }} />
-                  <Typography variant="body1">
+                  <Typography variant="subtitle1">
                     Prangan, Jaipur, Rajasthan-302012 , INDIA
                   </Typography>
                 </Box>
                 <Box display="flex" alignItems="center" mt={1}>
                   <EmailOutlinedIcon sx={{ mr: 1 }} />
-                  <Typography variant="body1">
+                  <Typography variant="subtitle1">
                     Email: ayrujaipur@gmail.com
                   </Typography>
                 </Box>
                 <Box display="flex" alignItems="center" mt={1}>
                   <PhoneOutlinedIcon sx={{ mr: 1 }} />
-                  <Typography variant="body1">
+                  <Typography variant="subtitle1">
                     Phone: +91-9785852222
                   </Typography>
                 </Box>
@@ -167,19 +167,19 @@ const Footer = () => {
                 <Typography variant="h6" gutterBottom>
                   Quick Links
                 </Typography>
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="subtitle1" gutterBottom>
                   <Link href="/">Home</Link>
                 </Typography>
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="subtitle1" gutterBottom>
                   <Link href="/about">About Us</Link>
                 </Typography>
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="subtitle1" gutterBottom>
                   <Link href="/contact">Contact Us</Link>
                 </Typography>
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="subtitle1" gutterBottom>
                   <Link href="/international-order">International Orders</Link>
                 </Typography>
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="subtitle1" gutterBottom>
                   <Link href="/bulk-corporate">Bulk & Corporate Orders</Link>
                 </Typography>
               </Grid>
@@ -188,19 +188,19 @@ const Footer = () => {
                 <Typography variant="h6" gutterBottom>
                   My Policies
                 </Typography>
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="subtitle1" gutterBottom>
                   <Link href="/policies/Shipping">Shipping Policy</Link>
                 </Typography>
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="subtitle1" gutterBottom>
                   <Link href="/policies/cancellation">Cancellation Policy</Link>
                 </Typography>
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="subtitle1" gutterBottom>
                   <Link href="/policies/privacy">Privacy Policy</Link>
                 </Typography>
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="subtitle1" gutterBottom>
                   <Link href="/policies/Exchange-refund">Exchange & Refund Policy</Link>
                 </Typography>
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="subtitle1" gutterBottom>
                   <Link href="/policies/termsCondition">Terms of Service</Link>
                 </Typography>
               </Grid>
@@ -212,19 +212,19 @@ const Footer = () => {
                 </Typography>
                 <Box display="flex" alignItems="center" mt={1} gap={1}>
                   <LocationOnOutlinedIcon sx={{ mr: 1 }} />
-                  <Typography variant="body1">
+                  <Typography variant="subtitle1">
                     Prangan, Jaipur, Rajasthan-302012 , INDIA
                   </Typography>
                 </Box>
                 <Box display="flex" alignItems="center" mt={1}>
                   <EmailOutlinedIcon sx={{ mr: 1 }} />
-                  <Typography variant="body1">
+                  <Typography variant="subtitle1">
                     Email: ayrujaipur@gmail.com
                   </Typography>
                 </Box>
                 <Box display="flex" alignItems="center" mt={1}>
                   <PhoneOutlinedIcon sx={{ mr: 1 }} />
-                  <Typography variant="body1">
+                  <Typography variant="subtitle1">
                     Phone: +91-9785852222
                   </Typography>
                 </Box>

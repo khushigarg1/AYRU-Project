@@ -49,11 +49,40 @@ const materialTheme = createTheme({
       contrast: "#fcc73d"
     },
     typography: {
-      // fontFamily: "PT serif !important",
       fontFamily: "Neuton !important",
-      // fontFamily: "Libre Baskerville !important",
-      // fontFamily: "Cinzel !important",
       fontFamily2: "Neuton, serif",
+      h1: {
+        fontFamily: '"Neuton", serif',
+        fontWeight: 700,
+      },
+      h2: {
+        fontFamily: '"Roboto", sans-serif',
+        fontWeight: 500,
+      },
+      h3: {
+        fontFamily: '"Roboto", sans-serif',
+        fontWeight: 500,
+      },
+      h4: {
+        fontFamily: '"Roboto", sans-serif',
+        fontWeight: 500,
+      },
+      h5: {
+        fontFamily: '"Roboto", sans-serif',
+        fontWeight: 500,
+      },
+      h6: {
+        fontFamily: '"Roboto", sans-serif',
+        fontWeight: 500,
+      },
+      body1: {
+        fontFamily: '"Arial", sans-serif',
+        fontWeight: 400,
+      },
+      body2: {
+        fontFamily: '"Courier New", monospace',
+        fontWeight: 300,
+      },
     },
   },
   breakpoints: {
@@ -91,7 +120,8 @@ export default function RootLayout({ children }) {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=serif:wght@400;700&display=swap" />
 
       </head>
-      <body style={{ width: "100%", padding: "0px", fontFamily: "sans-serif", overflowX: "hidden", marginLeft: 0, marginRight: 0 }}>
+      <body style={{ width: "100%", padding: "0px", fontFamily: "Neuton, serif", overflowX: "hidden", marginLeft: 0, marginRight: 0 }}>
+        {/* <ThemeProvider heme={materialTheme}> */}
         <ThemeProvider theme={{ [THEME_ID]: materialTheme }}>
           <AuthProvider>
             <Marquee text={marqueeText} />

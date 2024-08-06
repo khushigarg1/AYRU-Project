@@ -18,16 +18,19 @@ export default function ContactUs() {
         <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder" }}>
           Contact Us
         </Typography>
-        <Typography variant="body1" paragraph align="left">
+        <Typography variant="subtitle1" align="left">
           We'd love to hear from you! We strive to respond to all inquiries within 24-48 hours.
           Please note that response times may be longer during weekends and holidays.
         </Typography>
-        <Typography variant="body1" paragraph align="left">
+        <Typography variant="body1" align="left">
           Connect with us using the information provided below ⬇️
         </Typography>
         <Box mt={4}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
+              <Typography variant="subtitle1" >
+                +91-9785852222 between 11:00 AM and 5:00 PM, Monday to Saturday.
+              </Typography>
               <Typography variant="h5" component="h2" gutterBottom>
                 <Button
                   aria-label="Chat on WhatsApp"
@@ -47,13 +50,10 @@ export default function ContactUs() {
                 </Button>
                 {' '}
               </Typography>
-              <Typography variant="body1" paragraph>
-                +91-9785852222 between 11:00 AM and 5:00 PM, Monday to Saturday.
-              </Typography>
               <Typography variant="h5" component="h2" gutterBottom>
                 Email
               </Typography>
-              <Typography variant="body1" paragraph>
+              <Typography variant="subtitle1" >
                 <Link href="mailto:ayrujaipur@gmail.com" color="inherit" sx={{ fontWeight: "bold" }}>ayrujaipur@gmail.com</Link>
               </Typography>
             </Grid>
@@ -61,7 +61,7 @@ export default function ContactUs() {
               {/* <Typography variant="h5" component="h2" gutterBottom>
                 Contact Number
               </Typography>
-              <Typography variant="body1" paragraph>
+              <Typography variant="subtitle1" >
                 +91-97858 52222
               </Typography> */}
               <Typography variant="h5" component="h2" gutterBottom>
@@ -82,7 +82,7 @@ export default function ContactUs() {
               <Typography variant="h5" component="h2" gutterBottom>
                 Operating Address
               </Typography>
-              <Typography variant="body1" paragraph>
+              <Typography variant="subtitle1" >
                 Prangan, 302012, Jaipur, Rajasthan, INDIA
               </Typography>
             </Grid>

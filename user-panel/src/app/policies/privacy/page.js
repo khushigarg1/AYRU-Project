@@ -17,13 +17,13 @@ export default function PrivacyPolicy() {
         <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: "bolder", fontSize: "33px" }}>
           Privacy Policy
         </Typography>
-        <Typography paragraph>
+        <Typography variant="subtitle1">
           At AYRU JAIPUR, we are committed to protecting your privacy. This privacy policy outlines how we handle and protect your personal information.
         </Typography>
         <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           What Information We Collect
         </Typography>
-        <Typography paragraph>
+        <Typography variant="subtitle1">
           We collect the following personal information from our users:
           <ul>
             <li>Name</li>
@@ -37,7 +37,7 @@ export default function PrivacyPolicy() {
         <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           How We Collect Information
         </Typography>
-        <Typography paragraph>
+        <Typography variant="subtitle1">
           We collect information from you when you:
           <ul>
             <li>Register on our website</li>
@@ -50,7 +50,7 @@ export default function PrivacyPolicy() {
         <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           How We Use Collected Information
         </Typography>
-        <Typography paragraph>
+        <Typography variant="subtitle1">
           The information we collect is used in the following ways:
           <ul>
             <li>To personalize your experience on our website</li>
@@ -62,23 +62,23 @@ export default function PrivacyPolicy() {
         <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           How We Keep Information Safe
         </Typography>
-        <Typography paragraph>
+        <Typography variant="subtitle1">
           We implement various security measures to maintain the safety of your personal information. Your personal information is contained behind
           secured networks and is only accessible by a limited number of persons who have special access rights to such systems, and are required to keep the information confidential. Additionally, all sensitive information you supply is encrypted via Secure Socket Layer (SSL) technology.
         </Typography>
         <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           Information Sharing with Third Parties
         </Typography>
-        <Typography paragraph>
+        <Typography variant="subtitle1">
           We do not sell, trade, or otherwise transfer to outside parties your Personally Identifiable Information unless we provide users with advance notice. This does not include website hosting partners and other parties who assist us in operating our website, conducting our business, or serving our users, so long as those parties agree to keep this information confidential. We may also release information when it's release is appropriate to comply with the law, enforce our site policies, or protect ours or others' rights, property or safety.
         </Typography>
         <Typography variant="h6" sx={{ fontWeight: "bolder", marginTop: "5px" }}>
           Effective Date
         </Typography>
-        {/* <Typography paragraph>
+        {/* <Typography variant="subtitle1">
           This Privacy Policy is effective as of [Effective Date].
         </Typography> */}
-        <Typography paragraph>
+        <Typography variant="subtitle1">
           If you have any questions about this Privacy Policy, please contact us at:
           <br />
           WhatsApp: +91-9785852222
@@ -107,7 +107,7 @@ export default function PrivacyPolicy() {
           <br />
           Address: Prangan, 302012, Jaipur, Rajasthan, INDIA
         </Typography>
-        <Typography paragraph>
+        <Typography variant="subtitle1">
           By using our site, you consent to our website's privacy policy.
         </Typography>
       </Container>

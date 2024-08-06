@@ -168,7 +168,7 @@ const InventoryItem = ({ item }) => {
         </IconButton>
       </Box>
       <CardContent sx={{ flexGrow: 1, padding: "10px", '&:last-child': { paddingBottom: "10px" } }}>
-        <Typography variant="subtitle2" gutterBottom sx={{ lineHeight: "1", fontWeight: "bolder" }}>
+        <Typography variant="body1" gutterBottom sx={{ lineHeight: "1", fontWeight: "bolder" }}>
           {item.productName}
         </Typography>
         <Typography variant="body2" color="text.secondary" gutterBottom>
