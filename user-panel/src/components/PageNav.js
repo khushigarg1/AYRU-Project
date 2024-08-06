@@ -49,6 +49,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
       }),
       marginLeft: 0,
     }),
+    fontFamily: theme.palette.typography.fontFamily
   })
 );
 
@@ -59,6 +60,7 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
+  fontFamily: theme.palette.typography.fontFamily
 });
 
 const closedMixin = (theme) => ({
@@ -75,6 +77,7 @@ const closedMixin = (theme) => ({
   [theme.breakpoints.down("sm")]: {
     display: "none",
   },
+  fontFamily: theme.palette.typography.fontFamily
 });
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -83,6 +86,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "space-between",
   padding: theme.spacing(0, 1),
   ...theme.mixins.toolbar,
+  fontFamily: theme.palette.typography.fontFamily
 }));
 
 const StyledAppBar = styled(MuiAppBar)(({ theme }) => ({
@@ -102,6 +106,7 @@ const StyledAppBar = styled(MuiAppBar)(({ theme }) => ({
   backgroundColor: "white",
   position: "sticky",
   zIndex: theme.zIndex.drawer + 1,
+  fontFamily: theme.palette.typography.fontFamily
 }));
 
 const Drawer = styled(MuiDrawer, {
@@ -120,6 +125,7 @@ const Drawer = styled(MuiDrawer, {
     ...closedMixin(theme),
     "& .MuiDrawer-paper": closedMixin(theme),
   }),
+  fontFamily: theme.palette.typography.fontFamily
 }));
 
 const CustomAccountIcon = (props) => (
@@ -130,6 +136,7 @@ const CustomAccountIcon = (props) => (
 const AuthenticatedSection = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.contrast,
   padding: theme.spacing(0),
+  fontFamily: theme.palette.typography.fontFamily
 }));
 
 export default function PageNav({ children }) {

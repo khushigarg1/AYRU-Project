@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import ImageCarousel from '@/components/slider';
 import { Note } from '@/components/Note';
 import { InfoComponent } from '@/components/InfoContainer';
@@ -16,7 +16,7 @@ import { FeedbackComponent } from '@/components/Extra/FeedbackComponent';
 import FloatingWhatsAppButton from '@/components/floatingButton';
 
 const Home = ({ openTab }) => {
-
+  const theme = useTheme();
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const Home = ({ openTab }) => {
     fetchProducts();
   }, []);
   return (
-    <Box style={{ padding: "0px" }}>
+    <Box style={{ padding: "0px", fontFamily: theme.palette.typography.fontFamily }}>
       <ImageCarousel />
       <Note />
       <ImageGrid />
