@@ -49,7 +49,9 @@ const materialTheme = createTheme({
       contrast: "#fcc73d"
     },
     typography: {
-      fontFamily: "Georgia, Roboto, sans-serif !important",
+      // fontFamily: "PT serif !important",
+      fontFamily: "EB Garamond !important",
+      // fontFamily: "Libre Baskerville !important",
       // fontFamily: "Cinzel, Roboto, sans-serif !important",
       fontFamily2: "serif, sans-serif",
     },

@@ -77,7 +77,7 @@ export const ProductSlider = ({ products }) => {
         <Slider {...settings}>
           {slicedProducts.map((product, index) => (
             <Box key={product.id} p={1} sx={{ backgroundColor: "transparent", position: 'relative' }}>
-              <Card sx={{ backgroundColor: "transparent", boxShadow: "none", position: 'relative' }}
+              <Card sx={{ backgroundColor: "transparent", boxShadow: "none", position: 'relative', cursor: "pointer" }}
                 onClick={() => router.push(`/shop/${product?.id}`)}
               >
                 <IconButton
