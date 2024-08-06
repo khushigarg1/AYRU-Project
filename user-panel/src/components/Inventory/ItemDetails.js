@@ -386,7 +386,7 @@ Thank you so much!`;
               <Typography variant="body1" gutterBottom>
                 <strong>Category:</strong> {product?.Category?.categoryName}
               </Typography>
-              <Typography variant='body2' sx={{ fontSize: '0.9rem', mt: 1 }}>
+              <Typography variant='body1' sx={{ fontSize: '0.9rem', mt: 1 }}>
                 SKU: {product?.skuId}
               </Typography>
               <Divider sx={{ borderStyle: "dotted", mt: 2, mb: 2 }} />
