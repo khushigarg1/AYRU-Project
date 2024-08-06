@@ -1,12 +1,7 @@
 // RootLayout.js
 "use client";
-// import "@fontsource/cinzel"; // Ensure this package is installed
 
 import "./globals.css";
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
 import { THEME_ID, createTheme, styled, useTheme } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "@emotion/react";
@@ -37,7 +32,7 @@ const materialTheme = createTheme({
       primary: "#212121",
       secondary: "#000000",
       text: "#fcc73d",
-      font: "Montserrat, sans-serif",
+      font: "Neuton, serif",
       contrastText: "#212121",
     },
     divider: "rgba(0,0,0,0.12)",
@@ -51,39 +46,7 @@ const materialTheme = createTheme({
     typography: {
       fontFamily: "Neuton !important",
       fontFamily2: "Neuton, serif",
-      h1: {
-        fontFamily: '"Neuton", serif',
-        fontWeight: 700,
-      },
-      h2: {
-        fontFamily: '"Roboto", sans-serif',
-        fontWeight: 500,
-      },
-      h3: {
-        fontFamily: '"Roboto", sans-serif',
-        fontWeight: 500,
-      },
-      h4: {
-        fontFamily: '"Roboto", sans-serif',
-        fontWeight: 500,
-      },
-      h5: {
-        fontFamily: '"Roboto", sans-serif',
-        fontWeight: 500,
-      },
-      h6: {
-        fontFamily: '"Roboto", sans-serif',
-        fontWeight: 500,
-      },
-      body1: {
-        fontFamily: '"Arial", sans-serif',
-        fontWeight: 400,
-      },
-      body2: {
-        fontFamily: '"Courier New", monospace',
-        fontWeight: 300,
-      },
-    },
+    }
   },
   breakpoints: {
     values: {
