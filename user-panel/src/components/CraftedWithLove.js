@@ -17,7 +17,8 @@ export const CraftedWithLove = () => {
     const fetchVisibleCategories = async () => {
       try {
         const response = await api.get('/categories/visible');
-        setCategories(response.data.data);
+        const sortedCategories = response.data.data.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt));
+        setCategories(sortedCategories);
         setCategoryInventory(response.data.data[selectedCategory]?.Inventory.slice(0, 4));
         setLoadMoreUrl(`/shop?categoryId=${response.data.data[selectedCategory]?.id}`);
       } catch (error) {

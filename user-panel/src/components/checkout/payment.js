@@ -82,7 +82,7 @@ export const PaymentStep = ({ handleNext, orderData, setOrderData }) => {
           <Box sx={{ display: 'flex', alignItems: 'center', mt: 1, mb: 1 }}>
             {/* <RazorpayIcon sx={{ fontSize: 30, color: 'green', mr: 2 }} /> */}
             {/* <Typography variant="h6">💵 Razorpay</Typography> */}
-            <Image src={RajorPay}></Image>
+            <Image alt="rajorpay" src={RajorPay}></Image>
           </Box>
 
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>

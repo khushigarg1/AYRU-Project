@@ -130,7 +130,7 @@ const Footer = () => {
                   <Link
                     target="_blank" href="https://www.instagram.com/handblock_ayrujaipur?igsh=MTkxbnBvZ3J3dW5ydA%3D%3D&utm_source=qr" passHref>
                     {/* <InstagramIcon size={32} round /> */}
-                    <Image src={Insta} sidth={30} height={30} />
+                    <Image alt="insta" src={Insta} sidth={30} height={30} />
                   </Link>
                 </Box>
               </Grid>
@@ -157,7 +157,7 @@ const Footer = () => {
                   <Link
                     target="_blank" href="https://www.instagram.com/handblock_ayrujaipur?igsh=MTkxbnBvZ3J3dW5ydA%3D%3D&utm_source=qr" passHref>
                     {/* <InstagramIcon size={32} round /> */}
-                    <Image src={Insta} sidth={30} height={30} />
+                    <Image alt="insta" src={Insta} sidth={30} height={30} />
                   </Link>
                 </Box>
               </Grid>

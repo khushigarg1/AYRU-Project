@@ -17,7 +17,7 @@ const NextArrow = (props) => {
   return (
     <IconButton
       onClick={onClick}
-      style={{ position: 'absolute', top: '50%', right: '5px', zIndex: 2, transform: 'translateY(-50%)' }}
+      style={{ position: 'absolute', top: '50%', right: '5px', zIndex: 2, backgroundColor: 'transparent', transform: 'translateY(-30%)' }}
     >
       <ArrowForwardIos />
     </IconButton>
@@ -29,7 +29,7 @@ const PrevArrow = (props) => {
   return (
     <IconButton
       onClick={onClick}
-      style={{ position: 'absolute', top: '50%', left: '5px', zIndex: 2, transform: 'translateY(-50%)' }}
+      style={{ position: 'absolute', top: '50%', left: '5px', zIndex: 2, backgroundColor: 'transparent', transform: 'translateY(-30%)' }}
     >
       <ArrowBackIos />
     </IconButton>
@@ -128,6 +128,13 @@ export const ProductSlider = ({ products }) => {
         },
       },
       {
+        breakpoint: 800,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+        },
+      },
+      {
         breakpoint: 600,
         settings: {
           slidesToShow: 2,
@@ -143,7 +150,7 @@ export const ProductSlider = ({ products }) => {
       },
     ],
     appendDots: dots => (
-      <Box component="ul" sx={{ margin: 0, padding: 0, display: 'flex', justifyContent: 'center', listStyle: 'none', bottom: "20px" }}>
+      <Box component="ul" sx={{ margin: 0, padding: 0, display: 'flex', justifyContent: 'center', listStyle: 'none', bottom: "10px" }}>
         {dots}
       </Box>
     ),
@@ -185,12 +192,12 @@ export const ProductSlider = ({ products }) => {
                 </IconButton>
                 <CardMedia
                   component="img"
-                  height={isMobile ? 200 : 400}
+                  height={isMobile ? 200 : 350}
                   image={product.Media && product.Media.length > 0 ? `https://ayrujaipur.s3.amazonaws.com/${product.Media[0].url}` : '/fallback_image_url'}
                   alt={product.productName}
                   sx={{
                     objectFit: 'contain',
-                    height: isMobile ? "200px" : "400px",
+                    height: isMobile ? "200px" : "350px",
                   }}
                 />
                 <CardContent sx={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "left" }}>
