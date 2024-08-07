@@ -21,7 +21,7 @@ const Footer = () => {
   };
 
   return (
-    <Box sx={{ bgcolor: theme.palette.background.primary, color: 'black', paddingBottom: "10px", bottom: 0, position: "absolute", width: "100%" }} mt={0} >
+    <Box sx={{ bgcolor: theme.palette.background.primary, color: 'black', paddingBottom: "10px" }} mt={0} >
       {isMobile ?
         (<>
           <Image src={Img} alt="Welcome to AYRU JAIPUR" style={{
