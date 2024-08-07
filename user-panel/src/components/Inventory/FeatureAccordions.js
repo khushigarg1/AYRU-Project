@@ -31,27 +31,27 @@ Could you please provide me with the details regarding the process, any addition
             <Table>
               <TableBody>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d' }}>Style</TableCell>
+                  <TableCell >Style</TableCell>
                   <TableCell>{product.style || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d' }}>Pattern</TableCell>
+                  <TableCell >Pattern</TableCell>
                   <TableCell>{product.pattern || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d' }}>Fabric</TableCell>
+                  <TableCell >Fabric</TableCell>
                   <TableCell>{product.fabric || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d' }}>Size</TableCell>
+                  <TableCell >Size</TableCell>
                   <TableCell>{product.size || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d' }}>Item Weight</TableCell>
+                  <TableCell >Item Weight</TableCell>
                   <TableCell>{product.itemWeight || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d' }}>Thread Count</TableCell>
+                  <TableCell >Thread Count</TableCell>
                   <TableCell>{product.threadCount || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>

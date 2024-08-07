@@ -10,7 +10,8 @@ import { useMediaQuery, useTheme } from '@mui/material';
 const MainContainer = styled('div')(({ theme }) => ({
   padding: '20px 40px',
   backgroundColor: theme.palette.background.paper,
-  position: "relative"
+  position: "relative",
+  marginTop: "-6px"
 }));
 
 const NoteContainer = styled('div')(({ theme }) => ({
