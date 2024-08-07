@@ -99,7 +99,7 @@ export async function getAllDashboardData(
       });
 
     const orders = await prisma.order.findMany({
-      where: { paymentStatus: "success" },
+      where: { paymentStatus: "paid" },
       include: { orderItems: true },
     });
 
@@ -115,6 +115,16 @@ export async function getAllDashboardData(
       });
     });
 
+    const pendingOrders = await prisma.order.count({
+      where: { status: "pending" },
+    });
+    const successOrders = await prisma.order.count({
+      where: { status: "success" },
+    });
+    const failedOrders = await prisma.order.count({
+      where: { status: "failed" },
+    });
+
     const statistics = {
       totalUsers,
       totalOrders,
@@ -124,6 +134,9 @@ export async function getAllDashboardData(
       topCartItems,
       totalRevenue,
       totalProfit,
+      pendingOrders,
+      successOrders,
+      failedOrders,
     };
 
     reply.code(200).send(statistics);
