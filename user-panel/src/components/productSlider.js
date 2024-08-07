@@ -165,7 +165,7 @@ export const ProductSlider = ({ products }) => {
                     objectFit: 'contain',
                     // maxHeight: isMobile ? "200px" : "400px"
                     height: isMobile ? "200px" : "400px",
-                    maxHeight: "100%",
+                    // maxHeight: "100%",
                   }}
                 />
                 <CardContent sx={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "left" }}>
