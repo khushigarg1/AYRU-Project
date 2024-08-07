@@ -219,6 +219,36 @@ export default function PageNav({ children }) {
             </DrawerHeader>
             <Divider />
             <List>
+              <Link onClick={handleDrawerClose} href="/">
+                <ListItem
+                  key={"Dashboard"}
+                  onClick={() => setOpenTab("Dashboard".toLowerCase())}
+                  disablePadding
+                  sx={{ display: "block" }}
+                >
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <EventAvailableOutlined />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={"Dashboard"}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
               <Link onClick={handleDrawerClose} href="/availability">
                 <ListItem
                   key={"Availability"}
