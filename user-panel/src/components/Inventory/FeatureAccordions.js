@@ -55,7 +55,7 @@ Could you please provide me with the details regarding the process, any addition
                   <TableCell>{product.threadCount || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%" }}>Origin</TableCell>
+                  <TableCell >Origin</TableCell>
                   <TableCell>{product.origin || "N/A"}</TableCell>
                 </TableRow>
                 {/* <TableRow>
