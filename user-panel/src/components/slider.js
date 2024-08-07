@@ -134,6 +134,9 @@ const ImageCarousel = () => {
               <StyledImage
                 src={`https://ayrujaipur.s3.amazonaws.com/${image.imageUrl}`}
                 alt={`Slide ${index}`}
+                sx={{
+                  height: !isMobile && "800px"
+                }}
               />
               <OverlayText style={{ top: isMobile ? '70%' : '60%' }}>
                 <StyledButton style={{ fontSize: isMobile ? '0.7rem' : '1rem' }} onClick={handleShop}>
