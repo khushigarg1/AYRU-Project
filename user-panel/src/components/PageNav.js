@@ -579,10 +579,10 @@ export default function PageNav({ children }) {
         flexGrow: 1,
         p: 0, marginTop: scrolledstate ? "58px" : "0px",
         transition: "margin-top 0.6s ease",
-        paddingBottom: "25px"
+        paddingBottom: isMobile ? "0px" : "25px"
       }} mb={0}>
         {children}
       </Main>
-    </Box>
+    </Box >
   );
 }

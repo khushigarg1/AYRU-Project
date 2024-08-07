@@ -28,7 +28,7 @@ const ClientLoveCarousel = () => {
   }
 
   return (
-    <Box sx={{ width: isMobile ? "100%" : "70%", margin: "0 auto", marginBottom: "4%", marginTop: "4%" }}>
+    <Box sx={{ width: isMobile ? "100%" : "70%", margin: "0 auto", marginTop: "4%" }}>
       <Box style={{ width: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Typography variant={isMobile ? 'h4' : 'h3'} sx={{ mb: 4, color: theme.palette.text.text }}>
           Client Love
@@ -47,7 +47,7 @@ const ClientLoveCarousel = () => {
               <Box key={index} display="flex" justifyContent="center" sx={{ gap: 2 }} style={{ backgroundColor: theme.palette.background.paper, padding: "3px 0px" }}>
                 {group.map((item, idx) => (
                   <Card key={idx} sx={{
-                    width: isMobile ? "350px" : "500px",
+                    width: isMobile ? "100%" : "500px",
                     height: isMobile ? "600px" : "600px",
                     padding: "0px 10px",
                     backgroundColor: "transparent",
@@ -70,7 +70,7 @@ const ClientLoveCarousel = () => {
                         }}
                       />
                     </Box>
-                    <CardContent sx={{ backgroundColor: theme.palette.background.paper }}>
+                    <CardContent sx={{ backgroundColor: theme.palette.background.paper, paddingBottom: "5px" }}>
                       <Typography variant="body1" component="div">
                         {item?.text}
                       </Typography>
