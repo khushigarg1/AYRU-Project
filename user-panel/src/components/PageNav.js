@@ -578,7 +578,8 @@ export default function PageNav({ children }) {
       <Main component="main" sx={{
         flexGrow: 1,
         p: 0, marginTop: scrolledstate ? "58px" : "0px",
-        transition: "margin-top 0.6s ease"
+        transition: "margin-top 0.6s ease",
+        paddingBottom: "25px"
       }} mb={0}>
         {children}
       </Main>
