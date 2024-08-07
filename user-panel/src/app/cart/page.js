@@ -30,6 +30,7 @@ const CartPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [loading, setLoading] = useState(true); // Add loading state
 
   const handleCloseModal = () => {
     setItemToDelete(null);
@@ -41,6 +42,8 @@ const CartPage = () => {
 
     try {
       if (token) {
+
+        setLoading(true);
         const response = await api.get(`/cart/user`, {
           headers: {
             Authorization: `Bearer ${token}`
@@ -57,6 +60,8 @@ const CartPage = () => {
       }
     } catch (error) {
       console.error('Error fetching cart:', error);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -131,6 +136,23 @@ const CartPage = () => {
   const whatsappURL = `https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(
     `Hi, I'd like to place an international order for the following items:\n\n${whatsappMessage}${userDetails}\n\nCould you please provide details on the process, shipping costs, and delivery times?`
   )}`;
+
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    )
+  }
+
   return (
     <Box mt={2} style={{
       paddingLeft: isMobile ? "1%" : "8%", paddingRight: isMobile ? "1%" : "8%", backgroundColor: "#F0F0F0",
@@ -148,7 +170,7 @@ const CartPage = () => {
           Shopping Cart
         </Typography>
       </Box>
-      {cartItems.length === 0 && (
+      {cartItems && cartItems.length === 0 && (
         <Typography variant="body2">
           Your cart is empty <strong><Link href="/shop">Browse products</Link></strong> to add items or  <strong style={{ cursor: "pointer" }} onClick={handleLogin}>Login</strong> to see your saved cart.
         </Typography>

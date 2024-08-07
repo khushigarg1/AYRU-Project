@@ -58,6 +58,7 @@ const ImageCarousel = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   const handleShop = () => {
     router.push('/shop');
@@ -70,12 +71,15 @@ const ImageCarousel = () => {
   const fetchImages = async () => {
     const type = 'main';
     try {
+      setLoading(true);
       const response = await api.get('/customer-side-data/media', {
         params: { type },
       });
       setImages(response.data?.data);
     } catch (error) {
       console.error('Error fetching images:', error);
+    } finally {
+      setLoading(false);
     }
   };
 

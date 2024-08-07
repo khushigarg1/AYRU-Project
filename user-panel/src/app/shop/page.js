@@ -40,6 +40,7 @@ const ShopPageContent = () => {
   const [availability, setAvailability] = useState('');
   const [extraOptionOutOfStock, setextraOptionOutOfStock] = useState('');
   const theme = useTheme();
+  const [loading, setLoading] = useState(true);
 
   const handlePriceRangeChange = (event, newValue) => {
     setMinPrice(newValue[0]);
@@ -59,10 +60,6 @@ const ShopPageContent = () => {
       setMaxPrice(value);
     }
   };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
 
   useEffect(() => {
     if (categoryId || subcategoryId) {
@@ -86,6 +83,7 @@ const ShopPageContent = () => {
 
   const fetchCategories = async () => {
     try {
+      setLoading(true);
       const response = await api.get('/categories');
       setCategories(response.data.data);
       if (categoryId) {
@@ -94,6 +92,7 @@ const ShopPageContent = () => {
           setSubcategories(selectedCategoryData.subcategories);
           setCategoryName(selectedCategoryData.categoryName);
         }
+        setLoading(false);
       }
       if (categoryId || subcategoryId) {
         fetchInventory(categoryId, subcategoryId);
@@ -102,6 +101,10 @@ const ShopPageContent = () => {
       console.error('Error fetching categories:', error);
     }
   };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategory(categoryId);
@@ -135,6 +138,7 @@ const ShopPageContent = () => {
     if (subcategoryId) {
       params.subCategoryId = subcategoryId;
     }
+    setLoading(true);
 
     api.get(url, { params })
       .then(response => {
@@ -142,18 +146,24 @@ const ShopPageContent = () => {
       })
       .catch(error => {
         console.error('Error fetching inventory:', error);
-      });
+      }).finally(() => {
+        setLoading(false);
+      })
   };
 
   const fetchAllInventory = () => {
     setCategoryName('All Categories');
+    setLoading(true);
+
     api.get('/inventory')
       .then(response => {
         setInventory(response.data.data);
       })
       .catch(error => {
         console.error('Error fetching inventory:', error);
-      });
+      }).finally(() => {
+        setLoading(false);
+      })
   };
 
   //-------------------------------sorting and searching----------------------------
@@ -186,6 +196,7 @@ const ShopPageContent = () => {
       minPrice,
       maxPrice
     };
+    setLoading(true);
 
     api.get(url, { params })
       .then(response => {
@@ -193,7 +204,9 @@ const ShopPageContent = () => {
       })
       .catch(error => {
         console.error('Error fetching inventory:', error);
-      });
+      }).finally(() => {
+        setLoading(false);
+      })
 
     handleDrawerClose();
   };
@@ -214,6 +227,7 @@ const ShopPageContent = () => {
     if (selectedSubcategory) {
       params.subCategoryId = selectedSubcategory;
     }
+    setLoading(true);
 
     api.get(url, { params })
       .then(response => {
@@ -221,7 +235,9 @@ const ShopPageContent = () => {
       })
       .catch(error => {
         console.error('Error searching inventory:', error);
-      });
+      }).finally(() => {
+        setLoading(false);
+      })
     // api.get(url, { params })
     //   .then(response => {
     //     setInventory(response.data.data);
@@ -246,6 +262,22 @@ const ShopPageContent = () => {
   const handleAvailabilityChange = (event) => {
     setAvailability(event.target.value || '');
   };
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    )
+  }
+
   return (
     <>
       <Box sx={{
@@ -319,13 +351,28 @@ const ShopPageContent = () => {
       </Grid >
       <Grid container spacing={3} className="shop-page" style={{ padding: " 3% 2%" }}>
         <Grid container spacing={1} item xs={12}>
-          {inventory.map(item => (
+          {/* {inventory.map(item => (
             item?.productstatus === "PUBLISHED" && (
               <Grid key={item.id} item xs={6} sm={6} md={4} lg={2.4} xl={2}>
                 <InventoryItem item={item} />
               </Grid>
             )
-          ))}
+          ))} */}
+          {inventory.length > 0 ?
+            inventory.map(item => (
+              item?.productstatus === "PUBLISHED" && (
+                <Grid key={item.id} item xs={6} sm={6} md={4} lg={2.4} xl={2}>
+                  <InventoryItem item={item} />
+                </Grid>
+              )
+            ))
+            : (
+              <Grid item xs={12}>
+                <Typography variant="h6" align="center" p={4}>
+                  Currently, there are no products available. Please check back soon for new arrivals and updates.
+                </Typography>
+              </Grid>
+            )}
         </Grid>
       </Grid>
 

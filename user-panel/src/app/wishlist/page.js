@@ -14,9 +14,13 @@ const WishlistPage = () => {
   const theme = useTheme();
   const [wishlsitId, setWishlistIds] = useState([]);
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
   const fetchWishlistItems = async () => {
     try {
       if (user?.id) {
+
+        setLoading(true);
         const response = await api.get(`/wishlist/user/${user.id}`);
         setWishlistItems(response.data.data);
         const wishlistItemsData = response.data.data;
@@ -31,6 +35,8 @@ const WishlistPage = () => {
       }
     } catch (error) {
       console.error('Error fetching wishlist items:', error);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -53,6 +59,21 @@ const WishlistPage = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = wishlistItems.slice(indexOfFirstItem, indexOfLastItem);
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    )
+  }
 
   return (
     <Box p={1} sx={{ backgroundColor: "#F0F0F0" }}>

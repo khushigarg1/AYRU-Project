@@ -1,6 +1,6 @@
 "use client"
-import React, { useEffect, useState } from 'react';
-import { Box, Typography, useTheme } from '@mui/material';
+import React, { Suspense, useEffect, useState } from 'react';
+import { Box, CircularProgress, Typography, useTheme } from '@mui/material';
 import ImageCarousel from '@/components/slider';
 import { Note } from '@/components/Note';
 import { InfoComponent } from '@/components/InfoContainer';
@@ -19,29 +19,33 @@ import Marquee from '@/components/marquee';
 const Home = ({ openTab }) => {
   const theme = useTheme();
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [marqueeText, setMarqueeText] = useState("");
+  // const [marqueeText, setMarqueeText] = useState("");
 
-  useEffect(() => {
-    const fetchMarqueeText = async () => {
-      try {
-        const response = await api.get("/customer-side-data/1");
-        setMarqueeText(response.data.data.marqueeText || '');
-      } catch (error) {
-        console.error("Error fetching marquee text:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchMarqueeText = async () => {
+  //     try {
+  //       const response = await api.get("/customer-side-data/1");
+  //       setMarqueeText(response.data.data.marqueeText || '');
+  //     } catch (error) {
+  //       console.error("Error fetching marquee text:", error);
+  //     }
+  //   };
 
-    fetchMarqueeText();
-  }, []);
+  //   fetchMarqueeText();
+  // }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true);
         const response = await api.get('/inventory');
         setProducts(response.data.data);
       } catch (error) {
         console.error('Error fetching the products:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -64,4 +68,25 @@ const Home = ({ openTab }) => {
   );
 };
 
-export default Home;
+const HomePage = () => {
+  return (
+    <Suspense
+      fallback={
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      }
+    >
+      <Home />
+    </Suspense>
+  );
+};
+
+export default HomePage;

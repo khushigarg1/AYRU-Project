@@ -57,6 +57,7 @@ export const FeedbackComponent = () => {
         <Box sx={{
           width: isMobile ? "100%" : "70%", marginBottom: "4%", display: "flex",
           flexDirection: isMobile ? "column" : "row",
+          gap: !isMobile && 5,
           justifyContent: "center", alignItems: "center",
           textAlign: "center",
         }}>
