@@ -85,7 +85,7 @@ export const Note = () => {
   }, []);
 
   return (
-    <MainContainer>
+    <MainContainer mt={0}>
       <Image src={WebpImage} alt="Left Image" width={100} height={45} style={{ position: 'absolute', left: '-8px', top: isMobile ? "75%" : "70%", transform: 'translateY(-50%)', maxWidth: '20%', height: 'auto', opacity: "1" }} />
       <NoteContainer>
         {notetext || "Loading..."}

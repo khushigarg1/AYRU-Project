@@ -1,6 +1,6 @@
 "use client"
-import React, { useState, useEffect } from 'react';
-import { Box, Button, Stepper, Step, StepLabel, Typography, Paper, Accordion, AccordionSummary, AccordionDetails, TextField, Checkbox, FormControlLabel, useTheme, useMediaQuery } from '@mui/material';
+import React, { useState, useEffect, Suspense } from 'react';
+import { Box, Button, Stepper, Step, StepLabel, Typography, Paper, Accordion, AccordionSummary, AccordionDetails, TextField, Checkbox, FormControlLabel, useTheme, useMediaQuery, CircularProgress } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useAuth } from '@/contexts/auth';
 import { BillingAndShippingStep } from '@/components/checkout/billingShipping';
@@ -203,4 +203,25 @@ const CheckoutPage = () => {
 };
 
 
-export default CheckoutPage;
+const CheckoutPageFinal = () => {
+  return (
+    <Suspense
+      fallback={
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh', // Full viewport height
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      }
+    >
+      <CheckoutPage />
+    </Suspense>
+  );
+};
+
+export default CheckoutPageFinal;

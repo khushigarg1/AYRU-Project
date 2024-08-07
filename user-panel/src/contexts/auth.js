@@ -1,10 +1,11 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, Suspense } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import api from '../../api';
 import LoginForm from '@/components/Authentication/LoginForm';
 import SignUpForm from '@/components/Authentication/SignupForm';
 import { decodeJWT } from 'aws-amplify/auth';
+import { Box, CircularProgress } from '@mui/material';
 
 const AuthContext = createContext({});
 
@@ -85,10 +86,25 @@ export const AuthProvider = ({ children }) => {
   const switchToLogin = () => setAuthStep('login');
   return (
     <AuthContext.Provider value={{ isAuthenticated: !!user, user, setUser, loading, logout, setOpenTab, openAuthModal, closeAuthModal, setWishlistCount, wishlistCount, cartCount, setCartCount }}>
-      {authModalOpen ? (
-        authStep === 'login' ? <LoginForm switchToSignUp={switchToSignUp} /> : <SignUpForm switchToLogin={switchToLogin} />
-      )
-        : (children)}
+      <Suspense
+        fallback={
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100vh',
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        }
+      >
+        {authModalOpen ? (
+          authStep === 'login' ? <LoginForm switchToSignUp={switchToSignUp} /> : <SignUpForm switchToLogin={switchToLogin} />
+        )
+          : (children)}
+      </Suspense>
     </AuthContext.Provider>
   );
 };
@@ -104,7 +120,17 @@ export const ProtectRoute = ({ children }) => {
   }, [loading, isAuthenticated, router]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>);
   }
 
   return isAuthenticated ? children : <LoginForm />;

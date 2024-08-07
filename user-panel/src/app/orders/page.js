@@ -1,7 +1,7 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container, Card, CardContent, Typography, Grid, Box, CardMedia, Chip, IconButton, Divider, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Container, Card, CardContent, Typography, Grid, Box, CardMedia, Chip, IconButton, Divider, Select, MenuItem, FormControl, InputLabel, CircularProgress } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import api from '../../../api';
 import Cookies from 'js-cookie';
@@ -165,4 +165,26 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+
+const OrdersPAge = () => {
+  return (
+    <Suspense
+      fallback={
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      }
+    >
+      <Orders />
+    </Suspense>
+  );
+};
+
+export default OrdersPAge;

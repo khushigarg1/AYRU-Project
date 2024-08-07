@@ -1,6 +1,6 @@
 "use client"
-import React, { useEffect, useState } from 'react';
-import { Box, Grid, Typography, Card, CardActionArea, CardContent, CardMedia, Button, useTheme, IconButton, useMediaQuery, Snackbar, Divider, Chip, SnackbarContent, Modal } from '@mui/material';
+import React, { Suspense, useEffect, useState } from 'react';
+import { Box, Grid, Typography, Card, CardActionArea, CardContent, CardMedia, Button, useTheme, IconButton, useMediaQuery, Snackbar, Divider, Chip, SnackbarContent, Modal, CircularProgress } from '@mui/material';
 import Link from 'next/link';
 import api from '../../../api';
 import { useAuth } from '@/contexts/auth';
@@ -312,4 +312,26 @@ const CartPage = () => {
   );
 };
 
-export default CartPage;
+
+const CartsuspensePage = () => {
+  return (
+    <Suspense
+      fallback={
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      }
+    >
+      <CartPage />
+    </Suspense>
+  );
+};
+
+export default CartsuspensePage;

@@ -1,6 +1,6 @@
 "use client"
-import React, { useEffect, useState } from 'react';
-import { Box, Grid, Typography, Card, CardActionArea, CardContent, CardMedia, Button, useTheme, IconButton, Divider } from '@mui/material';
+import React, { Suspense, useEffect, useState } from 'react';
+import { Box, Grid, Typography, Card, CardActionArea, CardContent, CardMedia, Button, useTheme, IconButton, Divider, CircularProgress } from '@mui/material';
 import Link from 'next/link'; // Import Link from next/link for Next.js routing
 import api from '../../../api';
 import { useAuth } from '@/contexts/auth';
@@ -166,4 +166,25 @@ const WishlistPage = () => {
   );
 };
 
-export default WishlistPage;
+const Wishlist = () => {
+  return (
+    <Suspense
+      fallback={
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      }
+    >
+      <WishlistPage />
+    </Suspense>
+  );
+};
+
+export default Wishlist;

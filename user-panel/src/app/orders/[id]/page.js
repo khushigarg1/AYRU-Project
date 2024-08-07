@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container, Card, CardContent, Typography, Grid, Box, CardMedia, Chip, IconButton, Divider, Accordion, AccordionSummary, AccordionDetails, Tooltip, useTheme, Button, styled, Paper } from '@mui/material';
+import { Container, Card, CardContent, Typography, Grid, Box, CardMedia, Chip, IconButton, Divider, Accordion, AccordionSummary, AccordionDetails, Tooltip, useTheme, Button, styled, Paper, CircularProgress } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import api from '../../../../api';
 import Cookies from 'js-cookie';
@@ -58,7 +58,18 @@ const OrderDetails = ({ params }) => {
   };
 
   if (!order) {
-    return <div>Loading...</div>;
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    )
   }
 
   const copyToClipboard = (text) => {
@@ -150,7 +161,7 @@ Here are my order details:
           }}>
             <Box mb={2}>
               <Typography variant='body2'>
-                <strong>Note:</strong>Need your order urgently? Our Express Shipping service delivers in 2-4 days.
+                <strong>Note:</strong> Need your order urgently? Our Express Shipping service delivers in 2-4 days.
                 Simply click on {" "}
                 <Button
                   aria-label="Chat on WhatsApp"
@@ -352,7 +363,7 @@ Here are my order details:
                     padding: "10px"
                   }}>
                     <Typography variant="h6" gutterBottom mt={2} sx={{ fontWeight: "bolder" }}>Payment Failed</Typography>
-                    <Typography>
+                    <Typography variant='body2'>
                       Your payment has failed. Please go to the cart and retry the checkout process. Ensure that your payment details are correct.
                     </Typography>
                   </Card>
@@ -498,7 +509,9 @@ Here are my order details:
               <Typography variant="body2">
                 <Typography variant="body2"><strong>Name: </strong>{order?.shippingAddress?.userName}</Typography>
                 <Typography variant="body2"><strong>Phone No.: </strong>{order?.shippingAddress?.phoneNumber}</Typography>
-                <Typography variant="body2"><strong>Alternate Phone No.: </strong>{order?.shippingAddress?.alternateMobileNumber}</Typography>
+                {order?.shippingAddress?.alternateMobileNumber &&
+                  <Typography variant="body2"><strong>Alternate Phone No.: </strong>{order?.shippingAddress?.alternateMobileNumber}</Typography>
+                }
                 <strong>Shipping Address: </strong>
                 {order.shippingAddress && `${order.shippingAddress.addressLine1}, ${order.shippingAddress.addressLine2 ? `${order.shippingAddress.addressLine2}, ` : ''}${order.shippingAddress.city}, ${order.shippingAddress.state}, ${order.shippingAddress.pincode}, ${order.shippingAddress.country}`}
               </Typography>

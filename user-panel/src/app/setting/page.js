@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { Button, TextField, Box, Typography, Paper, Grid, CircularProgress } from '@mui/material';
 import { useAuth } from '@/contexts/auth';
@@ -121,4 +121,25 @@ const SettingsPage = () => {
   );
 };
 
-export default SettingsPage;
+const SettingsPageContent = () => {
+  return (
+    <Suspense
+      fallback={
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      }
+    >
+      <SettingsPage />
+    </Suspense>
+  );
+};
+
+export default SettingsPageContent;

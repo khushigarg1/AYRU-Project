@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, Suspense } from 'react';
-import { Grid, Select, MenuItem, FormControl, InputLabel, Box, Paper, Typography, useTheme, Button, Drawer, TextField, IconButton, Divider, Slider, FormControlLabel, Checkbox, styled } from '@mui/material';
+import { Grid, Select, MenuItem, FormControl, InputLabel, Box, Paper, Typography, useTheme, Button, Drawer, TextField, IconButton, Divider, Slider, FormControlLabel, Checkbox, styled, CircularProgress } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import api from '../../../api';
@@ -511,12 +511,47 @@ const ShopPageContent = () => {
 };
 
 
+
 const ShopPage = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      }
+    >
       <ShopPageContent />
     </Suspense>
   );
 };
 
-export default ShopPage;
+const SalePage = () => {
+  return (
+    <Suspense
+      fallback={
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      }
+    >
+      <ShopPage />
+    </Suspense>
+  );
+};
+
+export default SalePage;

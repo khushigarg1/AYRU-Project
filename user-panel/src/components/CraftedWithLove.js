@@ -81,15 +81,15 @@ export const CraftedWithLove = () => {
                       maxHeight: "100%",
                     }}
                   />
-                  <CardContent sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", }}>
-                    <Typography gutterBottom variant="body1" component="div" sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+                  <CardContent sx={{ display: "flex", justifyContent: "left", alignItems: "left", flexDirection: "column", padding: "5px" }}>
+                    <Typography gutterBottom variant="body1" component="div" sx={{ display: "flex", justifyContent: "left", alignItems: "left", flexDirection: "column", lineHeight: 1.2 }}>
                       {item.productName}
                     </Typography>
 
                     {item?.discountedPrice ? (
                       <Box sx={{ display: 'flex', alignItems: 'left', gap: 0.5 }}>
                         <Typography variant="body2">
-                          MRP
+                          <strong>MRP</strong>
                         </Typography>
                         <Typography variant="body2" sx={{ textDecoration: 'line-through' }}>
                           ₹{item.sellingPrice?.toFixed(2)}

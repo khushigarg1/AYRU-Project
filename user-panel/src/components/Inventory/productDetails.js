@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Button, Card, CardContent, CardMedia, Chip, Container, IconButton, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, CardMedia, Chip, CircularProgress, Container, IconButton, Typography } from '@mui/material';
 import { FavoriteBorderOutlined, FavoriteOutlined, Share } from '@mui/icons-material';
 import Slider from 'react-slick';
 import Cookies from 'js-cookie';
@@ -91,7 +91,18 @@ export const ProductDetails = () => {
   };
 
   if (!product) {
-    return <Typography>Loading...</Typography>;
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
 
   const sliderSettings = {

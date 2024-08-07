@@ -1,7 +1,7 @@
 "use client";
-import React from 'react';
+import React, { Suspense } from 'react';
 import Image from 'next/image';
-import { Box, Typography, Container, useTheme } from '@mui/material';
+import { Box, Typography, Container, useTheme, CircularProgress } from '@mui/material';
 import { styled } from '@mui/system';
 import First from "../../../public/images/about/first.JPG";
 import Second from "../../../public/images/about/second.JPG";
@@ -88,4 +88,25 @@ const AboutUs = () => {
   );
 };
 
-export default AboutUs;
+const AboutUS = () => {
+  return (
+    <Suspense
+      fallback={
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      }
+    >
+      <AboutUs />
+    </Suspense>
+  );
+};
+
+export default AboutUS;
