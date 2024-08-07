@@ -29,32 +29,6 @@ const OverlayText = styled('div')(({ theme }) => ({
   },
 }));
 
-const NormalText = styled('span')(({ theme }) => ({
-  fontSize: '1.5rem',
-  [theme.breakpoints.up('sm')]: {
-    fontSize: '1.5rem',
-  },
-  [theme.breakpoints.up('md')]: {
-    fontSize: '1.7rem',
-  },
-  [theme.breakpoints.up('lg')]: {
-    fontSize: '2rem',
-  },
-}));
-
-const LargeText = styled('span')(({ theme }) => ({
-  fontSize: '2.5rem',
-  [theme.breakpoints.up('sm')]: {
-    fontSize: '3rem',
-  },
-  [theme.breakpoints.up('md')]: {
-    fontSize: '4rem',
-  },
-  [theme.breakpoints.up('lg')]: {
-    fontSize: '5rem',
-  },
-}));
-
 const StyledButton = styled(Button)({
   fontFamily: "Montserrat, sans-serif",
   backgroundColor: 'white',
@@ -73,16 +47,14 @@ const StyledButton = styled(Button)({
   },
 });
 
-const StyledImage = styled('img')(({ theme }) => ({
+const StyledImage = styled('img')({
   width: '100%',
-  height: '80vh',
   objectFit: 'cover',
   transition: 'transform 0.5s ease-in-out',
-}));
+});
 
 const ImageCarousel = () => {
   const [images, setImages] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const router = useRouter();
@@ -108,13 +80,13 @@ const ImageCarousel = () => {
   };
 
   return (
-    <Box>
+    <Box sx={{ position: 'relative' }} mb={0}>
       {images.length > 0 && (
         <Carousel
-          autoPlay={true}
+          autoPlay
           interval={3000}
           animation="slide"
-          navButtonsAlwaysVisible={true}
+          navButtonsAlwaysVisible
           navButtonsProps={{
             style: {
               backgroundColor: 'transparent',
@@ -125,7 +97,6 @@ const ImageCarousel = () => {
           }}
           navButtonsWrapperProps={{
             style: {
-              bottom: '0',
               top: 'unset',
               zIndex: 2,
               '&:nth-of-type(1)': {
@@ -140,23 +111,28 @@ const ImageCarousel = () => {
           }}
           NextIcon={<ArrowForwardIos />}
           PrevIcon={<ArrowBackIos />}
-          indicators={true}
+          indicators
           indicatorContainerProps={{
             style: {
               position: 'absolute',
-              bottom: '20px',
+              bottom: '10px',
+              zIndex: isMobile ? 1000 : 0,
+              height: !isMobile && '800px'
             }
           }}
-          height={isMobile ? "500px" : "800px"}
+          mb={0}
+
         >
           {images.map((image, index) => (
-            <Box key={index} sx={{ position: 'relative', height: '100vh' }}>
+            <Box key={index} sx={{
+              position: 'relative',
+              height: !isMobile && '800px'
+            }}>
               <StyledImage
                 src={`https://ayrujaipur.s3.amazonaws.com/${image.imageUrl}`}
                 alt={`Slide ${index}`}
-                style={{ transform: `translateX(${currentIndex * -100}%)`, height: !isMobile && "120%", objectFit: isMobile ? "contain" : "cover" }}
               />
-              <OverlayText style={{ top: isMobile ? "60%" : "60%", fontSize: "1.2rem" }}>
+              <OverlayText style={{ top: isMobile ? "70%" : "60%" }}>
                 <StyledButton style={{ fontSize: isMobile ? "0.7rem" : "1rem" }} onClick={handleShop}>Shop Now</StyledButton>
               </OverlayText>
             </Box>
