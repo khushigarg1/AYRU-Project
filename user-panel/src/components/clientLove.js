@@ -28,7 +28,7 @@ const ClientLoveCarousel = () => {
   }
 
   return (
-    <Box sx={{ width: isMobile ? "100%" : "70%", margin: "0 auto", marginTop: "4%", marginBottom: "2%" }}>
+    <Box sx={{ width: isMobile ? "100%" : "70%", margin: "0 auto", marginTop: "4%", marginBottom: "25px", padding: "0px" }}>
       <Box style={{ width: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Typography variant={isMobile ? 'h4' : 'h3'} sx={{ mb: 4, color: theme.palette.text.text }}>
           Client Love
@@ -41,20 +41,22 @@ const ClientLoveCarousel = () => {
           animation="slide"
           navButtonsAlwaysVisible={!isMobile}
           indicators={false}
+          sx={{ padding: "0px" }}
         >
           {
             groupedClientLoves.map((group, index) => (
-              <Box key={index} display="flex" justifyContent="center" sx={{ gap: 2 }} style={{ backgroundColor: theme.palette.background.paper, padding: "3px 0px" }}>
+              <Box key={index} display="flex" justifyContent="center" sx={{ gap: 2 }} style={{ backgroundColor: theme.palette.background.paper, padding: "0px" }}>
                 {group.map((item, idx) => (
                   <Card key={idx} sx={{
-                    width: isMobile ? "100%" : "500px",
-                    height: isMobile ? "600px" : "600px",
-                    padding: "0px 10px",
+                    width: "100%",
+                    height: "100%s",
+                    // width: isMobile ? "100%" : "500px",
+                    // height: isMobile ? "100%" : "600px",
                     backgroundColor: "transparent",
                     boxShadow: "none",
-                    // borderRadius: "35px",
                     display: 'flex',
                     flexDirection: 'column'
+                    , padding: "0px"
                   }}>
                     <Box sx={{ position: 'relative', flexGrow: 1 }}>
                       <CardMedia
@@ -65,13 +67,19 @@ const ClientLoveCarousel = () => {
                           objectFit: 'contain',
                           width: '100%',
                           height: '100%',
-                          backgroundColor: theme.palette.background.paper,
+                          backgroundColor: theme.palette.background.paper
+                          , padding: "0px"
                           // borderRadius: "35px"
                         }}
                       />
                     </Box>
-                    <CardContent sx={{ backgroundColor: theme.palette.background.paper, paddingBottom: "5px" }}>
-                      <Typography variant="body1" component="div">
+                    <CardContent sx={{
+                      backgroundColor: theme.palette.background.paper, padding: "0px",
+                      "&:last-child": {
+                        paddingBottom: 0,
+                      },
+                    }}>
+                      <Typography variant="body1" component="div" sx={{ padding: "0px" }}>
                         {item?.text}
                       </Typography>
                     </CardContent>
