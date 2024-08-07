@@ -9,7 +9,7 @@ import image2 from "../../public/images/img2.jpeg";
 import image3 from "../../public/images/img3.jpeg";
 import image4 from "../../public/images/img4.jpeg";
 import image5 from "../../public/images/img5.jpeg";
-import image6 from "../../public/images/img5.jpeg";
+import image6 from "../../public/images/img6.jpeg";
 
 const fadeIn = keyframes`
   from {

@@ -116,7 +116,7 @@ export const ProductSlider = ({ products }) => {
       },
     ],
     appendDots: dots => (
-      <Box component="ul" sx={{ margin: 0, padding: 0, display: 'flex', justifyContent: 'center', listStyle: 'none' }}>
+      <Box component="ul" sx={{ margin: 0, padding: 0, display: 'flex', justifyContent: 'center', listStyle: 'none', bottom: "-20px" }}>
         {dots}
       </Box>
     ),
@@ -169,7 +169,7 @@ export const ProductSlider = ({ products }) => {
                   }}
                 />
                 <CardContent sx={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "left" }}>
-                  <Typography gutterBottom variant="body1" component="div" sx={{ lineHeight: "1.1" }}>
+                  <Typography gutterBottom variant="body1" component="div" sx={{ fontSize: "14px", lineHeight: "1.1" }}>
                     {product.productName}
                   </Typography>
                   {product.discountedPrice ? (

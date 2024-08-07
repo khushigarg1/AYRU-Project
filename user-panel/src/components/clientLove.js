@@ -28,7 +28,7 @@ const ClientLoveCarousel = () => {
   }
 
   return (
-    <Box sx={{ width: isMobile ? "100%" : "70%", margin: "0 auto", marginTop: "4%" }}>
+    <Box sx={{ width: isMobile ? "100%" : "70%", margin: "0 auto", marginTop: "4%", marginBottom: "2%" }}>
       <Box style={{ width: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Typography variant={isMobile ? 'h4' : 'h3'} sx={{ mb: 4, color: theme.palette.text.text }}>
           Client Love
