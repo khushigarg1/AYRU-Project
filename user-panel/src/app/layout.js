@@ -85,7 +85,7 @@ export default function RootLayout({ children }) {
       <body style={{ width: "100%", padding: "0px", overflowX: "hidden", marginLeft: 0, marginRight: 0 }}>
         <ThemeProvider theme={{ [THEME_ID]: materialTheme }}>
           <AuthProvider>
-            {/* <Marquee text={marqueeText} /> */}
+            <Marquee text={marqueeText} />
             <PageNav>
               {children}
             </PageNav>

@@ -49,7 +49,7 @@ const Home = ({ openTab }) => {
   }, []);
   return (
     <Box style={{ padding: "0px", fontFamily: theme.palette.typography.fontFamily }}>
-      <Marquee text={marqueeText} />
+      {/* <Marquee text={marqueeText} /> */}
       <ImageCarousel />
       <Note />
       <ImageGrid />

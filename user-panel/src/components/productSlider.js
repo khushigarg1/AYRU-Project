@@ -1,15 +1,40 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
-import { Box, Card, CardContent, CardMedia, Typography, IconButton, useMediaQuery, useTheme, Button, Divider } from '@mui/material';
+import { Box, Card, CardContent, CardMedia, Typography, IconButton, useMediaQuery, useTheme, Divider } from '@mui/material';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { FavoriteBorderOutlined, FavoriteOutlined } from '@mui/icons-material';
+import { FavoriteBorderOutlined, FavoriteOutlined, ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
 import api from '../../api';
 import "./slider.css";
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { useAuth } from '@/contexts/auth';
+
+// Custom Arrow Components
+const NextArrow = (props) => {
+  const { onClick } = props;
+  return (
+    <IconButton
+      onClick={onClick}
+      style={{ position: 'absolute', top: '50%', right: '5px', zIndex: 2, transform: 'translateY(-50%)' }}
+    >
+      <ArrowForwardIos />
+    </IconButton>
+  );
+};
+
+const PrevArrow = (props) => {
+  const { onClick } = props;
+  return (
+    <IconButton
+      onClick={onClick}
+      style={{ position: 'absolute', top: '50%', left: '5px', zIndex: 2, transform: 'translateY(-50%)' }}
+    >
+      <ArrowBackIos />
+    </IconButton>
+  );
+};
 
 export const ProductSlider = ({ products }) => {
   const theme = useTheme();
@@ -92,6 +117,8 @@ export const ProductSlider = ({ products }) => {
     slidesToShow: itemsPerPage,
     slidesToScroll: itemsPerPage,
     arrows: true,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
     responsive: [
       {
         breakpoint: 1024,
@@ -116,7 +143,7 @@ export const ProductSlider = ({ products }) => {
       },
     ],
     appendDots: dots => (
-      <Box component="ul" sx={{ margin: 0, padding: 0, display: 'flex', justifyContent: 'center', listStyle: 'none', bottom: "-20px" }}>
+      <Box component="ul" sx={{ margin: 0, padding: 0, display: 'flex', justifyContent: 'center', listStyle: 'none', bottom: "20px" }}>
         {dots}
       </Box>
     ),
@@ -138,7 +165,7 @@ export const ProductSlider = ({ products }) => {
 
   return (
     <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', fontFamily: theme.palette.text.fontFamily, mt: 2 }}>
-      <Box style={{ width: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottm: "2%" }}>
+      <Box style={{ width: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: "2%" }}>
         <Typography variant={isMobile ? 'h4' : 'h3'} sx={{ mb: 2, color: theme.palette.text.text }}>
           New Arrivals
         </Typography>
@@ -151,7 +178,7 @@ export const ProductSlider = ({ products }) => {
                 onClick={() => router.push(`/shop/${product?.id}`)}
               >
                 <IconButton
-                  sx={{ position: 'absolute', top: 15, right: 10, zIndex: 1, backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
+                  sx={{ position: 'absolute', top: 5, right: 10, zIndex: 1, backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
                   onClick={(event) => handleToggleWishlist(event, product)}
                 >
                   {wishlistItems[product.id] ? <FavoriteOutlined style={{ color: 'red' }} /> : <FavoriteBorderOutlined />}
@@ -163,9 +190,7 @@ export const ProductSlider = ({ products }) => {
                   alt={product.productName}
                   sx={{
                     objectFit: 'contain',
-                    // maxHeight: isMobile ? "200px" : "400px"
                     height: isMobile ? "200px" : "400px",
-                    // maxHeight: "100%",
                   }}
                 />
                 <CardContent sx={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "left" }}>
@@ -183,32 +208,12 @@ export const ProductSlider = ({ products }) => {
                       <Typography variant="body2" sx={{ marginRight: "3px", fontWeight: "bold" }} >
                         ₹{product.discountedPrice?.toFixed(2)}
                       </Typography>
-                      {/* <Typography variant="body2" color="error" sx={{
-                        display: 'inline-block',
-                        background: 'linear-gradient(135deg, #FF5733 100%, #FFC300 30%)',
-                        padding: '0px 10px',
-                        borderRadius: '1px',
-                        clipPath: 'polygon(0 0, 100% 0, 90% 100%, 0% 100%)',
-                        color: "white",
-                      }}>
-                        {`${Math.round(((product.sellingPrice?.toFixed(2) - product.discountedPrice?.toFixed(2)) / product.sellingPrice?.toFixed(2)) * 100)}% OFF!`}
-                      </Typography> */}
                     </Box>
                   ) : (
                     <Typography variant="body2" sx={{ marginRight: "3px", fontWeight: "bold" }} >
                       ₹{product.sellingPrice?.toFixed(2)}
                     </Typography>
                   )}
-                  {/* <Typography variant="body2" color="text.secondary">
-                    ${product.sellingPrice?.toFixed(2)}
-                  </Typography> */}
-                  {/* <Button
-                    variant="contained"
-                    sx={{ mt: 1 }}
-                    onClick={() => console.log('Add to cart', product.id)}
-                  >
-                    Add to Cart
-                  </Button> */}
                 </CardContent>
               </Card>
               {index < slicedProducts.length - 1 && <Divider orientation="vertical" sx={{ position: 'absolute', right: 0, top: 0, bottom: 0 }} />}
