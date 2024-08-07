@@ -14,10 +14,26 @@ import ClientLoveCarousel from '@/components/clientLove';
 import Footer from '@/components/Footer';
 import { FeedbackComponent } from '@/components/Extra/FeedbackComponent';
 import FloatingWhatsAppButton from '@/components/floatingButton';
+import Marquee from '@/components/marquee';
 
 const Home = ({ openTab }) => {
   const theme = useTheme();
   const [products, setProducts] = useState([]);
+
+  const [marqueeText, setMarqueeText] = useState("");
+
+  useEffect(() => {
+    const fetchMarqueeText = async () => {
+      try {
+        const response = await api.get("/customer-side-data/1");
+        setMarqueeText(response.data.data.marqueeText || '');
+      } catch (error) {
+        console.error("Error fetching marquee text:", error);
+      }
+    };
+
+    fetchMarqueeText();
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -33,6 +49,7 @@ const Home = ({ openTab }) => {
   }, []);
   return (
     <Box style={{ padding: "0px", fontFamily: theme.palette.typography.fontFamily }}>
+      <Marquee text={marqueeText} />
       <ImageCarousel />
       <Note />
       <ImageGrid />

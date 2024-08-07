@@ -85,6 +85,13 @@ model Admin {
   accountLockedUntil   DateTime?
 }
 
+model config {
+  id            Int      @id @default(autoincrement())
+  masterpayment Boolean
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
 model CustomerSideData {
   id              Int      @id @default(autoincrement())
   marqueeText     String
