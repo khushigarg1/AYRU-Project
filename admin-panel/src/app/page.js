@@ -35,7 +35,7 @@ const Dashboard = () => {
   const { totalUsers, totalOrders, totalCartItems, totalWishlistItems, topWishlistItems, topCartItems,
     pendingOrders,
     successOrders,
-    failedOrders, } = dashboardData;
+    failedOrders, totalProfit, totalRevenue } = dashboardData;
 
   const pieData = [
     { name: 'Users', value: totalUsers },
@@ -46,6 +46,10 @@ const Dashboard = () => {
     { name: 'Failed Orders', value: failedOrders },
     { name: 'Pending Orders', value: pendingOrders },
     { name: 'Completed Orders', value: successOrders },
+  ];
+  const Revenue = [
+    { name: 'Total Cost', value: totalRevenue },
+    { name: 'Total Profit', value: totalProfit },
   ];
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
@@ -93,6 +97,30 @@ const Dashboard = () => {
                   dataKey="value"
                 >
                   {pieData2.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Paper sx={{ p: 3 }}>
+            <Typography variant="h6">Total Revenue</Typography>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={Revenue}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={({ name, value }) => `${name}: ${value}`}
+                  outerRadius={100}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {Revenue.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
