@@ -91,7 +91,7 @@ function getAllDashboardData(request, reply) {
                 })));
             }));
             const orders = yield prisma.order.findMany({
-                where: { paymentStatus: "success" },
+                where: { paymentStatus: "paid" },
                 include: { orderItems: true },
             });
             let totalRevenue = 0;
@@ -104,6 +104,15 @@ function getAllDashboardData(request, reply) {
                     totalProfit += profit;
                 });
             });
+            const pendingOrders = yield prisma.order.count({
+                where: { status: "pending" },
+            });
+            const successOrders = yield prisma.order.count({
+                where: { status: "success" },
+            });
+            const failedOrders = yield prisma.order.count({
+                where: { status: "failed" },
+            });
             const statistics = {
                 totalUsers,
                 totalOrders,
@@ -113,6 +122,9 @@ function getAllDashboardData(request, reply) {
                 topCartItems,
                 totalRevenue,
                 totalProfit,
+                pendingOrders,
+                successOrders,
+                failedOrders,
             };
             reply.code(200).send(statistics);
         }

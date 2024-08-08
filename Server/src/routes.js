@@ -20,6 +20,7 @@ const cart_route_1 = __importDefault(require("./routes/cart.route"));
 const order_router_1 = __importDefault(require("./routes/order.router"));
 const availability_route_1 = require("./routes/availability.route");
 const dashboard_route_1 = __importDefault(require("./routes/dashboard.route"));
+const config_route_1 = __importDefault(require("./routes/config.route"));
 function registerRoutes(server) {
     server.register(userAuthRoute_routes_1.default, { prefix: "/api/auth" });
     server.register(adminAuth_route_1.default, { prefix: "/api/auth/admin" });
@@ -27,6 +28,7 @@ function registerRoutes(server) {
     server.register(subCategory_route_1.default, { prefix: "/api" });
     server.register(clientLove_route_1.default, { prefix: "/api" });
     server.register(flat_route_1.default, { prefix: "/api/flat" });
+    server.register(config_route_1.default, { prefix: "/api/config" });
     server.register(fitted_route_1.default, { prefix: "/api/fitted" });
     server.register(order_router_1.default, { prefix: "/api/order" });
     // server.register(customFittedRoutes, { prefix: "/api/customfitted" });

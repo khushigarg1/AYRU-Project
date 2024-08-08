@@ -443,15 +443,6 @@ class CartService {
                 },
                 orderBy: { createdAt: "desc" },
             });
-            let totalPrice = 0;
-            userCart.forEach((cartItem) => {
-                var _a, _b, _c;
-                const price = cartItem.discountedPrice !== undefined && cartItem.discountedPrice !== 0
-                    ? (_a = cartItem.discountedPrice) !== null && _a !== void 0 ? _a : 0
-                    : (_b = cartItem.sellingPrice) !== null && _b !== void 0 ? _b : 0;
-                const quantity = (_c = cartItem.quantity) !== null && _c !== void 0 ? _c : 1;
-                totalPrice += price * quantity;
-            });
             const cartSizeItems = yield Promise.all(userCart.map((cartItem) => __awaiter(this, void 0, void 0, function* () {
                 let cartSizeItem;
                 if (cartItem.sizeOption === "flat" && cartItem.flatId !== null) {
@@ -489,6 +480,16 @@ class CartService {
                 }
                 return Object.assign(Object.assign({}, cartItem), { cartSizeItem });
             })));
+            let totalPrice = 0;
+            cartSizeItems.forEach((cartItem) => {
+                var _a, _b, _c, _d, _e, _f, _g;
+                const price = ((_a = cartItem === null || cartItem === void 0 ? void 0 : cartItem.cartSizeItem) === null || _a === void 0 ? void 0 : _a.discountedPrice) !== undefined &&
+                    ((_b = cartItem.cartSizeItem) === null || _b === void 0 ? void 0 : _b.discountedPrice) !== 0
+                    ? (_d = (_c = cartItem === null || cartItem === void 0 ? void 0 : cartItem.cartSizeItem) === null || _c === void 0 ? void 0 : _c.discountedPrice) !== null && _d !== void 0 ? _d : 0
+                    : (_f = (_e = cartItem === null || cartItem === void 0 ? void 0 : cartItem.cartSizeItem) === null || _e === void 0 ? void 0 : _e.sellingPrice) !== null && _f !== void 0 ? _f : 0;
+                const quantity = (_g = cartItem.quantity) !== null && _g !== void 0 ? _g : 1;
+                totalPrice += price * quantity;
+            });
             return { userCart: cartSizeItems, totalPrice };
         });
     }

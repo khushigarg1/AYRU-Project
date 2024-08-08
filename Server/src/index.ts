@@ -56,21 +56,10 @@ server.get("/api/image/:imageUrl", getImage);
 // }
 registerRoutes(server);
 
-// const port = 8080;
-// const host = "localhost";
+const port = 8080;
+const host = "localhost";
 
-// server.listen({ port, host }, (err, address) => {
-//   if (err) {
-//     server.log.error(err);
-//     console.error(err);
-//     process.exit(1);
-//   }
-//   console.log(`Server listening on ${address}`);
-// });
-
-const port = parseInt(process.env.PORT ?? "4000", 10);
-
-server.listen({ port, host: "0.0.0.0" }, (err, address) => {
+server.listen({ port, host }, (err, address) => {
   if (err) {
     server.log.error(err);
     console.error(err);
@@ -78,3 +67,14 @@ server.listen({ port, host: "0.0.0.0" }, (err, address) => {
   }
   console.log(`Server listening on ${address}`);
 });
+
+// const port = parseInt(process.env.PORT ?? "4000", 10);
+
+// server.listen({ port, host: "0.0.0.0" }, (err, address) => {
+//   if (err) {
+//     server.log.error(err);
+//     console.error(err);
+//     process.exit(1);
+//   }
+//   console.log(`Server listening on ${address}`);
+// });

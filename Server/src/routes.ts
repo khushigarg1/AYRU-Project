@@ -16,6 +16,7 @@ import CartRoutes from "./routes/cart.route";
 import orderRoutes from "./routes/order.router";
 import { availabilityRoutes } from "./routes/availability.route";
 import DashboardRoutes from "./routes/dashboard.route";
+import configRoutes from "./routes/config.route";
 
 export default function registerRoutes(server: FastifyInstance) {
   server.register(AuthRoutes, { prefix: "/api/auth" });
@@ -24,6 +25,7 @@ export default function registerRoutes(server: FastifyInstance) {
   server.register(SubCategoryRoutes, { prefix: "/api" });
   server.register(ClientLoveRoutes, { prefix: "/api" });
   server.register(flatRoutes, { prefix: "/api/flat" });
+  server.register(configRoutes, { prefix: "/api/config" });
   server.register(fittedRoutes, { prefix: "/api/fitted" });
   server.register(orderRoutes, { prefix: "/api/order" });
   // server.register(customFittedRoutes, { prefix: "/api/customfitted" });
