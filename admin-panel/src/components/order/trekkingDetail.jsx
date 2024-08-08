@@ -139,6 +139,7 @@ const TrekkingDetails = ({ order, getOrder }) => {
         <>
           <Typography variant="h6">Order Details</Typography>
           <Typography>Order ID: {order?.orderid}</Typography>
+          <Typography variant="body2">User Name: {order?.user?.firstName} {order?.user?.lastName}</Typography>
           <Typography>Courier Name: {order?.couriername}</Typography>
           <Typography>Tracking Id1: {order?.trekkingId1}</Typography>
           <Typography>Tracking Id2: {order?.trekkingId2}</Typography>

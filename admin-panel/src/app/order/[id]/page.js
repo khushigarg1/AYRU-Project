@@ -380,7 +380,7 @@ const OrderAccordion = ({ params }) => {
         </AccordionDetails>
       </Accordion>
 
-      <Accordion key={order?.id}>
+      <Accordion defaultExpanded key={order?.id}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>Print Order Details</Typography>
         </AccordionSummary>
@@ -392,7 +392,7 @@ const OrderAccordion = ({ params }) => {
               onClick={handlePrint}
               style={{ margin: '20px' }}
             >
-              Print Order Summary
+              Print Shipping
             </Button>
             <Paper style={{ padding: '20px', margin: '20px', backgroundColor: "#fff" }} ref={printRef}>
               <Grid container spacing={4}>
@@ -400,7 +400,7 @@ const OrderAccordion = ({ params }) => {
                   <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }} mb={0}>
                     Ship to
                   </Typography>
-                  <Typography variant="subtitle1">{order?.user?.firstName} {order?.user?.lastName}</Typography>
+                  <Typography variant="subtitle1">{order?.shippingAddress?.userName}</Typography>
                   <Typography variant="body1">{order.shippingAddress.addressLine1}</Typography>
                   <Typography variant="body1">{order.shippingAddress.addressLine2}</Typography>
                   <Typography variant="body1">{order.shippingAddress.city}, {order.shippingAddress.state}</Typography>
@@ -459,7 +459,7 @@ const OrderAccordion = ({ params }) => {
         </AccordionDetails>
       </Accordion>
 
-      <Accordion key={order?.id}>
+      <Accordion defaultExpanded key={order?.id}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>Print Bill</Typography>
         </AccordionSummary>
@@ -478,15 +478,15 @@ const OrderAccordion = ({ params }) => {
                 <Paper style={{ padding: '20px', margin: '20px', backgroundColor: "#fff" }} ref={print2Ref}>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                      <div style={{ textAlign: 'center', fontWeight: "bolderx" }}>
-                        AYRU JAIPUR - BILL DETAILS
-                      </div>
+                      <Typography variant='h6' style={{ textAlign: 'center', fontWeight: "bolderx" }}>
+                        <strong>AYRU JAIPUR - BILL DETAILS</strong>
+                      </Typography>
                     </Grid>
                     <Grid item xs={8} mt={0}>
-                      <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }} mb={0}>
+                      <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }} mb={0}>
                         Ship to
                       </Typography>
-                      <Typography variant="subtitle1">{order?.user?.firstName} {order?.user?.lastName}</Typography>
+                      <Typography variant="subtitle1">{order?.shippingAddress?.userName}</Typography>
                       <Typography variant="body1">{order.shippingAddress.addressLine1}</Typography>
                       <Typography variant="body1">{order.shippingAddress.addressLine2}</Typography>
                       <Typography variant="body1">{order.shippingAddress.city}, {order.shippingAddress.state} {order.shippingAddress.country}</Typography>
@@ -505,7 +505,7 @@ const OrderAccordion = ({ params }) => {
                       <Typography variant="body2">Total Items: {order?.orderItems.length}</Typography>
                       <Typography variant="body2">Total Quantity: {getTotalQuantity()}</Typography>
                       <Typography variant="body2">Paid Amount: {order.Total}</Typography>
-                      <Typography variant="body2">Order Note: {order.remark || 'N/A'}</Typography>
+                      <Typography variant="body2">Seller Instructions: {order.remark || 'N/A'}</Typography>
                     </Grid>
                     <Grid item xs={12}>
                       <Divider style={{ margin: '10px 0' }} />

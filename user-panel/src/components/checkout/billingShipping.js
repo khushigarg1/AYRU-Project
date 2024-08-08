@@ -28,7 +28,7 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { user: currentUser } = useAuth();
   const [snackbar, setSnackbar] = useState(false);
-  const [extraNote, setExtraNote] = useState(orderData?.extraNote || '');
+  const [extraNote, setExtraNote] = useState(orderData?.remark || '');
   const [errors, setErrors] = useState({});
 
   const handleContinue = () => {
@@ -60,7 +60,7 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
   const handleExtraNoteChange = (event) => {
     setExtraNote(event.target.value);
     setOrderData({
-      extraNote: event.target.value,
+      remark: event.target.value,
     });
   };
 
@@ -479,7 +479,7 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                 multiline
                 rows={4}
                 fullWidth
-                value={orderData?.extraNote}
+                value={orderData?.remark}
                 onChange={handleExtraNoteChange}
                 variant="outlined"
                 sx={{ backgroundColor: '#fff' }}

@@ -111,7 +111,7 @@ export const CraftedWithLove = () => {
                       </Box>
                     ) : (
                       <Typography variant="body2" sx={{ marginRight: "3px", fontWeight: "bold" }} >
-                        ₹{item.sellingPrice?.toFixed(2)}
+                        <strong>MRP</strong> ₹{item.sellingPrice?.toFixed(2)}
                       </Typography>
                     )}
                   </CardContent>

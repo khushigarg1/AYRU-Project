@@ -59,7 +59,7 @@ const CheckoutPage = () => {
     city: '',
     state: '',
     country: '',
-    extraNote: '',
+    remark: '',
     payment: {
       cardNumber: '',
       cardName: '',

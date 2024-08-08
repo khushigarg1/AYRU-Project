@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container, Card, CardContent, Typography, Grid, Box, CardMedia, Chip, IconButton, Divider, Accordion, AccordionSummary, AccordionDetails, Tooltip, useTheme, Button, styled, Paper, CircularProgress, Snackbar, Alert } from '@mui/material';
+import { Container, Card, CardContent, Typography, Grid, Box, CardMedia, Chip, IconButton, Divider, Accordion, AccordionSummary, AccordionDetails, Tooltip, useTheme, Button, styled, Paper, CircularProgress, Snackbar, Alert, Popover } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import api from '../../../../api';
 import Cookies from 'js-cookie';
@@ -29,6 +29,8 @@ const ShippingInfoBox = styled(Paper)(({ theme }) => ({
 const OrderDetails = ({ params }) => {
   const { id } = params;
   const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [timeoutId, setTimeoutId] = useState(null);
 
   const [order, setOrder] = useState(null);
   const { user } = useAuth();
@@ -71,19 +73,33 @@ const OrderDetails = ({ params }) => {
       </Box>
     )
   }
+  const copyToClipboard = (event, text) => {
+    setAnchorEl(event.currentTarget);
 
-  const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text)
       .then(() => {
-        setOpen(true); // Show feedback message
+        setOpen(true);
       })
       .catch((err) => {
         console.error('Failed to copy text: ', err);
       });
+
+    // Clear any existing timeout
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    // Set a new timeout to close the popover
+    const id = setTimeout(() => {
+      setAnchorEl(null);
+    }, 3000); // Timeout duration in milliseconds (e.g., 3000ms = 3 seconds)
+
+    setTimeoutId(id);
+
   };
 
   const handleClose = () => {
-    setOpen(false); // Hide feedback message
+    setOpen(false);
   };
 
 
@@ -103,6 +119,22 @@ Here are my order details:
   - Order ID: ${order.orderid}
   - Date: ${formatDate(order.createdAt)}
   - Total Amount: Rs.${order.Total}`;
+
+
+  const handleClosePopover = () => {
+    setAnchorEl(null);
+
+    // if (timeoutId) {
+    //   clearTimeout(timeoutId);
+    // }
+  };
+  // useEffect(() => {
+  //   return () => {
+  //     if (timeoutId) {
+  //       clearTimeout(timeoutId);
+  //     }
+  //   };
+  // }, [timeoutId]);
 
   return (
     <Container p={0} sx={{ paddingBottom: "30px" }}>
@@ -185,11 +217,45 @@ Here are my order details:
                           <>
                             <Typography variant="body2"><strong>AWB/Shipment/Tracking Number: </strong>
                               {order.trekkingId1}</Typography>
-                            <Tooltip title="Copy to clipboard">
-                              <IconButton size="small" onClick={() => copyToClipboard(order.trekkingId1)}>
-                                <FileCopyOutlined fontSize="small" />
-                              </IconButton>
-                            </Tooltip>
+                            {/* <Tooltip title="Copy to clipboard"> */}
+                            <IconButton size="small" onClick={(event) => copyToClipboard(event, order.trekkingId1)}>
+                              <FileCopyOutlined fontSize="small" />
+                            </IconButton>
+                            {/* </Tooltip> */}
+
+                            <Popover
+                              id={id}
+                              open={Boolean(anchorEl)}
+                              anchorEl={anchorEl}
+                              onClose={handleClosePopover}
+                              anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'center',
+                              }}
+                              transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'center',
+                              }}
+
+                              PaperProps={{
+                                sx: {
+                                  // backgroundColor: '#fcc73d',
+                                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                  // borderRadius: 2, // Rounded corners
+                                  boxShadow: 3, // Box shadow for depth
+                                  p: 1.2, // Padding
+                                },
+                              }}
+                            >
+                              <Typography variant='body2' sx={{ fontSize: "10px", color: "#fff", fontWeight: 'bold' }}>
+                                {/* <Typography variant='body2' sx={{ fontSize: "10px", color: "#fff", fontWeight: 'bold' }}> */}
+                                {/* {displayQuantity <= (displayMinQuantity || 1)
+                    ? 'Minimum quantity reached!'
+                    : 'Maximum quantity reached!'
+                  } */}
+                                Copied to clipboard
+                              </Typography>
+                            </Popover>
                             {/* <Snackbar
                               open={open}
                               autoHideDuration={3000} // Duration in milliseconds
@@ -206,11 +272,11 @@ Here are my order details:
                         <Box display="flex" alignItems="center">
                           <Typography variant="body2"><strong>AWB/Shipment/Tracking Number: </strong>
                             {order.trekkingId2}</Typography>
-                          <Tooltip title="Copy to clipboard">
-                            <IconButton size="small" onClick={() => copyToClipboard(order.trekkingId2)}>
-                              <FileCopyOutlined fontSize="small" />
-                            </IconButton>
-                          </Tooltip>
+                          {/* <Tooltip title="Copy to clipboard"> */}
+                          <IconButton size="small" onClick={(event) => copyToClipboard(event, order.trekkingId2)}>
+                            <FileCopyOutlined fontSize="small" />
+                          </IconButton>
+                          {/* </Tooltip> */}
                         </Box>
                       )}
                       {/* <Typography variant="body2"><strong>Courier Name: </strong>{order.couriername}</Typography> */}
@@ -327,73 +393,74 @@ Here are my order details:
           }
 
           {order?.status === "success" && !order?.trekkingId1 &&
+            <>
+              <Card sx={{
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+                cursor: "pointer",
+                backgroundColor: "#F0F0F0",
+                maxHeight: "100%", boxShadow: "none",
+                padding: "15px",
+                marginTop: "10px"
+              }}><Box >
+                  <Typography variant="h6">
+                    <strong>Standard Shipping 🚚</strong>
+                  </Typography>
+                  <Typography variant="body2" style={{ color: theme.palette.primary.contrastText }}>
+                    Your order will be dispatched within 2 days. The standard delivery time is 5-7 days after dispatch.
+                  </Typography>
+                </Box>
+              </Card>
+              <Card sx={{
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+                cursor: "pointer",
+                backgroundColor: "#F0F0F0",
+                maxHeight: "100%", boxShadow: "none",
+                padding: "15px",
+                marginTop: "10px"
+              }}>
+                <Box >
+                  <Typography variant="h6">
+                    <strong>Need your order urgently?</strong>
+                  </Typography>
+                  <Typography variant='body2'>
+                    Our Express Shipping service delivers in 2-4 days.
+                    Simply click on {" "}
+                    <Button
+                      aria-label="Chat on WhatsApp"
+                      href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage2)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      endIcon={<WhatsappIcon style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
+                      sx={{
+                        color: '#25D366',
+                        fontWeight: 'bold',
+                        textTransform: 'none',
+                        mb: 0,
+                        padding: "0px",
+                      }}
+                    >
+                      WhatsApp
+                    </Button>
+                    {" "}
+                    to proceed for express shipping.
+                  </Typography>
 
-            <Card sx={{
-              position: 'relative',
-              display: 'flex',
-              flexDirection: 'column',
-              height: '100%',
-              cursor: "pointer",
-              backgroundColor: "#F0F0F0",
-              maxHeight: "100%", boxShadow: "none",
-              padding: "15px",
-              marginTop: "10px"
-            }}><Box >
-                <Typography variant="h6">
-                  <strong>Standard Shipping 🚚</strong>
-                </Typography>
-                <Typography variant="body2" style={{ color: theme.palette.primary.contrastText }}>
-                  Your order will be dispatched within 2 days. The standard delivery time is 5-7 days after dispatch.
-                </Typography>
-              </Box>
-            </Card>
+                  <Typography variant="body2" mt={2}>
+                    <strong>Additional charges will apply.</strong>
+                  </Typography>
+                  <Typography variant="body2">
+                    (Kindly inform us within one hour of placing your order)
+                  </Typography>
+                </Box>
+              </Card>
+            </>
           }
-          <Card sx={{
-            position: 'relative',
-            display: 'flex',
-            flexDirection: 'column',
-            height: '100%',
-            cursor: "pointer",
-            backgroundColor: "#F0F0F0",
-            maxHeight: "100%", boxShadow: "none",
-            padding: "15px",
-            marginTop: "10px"
-          }}>
-            <Box >
-              <Typography variant="h6">
-                <strong>Need your order urgently?</strong>
-              </Typography>
-              <Typography variant='body2'>
-                Our Express Shipping service delivers in 2-4 days.
-                Simply click on {" "}
-                <Button
-                  aria-label="Chat on WhatsApp"
-                  href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage2)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  endIcon={<WhatsappIcon style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
-                  sx={{
-                    color: '#25D366',
-                    fontWeight: 'bold',
-                    textTransform: 'none',
-                    mb: 0,
-                    padding: "0px",
-                  }}
-                >
-                  WhatsApp
-                </Button>
-                {" "}
-                to proceed for express shipping.
-              </Typography>
-
-              <Typography variant="body2" mt={2}>
-                <strong>Additional charges will apply.</strong>
-              </Typography>
-              <Typography variant="body2">
-                (Kindly inform us within one hour of placing your order)
-              </Typography>
-            </Box>
-          </Card>
           <Accordion defaultExpanded style={{ backgroundColor: "whitesmoke" }}>
             <AccordionSummary expandIcon={<GridExpandMoreIcon />}>
               <Typography>Order Summary ({order?.orderItems.length})</Typography>
@@ -536,6 +603,7 @@ Here are my order details:
                 }
                 <strong>Shipping Address: </strong>
                 {order.shippingAddress && `${order.shippingAddress.addressLine1}, ${order.shippingAddress.addressLine2 ? `${order.shippingAddress.addressLine2}, ` : ''}${order.shippingAddress.city}, ${order.shippingAddress.state}, ${order.shippingAddress.pincode}, ${order.shippingAddress.country}`}
+                <Typography variant="body2"><strong>Seller Instructions.: </strong>{order?.remark}</Typography>
               </Typography>
             </CardContent>
           </Card>

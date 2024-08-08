@@ -31,31 +31,31 @@ Could you please provide me with the details regarding the process, any addition
             <Table>
               <TableBody>
                 <TableRow>
-                  <TableCell >Style</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder" }}>Style</TableCell>
                   <TableCell>{product.style || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell >Pattern</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder" }}>Pattern</TableCell>
                   <TableCell>{product.pattern || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell >Fabric</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder" }}>Fabric</TableCell>
                   <TableCell>{product.fabric || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell >Size</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder" }}>Size</TableCell>
                   <TableCell>{product.size || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell >Item Weight</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder" }}>Item Weight</TableCell>
                   <TableCell>{product.itemWeight || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell >Thread Count</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder" }}>Thread Count</TableCell>
                   <TableCell>{product.threadCount || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell >Origin</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder" }}>Origin</TableCell>
                   <TableCell>{product.origin || "N/A"}</TableCell>
                 </TableRow>
                 {/* <TableRow>

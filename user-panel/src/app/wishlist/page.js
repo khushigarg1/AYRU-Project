@@ -1,13 +1,13 @@
 "use client"
 import React, { Suspense, useEffect, useState } from 'react';
-import { Box, Grid, Typography, Card, CardActionArea, CardContent, CardMedia, Button, useTheme, IconButton, Divider, CircularProgress } from '@mui/material';
+import { Box, Grid, Typography, Card, CardActionArea, CardContent, CardMedia, Button, useTheme, IconButton, Divider, CircularProgress, useMediaQuery } from '@mui/material';
 import Link from 'next/link'; // Import Link from next/link for Next.js routing
 import api from '../../../api';
 import { useAuth } from '@/contexts/auth';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useRouter } from 'next/navigation';
 const WishlistPage = () => {
-  const { openAuthModal, user, wishlistCount, setWishlistCount, handleLogin } = useAuth();
+  const { openAuthModal, user, wishlistCount, setWishlistCount } = useAuth();
   const [wishlistItems, setWishlistItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
@@ -15,7 +15,13 @@ const WishlistPage = () => {
   const [wishlsitId, setWishlistIds] = useState([]);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+
+  const handleLogin = () => {
+    openAuthModal();
+    return;
+  }
   const fetchWishlistItems = async () => {
     try {
       if (user?.id) {
@@ -76,22 +82,74 @@ const WishlistPage = () => {
   }
 
   return (
-    <Box p={1} sx={{ backgroundColor: "#F0F0F0" }}>
+    <Box p={1} style={{
+      paddingLeft: isMobile ? "1%" : "8%", paddingRight: isMobile ? "1%" : "8%", backgroundColor: "#F0F0F0",
+      '&:focus': {
+        outline: 'none',
+        boxShadow: 'none',
+      },
+      '&:active': {
+        backgroundColor: 'inherit',
+      },
+      paddingBottom: "10px",
+      minHeight: "70vh"
+    }}>
       {/* <Typography variant="h4" gutterBottom>
         Wishlist
       </Typography> */}
-      <Box display="flex" alignItems="center" justifyContent="center">
-        <Typography variant='h4' gutterBottom style={{ fontWeight: "bold" }}>
-          Wishlist Items
-        </Typography>
-      </Box>
-      {wishlistItems.length === 0 && (
-        <Typography variant="body2">
-          Your wishlist is empty. <strong><Link href="/shop">Browse products</Link></strong> to add items or <strong style={{ cursor: "pointer" }} onClick={handleLogin}>Login</strong> to see your saved items.
-        </Typography>
-      )}
-      {wishlistItems.length > 0 &&
+      {
+        wishlistItems.length === 0 && (
+          <Typography variant="body2" sx={{ height: "100%", fontSize: "20px", padding: "20px" }}>
+            {/* Your wishlist is empty. <strong><Link href="/shop">Browse products</Link></strong> to add items or <strong style={{ cursor: "pointer" }} onClick={handleLogin}>Login</strong> to see your saved items. */}
+            <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" padding={3} textAlign="center">
+              <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', pt: 2 }}>
+                Your Wishlist is Currently Empty
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                It looks like you haven't added any items to your wishlist yet. Don't worry, we've got plenty of amazing products waiting for you!
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                <strong>
+                  <Link href="/shop">Browse our collection</Link>
+                </strong> to discover a wide range of products that suit your taste. You can add items to your wishlist to keep track of your favorites.
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                If you have previously saved items, please
+                <strong style={{ cursor: "pointer", color: "#0070f3" }} onClick={handleLogin}>
+                  &nbsp;Login
+                </strong>
+                to your account to view them.
+              </Typography>
+              <Typography variant="body2">
+                Start adding items to your wishlist now and never miss out on your favorite products!
+              </Typography>
+            </Box>
+            {/* <div style={{ padding: '20px', textAlign: 'center' }}>
+              <h2>Your Wishlist is Currently Empty</h2>
+              <p>
+                It looks like you haven't added any items to your wishlist yet. Don't worry, we've got plenty of amazing products waiting for you!
+              </p>
+              <p>
+                <strong><Link href="/shop">Browse our collection</Link></strong> to discover a wide range of products that suit your taste. You can add items to your wishlist to keep track of your favorites.
+              </p>
+              <p>
+                If you have previously saved items, please <strong style={{ cursor: "pointer", color: "#0070f3" }} onClick={handleLogin}>Login</strong> to your account to view them.
+              </p>
+              <p>
+                Start adding items to your wishlist now and never miss out on your favorite products!
+              </p>
+            </div> */}
+          </Typography>
+        )
+      }
+      {
+        wishlistItems.length > 0 &&
         <>
+          < Box display="flex" alignItems="center" justifyContent="center" >
+            <Typography variant='h4' gutterBottom style={{ fontWeight: "bold" }} pt={2}>
+              Wishlist Items
+            </Typography>
+          </Box >
           <Box sx={{
             boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", padding: "2px"
           }}>
@@ -173,7 +231,8 @@ const WishlistPage = () => {
               </Grid>
             ))}
           </Grid>
-        </>}
+        </>
+      }
 
       {/* Pagination controls */}
       <Box mt={3} display="flex" justifyContent="center">

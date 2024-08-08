@@ -1,4 +1,3 @@
-// RootLayout.js
 "use client";
 
 import "./globals.css";
@@ -11,7 +10,6 @@ import Marquee from "@/components/marquee";
 import api from "../../api";
 import Footer from "@/components/Footer";
 import FloatingWhatsAppButton from "@/components/floatingButton";
-
 
 const materialTheme = createTheme({
   palette: {
@@ -37,7 +35,6 @@ const materialTheme = createTheme({
     },
     divider: "rgba(0,0,0,0.12)",
     background: {
-      // primary: "#fcc73d",
       primary: "#FFD54F",
       secondary: "#fcc73d",
       paper: "#FFF9C4",
@@ -80,15 +77,16 @@ export default function RootLayout({ children }) {
       <head>
         <title>Ayru Jaipur</title>
         <link rel="icon" href="/images/AppIcon.png" type="image/x-icon" />
-
       </head>
-      <body style={{ width: "100%", padding: "0px", overflowX: "hidden", marginLeft: 0, marginRight: 0 }}>
+      <body style={{ width: "100%", padding: "0px", overflowX: "hidden", marginLeft: 0, marginRight: 0, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <ThemeProvider theme={{ [THEME_ID]: materialTheme }}>
           <AuthProvider>
             <Marquee text={marqueeText} />
-            <PageNav>
-              {children}
-            </PageNav>
+            <div style={{ flex: 1 }}>
+              <PageNav>
+                {children}
+              </PageNav>
+            </div>
             <Footer />
             <FloatingWhatsAppButton />
           </AuthProvider>

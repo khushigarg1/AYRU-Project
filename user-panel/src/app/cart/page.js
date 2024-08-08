@@ -43,7 +43,6 @@ const CartPage = () => {
     try {
       if (token) {
 
-        setLoading(true);
         const response = await api.get(`/cart/user`, {
           headers: {
             Authorization: `Bearer ${token}`
@@ -60,8 +59,6 @@ const CartPage = () => {
       }
     } catch (error) {
       console.error('Error fetching cart:', error);
-    } finally {
-      setLoading(false);
     }
   };
   useEffect(() => {
@@ -137,24 +134,8 @@ const CartPage = () => {
     `Hi, I'd like to place an international order for the following items:\n\n${whatsappMessage}${userDetails}\n\nCould you please provide details on the process, shipping costs, and delivery times?`
   )}`;
 
-
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    )
-  }
-
   return (
-    <Box mt={2} style={{
+    <Box p={1} style={{
       paddingLeft: isMobile ? "1%" : "8%", paddingRight: isMobile ? "1%" : "8%", backgroundColor: "#F0F0F0",
       '&:focus': {
         outline: 'none',
@@ -163,20 +144,44 @@ const CartPage = () => {
       '&:active': {
         backgroundColor: 'inherit',
       },
-      paddingBottom: "10px"
+      paddingBottom: "10px",
+      minHeight: "70vh"
     }}>
-      <Box display="flex" alignItems="center" justifyContent="center">
-        <Typography variant='h4' gutterBottom style={{ fontWeight: "bold" }}>
+      {/* <Box display="flex" alignItems="center" justifyContent="center">
+        <Typography variant='h4' gutterBottom style={{ fontWeight: "bold" }} pt={2}>
           Shopping Cart
         </Typography>
-      </Box>
+      </Box> */}
       {cartItems && cartItems.length === 0 && (
-        <Typography variant="body2">
-          Your cart is empty <strong><Link href="/shop">Browse products</Link></strong> to add items or  <strong style={{ cursor: "pointer" }} onClick={handleLogin}>Login</strong> to see your saved cart.
-        </Typography>
+        // <Typography variant="body2" sx={{ height: "100%", fontSize: "20px", padding: "20px" }}>
+        //   Your cart is empty <strong><Link href="/shop">Browse products</Link></strong> to add items or  <strong style={{ cursor: "pointer" }} onClick={handleLogin}>Login</strong> to see your saved cart.
+        // </Typography>
+
+        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" padding={3} textAlign="center">
+          <Typography variant='h4' gutterBottom style={{ fontWeight: "bold" }}>
+            Your Shopping Cart is Empty
+          </Typography>
+          <Typography variant='body1' align="center" gutterBottom>
+            It looks like you haven't added any items to your cart yet. Browse our products to find items you love and add them to your cart.
+          </Typography>
+          <Box my={2}>
+            <Button variant="contained" color="primary" component={Link} href="/shop">
+              Browse Products
+            </Button>
+          </Box>
+          <Typography variant='body1' align="center" gutterBottom>
+            If you have items in your cart from a previous session, please <strong style={{ cursor: "pointer", color: "#0070f3" }} onClick={handleLogin}>Login</strong> to view them.
+          </Typography>
+        </Box>
       )}
       {cartItems.length !== 0 &&
         <>
+
+          <Box display="flex" alignItems="center" justifyContent="center">
+            <Typography variant='h4' gutterBottom style={{ fontWeight: "bold" }} pt={2}>
+              Shopping Cart
+            </Typography>
+          </Box>
           <Box>
             <Typography variant='body1' gutterBottom style={{ fontWeight: "bold", alignItems: "center", justifyContent: "center", paddingLeft: "1em" }}>
               Total Items : {cartItems?.length}
@@ -329,7 +334,9 @@ const CartPage = () => {
           />
         </Snackbar>
       }
+      <Box mt={3}>
 
+      </Box >
     </Box >
   );
 };

@@ -116,7 +116,11 @@ export const CartItem = ({ item, fetchCartStatus }) => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const handleButtonClick = (action, event) => {
+    console.log(action);
+
     if (action === 'decrement' && displayQuantity <= (displayMinQuantity || 1)) {
+      console.log("heyyy");
+
       setSnackbarMessage('Minimum quantity reached');
       setSnackbarOpen(true);
       handleOpenPopover(event)
@@ -472,12 +476,24 @@ export const CartItem = ({ item, fetchCartStatus }) => {
                   vertical: 'top',
                   horizontal: 'center',
                 }}
+
+                PaperProps={{
+                  sx: {
+                    backgroundColor: '#fcc73d',
+                    // backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    // borderRadius: 2, // Rounded corners
+                    boxShadow: 3, // Box shadow for depth
+                    p: 1.2, // Padding
+                  },
+                }}
               >
-                <Typography variant='body2' sx={{ fontSize: "12px", p: 1, backgroundColor: "#fa6666", color: "whitesmoke" }}>
-                  {displayQuantity <= (displayMinQuantity || 1)
+                <Typography variant='body2' sx={{ fontSize: "10px", color: "black", fontWeight: 'bold' }}>
+                  {/* <Typography variant='body2' sx={{ fontSize: "10px", color: "#fff", fontWeight: 'bold' }}> */}
+                  {/* {displayQuantity <= (displayMinQuantity || 1)
                     ? 'Minimum quantity reached!'
                     : 'Maximum quantity reached!'
-                  }
+                  } */}
+                  {snackbarMessage}
                 </Typography>
               </Popover>
 

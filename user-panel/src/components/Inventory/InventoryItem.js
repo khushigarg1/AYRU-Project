@@ -25,7 +25,7 @@ const InventoryItem = ({ item }) => {
           const wishlistItemsData = response.data.data;
           setWishlistCount(wishlistItemsData.length);
           const wishlistMap = wishlistItemsData.reduce((acc, wishlistItem) => {
-            acc[wishlistitem?.inventoryId] = wishlistitem?.id;
+            acc[wishlistItem?.inventoryId] = wishlistItem?.id;
             return acc;
           }, {});
           setWishlistItems(wishlistMap);

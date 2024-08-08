@@ -226,6 +226,7 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
                 <Typography variant="body2">Alternate Mobile Number: {orderData?.alternateMobileNumber}</Typography>
               }
               <Typography variant="body2">{orderData?.email}</Typography>
+              <Typography variant="body2"><strong>Seller Instructions:</strong> {orderData?.remark || 'N/A'}</Typography>
               {/* <Typography variant="body2"><strong>First Name:</strong> {orderData?.firstName || 'N/A'}</Typography>
               <Typography variant="body2"><strong>Last Name:</strong> {orderData?.lastName || 'N/A'}</Typography>
               <Typography variant="body2"><strong>Email:</strong> {orderData?.email || 'N/A'}</Typography>
