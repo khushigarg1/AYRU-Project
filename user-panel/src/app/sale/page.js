@@ -358,7 +358,7 @@ const ShopPageContent = () => {
           ))} */}
           {inventory.length > 0 ? (
             inventory.map((item) => (
-              <Grid item xs={12} sm={6} md={4} key={item.id}>
+              <Grid item xs={6} sm={6} md={4} lg={2.4} xl={2} key={item.id}>
                 <InventoryItem item={item} />
               </Grid>
             ))

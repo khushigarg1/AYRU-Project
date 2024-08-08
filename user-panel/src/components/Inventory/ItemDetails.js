@@ -538,7 +538,7 @@ Thank you so much!`;
                     </Card >
 
                     {product?.availability === false && availabilitystatus !== "approved" ? (
-                      availabilitystatus === "rejected" ? (
+                      availabilitystatus === "rejected" || !availabilitystatus ? (
                         <>
                           <Typography
                             variant="caption"

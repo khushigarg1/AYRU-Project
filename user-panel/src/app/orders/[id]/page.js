@@ -135,56 +135,6 @@ Here are my order details:
           </Card>
           <Divider />
 
-          {order?.status === "success" && !order?.trekkingId1 &&
-            <ShippingInfoBox>
-              <Typography variant="body2">
-                <strong>Standard Shipping</strong>
-              </Typography>
-              <Typography variant="body2" style={{ color: theme.palette.primary.contrastText }}>
-                Your order will be dispatched within 2 days. The standard delivery time is 5-7 days after dispatch. Tracking details will be shared soon. Please keep visiting the "My Order" page for updates.
-              </Typography>
-              <Typography variant="body2" style={{ color: theme.palette.primary.contrastText }}>
-                Thank you for your patience! 😊
-              </Typography>
-            </ShippingInfoBox>
-          }
-          <Card sx={{
-            position: 'relative',
-            display: 'flex',
-            flexDirection: 'column',
-            height: '100%',
-            cursor: "pointer",
-            backgroundColor: "#F0F0F0",
-            maxHeight: "100%", boxShadow: "none",
-            padding: "10px",
-            marginTop: "10px"
-          }}>
-            <Box mb={2}>
-              <Typography variant='body2'>
-                <strong>Note:</strong> Need your order urgently? Our Express Shipping service delivers in 2-4 days.
-                Simply click on {" "}
-                <Button
-                  aria-label="Chat on WhatsApp"
-                  href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage2)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  endIcon={<WhatsappIcon style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
-                  sx={{
-                    color: '#25D366',
-                    fontWeight: 'bold',
-                    textTransform: 'none',
-                    mb: 0,
-                    padding: "0px",
-                  }}
-                >
-                  WhatsApp
-                </Button>
-                {" "}
-                to proceed.
-                Additional charges will apply. (Kindly inform us within one hour of placing your order)
-              </Typography>
-            </Box>
-          </Card>
           {/* Tracking Details */}
           {order?.status === "success" ?
             (order?.trekkingId1 ? (
@@ -306,18 +256,21 @@ Here are my order details:
                   height: '100%',
                   backgroundColor: "#F0F0F0",
                   maxHeight: "100%", boxShadow: "none",
-                  padding: "10px"
+                  padding: "15px"
                 }}>
-                  <Typography variant="h6" gutterBottom mt={2} sx={{ fontWeight: "bolder" }}>Payment Successfull</Typography>
+                  <Typography variant="h6" gutterBottom sx={{ fontWeight: "bolder" }}>Order Confirmed ✅</Typography>
 
                   <Typography variant='body2'>
                     Thank you for your order and trust in AYRU JAIPUR 🙏
                   </Typography>
                   <Typography variant='body2'>
-                    Your order has been placed successfully, and you will receive the tracking details here within 1-2 days.
+                    Tracking details will be shared here, once your order is dispatched. Please keep visiting "My Order" page for the latest updates.
                   </Typography>
                   <Typography variant='body2'>
-                    Note: once your order is placed successfully, it cannot be modified or canceled.
+                    We appreciate your patience! 😊
+                  </Typography>
+                  <Typography variant='body2'>
+                    Note: Once your order is successfully placed, it cannot be modified or canceled.
                     {/* For any further assistance, please send your queries to us on{' '}
                     <Button
                       aria-label="Chat on WhatsApp"
@@ -348,7 +301,7 @@ Here are my order details:
                     height: '100%',
                     backgroundColor: "#F0F0F0",
                     maxHeight: "100%", boxShadow: "none",
-                    padding: "10px"
+                    padding: "15px"
                   }}>
                     <Typography variant="h6" gutterBottom mt={2} sx={{ fontWeight: "bolder" }}>Payment Pending</Typography>
                     <Typography>
@@ -373,6 +326,74 @@ Here are my order details:
             )
           }
 
+          {order?.status === "success" && !order?.trekkingId1 &&
+
+            <Card sx={{
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100%',
+              cursor: "pointer",
+              backgroundColor: "#F0F0F0",
+              maxHeight: "100%", boxShadow: "none",
+              padding: "15px",
+              marginTop: "10px"
+            }}><Box >
+                <Typography variant="h6">
+                  <strong>Standard Shipping 🚚</strong>
+                </Typography>
+                <Typography variant="body2" style={{ color: theme.palette.primary.contrastText }}>
+                  Your order will be dispatched within 2 days. The standard delivery time is 5-7 days after dispatch.
+                </Typography>
+              </Box>
+            </Card>
+          }
+          <Card sx={{
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            cursor: "pointer",
+            backgroundColor: "#F0F0F0",
+            maxHeight: "100%", boxShadow: "none",
+            padding: "15px",
+            marginTop: "10px"
+          }}>
+            <Box >
+              <Typography variant="h6">
+                <strong>Need your order urgently?</strong>
+              </Typography>
+              <Typography variant='body2'>
+                Our Express Shipping service delivers in 2-4 days.
+                Simply click on {" "}
+                <Button
+                  aria-label="Chat on WhatsApp"
+                  href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage2)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  endIcon={<WhatsappIcon style={{ height: "15px", width: "15px", padding: "0px", marginRight: "4px" }} />}
+                  sx={{
+                    color: '#25D366',
+                    fontWeight: 'bold',
+                    textTransform: 'none',
+                    mb: 0,
+                    padding: "0px",
+                  }}
+                >
+                  WhatsApp
+                </Button>
+                {" "}
+                to proceed for express shipping.
+              </Typography>
+
+              <Typography variant="body2" mt={2}>
+                <strong>Additional charges will apply.</strong>
+              </Typography>
+              <Typography variant="body2">
+                (Kindly inform us within one hour of placing your order)
+              </Typography>
+            </Box>
+          </Card>
           <Accordion defaultExpanded style={{ backgroundColor: "whitesmoke" }}>
             <AccordionSummary expandIcon={<GridExpandMoreIcon />}>
               <Typography>Order Summary ({order?.orderItems.length})</Typography>
