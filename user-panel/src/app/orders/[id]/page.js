@@ -230,16 +230,17 @@ Here are my order details:
                     </Box>
                     <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" } }}>
                       <Typography variant="body2"><strong>Courier Name: </strong>{order.couriername}</Typography>
-                      <Box display="flex" alignItems="center">
-                        {order?.trekkingId1 && (
-                          <>
-                            <Typography variant="body2"><strong>Tracking Number: </strong>{order.trekkingId1}</Typography>
-                            <Tooltip title="Copy to clipboard">
-                              <IconButton size="small" onClick={() => copyToClipboard(order.trekkingId1)}>
-                                <FileCopyOutlined fontSize="small" />
-                              </IconButton>
-                            </Tooltip>
-                            <Snackbar
+                      {order?.trekkingId1 && (
+                        <Box display="flex" flexDirection="column" alignItems="flex-start">
+                          <Typography variant="body2"><strong>AWB/Shipment/Tracking Number: </strong>
+                            {order.trekkingId1}
+                          </Typography>
+                          <Tooltip title="Copy to clipboard">
+                            <IconButton size="small" onClick={() => copyToClipboard(order.trekkingId1)}>
+                              <FileCopyOutlined fontSize="small" />
+                            </IconButton>
+                          </Tooltip>
+                          {/* <Snackbar
                               open={open}
                               autoHideDuration={3000} // Duration in milliseconds
                               onClose={handleClose}
@@ -247,13 +248,15 @@ Here are my order details:
                               <Alert onClose={handleClose} severity="success">
                                 Copied to clipboard!
                               </Alert>
-                            </Snackbar>
-                          </>
-                        )}
-                      </Box>
+                            </Snackbar> */}
+                        </Box>
+                      )}
                       {order?.trekkingId2 && (
-                        <Box display="flex" alignItems="center">
-                          <Typography variant="body2"><strong>Tracking Number: </strong>{order.trekkingId2}</Typography>
+                        <Box display="flex" flexDirection="column" alignItems="flex-start">
+                          <Typography variant="body2">
+                            <strong>AWB/Shipment/Tracking Number: </strong>
+                            {order.trekkingId2}
+                          </Typography>
                           <Tooltip title="Copy to clipboard">
                             <IconButton size="small" onClick={() => copyToClipboard(order.trekkingId2)}>
                               <FileCopyOutlined fontSize="small" />
