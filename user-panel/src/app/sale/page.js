@@ -228,16 +228,12 @@ const ShopPageContent = () => {
     if (selectedSubcategory) {
       params.subCategoryId = selectedSubcategory;
     }
-    setLoading(true);
-
     api.get(url, { params })
       .then(response => {
         setInventory(response.data.data);
       })
       .catch(error => {
         console.error('Error searching inventory:', error);
-      }).finally(() => {
-        setLoading(false);
       })
     // api.get(url, { params })
     //   .then(response => {

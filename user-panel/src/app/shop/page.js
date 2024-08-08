@@ -227,7 +227,7 @@ const ShopPageContent = () => {
     if (selectedSubcategory) {
       params.subCategoryId = selectedSubcategory;
     }
-    setLoading(true);
+    // setLoading(true);
 
     api.get(url, { params })
       .then(response => {
@@ -235,8 +235,6 @@ const ShopPageContent = () => {
       })
       .catch(error => {
         console.error('Error searching inventory:', error);
-      }).finally(() => {
-        setLoading(false);
       })
     // api.get(url, { params })
     //   .then(response => {
