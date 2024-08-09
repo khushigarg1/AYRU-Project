@@ -347,7 +347,14 @@ Thank you so much!`;
   const handleCloseAvailabilityModal = () => {
     setAvailabilityModal(false);
   };
+  const handleAvailabilty = () => {
 
+    if (!token) {
+      openAuthModal();
+      return;
+    }
+    setAvailabilityModal(true)
+  }
   return (
     <>
       <Box my={1} sx={{ fontFamily: theme.palette.text.font }}>
@@ -617,7 +624,7 @@ Thank you so much!`;
                           </Typography> */}
                           <Grid item xs={12} sx={{ paddingTop: "0px" }}>
                             <Button
-                              onClick={() => { setAvailabilityModal(true) }}
+                              onClick={handleAvailabilty}
                               color="inherit"
                               fullWidth
                               sx={{ backgroundColor: theme.palette.background.contrast }}
