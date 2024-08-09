@@ -38,7 +38,7 @@ export const InventoryAccordion = ({ relatedInventories }) => {
           {relatedInventories.map((inventory, index) => (
             <Card key={inventory.id}
               onClick={() => window.location.href = `/shop/${inventory.id}`} sx={{
-                height: "220px", padding: "5px 0px", boxShadow: "none", border: "1px solid black", marginRight: "15px", width: "90%", cursor: "pointer"
+                height: "220px", padding: "0px 0px", boxShadow: "none", border: "1px solid black", marginRight: "15px", width: "90%", cursor: "pointer"
               }}>
               <CardMedia
                 component="img"
@@ -46,22 +46,22 @@ export const InventoryAccordion = ({ relatedInventories }) => {
                 alt={inventory.productName}
                 sx={{
                   objectFit: 'contain',
-                  height: "100px",
+                  height: "150px",
                   width: "100%"
                 }}
               />
-              <Divider sx={{ borderStyle: "dotted", mt: 1 }} />
-              <CardContent sx={{ mt: 0, padding: "10px 5px" }}>
+              {/* <Divider sx={{ borderStyle: "dotted", mt: 1 }} /> */}
+              <CardContent sx={{ mt: 0, padding: "5px" }}>
                 <Typography variant="body2" color="textSecondary" component="p">
                   {inventory.colorVariation}
                 </Typography>
                 {inventory.discountedPrice ? (
                   <Box sx={{ gap: 1 }}>
-                    <Typography variant="body2" >
-                      ₹ {inventory?.discountedPrice?.toFixed(2)}
-                    </Typography>
                     <Typography variant="body2" sx={{ textDecoration: 'line-through' }}>
                       ₹ {inventory?.sellingPrice?.toFixed(2)}
+                    </Typography>
+                    <Typography variant="body2" >
+                      ₹ {inventory?.discountedPrice?.toFixed(2)}
                     </Typography>
                   </Box>
                 ) : (

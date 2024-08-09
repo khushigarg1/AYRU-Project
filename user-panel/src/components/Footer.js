@@ -10,12 +10,13 @@ import Insta from "../../public/images/insta.png"
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
+import Cookies from 'js-cookie';
 
 const Footer = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [expanded, setExpanded] = useState({});
-
+  const token = Cookies.get('token');
   const handleExpandClick = (panel) => {
     setExpanded((prev) => ({ ...prev, [panel]: !prev[panel] }));
   };
@@ -35,11 +36,13 @@ const Footer = () => {
           }} mt={0} />
           <Container maxWidth="lg">
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6} md={3}>
-                <Typography variant="h6" gutterBottom>
-                  <Link href="/orders">My Order</Link>
-                </Typography>
-              </Grid>
+              {token &&
+                <Grid item xs={12} sm={6} md={3}>
+                  <Typography variant="h6" gutterBottom>
+                    <Link href="/orders">My Order</Link>
+                  </Typography>
+                </Grid>
+              }
               {/* Footer Column 1 */}
 
               {/* Footer Column 2 */}
@@ -143,9 +146,11 @@ const Footer = () => {
             <Grid container spacing={3}>
               {/* Footer Column 1 */}
               <Grid item xs={12} sm={6} md={3}>
-                <Typography variant="h6" gutterBottom>
-                  <Link href="/orders">My Order</Link>
-                </Typography>
+                {token &&
+                  <Typography variant="h6" gutterBottom>
+                    <Link href="/orders">My Order</Link>
+                  </Typography>
+                }
 
                 <Typography variant="h6" gutterBottom>
                   Follow Us
