@@ -77,7 +77,7 @@ const SignUpForm = ({ switchToLogin }) => {
               <Button fullWidth variant="contained" color="primary" onClick={handleSendEmailOTP} sx={{ mt: 2 }}>
                 Send OTP
               </Button>
-              <Button fullWidth variant="outlined" color="primary" onClick={switchToLogin} sx={{ mt: 2 }}>
+              <Button fullWidth variant="contained" color="primary" onClick={switchToLogin} sx={{ mt: 2 }}>
                 Already have an account? Sign In
               </Button>
             </Box>
@@ -85,7 +85,7 @@ const SignUpForm = ({ switchToLogin }) => {
           {step === 2 && (
             <Box>
               <TextField fullWidth label="Email" value={email} disabled margin="normal" />
-              <TextField fullWidth label="Email OTP" value={emailOTP} onChange={(e) => setEmailOTP(e.target.value)} margin="normal" />
+              <TextField fullWidth label="Enter your OTP" value={emailOTP} onChange={(e) => setEmailOTP(e.target.value)} margin="normal" />
               <Button fullWidth variant="contained" color="primary" onClick={handleVerifyEmailOTP} sx={{ mt: 2 }}>
                 Verify OTP
               </Button>

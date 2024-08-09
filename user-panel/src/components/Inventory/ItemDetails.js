@@ -541,19 +541,6 @@ Thank you so much!`;
 
               </Box>
               <Divider sx={{ borderStyle: "dotted", mt: 2, mb: 2 }} />
-              {product?.extraNote &&
-                <Typography variant="caption" sx={{
-                  fontSize: '0.7rem',
-                  color: 'text.secondary',
-                  lineHeight: '1',
-                  padding: 0,
-                  display: 'block',
-                  margin: "10px 0px"
-                }}
-                >
-                  <strong>Note: </strong>{product?.extraNote}
-                </Typography>
-              }
 
               {/* {product?.extraOptionOutOfStock === true ? */}
               {displayAvailability === true ?
@@ -571,57 +558,32 @@ Thank you so much!`;
                   </Grid>
                 ) : (
                   <>
-                    <Card variant="outlined" sx={{ maxWidth: "100%" }}>
-                      <CardContent sx={{ padding: "10px", '&:last-child': { paddingBottom: "10px" } }}>
-                        <Typography gutterBottom variant="h6">
-                          International Orders
-                        </Typography>
-                        <Typography variant="body2" sx={{ lineHeight: '1', display: "flex", flexDirection: "column", alignItems: "center", paddingBottom: "0px", fontsize: "0.8rem" }}>
-                          For International Order & Shipping Details, Connect with us for personalized assistance on{' '} <br />
-                          <Button
-                            aria-label="Chat on WhatsApp"
-                            href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            startIcon={<WhatsAppIcon />}
-                            sx={{
-                              color: '#25D366',
-                              fontWeight: 'bold',
-                              textTransform: 'none',
-                              mb: 0
-                            }}
-                          >
-                            WhatsApp
-                          </Button>
-                        </Typography>
-                      </CardContent>
-                    </Card >
 
                     {product?.availability === false && availabilitystatus !== "approved" ? (
                       availabilitystatus === "rejected" || !availabilitystatus ? (
                         <>
-                          {/* <Typography
+                          <Typography
                             variant="caption"
                             sx={{
                               fontSize: '0.9rem',
                               color: 'text.secondary',
                               display: 'flex',
-                              flexDirection: "column",
+                              // flexDirection: "column",
                               mt: 2,
                               mb: 1,
                               lineHeight: "1"
                             }}
                           >
-                            Check availability for this product{' '}
-                            <Typography
+                            Request Product Availability for this product{' '}
+                            {/* <Typography
                               sx={{ color: theme.palette.text.text, textDecoration: "underline" }}
                               variant="caption"
                             >
-                              <Link href="exchange policy link" target="_blank">
+                              <Link href="/" target="_blank">
                                 {' '}for more details
                               </Link>
-                            </Typography>
-                          </Typography> */}
+                            </Typography> */}
+                          </Typography>
                           <Grid item xs={12} sx={{ paddingTop: "0px" }} mt={1}>
                             <Button
                               onClick={handleAvailabilty}
@@ -663,18 +625,44 @@ Thank you so much!`;
                         </>
                       )
                     ) : (
-                      <Grid container spacing={1} sx={{ mt: 1, mb: 1 }}>
-                        <Grid item xs={12} sx={{ paddingTop: "0px" }}>
-                          <Button
-                            onClick={handleAddToCart}
-                            color="inherit"
-                            fullWidth
-                            sx={{ backgroundColor: theme.palette.background.contrast }}
-                          >
-                            Add to Cart
-                          </Button>
-                        </Grid>
-                        {/* <Grid item xs={6} sx={{ paddingTop: "0px" }}>
+                      <>
+                        <Card variant="outlined" sx={{ maxWidth: "100%" }}>
+                          <CardContent sx={{ padding: "10px", '&:last-child': { paddingBottom: "10px" } }}>
+                            <Typography gutterBottom variant="h6">
+                              International Orders
+                            </Typography>
+                            <Typography variant="body2" sx={{ lineHeight: '1', display: "flex", flexDirection: "column", alignItems: "center", paddingBottom: "0px", fontsize: "0.8rem" }}>
+                              For International Order & Shipping Details, Connect with us for personalized assistance on{' '} <br />
+                              <Button
+                                aria-label="Chat on WhatsApp"
+                                href={`https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                startIcon={<WhatsAppIcon />}
+                                sx={{
+                                  color: '#25D366',
+                                  fontWeight: 'bold',
+                                  textTransform: 'none',
+                                  mb: 0
+                                }}
+                              >
+                                WhatsApp
+                              </Button>
+                            </Typography>
+                          </CardContent>
+                        </Card >
+                        <Grid container spacing={1} sx={{ mt: 1, mb: 1 }}>
+                          <Grid item xs={12} sx={{ paddingTop: "0px" }}>
+                            <Button
+                              onClick={handleAddToCart}
+                              color="inherit"
+                              fullWidth
+                              sx={{ backgroundColor: theme.palette.background.contrast }}
+                            >
+                              Add to Cart
+                            </Button>
+                          </Grid>
+                          {/* <Grid item xs={6} sx={{ paddingTop: "0px" }}>
                           <Button
                             onClick={handleBuyNow}
                             color="inherit"
@@ -684,11 +672,25 @@ Thank you so much!`;
                             Buy Now
                           </Button>
                         </Grid> */}
-                      </Grid>
+                        </Grid>
+                      </>
                     )
                     }
                   </>
                 )
+              }
+              {product?.extraNote &&
+                <Typography variant="caption" sx={{
+                  fontSize: '0.7rem',
+                  color: 'text.secondary',
+                  lineHeight: '1',
+                  padding: 0,
+                  display: 'block',
+                  margin: "10px 0px"
+                }}
+                >
+                  <strong>Note: </strong>{product?.extraNote}
+                </Typography>
               }
               {
                 product?.SizeChartMedia?.length > 0 &&
@@ -733,7 +735,7 @@ Thank you so much!`;
         <ImagePopup imageUrl={selectedImage} onClose={handleCloseImageModal} />
       </Modal>
       <Modal open={availabilityOpen} onClose={handleCloseAvailabilityModal}>
-        <RequestAvailabilityModal product={product} open={availabilityOpen} handleClose={handleCloseAvailabilityModal} />
+        <RequestAvailabilityModal getAvailabilityStatus={getAvailabilityStatus} product={product} open={availabilityOpen} handleClose={handleCloseAvailabilityModal} />
       </Modal>
 
       <Snackbar

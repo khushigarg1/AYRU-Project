@@ -66,10 +66,16 @@ export const FeedbackComponent = () => {
             {firstMedia && (
               <Box>
                 {firstMedia.imageUrl.endsWith('.mp4') ? (
-                  <video
-                    controls
+                  // <video
+                  //   controls
+                  //   src={`https://ayrujaipur.s3.amazonaws.com/${firstMedia.imageUrl}`}
+                  //   style={{ maxWidth: '20em', maxHeight: '25em', borderRadius: '8px', marginBottom: '10px', backgroundColor: "transparent" }}
+                  // />
+                  <iframe
+                    // src="https://www.youtube.com/watch?v=gfU1iZnjRZM"
                     src={`https://ayrujaipur.s3.amazonaws.com/${firstMedia.imageUrl}`}
-                    style={{ maxWidth: '20em', maxHeight: '25em', borderRadius: '8px', marginBottom: '10px', backgroundColor: "transparent" }}
+                    frameborder="0"
+                    allowfullscreen
                   />
                 ) : (
                   <img

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Modal, Box, Typography, TextField, Button } from '@mui/material';
+import { Modal, Box, Typography, TextField, Button, Divider, FormHelperText } from '@mui/material';
 import api from '../../../api';
 import Cookies from 'js-cookie';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { useAuth } from '@/contexts/auth';
 
-const RequestAvailabilityModal = ({ product, open, handleClose }) => {
+const RequestAvailabilityModal = ({ getAvailabilityStatus, product, open, handleClose }) => {
   const { user } = useAuth();
   const [mobileNumber, setMobileNumber] = useState('');
   const [isValid, setIsValid] = useState(false);
@@ -40,6 +40,7 @@ const RequestAvailabilityModal = ({ product, open, handleClose }) => {
 
       // Optionally, close the modal
       handleClose();
+      getAvailabilityStatus();
     } catch (error) {
       console.error('Error sending request:', error);
     }
@@ -78,14 +79,21 @@ const RequestAvailabilityModal = ({ product, open, handleClose }) => {
           borderRadius: 1,
         }}
       >
-        <Typography id="request-availability-modal-title" variant="h6" component="h2">
-          Kindly enter your mobile number to receive notifications about this product’s availability via WhatsApp.
+        <Typography id="request-availability-modal-title" variant="h5" sx={{ lineHeight: 1.2, textAlign: "center" }} mb={1}>
+          Enter your Whatsapp number
+          {/* Kindly enter your mobile number to receive notifications about this product’s availability via WhatsApp. */}
         </Typography>
-        <Typography id="request-availability-modal-description" sx={{ mt: 2 }}>
-          You will be notified promptly, after which you can add it to your cart and complete your purchase.
+        <Divider />
+        <Typography variant='body2' id="request-availability-modal-description" sx={{ mt: 2, lineHeight: 1.2 }}>
+          You will receive a notification that will confirm the availability of this product.
+          {/* You will be notified promptly, after which you can add it to your cart and complete your purchase. */}
         </Typography>
-        <Typography sx={{ mt: 2 }}>
-          Your request will be forwarded to our team upon clicking the send request button.
+        <Typography variant='body2' sx={{ mt: 1, lineHeight: 1.2 }}>
+          {/* Your request will be forwarded to our team upon clicking the send request button. */}
+          Once this confirmation is received, you will be able to add this product to cart, and place furthur order.
+        </Typography>
+        <Typography variant='body2' color="success" sx={{ mt: 2, lineHeight: 1.2, color: "green" }}>
+          **Please wait upto 24 hours to receive an update.
         </Typography>
         <TextField
           label="Mobile Number"
@@ -94,7 +102,13 @@ const RequestAvailabilityModal = ({ product, open, handleClose }) => {
           value={mobileNumber}
           onChange={handleMobileNumberChange}
           sx={{ mt: 2 }}
-          helperText={isValid ? '' : 'Please enter a valid mobile number with country code'}
+
+          helperText={
+            <FormHelperText sx={{ color: !isValid ? 'error.main' : 'text.secondary', lineHeight: 1.2, margin: "0px" }}>
+              {!isValid ? 'Please enter a valid mobile number, including country code (e.g., +919912345678)' : ''}
+            </FormHelperText>
+          }
+          // helperText={isValid ? '' : 'Please enter a valid mobile number, including country code (e.g., +919912345678)'}
           error={!isValid}
         />
         <Button

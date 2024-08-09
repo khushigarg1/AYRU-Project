@@ -142,6 +142,9 @@ export async function getAllAvailability(
           },
         },
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     if (!availabilityRequests || availabilityRequests.length === 0) {
