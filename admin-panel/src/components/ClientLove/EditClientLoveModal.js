@@ -19,7 +19,7 @@ export default function EditClientLoveModal({ open, entry, handleClose, refresh 
     if (files) {
       setFormData((prevState) => ({
         ...prevState,
-        [name]: files[0]  // Store the File object
+        [name]: files[0]
       }));
     } else {
       setFormData((prevState) => ({
@@ -32,19 +32,20 @@ export default function EditClientLoveModal({ open, entry, handleClose, refresh 
   const handleRemoveImage = () => {
     setFormData((prevState) => ({
       ...prevState,
-      image: null  // Clear the image File object
+      image: null
     }));
   };
 
   const handleRemoveVideo = () => {
     setFormData((prevState) => ({
       ...prevState,
-      video: null  // Clear the video File object
+      video: null
     }));
   };
 
   const handleSubmit = async () => {
     setLoading(true);
+
     const admintoken = Cookies.get("admintoken");
     api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     const form = new FormData();
@@ -54,8 +55,15 @@ export default function EditClientLoveModal({ open, entry, handleClose, refresh 
     if (formDataVal.video instanceof File) {
       form.append("video", formDataVal.video);
     }
+    if (!formDataVal.text) {
 
-    form.append("text", formDataVal.text);
+      form.append("text", "");
+    }
+    else {
+      form.append("text", formDataVal.text);
+
+    }
+
 
     try {
       await api.put(`/clientLove/${entry.id}`, form, {

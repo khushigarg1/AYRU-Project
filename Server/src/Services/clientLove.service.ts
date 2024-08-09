@@ -88,9 +88,9 @@ export class ClientLoveService {
       existingClientLove.video = key ?? null;
     }
 
-    if (data.text) {
-      existingClientLove.text = data.text;
-    }
+    // if (data.text) {
+    existingClientLove.text = data.text;
+    // }
     const updatedClientLove = await prisma.clientLove.update({
       where: { id },
       data: {

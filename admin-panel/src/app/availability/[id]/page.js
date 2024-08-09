@@ -120,7 +120,7 @@ const AvailabilityPage = ({ params }) => {
                       <Typography variant="h6">{availability?.inventory?.productName}</Typography>
                       <Typography variant="body2">SKU: {availability?.inventory?.skuId}</Typography>
                       <Typography variant="body2">Category: {availability?.inventory?.Category?.categoryName}</Typography>
-                      <Typography variant="body2">Requested by: {availability?.user?.firstName} ({availability?.user?.email})</Typography>
+                      <Typography variant="body2">Requested by: {availability?.user?.firstName} {availability?.user?.lastName}</Typography>
                     </CardContent>
                   </Grid>
                 </Grid>

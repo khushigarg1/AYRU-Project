@@ -83,9 +83,9 @@ class ClientLoveService {
                 const { key } = yield (0, awsfunction_1.uploadImageToS3)(data.video);
                 existingClientLove.video = key !== null && key !== void 0 ? key : null;
             }
-            if (data.text) {
-                existingClientLove.text = data.text;
-            }
+            // if (data.text) {
+            existingClientLove.text = data.text;
+            // }
             const updatedClientLove = yield prisma.clientLove.update({
                 where: { id },
                 data: {
