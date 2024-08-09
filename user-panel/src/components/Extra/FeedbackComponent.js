@@ -67,38 +67,11 @@ export const FeedbackComponent = () => {
               <Box>
                 {firstMedia.imageUrl.endsWith('.mp4') ? (
                   <>
-
-                    <video controls preload="none" aria-label="Video player">
-                      <source src={`https://ayrujaipur.s3.amazonaws.com/${firstMedia.imageUrl}`}
-                        type="video/mp4" />
-                      <track src={`https://ayrujaipur.s3.amazonaws.com/${firstMedia.imageUrl}`}
-                        kind="subtitles" srcLang="en" label="English" />
-                      <iframe
-                        // style={{ maxWidth: '20em', maxHeight: '25em', borderRadius: '8px', marginBottom: '10px', backgroundColor: "transparent" }}
-                        // src="https://www.youtube.com/watch?v=gfU1iZnjRZM"
-                        src={`https://ayrujaipur.s3.amazonaws.com/${firstMedia.imageUrl}`}
-                        frameborder="0"
-                        allowfullscreen
-                      />
-                    </video>
                     <video
                       controls
                       src={`https://ayrujaipur.s3.amazonaws.com/${firstMedia.imageUrl}`}
                       style={{ maxWidth: '20em', maxHeight: '25em', borderRadius: '8px', marginBottom: '10px', backgroundColor: "transparent" }}
                       autoPlay
-                    />
-                    <video
-                      controls
-                      src={`https://ayrujaipur.s3.amazonaws.com/${firstMedia.imageUrl}`}
-                      style={{ maxWidth: '20em', maxHeight: '25em', borderRadius: '8px', marginBottom: '10px', backgroundColor: "transparent" }}
-                      playsInline
-                    />
-                    <iframe
-                      // style={{ maxWidth: '20em', maxHeight: '25em', borderRadius: '8px', marginBottom: '10px', backgroundColor: "transparent" }}
-                      // src="https://www.youtube.com/watch?v=gfU1iZnjRZM"
-                      src={`https://ayrujaipur.s3.amazonaws.com/${firstMedia.imageUrl}`}
-                      frameborder="0"
-                      allowfullscreen
                     />
                   </>
                 ) : (

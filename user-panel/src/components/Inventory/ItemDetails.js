@@ -574,7 +574,7 @@ Thank you so much!`;
                               lineHeight: "1"
                             }}
                           >
-                            Request Product Availability for this product{' '}
+                            Please Check Product Availability for this product{' '}
                             {/* <Typography
                               sx={{ color: theme.palette.text.text, textDecoration: "underline" }}
                               variant="caption"
@@ -619,7 +619,7 @@ Thank you so much!`;
                               fullWidth
                               sx={{ backgroundColor: theme.palette.background.contrast }}
                             >
-                              Reuest Pending for availability
+                              Request Pending for availability
                             </Button>
                           </Grid>
                         </>
