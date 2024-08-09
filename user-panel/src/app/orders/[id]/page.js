@@ -239,32 +239,16 @@ Here are my order details:
 
                               PaperProps={{
                                 sx: {
-                                  // backgroundColor: '#fcc73d',
                                   backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                                  // borderRadius: 2, // Rounded corners
-                                  boxShadow: 3, // Box shadow for depth
-                                  p: 1.2, // Padding
+                                  boxShadow: 3,
+                                  p: 1.2,
                                 },
                               }}
                             >
                               <Typography variant='body2' sx={{ fontSize: "10px", color: "#fff", fontWeight: 'bold' }}>
-                                {/* <Typography variant='body2' sx={{ fontSize: "10px", color: "#fff", fontWeight: 'bold' }}> */}
-                                {/* {displayQuantity <= (displayMinQuantity || 1)
-                    ? 'Minimum quantity reached!'
-                    : 'Maximum quantity reached!'
-                  } */}
                                 Copied to clipboard
                               </Typography>
                             </Popover>
-                            {/* <Snackbar
-                              open={open}
-                              autoHideDuration={3000} // Duration in milliseconds
-                              onClose={handleClose}
-                            >
-                              <Alert onClose={handleClose} severity="success">
-                                Copied to clipboard!
-                              </Alert>
-                            </Snackbar> */}
                           </>
                         )}
                       </Box>
@@ -272,14 +256,11 @@ Here are my order details:
                         <Box display="flex" alignItems="center">
                           <Typography variant="body2"><strong>AWB/Shipment/Tracking Number: </strong>
                             {order.trekkingId2}</Typography>
-                          {/* <Tooltip title="Copy to clipboard"> */}
                           <IconButton size="small" onClick={(event) => copyToClipboard(event, order.trekkingId2)}>
                             <FileCopyOutlined fontSize="small" />
                           </IconButton>
-                          {/* </Tooltip> */}
                         </Box>
                       )}
-                      {/* <Typography variant="body2"><strong>Courier Name: </strong>{order.couriername}</Typography> */}
                       <Typography variant="body2">
                         <strong>Tracking Link: </strong><a
                           href={order.trekkinglink}

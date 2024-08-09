@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Typography, Box, Divider, IconButton, TextField, Tooltip, ButtonGroup, Button, Grid, useTheme, Accordion, AccordionSummary, AccordionDetails, CardMedia, Modal, Snackbar, SnackbarContent } from '@mui/material';
+import { Card, CardContent, Typography, Box, Divider, IconButton, TextField, Tooltip, ButtonGroup, Button, Grid, useTheme, Accordion, AccordionSummary, AccordionDetails, CardMedia, Modal, Snackbar, SnackbarContent, Popover } from '@mui/material';
 import CustomDropdown from './SizeDropdown';
 import { AccountCircle, Add, AddSharp, Remove, RemoveSharp, WhatsApp } from '@mui/icons-material';
 import Link from 'next/link';
@@ -18,6 +18,10 @@ import RequestAvailabilityModal from './AvailabilityModal';
 
 const ItemDetails = ({ product, queryParams }) => {
   //-------------------------------------------------------------------------------
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [quantityOpen, setQuantityOpen] = useState(false);
+  const [quantityMessage, setQuantityMessage] = useState('');
 
   const hasBedsheets = product?.InventoryFitted.length > 0 || product.customFittedInventory.length > 0;
   const [selections, setSelections] = useState({
@@ -128,15 +132,37 @@ const ItemDetails = ({ product, queryParams }) => {
     setOpenSnackbar(false);
   };
 
-  const handleDecrement = () => {
+  const handleDecrement = (event) => {
+    setAnchorEl(event.currentTarget);
     if (displayQuantity > (displayMinQuantity || 1)) {
       setDisplayQuantity(displayQuantity - 1);
     }
+    else {
+      handleOpenPopover(event)
+      setQuantityMessage("Minimum quantity reached")
+    }
   };
 
-  const handleIncrement = () => {
+  const handleOpenPopover = (event) => {
+    setAnchorEl(event.currentTarget);
+
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'quantity-popover' : undefined;
+
+  const handleClosePopover = () => {
+    setAnchorEl(null);
+  };
+  const handleIncrement = (event) => {
+    setAnchorEl(event.currentTarget);
+
     if (displayQuantity < (displayMaxQuantity || Infinity)) {
       setDisplayQuantity(displayQuantity + 1);
+    }
+    else {
+      handleOpenPopover(event)
+      setQuantityMessage("Maximum quantity reached")
     }
   };
 
@@ -436,17 +462,17 @@ Thank you so much!`;
                     width: "40%"
                   }}
                 >
-                  <Tooltip title={displayQuantity <= (displayMinQuantity || 1) ? 'Minimum quantity reached' : ''}>
-                    <span>
-                      <IconButton
-                        onClick={handleDecrement}
-                        disabled={displayQuantity <= (displayMinQuantity || 1)}
-                        size='small'
-                      >
-                        <RemoveSharp />
-                      </IconButton>
-                    </span>
-                  </Tooltip>
+                  {/* <Tooltip title={displayQuantity <= (displayMinQuantity || 1) ? 'Minimum quantity reached' : ''}> */}
+                  <span>
+                    <IconButton
+                      onClick={(event) => handleDecrement(event)}
+                      // disabled={displayQuantity <= (displayMinQuantity || 1)}
+                      size='small'
+                    >
+                      <RemoveSharp />
+                    </IconButton>
+                  </span>
+                  {/* </Tooltip> */}
                   <TextField
                     variant='standard'
                     value={displayQuantity}
@@ -467,18 +493,45 @@ Thank you so much!`;
                       border: "none",
                     }}
                   />
-                  <Tooltip title={displayQuantity >= (displayMaxQuantity || Infinity) ? 'Maximum quantity reached' : ''}>
-                    <span>
-                      <IconButton
-                        onClick={handleIncrement}
-                        disabled={displayQuantity >= (displayMaxQuantity || Infinity)}
-                        size='small'
-                      >
-                        <AddSharp />
-                      </IconButton>
-                    </span>
-                  </Tooltip>
+                  {/* <Tooltip title={displayQuantity >= (displayMaxQuantity || Infinity) ? 'Maximum quantity reached' : ''}> */}
+                  <span>
+                    <IconButton
+                      onClick={(event) => handleIncrement(event)}
+                      // disabled={displayQuantity >= (displayMaxQuantity || Infinity)}
+                      size='small'
+                    >
+                      <AddSharp />
+                    </IconButton>
+                  </span>
+                  {/* </Tooltip> */}
                 </Box>
+                <Popover
+                  // id={id}
+                  open={Boolean(anchorEl)}
+                  anchorEl={anchorEl}
+                  onClose={handleClosePopover}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                  }}
+
+                  PaperProps={{
+                    sx: {
+                      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                      boxShadow: 3,
+                      p: 1.2,
+                    },
+                  }}
+                >
+                  <Typography variant='body2' sx={{ fontSize: "10px", color: "#fff", fontWeight: 'bold' }}>
+                    {quantityMessage}
+                  </Typography>
+                </Popover>
+
               </Box>
               <Divider sx={{ borderStyle: "dotted", mt: 2, mb: 2 }} />
               {product?.extraNote &&
@@ -540,7 +593,7 @@ Thank you so much!`;
                     {product?.availability === false && availabilitystatus !== "approved" ? (
                       availabilitystatus === "rejected" || !availabilitystatus ? (
                         <>
-                          <Typography
+                          {/* <Typography
                             variant="caption"
                             sx={{
                               fontSize: '0.9rem',
@@ -561,7 +614,7 @@ Thank you so much!`;
                                 {' '}for more details
                               </Link>
                             </Typography>
-                          </Typography>
+                          </Typography> */}
                           <Grid item xs={12} sx={{ paddingTop: "0px" }}>
                             <Button
                               onClick={() => { setAvailabilityModal(true) }}

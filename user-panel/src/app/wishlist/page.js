@@ -105,40 +105,22 @@ const WishlistPage = () => {
               <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', pt: 2 }}>
                 Your Wishlist is Currently Empty
               </Typography>
-              <Typography variant="body2" gutterBottom>
+              <Typography variant="body1" gutterBottom>
                 It looks like you haven't added any items to your wishlist yet. Don't worry, we've got plenty of amazing products waiting for you!
               </Typography>
-              <Typography variant="body2" gutterBottom>
-                <strong>
-                  <Link href="/shop">Browse our collection</Link>
-                </strong> to discover a wide range of products that suit your taste. You can add items to your wishlist to keep track of your favorites.
-              </Typography>
-              <Typography variant="body2" gutterBottom>
+              <Box my={2}>
+                <Button variant="contained" color="primary" component={Link} href="/shop">
+                  Browse Products
+                </Button>
+              </Box>
+              <Typography variant="body1" gutterBottom>
                 If you have previously saved items, please
                 <strong style={{ cursor: "pointer", color: "#0070f3" }} onClick={handleLogin}>
-                  &nbsp;Login
+                  &nbsp;Login {' '}
                 </strong>
                 to your account to view them.
               </Typography>
-              <Typography variant="body2">
-                Start adding items to your wishlist now and never miss out on your favorite products!
-              </Typography>
             </Box>
-            {/* <div style={{ padding: '20px', textAlign: 'center' }}>
-              <h2>Your Wishlist is Currently Empty</h2>
-              <p>
-                It looks like you haven't added any items to your wishlist yet. Don't worry, we've got plenty of amazing products waiting for you!
-              </p>
-              <p>
-                <strong><Link href="/shop">Browse our collection</Link></strong> to discover a wide range of products that suit your taste. You can add items to your wishlist to keep track of your favorites.
-              </p>
-              <p>
-                If you have previously saved items, please <strong style={{ cursor: "pointer", color: "#0070f3" }} onClick={handleLogin}>Login</strong> to your account to view them.
-              </p>
-              <p>
-                Start adding items to your wishlist now and never miss out on your favorite products!
-              </p>
-            </div> */}
           </Typography>
         )
       }

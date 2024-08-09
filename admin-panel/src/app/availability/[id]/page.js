@@ -47,8 +47,8 @@ const AvailabilityPage = ({ params }) => {
     const productLink = `https://ayrujaipur.in/shop/${availability?.inventory?.id}`;
     const message =
       status === 'approved'
-        ? `Yay!! 🥳 Your request has been approved for product: ${productName}.\n👍 Yes, it is available for purchase.\n\nNow you can add it to your cart and complete the checkout process using the following link: ${productLink}\n\nPlease Note: The checkout must be completed within 48 hours. After this period, you will need to verify the product’s availability again.\n\nThank you for your patience🙏\n\nFrom\nAYRU JAIPUR`
-        : `We're sorry 😞, but the product ${productName} is not available right now. Please feel free to reach out to us for more information or assistance.\n\nThank you for understanding.\n\nFrom\nAYRU JAIPUR`;
+        ? `Yay!! Your request has been approved for product: ${productName}.\n Yes, it is available for purchase.\n\nNow you can add it to your cart and complete the checkout process using the following link: ${productLink}\n\nPlease Note: The checkout must be completed within 48 hours. After this period, you will need to verify the product’s availability again.\n\nThank you for your patience\n\nFrom\nAYRU JAIPUR`
+        : `We're sorry , but the product ${productName} is not available right now. Please feel free to reach out to us for more information or assistance.\n\nThank you for understanding.\n\nFrom\nAYRU JAIPUR`;
 
     const phoneNumber = availability?.mobilenumber;
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;

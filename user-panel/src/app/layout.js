@@ -75,7 +75,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>Ayru Jaipur</title>
+        <title>AYRU Jaipur - Authentic Handcrafted Fashion and Lifestyle Products</title>
+        <meta name="description" content="Discover AYRU Jaipur, your destination for authentic handcrafted fashion and lifestyle products. Explore our unique collection today!" />
+        <meta name="keywords" content="AYRU Jaipur, handcrafted fashion, lifestyle products, authentic fashion, Jaipur fashion, handmade clothing, artisanal products, ayru, jaipur, jaipur bedsheets, dohar, quilt, jaipur bedcover" />
         <link rel="icon" href="/images/AppIcon.png" type="image/x-icon" />
       </head>
       <body style={{ width: "100%", padding: "0px", overflowX: "hidden", marginLeft: 0, marginRight: 0, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>

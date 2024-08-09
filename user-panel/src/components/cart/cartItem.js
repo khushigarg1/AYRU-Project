@@ -479,20 +479,15 @@ export const CartItem = ({ item, fetchCartStatus }) => {
 
                 PaperProps={{
                   sx: {
-                    backgroundColor: '#fcc73d',
-                    // backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    // backgroundColor: '#fcc73d',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
                     // borderRadius: 2, // Rounded corners
                     boxShadow: 3, // Box shadow for depth
                     p: 1.2, // Padding
                   },
                 }}
               >
-                <Typography variant='body2' sx={{ fontSize: "10px", color: "black", fontWeight: 'bold' }}>
-                  {/* <Typography variant='body2' sx={{ fontSize: "10px", color: "#fff", fontWeight: 'bold' }}> */}
-                  {/* {displayQuantity <= (displayMinQuantity || 1)
-                    ? 'Minimum quantity reached!'
-                    : 'Maximum quantity reached!'
-                  } */}
+                <Typography variant='body2' sx={{ fontSize: "10px", color: "#fff", fontWeight: 'bold' }}>
                   {snackbarMessage}
                 </Typography>
               </Popover>
