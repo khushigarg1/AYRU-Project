@@ -622,7 +622,7 @@ Thank you so much!`;
                               </Link>
                             </Typography>
                           </Typography> */}
-                          <Grid item xs={12} sx={{ paddingTop: "0px" }}>
+                          <Grid item xs={12} sx={{ paddingTop: "0px" }} mt={1}>
                             <Button
                               onClick={handleAvailabilty}
                               color="inherit"
