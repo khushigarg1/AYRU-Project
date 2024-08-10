@@ -76,81 +76,90 @@ const Dashboard = () => {
     <Box sx={{ p: 3 }}>
       <Grid container spacing={3}>
         {/* Total Users */}
-        <Grid item xs={6} md={3}>
-          <Paper sx={{ p: 3, textAlign: 'center' }}>
-            <Typography variant="h6">Total Users</Typography>
-            <Typography variant="h4">{totalUsers}</Typography>
-          </Paper>
+        <Grid container spacing={2}>
+
+          <Grid item xs={6} md={3}>
+            <Paper sx={{ p: 3, textAlign: 'center' }}>
+              <Typography variant="h6">Total Users</Typography>
+              <Typography variant="h4">{totalUsers}</Typography>
+            </Paper>
+          </Grid>
+
+          {/* Total Orders */}
+          <Grid item xs={6} md={3}>
+            <Paper sx={{ p: 3, textAlign: 'center' }}>
+              <Typography variant="h6">Total Orders</Typography>
+              <Typography variant="h4">{totalOrders}</Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={6} md={3}>
+            <Paper sx={{ p: 3, textAlign: 'center' }}>
+              <Typography variant="h6">Total Success Orders</Typography>
+              <Typography variant="h4">{successOrders}</Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={6} md={3}>
+            <Paper sx={{ p: 3, textAlign: 'center' }}>
+              <Typography variant="h6">Total Failed Orders</Typography>
+              <Typography variant="h4">{failedOrders}</Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={6} md={3}>
+            <Paper sx={{ p: 3, textAlign: 'center' }}>
+              <Typography variant="h6">Total Cart Items</Typography>
+              <Typography variant="h4">{totalCartItems}</Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={6} md={3}>
+            <Paper sx={{ p: 3, textAlign: 'center' }}>
+              <Typography variant="h6">Total Wishlist Items</Typography>
+              <Typography variant="h4">{totalWishlistItems}</Typography>
+            </Paper>
+          </Grid>
+
+          <Grid item xs={6} md={3}>
+            <Paper sx={{ p: 3, textAlign: 'center' }}>
+              <Typography variant="h6">Total Order Items</Typography>
+              <Typography variant="h4">{totalItems}</Typography>
+            </Paper>
+          </Grid>
         </Grid>
 
-        {/* Total Orders */}
-        <Grid item xs={6} md={3}>
-          <Paper sx={{ p: 3, textAlign: 'center' }}>
-            <Typography variant="h6">Total Orders</Typography>
-            <Typography variant="h4">{totalOrders}</Typography>
-          </Paper>
+        <Grid container spacing={2} mt={1}>
+          <Grid item xs={6} md={4}>
+            <Paper sx={{ p: 3, textAlign: 'center' }}>
+              <Typography variant="h6">Total Cost</Typography>
+              <Typography variant="h4">{totalCost.toFixed(3)}</Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={6} md={4}>
+            <Paper sx={{ p: 3, textAlign: 'center' }}>
+              <Typography variant="h6">Total Revenue</Typography>
+              <Typography variant="h4">{totalRevenue.toFixed(3)}</Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={6} md={4}>
+            <Paper sx={{ p: 3, textAlign: 'center' }}>
+              <Typography variant="h6">Total Profit</Typography>
+              <Typography variant="h4">{totalProfit.toFixed(3)}</Typography>
+            </Paper>
+          </Grid>
         </Grid>
-        <Grid item xs={6} md={3}>
-          <Paper sx={{ p: 3, textAlign: 'center' }}>
-            <Typography variant="h6">Total Success Orders</Typography>
-            <Typography variant="h4">{successOrders}</Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={6} md={3}>
-          <Paper sx={{ p: 3, textAlign: 'center' }}>
-            <Typography variant="h6">Total Failed Orders</Typography>
-            <Typography variant="h4">{failedOrders}</Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={6} md={3}>
-          <Paper sx={{ p: 3, textAlign: 'center' }}>
-            <Typography variant="h6">Total Cart Items</Typography>
-            <Typography variant="h4">{totalCartItems}</Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={6} md={3}>
-          <Paper sx={{ p: 3, textAlign: 'center' }}>
-            <Typography variant="h6">Total Wishlist Items</Typography>
-            <Typography variant="h4">{totalWishlistItems}</Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={6} md={4}>
-          <Paper sx={{ p: 3, textAlign: 'center' }}>
-            <Typography variant="h6">Total Cost</Typography>
-            <Typography variant="h4">{totalCost.toFixed(3)}</Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={6} md={4}>
-          <Paper sx={{ p: 3, textAlign: 'center' }}>
-            <Typography variant="h6">Total Revenue</Typography>
-            <Typography variant="h4">{totalRevenue.toFixed(3)}</Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={6} md={4}>
-          <Paper sx={{ p: 3, textAlign: 'center' }}>
-            <Typography variant="h6">Total Profit</Typography>
-            <Typography variant="h4">{totalProfit.toFixed(3)}</Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={6} md={4}>
-          <Paper sx={{ p: 3, textAlign: 'center' }}>
-            <Typography variant="h6">Total Items</Typography>
-            <Typography variant="h4">{totalItems}</Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={6} md={4}>
-          <Paper sx={{ p: 3, textAlign: 'center' }}>
-            <Typography variant="h6">Total Selling Price</Typography>
-            <Typography variant="h4">{totalSellingPrice.toFixed(3)}</Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={6} md={4}>
-          <Paper sx={{ p: 3, textAlign: 'center' }}>
-            <Typography variant="h6">Total discounted Price</Typography>
-            <Typography variant="h4">{totalDiscountedPrice.toFixed(3)}</Typography>
-          </Paper>
-        </Grid>
-
+        {/* 
+        <Grid container spacing={2} mt={1}>
+          <Grid item xs={6} md={4}>
+            <Paper sx={{ p: 3, textAlign: 'center' }}>
+              <Typography variant="h6">Total Selling Price</Typography>
+              <Typography variant="h4">{totalSellingPrice.toFixed(3)}</Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={6} md={4}>
+            <Paper sx={{ p: 3, textAlign: 'center' }}>
+              <Typography variant="h6">Total discounted Price</Typography>
+              <Typography variant="h4">{totalDiscountedPrice.toFixed(3)}</Typography>
+            </Paper>
+          </Grid>
+        </Grid> */}
         {/* Total Statistics Pie Chart */}
         {/* <Grid item xs={12} md={6}>
           <Paper sx={{ p: 3 }}>
