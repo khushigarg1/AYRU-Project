@@ -35,7 +35,7 @@ const HomePage = ({ params }) => {
 
   const fetchInventory = async () => {
     try {
-      const response = await api.get(`/inventory/${id}`);
+      const response = await api.get(`/inventory/admin/${id}`);
       setInventory(response?.data?.data);
       setSizeChartImage(response?.data?.data?.SizeChartMedia[0]?.url || null);
     } catch (error) {
