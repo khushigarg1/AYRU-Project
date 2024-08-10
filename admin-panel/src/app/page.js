@@ -2,15 +2,17 @@
 import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import api from '@/api';
-import { Box, Grid, Paper, Typography, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import { Box, Grid, Paper, Typography, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ThemeProvider, useTheme, createTheme } from '@mui/material';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
+import { useRouter } from 'next/navigation';
 
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const router = useRouter();
+  const theme = useTheme();
   useEffect(() => {
     const fetchDashboardData = async () => {
       const admintoken = Cookies.get('admintoken');
@@ -72,13 +74,30 @@ const Dashboard = () => {
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
+  const handleRowClick = (params) => {
+    const itemId = params.row.itemId;
+    router.push(`/inventory/${itemId}`);
+  };
+  const customTheme = createTheme({
+    components: {
+      MuiDataGrid: {
+        styleOverrides: {
+          root: {
+            '& .MuiDataGrid-cell': {
+              padding: '8px', // Override the default spacing or any other styling
+            },
+          },
+        },
+      },
+    },
+  });
   return (
     <Box sx={{ p: 3 }}>
       <Grid container spacing={3}>
         {/* Total Users */}
         <Grid container spacing={2}>
 
-          <Grid item xs={6} md={3}>
+          <Grid item xs={6} sm={4} md={3}>
             <Paper sx={{ p: 3, textAlign: 'center' }}>
               <Typography variant="h6">Total Users</Typography>
               <Typography variant="h4">{totalUsers}</Typography>
@@ -86,38 +105,38 @@ const Dashboard = () => {
           </Grid>
 
           {/* Total Orders */}
-          <Grid item xs={6} md={3}>
+          <Grid item xs={6} sm={4} md={3}>
             <Paper sx={{ p: 3, textAlign: 'center' }}>
               <Typography variant="h6">Total Orders</Typography>
               <Typography variant="h4">{totalOrders}</Typography>
             </Paper>
           </Grid>
-          <Grid item xs={6} md={3}>
+          <Grid item xs={6} sm={4} md={3}>
             <Paper sx={{ p: 3, textAlign: 'center' }}>
               <Typography variant="h6">Total Success Orders</Typography>
               <Typography variant="h4">{successOrders}</Typography>
             </Paper>
           </Grid>
-          <Grid item xs={6} md={3}>
+          <Grid item xs={6} sm={4} md={3}>
             <Paper sx={{ p: 3, textAlign: 'center' }}>
               <Typography variant="h6">Total Failed Orders</Typography>
               <Typography variant="h4">{failedOrders}</Typography>
             </Paper>
           </Grid>
-          <Grid item xs={6} md={3}>
+          <Grid item xs={6} sm={4} md={3}>
             <Paper sx={{ p: 3, textAlign: 'center' }}>
               <Typography variant="h6">Total Cart Items</Typography>
               <Typography variant="h4">{totalCartItems}</Typography>
             </Paper>
           </Grid>
-          <Grid item xs={6} md={3}>
+          <Grid item xs={6} sm={4} md={3}>
             <Paper sx={{ p: 3, textAlign: 'center' }}>
               <Typography variant="h6">Total Wishlist Items</Typography>
               <Typography variant="h4">{totalWishlistItems}</Typography>
             </Paper>
           </Grid>
 
-          <Grid item xs={6} md={3}>
+          <Grid item xs={6} sm={4} md={3}>
             <Paper sx={{ p: 3, textAlign: 'center' }}>
               <Typography variant="h6">Total Order Items</Typography>
               <Typography variant="h4">{totalItems}</Typography>
@@ -291,50 +310,82 @@ const Dashboard = () => {
         {/* Top 15 Cart Items */}
         <Grid item xs={12}>
           <Paper sx={{ p: 3 }}>
-            <Typography variant="h6">Top 15 Cart Items</Typography>
-            <DataGrid
-              autoHeight
-              rows={topCartItems.map((item, index) => ({
-                id: index,
-                productName: item.inventory.productName,
-                category: item?.inventory?.Category?.categoryName,
-                count: item?.count,
-              }))}
-              columns={[
-                { field: 'productName', headerName: 'Product Name', width: 350 },
-                { field: 'category', headerName: 'Category name', width: 150 },
-                { field: 'count', headerName: 'Total Times', width: 150 },
-              ]}
-              pageSize={5}
-              rowsPerPageOptions={[5]}
-            />
+            <ThemeProvider theme={customTheme}>
+
+              <Typography variant="h6">Top 15 Cart Items</Typography>
+              <DataGrid
+                autoHeight
+                rows={topCartItems.map((item, index) => ({
+                  id: index,
+                  itemId: item?.inventory?.id,
+                  productName: item.inventory.productName,
+                  category: item?.inventory?.Category?.categoryName,
+                  count: item?.count,
+                }))}
+                columns={[
+                  { field: 'id', headerName: 'Inventory id', width: 50 },
+                  { field: 'productName', headerName: 'Product Name', width: 350 },
+                  { field: 'category', headerName: 'Category name', width: 150 },
+                  { field: 'count', headerName: 'Total Times', width: 150 },
+                ]}
+
+                pageSize={5}
+                disableSelectionOnClick
+                rowsPerPageOptions={[5]}
+                // autoPageSize
+                loading={loading}
+                disableRowSelectionOnClick
+                slots={{ toolbar: GridToolbar }}
+                slotProps={{
+                  toolbar: {
+                    showQuickFilter: true,
+                  },
+                }}
+                onRowClick={handleRowClick}
+              />
+            </ThemeProvider>
           </Paper>
         </Grid>
 
         {/* Top 15 Wishlist Items */}
         <Grid item xs={12}>
           <Paper sx={{ p: 3 }}>
-            <Typography variant="h6">Top 15 Wishlist Items</Typography>
-            <DataGrid
-              autoHeight
-              rows={topWishlistItems.map((item, index) => ({
-                id: index,
-                productName: item.inventory.productName,
-                category: item?.inventory?.Category?.categoryName,
-                count: item?.count,
-              }))}
-              columns={[
-                { field: 'productName', headerName: 'Product Name', width: 350 },
-                { field: 'category', headerName: 'Category name', width: 150 },
-                { field: 'count', headerName: 'Total Times', width: 150 },
-              ]}
-              pageSize={5}
-              rowsPerPageOptions={[5]}
-            />
+            <ThemeProvider theme={customTheme}>
+
+              <Typography variant="h6">Top 15 Wishlist Items</Typography>
+              <DataGrid
+                autoHeight
+                rows={topWishlistItems.map((item, index) => ({
+                  id: index,
+                  itemId: item?.inventory?.id,
+                  productName: item.inventory.productName,
+                  category: item?.inventory?.Category?.categoryName,
+                  count: item?.count,
+                }))}
+                columns={[
+                  { field: 'productName', headerName: 'Product Name', width: 350 },
+                  { field: 'category', headerName: 'Category name', width: 150 },
+                  { field: 'count', headerName: 'Total Times', width: 150 },
+                ]}
+                pageSize={5}
+                disableSelectionOnClick
+                rowsPerPageOptions={[5]}
+                // autoPageSize
+                loading={loading}
+                disableRowSelectionOnClick
+                slots={{ toolbar: GridToolbar }}
+                slotProps={{
+                  toolbar: {
+                    showQuickFilter: true,
+                  },
+                }}
+                onRowClick={handleRowClick}
+              />
+            </ThemeProvider>
           </Paper>
         </Grid>
       </Grid>
-    </Box>
+    </Box >
   );
 };
 

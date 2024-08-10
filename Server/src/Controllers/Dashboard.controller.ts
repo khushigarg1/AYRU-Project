@@ -101,6 +101,7 @@ export async function getAllDashboardData(
             const inventory = await prisma.inventory.findUnique({
               where: { id: item.inventoryId },
               select: {
+                id: true,
                 productName: true, // Assuming your inventory model has a 'name' field
                 Category: true,
               },
@@ -134,6 +135,7 @@ export async function getAllDashboardData(
             const inventory = await prisma.inventory.findUnique({
               where: { id: item.inventoryId },
               select: {
+                id: true,
                 productName: true, // Assuming your inventory model has a 'name' field
                 Category: true,
               },
