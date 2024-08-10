@@ -206,7 +206,7 @@ export default function PageNav({ children }) {
 
   const fetchCategories = async () => {
     try {
-      const response = await api.get('/categories');
+      const response = await api.get('/categories/visible');
       const sortedCategories = response.data.data.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt));
       setCategories(sortedCategories);
     } catch (error) {

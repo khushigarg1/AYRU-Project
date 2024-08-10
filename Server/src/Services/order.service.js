@@ -17,6 +17,7 @@ const client_1 = require("@prisma/client");
 const razorpay_1 = __importDefault(require("razorpay"));
 const errors_1 = require("../errors");
 const awsfunction_1 = require("../../config/awsfunction");
+const omitCostPrice_1 = require("../utils/omitCostPrice");
 const prisma = new client_1.PrismaClient();
 const razorpayInstance = new razorpay_1.default({
     key_id: process.env.KEY,
@@ -180,7 +181,7 @@ exports.createOrderService = createOrderService;
 function getOrderByIdService(orderId, userId) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log(orderId, userId);
-        return yield prisma.order.findFirst({
+        const orders = yield prisma.order.findFirst({
             where: { id: orderId, userId: userId },
             include: {
                 Inventory: true,
@@ -215,6 +216,8 @@ function getOrderByIdService(orderId, userId) {
                 updatedAt: "desc",
             },
         });
+        const omitOrders = yield (0, omitCostPrice_1.omitCostPrice)(orders);
+        return omitOrders;
     });
 }
 exports.getOrderByIdService = getOrderByIdService;

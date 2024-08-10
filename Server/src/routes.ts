@@ -13,7 +13,7 @@ import productRoutes from "./routes/sizetype/sizechart.route";
 import customerSideDataRoutes from "./routes/customer.route";
 import WishlistRoutes from "./routes/wishlist.route";
 import CartRoutes from "./routes/cart.route";
-import orderRoutes from "./routes/order.router";
+import orderRoutes from "./routes/order.route";
 import { availabilityRoutes } from "./routes/availability.route";
 import DashboardRoutes from "./routes/dashboard.route";
 import configRoutes from "./routes/config.route";

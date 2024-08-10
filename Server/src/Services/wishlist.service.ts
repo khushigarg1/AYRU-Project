@@ -2,6 +2,7 @@
 
 import { PrismaClient } from "@prisma/client";
 import { ApiBadRequestError } from "../errors";
+import { omitCostPrice } from "../utils/omitCostPrice";
 
 const prisma = new PrismaClient();
 
@@ -161,7 +162,6 @@ export class WishlistService {
         categoryName:
           wishlistItem.inventory?.category?.categoryName || "Uncategorized",
       }));
-
       return {
         wishlists: transformedWishlists,
         totalWishlists,
@@ -239,7 +239,11 @@ export class WishlistService {
           updatedAt: "desc",
         },
       });
-      return wishlists;
+
+      const wishlist = await omitCostPrice(wishlists);
+
+      // return wishlists;
+      return wishlist;
     } catch (error: any) {
       throw new ApiBadRequestError(error?.message);
     }

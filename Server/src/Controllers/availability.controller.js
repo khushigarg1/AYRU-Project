@@ -126,6 +126,9 @@ function getAllAvailability(request, reply) {
                         },
                     },
                 },
+                orderBy: {
+                    createdAt: "desc",
+                },
             });
             if (!availabilityRequests || availabilityRequests.length === 0) {
                 return reply

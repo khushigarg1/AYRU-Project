@@ -30,8 +30,15 @@ const HomePage = () => {
 
   const fetchInventories = async () => {
     setLoading(true);
+    const admintoken = Cookies.get("admintoken");
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
-      const response = await api.get("/inventory");
+      const response = await api.get("/inventory/all", {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "type": "formData"
+        }
+      });
       setInventories(response.data.data);
     } catch (error) {
       console.error("Error fetching inventories:", error);

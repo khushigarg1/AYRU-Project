@@ -2,7 +2,7 @@ import { PrismaClient, Order } from "@prisma/client";
 import Razorpay from "razorpay";
 import { ApiBadRequestError } from "../errors";
 import { deleteImageFromS3, uploadImageToS3 } from "../../config/awsfunction";
-
+import { omitCostPrice } from "../utils/omitCostPrice";
 const prisma = new PrismaClient();
 const razorpayInstance = new Razorpay({
   key_id: process.env.KEY as string,
@@ -173,7 +173,7 @@ export async function getOrderByIdService(
 ): Promise<Order | null> {
   console.log(orderId, userId);
 
-  return await prisma.order.findFirst({
+  const orders = await prisma.order.findFirst({
     where: { id: orderId, userId: userId },
     include: {
       Inventory: true,
@@ -208,6 +208,9 @@ export async function getOrderByIdService(
       updatedAt: "desc",
     },
   });
+  const omitOrders = await omitCostPrice(orders);
+
+  return omitOrders;
 }
 // Get Single Order Service
 export async function getOrderByAdminIdService(

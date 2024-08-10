@@ -9,6 +9,7 @@ import {
   InventoryAttributes,
   InventoryUpdateAttributes,
 } from "../../schema/inventory.schema";
+import { omitCostPrice } from "../../utils/omitCostPrice";
 
 const prisma = new PrismaClient();
 
@@ -220,6 +221,104 @@ export class InventoryService {
   }
 
   async getInventories() {
+    const inventorydata = await prisma.inventory.findMany({
+      include: {
+        customFittedInventory: {
+          include: { InventoryFlat: { include: { Flat: true } } },
+        },
+        InventoryFlat: { include: { Flat: true } },
+        InventorySubcategory: { include: { SubCategory: true } },
+        InventoryFitted: {
+          include: {
+            Fitted: true,
+          },
+        },
+        Category: true,
+        Wishlist: true,
+        // ProductInventory: {
+        //   include: {
+        //     product: {
+        //       include: { sizes: true },
+        //     },
+        //     selectedSizes: true,
+        //   },
+        // },
+        ColorVariations: { include: { Color: true } },
+        relatedInventories: {
+          include: {
+            Media: true,
+          },
+        },
+        relatedByInventories: {
+          include: {
+            Media: true,
+          },
+        },
+        Media: true,
+        SizeChartMedia: true,
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
+    const inventory = await omitCostPrice(inventorydata);
+    return inventory;
+  }
+
+  async getInventoryById(id: number) {
+    if (!id) {
+      throw new ApiBadRequestError("Inventory id not found");
+    }
+    const existingentry = await prisma.inventory.findFirst({
+      where: { id },
+    });
+    if (!existingentry) {
+      throw new ApiBadRequestError("Inventory not found");
+    }
+
+    const inventorydata = await prisma.inventory.findUnique({
+      where: { id: Number(id) },
+      include: {
+        InventoryFlat: { include: { Flat: true } },
+        customFittedInventory: {
+          include: { InventoryFlat: { include: { Flat: true } } },
+        },
+        InventorySubcategory: { include: { SubCategory: true } },
+        InventoryFitted: {
+          include: {
+            Fitted: true,
+          },
+        },
+        // ProductInventory: {
+        //   include: {
+        //     product: {
+        //       include: { sizes: true },
+        //     },
+        //     selectedSizes: true,
+        //   },
+        // },
+        Category: true,
+        Wishlist: true,
+        ColorVariations: { include: { Color: true } },
+        relatedInventories: {
+          include: {
+            Media: true,
+          },
+        },
+        relatedByInventories: {
+          include: {
+            Media: true,
+          },
+        },
+        Media: true,
+        SizeChartMedia: true,
+      },
+    });
+    const inventory = await omitCostPrice(inventorydata);
+    return inventory;
+  }
+
+  async getAdminInventories() {
     const inventory = await prisma.inventory.findMany({
       include: {
         customFittedInventory: {
@@ -262,7 +361,8 @@ export class InventoryService {
     });
     return inventory;
   }
-  async getInventoryById(id: number) {
+
+  async getAdminInventoryById(id: number) {
     if (!id) {
       throw new ApiBadRequestError("Inventory id not found");
     }
@@ -562,7 +662,7 @@ export class InventoryService {
     }
     console.log("whereClause:", JSON.stringify(whereClause, null, 2));
 
-    const inventories = await prisma.inventory.findMany({
+    const inventorydata = await prisma.inventory.findMany({
       where: whereClause,
       include: {
         InventoryFlat: { include: { Flat: true } },
@@ -596,6 +696,8 @@ export class InventoryService {
       },
     });
 
+    // return inventories;
+    const inventories = await omitCostPrice(inventorydata);
     return inventories;
   }
 }

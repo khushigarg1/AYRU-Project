@@ -1,276 +1,6 @@
-// // services/CartService.ts
-// import { PrismaClient } from "@prisma/client";
-// import { ApiBadRequestError, Api404Error } from "../errors";
-
-// const prisma = new PrismaClient();
-
-// export class CartService {
-//   async addToCart(
-//     userId: number,
-//     inventoryId: number,
-//     quantity: number,
-//     sizeType?: string,
-//     sizeName?: string,
-//     length?: number,
-//     width?: number,
-//     height?: number,
-//     remark?: string
-//   ) {
-//     try {
-//       const cartItem = await prisma.cart.create({
-//         data: {
-//           userId,
-//           inventoryId,
-//           quantity,
-//           sizeType,
-//           sizeName,
-//           length,
-//           width,
-//           height,
-//           remark,
-//         },
-//       });
-//       return cartItem;
-//     } catch (error: any) {
-//       throw new ApiBadRequestError(error.message);
-//     }
-//   }
-
-//   async removeFromCart(userId: number, cartItemId: number) {
-//     const cartItem = await prisma.cart.delete({
-//       where: {
-//         id: cartItemId,
-//         userId,
-//       },
-//     });
-//     if (!cartItem) {
-//       throw new Api404Error("Cart item not found");
-//     }
-//   }
-
-//   async updateCart(
-//     userId: number,
-//     cartItemId: number,
-//     quantity: number,
-//     sizeType?: string,
-//     sizeName?: string,
-//     length?: number,
-//     width?: number,
-//     height?: number,
-//     remark?: string
-//   ) {
-//     try {
-//       const updatedCartItem = await prisma.cart.update({
-//         where: {
-//           id: cartItemId,
-//           userId,
-//         },
-//         data: {
-//           quantity,
-//           sizeType,
-//           sizeName,
-//           length,
-//           width,
-//           height,
-//           remark,
-//         },
-//       });
-//       return updatedCartItem;
-//     } catch (error: any) {
-//       throw new ApiBadRequestError(error);
-//     }
-//   }
-
-//   async getUserCart(userId: number) {
-//     const userCart = await prisma.cart.findMany({
-//       where: {
-//         userId,
-//       },
-//       include: {
-//         User: true,
-//         Inventory: {
-//           include: {
-//             customFittedInventory: { include: { InventoryFlat: true } },
-//             InventoryFlat: { include: { Flat: true } },
-//             InventorySubcategory: { include: { SubCategory: true } },
-//             InventoryFitted: {
-//               include: {
-//                 Fitted: true,
-//               },
-//             },
-//             Category: true,
-//             Wishlist: true,
-//             // ProductInventory: {
-//             //   include: {
-//             //     product: {
-//             //       include: { sizes: true },
-//             //     },
-//             //     selectedSizes: true,
-//             //   },
-//             // },
-//             ColorVariations: { include: { Color: true } },
-//             relatedInventories: {
-//               include: {
-//                 Media: true,
-//               },
-//             },
-//             relatedByInventories: {
-//               include: {
-//                 Media: true,
-//               },
-//             },
-//             Media: true,
-//             SizeChartMedia: true,
-//           },
-//         },
-//       },
-//       orderBy: {
-//         updatedAt: "desc",
-//       },
-//     });
-
-//     let totalPrice = 0;
-//     const populatedUserCart = userCart.map((cartItem) => {
-//       const inventory = cartItem.Inventory;
-//       if (
-//         inventory &&
-//         inventory.discountedPrice !== null &&
-//         inventory.discountedPrice !== undefined
-//       ) {
-//         totalPrice += inventory.discountedPrice;
-//       } else if (
-//         inventory &&
-//         inventory.costPrice !== null &&
-//         inventory.costPrice !== undefined &&
-//         (inventory.discountedPrice == null ||
-//           inventory.discountedPrice == undefined)
-//       ) {
-//         totalPrice += inventory.costPrice;
-//       }
-//     });
-
-//     return { userCart, totalPrice: totalPrice };
-//   }
-
-//   // async getAllCart() {
-//   //   const userCart = await prisma.cart.findMany({
-//   //     include: {
-//   //       user: true,
-//   //       inventory: {
-//   //         include: {
-//   //           InventoryFlat: { include: { Flat: true } },
-//   //           customFittedInventory: { include: { customFitted: true } },
-//   //           InventoryFitted: {
-//   //             include: {
-//   //               Fitted: {
-//   //                 include: { FittedDimensions: true },
-//   //               },
-//   //               fittedDimensions: true,
-//   //             },
-//   //           },
-//   //           ColorVariations: { include: { Color: true } },
-//   //           relatedInventories: true,
-//   //           relatedByInventories: true,
-//   //           Media: true,
-//   //           SizeChartMedia: true,
-//   //         },
-//   //       },
-//   //     },
-//   //     orderBy: {
-//   //       updatedAt: "desc",
-//   //     },
-//   //   });
-//   //   return userCart;
-//   // }
-//   async getAllCart() {
-//     const userCart = await prisma.cart.findMany({
-//       include: {
-//         User: true,
-//         Inventory: {
-//           include: {
-//             customFittedInventory: { include: { InventoryFlat: true } },
-//             InventoryFlat: { include: { Flat: true } },
-//             InventorySubcategory: { include: { SubCategory: true } },
-//             InventoryFitted: {
-//               include: {
-//                 Fitted: true,
-//               },
-//             },
-//             Category: true,
-//             Wishlist: true,
-//             // ProductInventory: {
-//             //   include: {
-//             //     product: {
-//             //       include: { sizes: true },
-//             //     },
-//             //     selectedSizes: true,
-//             //   },
-//             // },
-//             ColorVariations: { include: { Color: true } },
-//             relatedInventories: {
-//               include: {
-//                 Media: true,
-//               },
-//             },
-//             relatedByInventories: {
-//               include: {
-//                 Media: true,
-//               },
-//             },
-//             Media: true,
-//             SizeChartMedia: true,
-//           },
-//         },
-//       },
-//       orderBy: {
-//         updatedAt: "desc",
-//       },
-//     });
-
-//     // Calculate total number of products and count by category
-//     let totalProducts = 0;
-//     const categoryCounts: Record<number, number> = {};
-
-//     userCart.forEach((cartItem) => {
-//       const inventory = cartItem.Inventory;
-//       if (inventory) {
-//         totalProducts++;
-
-//         // Counting category occurrences
-//         const categoryId = inventory.categoryId;
-//         if (categoryId) {
-//           if (categoryCounts[categoryId]) {
-//             categoryCounts[categoryId]++;
-//           } else {
-//             categoryCounts[categoryId] = 1;
-//           }
-//         }
-//       }
-//     });
-
-//     let maxCategoryCount = 0;
-//     let maxCategoryName = "";
-
-//     for (const categoryId in categoryCounts) {
-//       if (categoryCounts[categoryId] > maxCategoryCount) {
-//         maxCategoryCount = categoryCounts[categoryId];
-//         maxCategoryName = `Category ID: ${categoryId}`;
-//       }
-//     }
-
-//     return {
-//       userCart,
-//       totalProducts,
-//       categoryCounts,
-//       maxCategoryName,
-//       maxCategoryCount,
-//     };
-//   }
-// }
-// services/CartService.ts
 import { PrismaClient } from "@prisma/client";
 import { ApiBadRequestError, Api404Error } from "../errors";
-
+import { omitCostPrice } from "../utils/omitCostPrice";
 const prisma = new PrismaClient();
 
 export class CartService {
@@ -295,10 +25,8 @@ export class CartService {
     remark?: string
   ) {
     try {
-      // Find an existing cart item
       let existingCartItem;
       let cartsizeItem;
-      // Find an existing cart item based on sizeOption
       if (sizeOption === "flat") {
         existingCartItem = await prisma.cart.findFirst({
           where: {
@@ -454,7 +182,7 @@ export class CartService {
   }
 
   async getUserCart(userId: number) {
-    const userCart = await prisma.cart.findMany({
+    const cart = await prisma.cart.findMany({
       where: { userId },
       include: {
         User: true,
@@ -481,8 +209,9 @@ export class CartService {
       orderBy: { createdAt: "desc" },
     });
 
+    const userCart = await omitCostPrice(cart);
     const cartSizeItems = await Promise.all(
-      userCart.map(async (cartItem) => {
+      userCart.map(async (cartItem: any) => {
         let cartSizeItem;
 
         if (cartItem.sizeOption === "flat" && cartItem.flatId !== null) {
@@ -525,6 +254,7 @@ export class CartService {
             maxQuantity: inventoryflatItem?.maxQuantity,
           };
         }
+        cartSizeItem = await omitCostPrice(cartSizeItem);
 
         return { ...cartItem, cartSizeItem };
       })

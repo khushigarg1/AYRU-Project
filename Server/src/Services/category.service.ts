@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { ApiBadRequestError } from "../errors";
-
+import { omitCostPrice } from "../utils/omitCostPrice";
 const prisma = new PrismaClient();
 
 export class CategoryService {
@@ -30,14 +30,6 @@ export class CategoryService {
                 Fitted: true,
               },
             },
-            // ProductInventory: {
-            //   include: {
-            //     product: {
-            //       include: { sizes: true },
-            //     },
-            //     selectedSizes: true,
-            //   },
-            // },
             ColorVariations: { include: { Color: true } },
             relatedInventories: true,
             relatedByInventories: true,
@@ -51,6 +43,9 @@ export class CategoryService {
       },
     });
     return categories;
+    // const omitCategories = await omitCostPrice(categories);
+
+    // return omitCategories;
   }
 
   async getCategoryById(id: number) {
@@ -62,6 +57,11 @@ export class CategoryService {
       throw new ApiBadRequestError("Error: Category not found.");
     }
     return category;
+    // const omitCategory = await omitCostPrice(category);
+    // if (!omitCategory) {
+    //   throw new ApiBadRequestError("Error: Category not found.");
+    // }
+    // return omitCategory;
   }
 
   async updateCategory(id: number, data: any) {
@@ -145,6 +145,9 @@ export class CategoryService {
         updatedAt: "desc",
       },
     });
-    return visibleCategories;
+    // return visibleCategories;
+    const omitVisibleCategories = await omitCostPrice(visibleCategories);
+
+    return omitVisibleCategories;
   }
 }

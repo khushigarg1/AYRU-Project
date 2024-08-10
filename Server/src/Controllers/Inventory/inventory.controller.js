@@ -9,9 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.filterSaleItem = exports.searchInventory = exports.filterInventory = exports.deleteMedia = exports.getallMedia = exports.uploadMedia = exports.deleteInventory = exports.updateInventory = exports.getInventoryById = exports.getInventories = exports.getInventoriesByCategory = exports.createInventory = void 0;
+exports.filterSaleItem = exports.searchInventory = exports.filterInventory = exports.deleteMedia = exports.getallMedia = exports.uploadMedia = exports.deleteInventory = exports.updateInventory = exports.getAdminInventoryById = exports.getAdminInventories = exports.getInventoryById = exports.getInventories = exports.getInventoriesByCategory = exports.createInventory = void 0;
 const client_1 = require("@prisma/client");
 const inventory_service_1 = require("../../Services/Inventory/inventory.service");
+const omitCostPrice_1 = require("../../utils/omitCostPrice");
 const inventoryService = new inventory_service_1.InventoryService();
 const prisma = new client_1.PrismaClient();
 const createInventory = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
@@ -76,6 +77,28 @@ const getInventoryById = (request, reply) => __awaiter(void 0, void 0, void 0, f
     }
 });
 exports.getInventoryById = getInventoryById;
+const getAdminInventories = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const inventories = yield inventoryService.getAdminInventories();
+        reply.send({ data: inventories });
+    }
+    catch (error) {
+        reply.send(error);
+    }
+});
+exports.getAdminInventories = getAdminInventories;
+const getAdminInventoryById = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = request.params;
+    console.log("heyyyy");
+    try {
+        const inventory = yield inventoryService.getAdminInventoryById(Number(id));
+        reply.send({ data: inventory });
+    }
+    catch (error) {
+        reply.send(error);
+    }
+});
+exports.getAdminInventoryById = getAdminInventoryById;
 const updateInventory = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = request.params;
     const data = request.body;
@@ -348,7 +371,9 @@ const filterInventory = (request, reply) => __awaiter(void 0, void 0, void 0, fu
             }
             return 0;
         });
-        reply.send({ data: sortedInventories });
+        // reply.send({ data: sortedInventories });
+        const omitSortedInv = (0, omitCostPrice_1.omitCostPrice)(sortedInventories);
+        reply.send({ data: omitSortedInv });
     }
     catch (error) {
         reply
@@ -418,7 +443,9 @@ const searchInventory = (request, reply) => __awaiter(void 0, void 0, void 0, fu
                 InventoryFitted: { include: { Fitted: true } },
             },
         });
-        reply.send({ data: inventories });
+        // reply.send({ data: inventories });
+        const omitInventory = (0, omitCostPrice_1.omitCostPrice)(inventories);
+        reply.send({ data: omitInventory });
     }
     catch (error) {
         console.error("Error in searchInventory:", error);
@@ -447,7 +474,9 @@ const filterSaleItem = (request, reply) => __awaiter(void 0, void 0, void 0, fun
                 InventoryFitted: { include: { Fitted: true } },
             },
         });
-        reply.send({ data: inventories });
+        // reply.send({ data: inventories });
+        const omitInventories = (0, omitCostPrice_1.omitCostPrice)(inventories);
+        reply.send({ data: omitInventories });
     }
     catch (error) {
         console.error("Error in filterSaleItems:", error);

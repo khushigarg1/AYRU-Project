@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoryService = void 0;
 const client_1 = require("@prisma/client");
 const errors_1 = require("../errors");
+const omitCostPrice_1 = require("../utils/omitCostPrice");
 const prisma = new client_1.PrismaClient();
 class CategoryService {
     addCategory(data) {
@@ -42,14 +43,6 @@ class CategoryService {
                                     Fitted: true,
                                 },
                             },
-                            // ProductInventory: {
-                            //   include: {
-                            //     product: {
-                            //       include: { sizes: true },
-                            //     },
-                            //     selectedSizes: true,
-                            //   },
-                            // },
                             ColorVariations: { include: { Color: true } },
                             relatedInventories: true,
                             relatedByInventories: true,
@@ -63,6 +56,8 @@ class CategoryService {
                 },
             });
             return categories;
+            // const omitCategories = await omitCostPrice(categories);
+            // return omitCategories;
         });
     }
     getCategoryById(id) {
@@ -75,6 +70,11 @@ class CategoryService {
                 throw new errors_1.ApiBadRequestError("Error: Category not found.");
             }
             return category;
+            // const omitCategory = await omitCostPrice(category);
+            // if (!omitCategory) {
+            //   throw new ApiBadRequestError("Error: Category not found.");
+            // }
+            // return omitCategory;
         });
     }
     updateCategory(id, data) {
@@ -156,7 +156,9 @@ class CategoryService {
                     updatedAt: "desc",
                 },
             });
-            return visibleCategories;
+            // return visibleCategories;
+            const omitVisibleCategories = yield (0, omitCostPrice_1.omitCostPrice)(visibleCategories);
+            return omitVisibleCategories;
         });
     }
 }

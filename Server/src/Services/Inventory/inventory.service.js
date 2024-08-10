@@ -13,6 +13,7 @@ exports.InventoryService = void 0;
 const client_1 = require("@prisma/client");
 const awsfunction_1 = require("../../../config/awsfunction");
 const errors_1 = require("../../errors");
+const omitCostPrice_1 = require("../../utils/omitCostPrice");
 const prisma = new client_1.PrismaClient();
 class InventoryService {
     uploadMedias(data) {
@@ -208,6 +209,105 @@ class InventoryService {
     }
     getInventories() {
         return __awaiter(this, void 0, void 0, function* () {
+            const inventorydata = yield prisma.inventory.findMany({
+                include: {
+                    customFittedInventory: {
+                        include: { InventoryFlat: { include: { Flat: true } } },
+                    },
+                    InventoryFlat: { include: { Flat: true } },
+                    InventorySubcategory: { include: { SubCategory: true } },
+                    InventoryFitted: {
+                        include: {
+                            Fitted: true,
+                        },
+                    },
+                    Category: true,
+                    Wishlist: true,
+                    // ProductInventory: {
+                    //   include: {
+                    //     product: {
+                    //       include: { sizes: true },
+                    //     },
+                    //     selectedSizes: true,
+                    //   },
+                    // },
+                    ColorVariations: { include: { Color: true } },
+                    relatedInventories: {
+                        include: {
+                            Media: true,
+                        },
+                    },
+                    relatedByInventories: {
+                        include: {
+                            Media: true,
+                        },
+                    },
+                    Media: true,
+                    SizeChartMedia: true,
+                },
+                orderBy: {
+                    updatedAt: "desc",
+                },
+            });
+            const inventory = yield (0, omitCostPrice_1.omitCostPrice)(inventorydata);
+            return inventory;
+        });
+    }
+    getInventoryById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!id) {
+                throw new errors_1.ApiBadRequestError("Inventory id not found");
+            }
+            const existingentry = yield prisma.inventory.findFirst({
+                where: { id },
+            });
+            if (!existingentry) {
+                throw new errors_1.ApiBadRequestError("Inventory not found");
+            }
+            const inventorydata = yield prisma.inventory.findUnique({
+                where: { id: Number(id) },
+                include: {
+                    InventoryFlat: { include: { Flat: true } },
+                    customFittedInventory: {
+                        include: { InventoryFlat: { include: { Flat: true } } },
+                    },
+                    InventorySubcategory: { include: { SubCategory: true } },
+                    InventoryFitted: {
+                        include: {
+                            Fitted: true,
+                        },
+                    },
+                    // ProductInventory: {
+                    //   include: {
+                    //     product: {
+                    //       include: { sizes: true },
+                    //     },
+                    //     selectedSizes: true,
+                    //   },
+                    // },
+                    Category: true,
+                    Wishlist: true,
+                    ColorVariations: { include: { Color: true } },
+                    relatedInventories: {
+                        include: {
+                            Media: true,
+                        },
+                    },
+                    relatedByInventories: {
+                        include: {
+                            Media: true,
+                        },
+                    },
+                    Media: true,
+                    SizeChartMedia: true,
+                },
+            });
+            const inventory = yield (0, omitCostPrice_1.omitCostPrice)(inventorydata);
+            return inventory;
+        });
+    }
+    getAdminInventories() {
+        return __awaiter(this, void 0, void 0, function* () {
             const inventory = yield prisma.inventory.findMany({
                 include: {
                     customFittedInventory: {
@@ -251,7 +351,7 @@ class InventoryService {
             return inventory;
         });
     }
-    getInventoryById(id) {
+    getAdminInventoryById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!id) {
                 throw new errors_1.ApiBadRequestError("Inventory id not found");
@@ -490,7 +590,7 @@ class InventoryService {
                 };
             }
             console.log("whereClause:", JSON.stringify(whereClause, null, 2));
-            const inventories = yield prisma.inventory.findMany({
+            const inventorydata = yield prisma.inventory.findMany({
                 where: whereClause,
                 include: {
                     InventoryFlat: { include: { Flat: true } },
@@ -523,6 +623,8 @@ class InventoryService {
                     updatedAt: "desc",
                 },
             });
+            // return inventories;
+            const inventories = yield (0, omitCostPrice_1.omitCostPrice)(inventorydata);
             return inventories;
         });
     }

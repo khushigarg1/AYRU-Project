@@ -17,7 +17,7 @@ const sizechart_route_1 = __importDefault(require("./routes/sizetype/sizechart.r
 const customer_route_1 = __importDefault(require("./routes/customer.route"));
 const wishlist_route_1 = __importDefault(require("./routes/wishlist.route"));
 const cart_route_1 = __importDefault(require("./routes/cart.route"));
-const order_router_1 = __importDefault(require("./routes/order.router"));
+const order_route_1 = __importDefault(require("./routes/order.route"));
 const availability_route_1 = require("./routes/availability.route");
 const dashboard_route_1 = __importDefault(require("./routes/dashboard.route"));
 const config_route_1 = __importDefault(require("./routes/config.route"));
@@ -30,7 +30,7 @@ function registerRoutes(server) {
     server.register(flat_route_1.default, { prefix: "/api/flat" });
     server.register(config_route_1.default, { prefix: "/api/config" });
     server.register(fitted_route_1.default, { prefix: "/api/fitted" });
-    server.register(order_router_1.default, { prefix: "/api/order" });
+    server.register(order_route_1.default, { prefix: "/api/order" });
     // server.register(customFittedRoutes, { prefix: "/api/customfitted" });
     server.register(inventory_route_1.default, { prefix: "/api/inventory" });
     server.register(color_route_1.default, { prefix: "/api/color" });

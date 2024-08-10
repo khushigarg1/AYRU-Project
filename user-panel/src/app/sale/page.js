@@ -1,4 +1,8 @@
 "use client";
+// import dynamic from 'next/dynamic';
+// const InventoryItem = dynamic(() => import('@/components/Inventory/InventoryItem'), { ssr: false });
+
+
 import React, { useState, useEffect, Suspense } from 'react';
 import { Grid, Select, MenuItem, FormControl, InputLabel, Box, Paper, Typography, useTheme, Button, Drawer, TextField, IconButton, Divider, Slider, FormControlLabel, Checkbox, styled, CircularProgress } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -10,6 +14,9 @@ import Image from 'next/image';
 import WebpImage from '../../../public/images/blog7.webp';
 import CloseIcon from '@mui/icons-material/Close';
 
+import { useAuth } from '@/contexts/auth';
+import Cookies from 'js-cookie';
+
 const CustomBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
@@ -19,7 +26,8 @@ const CustomBox = styled(Box)(({ theme }) => ({
     width: '49%',
   },
 }));
-const ShopPageContent = () => {
+
+const SalePageContent = () => {
   const searchParams = useSearchParams();
   const categoryId = searchParams.get('categoryId');
   const subcategoryId = searchParams.get('subcategoryId');
@@ -41,6 +49,38 @@ const ShopPageContent = () => {
   const [extraOptionOutOfStock, setextraOptionOutOfStock] = useState('');
   const theme = useTheme();
   const [loading, setLoading] = useState(true);
+
+  const [wishlistItems, setWishlistItems] = useState({});
+  const { user, setWishlistCount } = useAuth();
+  const token = Cookies.get('token');
+
+  useEffect(() => {
+    const fetchWishlistStatus = async () => {
+      try {
+        if (token) {
+          const response = await api.get(`/wishlist/user/${user.id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          const wishlistItemsData = response.data.data;
+          setWishlistCount(wishlistItemsData.length);
+          const wishlistMap = wishlistItemsData.reduce((acc, wishlistItem) => {
+            acc[wishlistItem?.inventoryId] = wishlistItem?.id;
+            return acc;
+          }, {});
+          setWishlistItems(wishlistMap);
+        }
+      } catch (error) {
+        console.error('Error fetching wishlist:', error);
+      }
+    };
+
+    if (user && user.id && token) {
+      fetchWishlistStatus();
+    }
+  }, [token, user, setWishlistCount]);
+
 
   const handlePriceRangeChange = (event, newValue) => {
     setMinPrice(newValue[0]);
@@ -89,7 +129,7 @@ const ShopPageContent = () => {
     try {
       setLoading(true);
 
-      const response = await api.get('/categories');
+      const response = await api.get('/categories/visible');
       setCategories(response.data.data);
       if (categoryId) {
         const selectedCategoryData = response.data.data.find(cat => cat.id === parseInt(categoryId));
@@ -359,7 +399,7 @@ const ShopPageContent = () => {
           {inventory.length > 0 ? (
             inventory.map((item) => (
               <Grid item xs={6} sm={6} md={4} lg={2.4} xl={2} key={item.id}>
-                <InventoryItem item={item} />
+                <InventoryItem item={item} wishlistItems={wishlistItems} setWishlistItems={setWishlistItems} />
               </Grid>
             ))
           ) : (
@@ -555,7 +595,7 @@ const SalePage = () => {
         </Box>
       }
     >
-      <ShopPageContent />
+      <SalePageContent />
     </Suspense>
   );
 };

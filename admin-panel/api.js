@@ -8,9 +8,9 @@ import Axios from "axios";
 let urls = {
   test: `http://localhost:8080`,
 
-  // development: "http://[::1]:8080/api/",
-  development: "https://ayru-project.onrender.com/api/",
-  production: "https://ayru-project.onrender.com/api/",
+  development: "http://[::1]:8080/api/",
+  // development: "https://ayru-project.onrender.com/api/",
+  // production: "https://ayru-project.onrender.com/api/",
 };
 const api = Axios.create({
   baseURL: urls[process.env.NODE_ENV || "production"],

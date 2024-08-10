@@ -14,14 +14,18 @@ export default async function CategoryRoutes(server: FastifyInstance) {
     { onRequest: [server.authenticateAdmin] },
     (request, reply) => addCategory(server, request, reply)
   );
-  server.get("/categories", (request, reply) =>
-    getCategories(server, request, reply)
+  server.get(
+    "/categories",
+    { onRequest: [server.authenticateAdmin] },
+    (request, reply) => getCategories(server, request, reply)
   );
   server.get("/categories/visible", (request, reply) =>
     getVisibleCategories(server, request, reply)
   );
-  server.get("/category/:id", (request, reply) =>
-    getCategoryByid(server, request, reply)
+  server.get(
+    "/category/:id",
+    { onRequest: [server.authenticateAdmin] },
+    (request, reply) => getCategoryByid(server, request, reply)
   );
   server.put(
     "/category/:id",

@@ -5,6 +5,7 @@ import {
   InventoryUpdateAttributes,
 } from "../../schema/inventory.schema";
 import { InventoryService } from "../../Services/Inventory/inventory.service";
+import { omitCostPrice } from "../../utils/omitCostPrice";
 const inventoryService = new InventoryService();
 const prisma = new PrismaClient();
 
@@ -92,6 +93,32 @@ export const getInventoryById = async (
   console.log("heyyyy");
   try {
     const inventory = await inventoryService.getInventoryById(Number(id));
+    reply.send({ data: inventory });
+  } catch (error) {
+    reply.send(error);
+  }
+};
+
+export const getAdminInventories = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  try {
+    const inventories = await inventoryService.getAdminInventories();
+    reply.send({ data: inventories });
+  } catch (error) {
+    reply.send(error);
+  }
+};
+
+export const getAdminInventoryById = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const { id } = request.params as { id: string };
+  console.log("heyyyy");
+  try {
+    const inventory = await inventoryService.getAdminInventoryById(Number(id));
     reply.send({ data: inventory });
   } catch (error) {
     reply.send(error);
@@ -437,7 +464,9 @@ export const filterInventory = async (
       return 0;
     });
 
-    reply.send({ data: sortedInventories });
+    // reply.send({ data: sortedInventories });
+    const omitSortedInv = omitCostPrice(sortedInventories);
+    reply.send({ data: omitSortedInv });
   } catch (error) {
     reply
       .status(500)
@@ -519,7 +548,9 @@ export const searchInventory = async (
       },
     });
 
-    reply.send({ data: inventories });
+    // reply.send({ data: inventories });
+    const omitInventory = omitCostPrice(inventories);
+    reply.send({ data: omitInventory });
   } catch (error) {
     console.error("Error in searchInventory:", error);
     reply
@@ -551,7 +582,9 @@ export const filterSaleItem = async (
       },
     });
 
-    reply.send({ data: inventories });
+    // reply.send({ data: inventories });
+    const omitInventories = omitCostPrice(inventories);
+    reply.send({ data: omitInventories });
   } catch (error) {
     console.error("Error in filterSaleItems:", error);
     reply

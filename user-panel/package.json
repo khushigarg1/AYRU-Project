@@ -16,7 +16,6 @@
     "@mui/material": "^5.15.11",
     "@mui/x-data-grid": "^6.19.4",
     "@mui/x-data-grid-generator": "^7.6.2",
-    "@next/bundle-analyzer": "^14.2.5",
     "aws-amplify": "^6.3.6",
     "axios": "^1.6.7",
     "axios-cache-interceptor": "^1.5.3",

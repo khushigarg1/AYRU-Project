@@ -13,9 +13,9 @@ const category_controller_1 = require("../Controllers/category.controller");
 function CategoryRoutes(server) {
     return __awaiter(this, void 0, void 0, function* () {
         server.post("/category", { onRequest: [server.authenticateAdmin] }, (request, reply) => (0, category_controller_1.addCategory)(server, request, reply));
-        server.get("/categories", (request, reply) => (0, category_controller_1.getCategories)(server, request, reply));
+        server.get("/categories", { onRequest: [server.authenticateAdmin] }, (request, reply) => (0, category_controller_1.getCategories)(server, request, reply));
         server.get("/categories/visible", (request, reply) => (0, category_controller_1.getVisibleCategories)(server, request, reply));
-        server.get("/category/:id", (request, reply) => (0, category_controller_1.getCategoryByid)(server, request, reply));
+        server.get("/category/:id", { onRequest: [server.authenticateAdmin] }, (request, reply) => (0, category_controller_1.getCategoryByid)(server, request, reply));
         server.put("/category/:id", { onRequest: [server.authenticateAdmin] }, (request, reply) => (0, category_controller_1.updateCategory)(server, request, reply));
         server.delete("/category/:id", { onRequest: [server.authenticateAdmin] }, (request, reply) => (0, category_controller_1.deleteCategory)(server, request, reply));
     });

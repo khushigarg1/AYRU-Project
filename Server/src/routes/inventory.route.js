@@ -15,8 +15,10 @@ function inventoryRoutes(server) {
     return __awaiter(this, void 0, void 0, function* () {
         server.post("/", { onRequest: [server.authenticateAdmin] }, inventory_controller_1.createInventory);
         server.get("/", inventory_controller_1.getInventories);
-        server.get("/category", inventory_controller_1.getInventoriesByCategory);
         server.get("/:id", inventory_controller_1.getInventoryById);
+        server.get("/all", { onRequest: [server.authenticateAdmin] }, inventory_controller_1.getAdminInventories);
+        server.get("/admin/:id", { onRequest: [server.authenticateAdmin] }, inventory_controller_1.getAdminInventoryById);
+        server.get("/category", inventory_controller_1.getInventoriesByCategory);
         server.put("/:id", { onRequest: [server.authenticateAdmin] }, inventory_controller_1.updateInventory);
         server.delete("/:id", { onRequest: [server.authenticateAdmin] }, inventory_controller_1.deleteInventory);
         server.post("/upload/:id", { onRequest: [server.authenticateAdmin] }, inventory_controller_1.uploadMedia);

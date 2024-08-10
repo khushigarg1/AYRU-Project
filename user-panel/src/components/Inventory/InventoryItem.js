@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardMedia, Typography, IconButton, Box, Chip, useTheme } from '@mui/material';
 import { FavoriteBorderOutlined, FavoriteOutlined } from '@mui/icons-material';
 import Cookies from 'js-cookie';
@@ -6,39 +6,11 @@ import api from '../../../api';
 import { useAuth } from '../../contexts/auth';
 import { useRouter } from 'next/navigation';
 
-const InventoryItem = ({ item }) => {
+const InventoryItem = ({ item, wishlistItems, setWishlistItems }) => {
   const theme = useTheme();
-  const { openAuthModal, user, wishlistCount, setWishlistCount } = useAuth();
-  const [wishlistItems, setWishlistItems] = useState({});
+  const { openAuthModal, user, setWishlistCount } = useAuth();
   const token = Cookies.get('token');
   const router = useRouter();
-
-  useEffect(() => {
-    const fetchWishlistStatus = async () => {
-      try {
-        if (token) {
-          const response = await api.get(`/wishlist/user/${user.id}`, {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
-          const wishlistItemsData = response.data.data;
-          setWishlistCount(wishlistItemsData.length);
-          const wishlistMap = wishlistItemsData.reduce((acc, wishlistItem) => {
-            acc[wishlistItem?.inventoryId] = wishlistItem?.id;
-            return acc;
-          }, {});
-          setWishlistItems(wishlistMap);
-        }
-      } catch (error) {
-        console.error('Error fetching wishlist:', error);
-      }
-    };
-
-    if (user && user.id && token) {
-      fetchWishlistStatus();
-    }
-  }, [token, user, setWishlistCount]);
 
   const handleToggleWishlist = async (event) => {
     event.stopPropagation();
@@ -95,7 +67,6 @@ const InventoryItem = ({ item }) => {
               <div style={{ textAlign: 'center' }}>
                 <Typography variant="caption" component="span" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
                   {`${calculateDiscountPercentage()}%`}
-                  {/* {`${((item?.sellingPrice - item?.discountedPrice) / item?.sellingPrice * 100).toFixed(0)}%`} */}
                 </Typography>
                 <Typography variant="caption" component="div" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
                   off
@@ -155,7 +126,6 @@ const InventoryItem = ({ item }) => {
         <CardMedia
           component="img"
           image={`https://ayrujaipur.s3.amazonaws.com/${item?.Media[0]?.url}`}
-          // image={"https://ayrujaipur.s3.ap-south-1.amazonaws.com/1719728584132-1681210423276-Magarpatta.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAXQI4DHNFFJZ44EFQ%2F20240630%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240630T085117Z&X-Amz-Expires=900&X-Amz-Signature=8eea213abd2e69937bccfc57540603d4efb553518633c6fdf16f63cf1e7fdcba&X-Amz-SignedHeaders=host&x-id=GetObject"}
           height="200"
           alt={item?.productName}
         />
@@ -188,7 +158,6 @@ const InventoryItem = ({ item }) => {
             Rs.{item?.sellingPrice}
           </Typography>
         )}
-
         <Typography variant='body2' sx={{ color: item?.extraOptionOutOfStock ? '#cf2e2e' : 'green' }}>
           {item?.extraOptionOutOfStock === true ? "Out of Stock" : "In Stock"}
         </Typography>

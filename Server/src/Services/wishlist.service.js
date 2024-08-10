@@ -13,6 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.WishlistService = void 0;
 const client_1 = require("@prisma/client");
 const errors_1 = require("../errors");
+const omitCostPrice_1 = require("../utils/omitCostPrice");
 const prisma = new client_1.PrismaClient();
 // async getAllWishlists() {
 //     try {
@@ -240,7 +241,9 @@ class WishlistService {
                         updatedAt: "desc",
                     },
                 });
-                return wishlists;
+                const wishlist = yield (0, omitCostPrice_1.omitCostPrice)(wishlists);
+                // return wishlists;
+                return wishlist;
             }
             catch (error) {
                 throw new errors_1.ApiBadRequestError(error === null || error === void 0 ? void 0 : error.message);

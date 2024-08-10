@@ -13,8 +13,8 @@ const subCategory_controller_1 = require("../Controllers/subCategory.controller"
 function SubCategoryRoutes(server) {
     return __awaiter(this, void 0, void 0, function* () {
         server.post("/subcategory", { onRequest: [server.authenticateAdmin] }, (request, reply) => (0, subCategory_controller_1.addSubCategory)(server, request, reply));
-        server.get("/subcategories", (request, reply) => (0, subCategory_controller_1.getSubCategories)(server, request, reply));
-        server.get("/subcategory/:id", (request, reply) => (0, subCategory_controller_1.getSubCategoryById)(server, request, reply));
+        server.get("/subcategories", { onRequest: [server.authenticateAdmin] }, (request, reply) => (0, subCategory_controller_1.getSubCategories)(server, request, reply));
+        server.get("/subcategory/:id", { onRequest: [server.authenticateAdmin] }, (request, reply) => (0, subCategory_controller_1.getSubCategoryById)(server, request, reply));
         server.put("/subcategory/:id", { onRequest: [server.authenticateAdmin] }, (request, reply) => (0, subCategory_controller_1.updateSubCategory)(server, request, reply));
         server.delete("/subcategory/:id", { onRequest: [server.authenticateAdmin] }, (request, reply) => (0, subCategory_controller_1.deleteSubCategory)(server, request, reply));
     });
