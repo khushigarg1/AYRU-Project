@@ -151,7 +151,7 @@ export async function createOrderService(
         notes: {
           policy_name: "Jeevan Bima",
         },
-        callback_url: "https://ayrujaipur.in/",
+        callback_url: "https://ayrujaipur.in/orders",
         callback_method: "get",
       });
       console.log(newPayment);
