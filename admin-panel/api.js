@@ -6,11 +6,11 @@ import Axios from "axios";
 //     production: 'https://zljf0gm0-3000.inc1.devtunnels.ms/api/v1/'
 // }
 let urls = {
-  test: `http://localhost:8080`,
+  // test: `http://localhost:8080`,
 
-  development: "http://[::1]:8080/api/",
-  // development: "https://ayru-project.onrender.com/api/",
-  // production: "https://ayru-project.onrender.com/api/",
+  // development: "http://[::1]:8080/api/",
+  development: "https://ayru-project.onrender.com/api/",
+  production: "https://ayru-project.onrender.com/api/",
 };
 const api = Axios.create({
   baseURL: urls[process.env.NODE_ENV || "production"],
