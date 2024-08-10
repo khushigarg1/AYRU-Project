@@ -584,7 +584,7 @@ Here are my order details:
                 }
                 <strong>Shipping Address: </strong>
                 {order.shippingAddress && `${order.shippingAddress.addressLine1}, ${order.shippingAddress.addressLine2 ? `${order.shippingAddress.addressLine2}, ` : ''}${order.shippingAddress.city}, ${order.shippingAddress.state}, ${order.shippingAddress.pincode}, ${order.shippingAddress.country}`}
-                <Typography variant="body2"><strong>Seller Instructions.: </strong>{order?.remark}</Typography>
+                <Typography variant="body2"><strong>Seller Instructions: </strong>{order?.remark || 'N/A'}</Typography>
               </Typography>
             </CardContent>
           </Card>
