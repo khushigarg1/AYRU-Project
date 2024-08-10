@@ -54,6 +54,10 @@ const OrderAccordion = ({ params }) => {
     setUploadFile(file);
   };
 
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
   const handleUpload = async () => {
     if (!uploadFile) return;
     console.log(uploadFile);

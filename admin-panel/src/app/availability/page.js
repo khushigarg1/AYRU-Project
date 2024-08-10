@@ -50,6 +50,10 @@ const OrderPage = () => {
     fetchOrders();
   };
 
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
   const columns = isMobile
     ? [
       { field: "id", headerName: "ID", width: 100 },
@@ -76,8 +80,19 @@ const OrderPage = () => {
           }
           return <span style={{ color }}>{params.value}</span>;
         },
-      }, { field: "mobilenumber", headerName: "Mobile Number", width: 180 },
-      { field: "updatedAt", headerName: "Updated At", width: 180 },
+      },
+      { field: "mobilenumber", headerName: "Mobile Number", width: 180 }, {
+        field: "createdAt",
+        headerName: "Created At",
+        width: 200,
+        valueGetter: (params) => formatDate(params.row.createdAt)
+      },
+      {
+        field: "updatedAt",
+        headerName: "Updated At",
+        width: 200,
+        valueGetter: (params) => formatDate(params.row.updatedAt)
+      },
       {
         field: "productName", headerName: "Product Name", width: 250,
         valueGetter: (params) => params.row.inventory?.productName || "N/A",
@@ -127,8 +142,19 @@ const OrderPage = () => {
         },
       },
       { field: "mobilenumber", headerName: "Mobile Number", width: 150 },
-      { field: "createdAt", headerName: "Created At", width: 180 },
-      { field: "updatedAt", headerName: "Updated At", width: 180 }, {
+      {
+        field: "createdAt",
+        headerName: "Created At",
+        width: 200,
+        valueGetter: (params) => formatDate(params.row.createdAt)
+      },
+      {
+        field: "updatedAt",
+        headerName: "Updated At",
+        width: 200,
+        valueGetter: (params) => formatDate(params.row.updatedAt)
+      },
+      {
         field: "productName", headerName: "Product Name", width: 250,
         valueGetter: (params) => params.row.inventory?.productName || "N/A",
       },

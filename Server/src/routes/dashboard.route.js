@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Dashboard_controller_1 = require("../Controllers/Dashboard.controller");
 function DashboardRoutes(server) {
     return __awaiter(this, void 0, void 0, function* () {
-        server.get("", (request, reply) => (0, Dashboard_controller_1.getAllDashboardData)(request, reply));
+        server.get("", { onRequest: [server.authenticateAdmin] }, (request, reply) => (0, Dashboard_controller_1.getAllDashboardData)(request, reply));
     });
 }
 exports.default = DashboardRoutes;

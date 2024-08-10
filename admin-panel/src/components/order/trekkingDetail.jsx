@@ -47,6 +47,10 @@ const TrekkingDetails = ({ order, getOrder }) => {
     { label: 'Delivered', value: 'delivered' },
   ];
 
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   return (
     <div sx={{ width: "100%" }}>
@@ -146,6 +150,7 @@ const TrekkingDetails = ({ order, getOrder }) => {
           <Typography>Tracking Link: {order?.trekkinglink}</Typography>
           <Typography>Status: {order?.status}</Typography>
           <Typography>Delivery Status: {order?.deliveryStatus}</Typography>
+          <Typography>Order Date: {formatDate(order?.createdAt)}</Typography>
           <Button
             variant="contained"
             color="primary"

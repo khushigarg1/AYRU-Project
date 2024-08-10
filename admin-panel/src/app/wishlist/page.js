@@ -29,6 +29,10 @@ export default function wishlist() {
   const [refresh, setRefresh] = useState(false);
   const [selectedwishlist, setSelectedwishlist] = useState(null);
 
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     { field: "userId", headerName: "User ID", width: 90 },
@@ -44,9 +48,18 @@ export default function wishlist() {
       valueGetter: (params) => params.row.Inventory?.Category?.categoryName || "-",
     },
     { field: "sellingPrice", headerName: "Selling Price", width: 120 },
-    { field: "discountedPrice", headerName: "Discounted Price", width: 150 },
-    { field: "createdAt", headerName: "Created At", width: 150 },
-    { field: "updatedAt", headerName: "Updated At", width: 150 },
+    { field: "discountedPrice", headerName: "Discounted Price", width: 150 }, {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 200,
+      valueGetter: (params) => formatDate(params.row.createdAt)
+    },
+    {
+      field: "updatedAt",
+      headerName: "Updated At",
+      width: 200,
+      valueGetter: (params) => formatDate(params.row.updatedAt)
+    },
     {
       field: "actions",
       headerName: "Actions",

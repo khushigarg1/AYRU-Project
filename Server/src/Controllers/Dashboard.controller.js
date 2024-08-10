@@ -12,21 +12,80 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllDashboardData = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
+function getOrderCountsByCountry() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            // Query all orders and their related shipping addresses
+            const orders = yield prisma.order.findMany({
+                where: {
+                    status: "success", // Filter for successful orders if needed
+                },
+                include: {
+                    shippingAddress: true,
+                },
+            });
+            // Aggregate counts by country
+            const countryCounts = orders.reduce((acc, order) => {
+                var _a;
+                const country = (_a = order.shippingAddress) === null || _a === void 0 ? void 0 : _a.country;
+                if (country) {
+                    acc[country] = (acc[country] || 0) + 1;
+                }
+                return acc;
+            }, {});
+            console.log("Orders by Country:", countryCounts);
+            return countryCounts;
+        }
+        catch (error) {
+            console.error("Error fetching order counts by country:", error);
+            throw error;
+        }
+        finally {
+            yield prisma.$disconnect();
+        }
+    });
+}
+function getOrderCountsByState() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            // Query all orders and their related shipping addresses
+            const orders = yield prisma.order.findMany({
+                where: {
+                    status: "success", // Filter for successful orders if needed
+                },
+                include: {
+                    shippingAddress: true,
+                },
+            });
+            // Aggregate counts by state
+            const stateCounts = orders.reduce((acc, order) => {
+                var _a;
+                const state = (_a = order.shippingAddress) === null || _a === void 0 ? void 0 : _a.state;
+                if (state) {
+                    acc[state] = (acc[state] || 0) + 1;
+                }
+                return acc;
+            }, {});
+            console.log("Orders by State:", stateCounts);
+            return stateCounts;
+        }
+        catch (error) {
+            console.error("Error fetching order counts by state:", error);
+            throw error;
+        }
+        finally {
+            yield prisma.$disconnect();
+        }
+    });
+}
 function getAllDashboardData(request, reply) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const totalUsers = yield prisma.user.count();
             const { dateFilter } = request.query;
-            const orderWhereClause = dateFilter
-                ? {
-                    createdAt: {
-                        gte: new Date(new Date().setDate(new Date().getDate() - parseInt(dateFilter, 10))),
-                    },
-                    paymentStatus: "success",
-                }
-                : { paymentStatus: "success" };
-            const totalOrders = yield prisma.order.count({ where: orderWhereClause });
+            const totalOrders = yield prisma.order.count();
             const totalCartItems = yield prisma.cart.count();
+            //-------------------------------------------------wishlist items
             const totalWishlistItems = yield prisma.wishlist.count();
             const topWishlistItems = yield prisma.wishlist
                 .groupBy({
@@ -39,19 +98,24 @@ function getAllDashboardData(request, reply) {
                         inventoryId: "desc",
                     },
                 },
-                take: 10,
+                take: 15,
             })
                 .then((groupedItems) => __awaiter(this, void 0, void 0, function* () {
                 return Promise.all(groupedItems.map((item) => __awaiter(this, void 0, void 0, function* () {
                     const inventory = yield prisma.inventory.findUnique({
                         where: { id: item.inventoryId },
-                        include: {
+                        select: {
+                            productName: true, // Assuming your inventory model has a 'name' field
                             Category: true,
                         },
                     });
-                    return Object.assign(Object.assign({}, item), { inventory });
+                    return {
+                        count: item._count.inventoryId,
+                        inventory,
+                    };
                 })));
             }));
+            //-------------------------------------------------cart items
             const topCartItems = yield prisma.cart
                 .groupBy({
                 by: ["inventoryId"],
@@ -63,45 +127,47 @@ function getAllDashboardData(request, reply) {
                         inventoryId: "desc",
                     },
                 },
-                take: 10,
+                take: 15,
             })
                 .then((groupedItems) => __awaiter(this, void 0, void 0, function* () {
                 return Promise.all(groupedItems.map((item) => __awaiter(this, void 0, void 0, function* () {
                     const inventory = yield prisma.inventory.findUnique({
                         where: { id: item.inventoryId },
-                        include: {
-                            // customFittedInventory: {
-                            //   include: { InventoryFlat: { include: { Flat: true } } },
-                            // },
-                            // InventoryFlat: { include: { Flat: true } },
-                            // InventorySubcategory: { include: { SubCategory: true } },
-                            // InventoryFitted: {
-                            //   include: { Fitted: true },
-                            // },
+                        select: {
+                            productName: true, // Assuming your inventory model has a 'name' field
                             Category: true,
-                            // Wishlist: true,
-                            // ColorVariations: { include: { Color: true } },
-                            // relatedInventories: { include: { Media: true } },
-                            // relatedByInventories: { include: { Media: true } },
-                            // Media: true,
-                            // SizeChartMedia: true,
                         },
                     });
-                    return Object.assign(Object.assign({}, item), { inventory });
+                    return {
+                        count: item._count.inventoryId,
+                        inventory,
+                    };
                 })));
             }));
+            //------------------------------------------------ Order statistics
             const orders = yield prisma.order.findMany({
                 where: { paymentStatus: "paid" },
                 include: { orderItems: true },
             });
             let totalRevenue = 0;
             let totalProfit = 0;
+            let totalCost = 0;
+            let totalSellingPrice = 0;
+            let totalDiscountedPrice = 0;
+            let totalItems = 0;
             orders.forEach((order) => {
                 order.orderItems.forEach((item) => {
-                    const revenue = item.discountedPrice || item.sellingPrice || 0;
-                    const profit = revenue - (item.costPrice || 0);
+                    const sellingPrice = item.sellingPrice || 0;
+                    const discountedPrice = item.discountedPrice || 0;
+                    const costPrice = item.costPrice || 0;
+                    const revenue = discountedPrice || sellingPrice;
+                    const profit = revenue - costPrice;
                     totalRevenue += revenue;
                     totalProfit += profit;
+                    totalCost += costPrice;
+                    totalSellingPrice += sellingPrice;
+                    totalDiscountedPrice += discountedPrice;
+                    totalItems += 1; // Count the number of items
                 });
             });
             const pendingOrders = yield prisma.order.count({
@@ -113,6 +179,9 @@ function getAllDashboardData(request, reply) {
             const failedOrders = yield prisma.order.count({
                 where: { status: "failed" },
             });
+            //--------------------------
+            const ordersByCountry = yield getOrderCountsByCountry();
+            const ordersByState = yield getOrderCountsByState();
             const statistics = {
                 totalUsers,
                 totalOrders,
@@ -120,11 +189,17 @@ function getAllDashboardData(request, reply) {
                 totalWishlistItems,
                 topWishlistItems,
                 topCartItems,
-                totalRevenue,
-                totalProfit,
                 pendingOrders,
                 successOrders,
                 failedOrders,
+                ordersByCountry,
+                ordersByState,
+                totalRevenue,
+                totalProfit,
+                totalCost,
+                totalSellingPrice,
+                totalDiscountedPrice,
+                totalItems,
             };
             reply.code(200).send(statistics);
         }

@@ -50,6 +50,11 @@ const OrderPage = () => {
     fetchOrders();
   };
 
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   const columns = [
     { field: "id", headerName: "ID", width: 80 },
     { field: "orderid", headerName: "Order ID", width: 150 },
@@ -61,9 +66,19 @@ const OrderPage = () => {
     { field: "status", headerName: "Status", width: 100 },
     { field: "paymentStatus", headerName: "Payment Status", width: 150 },
     { field: "deliveryStatus", headerName: "Delivery Status", width: 150 },
-    { field: "Total", headerName: "Total", width: 100 },
-    { field: "createdAt", headerName: "Created At", width: 180 },
-    { field: "updatedAt", headerName: "Updated At", width: 180 },
+    { field: "Total", headerName: "Total", width: 200 },
+    {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 200,
+      valueGetter: (params) => formatDate(params.row.createdAt)
+    },
+    {
+      field: "updatedAt",
+      headerName: "Updated At",
+      width: 200,
+      valueGetter: (params) => formatDate(params.row.updatedAt)
+    },
     {
       field: "actions",
       headerName: "Actions",
