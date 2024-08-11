@@ -143,7 +143,7 @@ export async function getAllAvailability(
         },
       },
       orderBy: {
-        createdAt: "desc",
+        updatedAt: "desc",
       },
     });
 
