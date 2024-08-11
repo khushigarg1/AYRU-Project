@@ -125,7 +125,7 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
 
       {(!hasBedsheets || selections.selectedOption === 'flat') && (
         <Box>
-          {/* <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>Sizes:</Typography> */}
+          <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>Sizes:</Typography>
           <Select
             value={selections.selectedFlatItem}
             onChange={handleFlatItemChange}
