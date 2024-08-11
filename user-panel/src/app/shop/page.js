@@ -385,13 +385,30 @@ const ShopPageContent = () => {
             )
           ))} */}
           {inventory.length > 0 ?
-            inventory.map(item => (
-              item?.productstatus === "PUBLISHED" && (
-                <Grid key={item.id} item xs={6} sm={6} md={4} lg={2.4} xl={2}>
-                  <InventoryItem item={item} wishlistItems={wishlistItems} setWishlistItems={setWishlistItems} />
+            (
+
+              <Box sx={{ width: '100%' }}>
+                {/* Total Items Text */}
+                <Typography variant="h6" sx={{ mb: 2 }}>
+                  Total Items: {inventory?.length}
+                </Typography>
+
+                {/* Grid Container */}
+                <Grid container spacing={2}>
+                  {inventory.map(item => (
+                    item?.productstatus === "PUBLISHED" && (
+                      <Grid key={item.id} item xs={6} sm={6} md={4} lg={2.4} xl={2}>
+                        <InventoryItem
+                          item={item}
+                          wishlistItems={wishlistItems}
+                          setWishlistItems={setWishlistItems}
+                        />
+                      </Grid>
+                    )
+                  ))}
                 </Grid>
-              )
-            ))
+              </Box>
+            )
             : (
               <Grid item xs={12}>
                 <Typography variant="h6" align="center" p={4}>
