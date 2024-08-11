@@ -68,7 +68,7 @@ Could you please provide me with the details regarding the process, any addition
             <List sx={{ padding: "2px 10px" }}>
               {product.includedItems?.length > 0 && (
                 <>
-                  <Typography variant="subtitle1" sx={{ fontWeight: "bolder" }} >Included Items:</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: "bolder" }} >Included Items:</Typography>
                   <List dense>
                     {product.includedItems.map((item, index) => (
                       <ListItem key={index} sx={{ padding: '0' }}>
@@ -80,7 +80,7 @@ Could you please provide me with the details regarding the process, any addition
               )}
               {product.itemDimensions?.length > 0 && (
                 <>
-                  <Typography variant="subtitle1" sx={{ fontWeight: "bolder" }}>Item Dimensions:</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: "bolder" }}>Item Dimensions:</Typography>
                   <List dense>
                     {product.itemDimensions.map((dimension, index) => (
                       <ListItem key={index} sx={{ padding: '0' }}>
@@ -92,7 +92,7 @@ Could you please provide me with the details regarding the process, any addition
               )}
               {product.specialFeatures?.length > 0 && (
                 <>
-                  <Typography variant="subtitle1" sx={{ fontWeight: "bolder" }}>Special Features:</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: "bolder" }}>Special Features:</Typography>
                   <List dense>
                     {product.specialFeatures.map((feature, index) => (
                       <ListItem key={index} sx={{ padding: '0' }}>
@@ -102,7 +102,7 @@ Could you please provide me with the details regarding the process, any addition
                   </List>
                 </>
               )}
-              <Typography variant="subtitle1" sx={{ fontWeight: "bolder" }}>Others:</Typography>
+              <Typography variant="body1" sx={{ fontWeight: "bolder" }}>Others:</Typography>
               <ListItem>
                 <ListItemText primary={product.others || "N/A"} />
               </ListItem>
