@@ -96,3 +96,88 @@ const ClientLoveCarousel = () => {
 };
 
 export default ClientLoveCarousel;
+// import React, { useState, useEffect } from 'react';
+// import { Box, Card, CardContent, CardMedia, Typography, useMediaQuery, useTheme } from '@mui/material';
+// import api from '../../api';
+
+// const ClientLoveSlider = () => {
+//   const [clientLoves, setClientLoves] = useState([]);
+//   const theme = useTheme();
+//   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+//   useEffect(() => {
+//     fetchClientLoves();
+//   }, []);
+
+//   const fetchClientLoves = async () => {
+//     try {
+//       const response = await api.get('/clientLoves');
+//       setClientLoves(response.data?.data);
+//     } catch (error) {
+//       console.error('Error fetching client loves:', error);
+//     }
+//   };
+
+//   return (
+//     <Box sx={{ width: isMobile ? "100%" : "80%", margin: "0 auto", marginTop: "4%", marginBottom: "25px" }}>
+//       <Box style={{ width: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+//         <Typography variant={isMobile ? 'h4' : 'h3'} sx={{ mb: 4, color: theme.palette.text.text }}>
+//           Client Love
+//         </Typography>
+//       </Box>
+//       <Box
+//         sx={{
+//           display: 'flex',
+//           overflowX: 'auto', // Enable horizontal scrolling
+//           paddingBottom: '10px',
+//           "&::-webkit-scrollbar": {
+//             height: '8px',
+//           },
+//           "&::-webkit-scrollbar-thumb": {
+//             backgroundColor: theme.palette.primary.main,
+//             borderRadius: '10px',
+//           },
+//         }}
+//       >
+//         {clientLoves.map((item, idx) => (
+//           <Card
+//             key={idx}
+//             sx={{
+//               minWidth: isMobile ? "70%" : "calc(100% / 2.5)", // Adjust width for mobile and desktop
+//               // backgroundColor: "transparent",
+//               boxShadow: "none",
+//               flex: "0 0 auto", // Prevent the card from shrinking
+//               margin: "0 10px",  // Margin between cards
+//               borderRadius: "15px",
+//             }}
+//           >
+//             <Box sx={{ position: 'relative', flexGrow: 1 }}>
+//               <CardMedia
+//                 component="img"
+//                 image={`https://ayrujaipur.s3.amazonaws.com/${item.imageUrl}`}
+//                 alt={`Slide ${idx}`}
+//                 sx={{
+//                   objectFit: 'cover',
+//                   width: '100%',
+//                   height: '300px',
+//                   borderRadius: "15px",
+//                 }}
+//               />
+//             </Box>
+//             <CardContent sx={{
+//               backgroundColor: theme.palette.background.paper,
+//               textAlign: 'center',
+//               padding: "10px",
+//             }}>
+//               <Typography variant="body1" component="div">
+//                 {item?.text}
+//               </Typography>
+//             </CardContent>
+//           </Card>
+//         ))}
+//       </Box>
+//     </Box>
+//   );
+// };
+
+// export default ClientLoveSlider;

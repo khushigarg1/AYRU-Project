@@ -101,6 +101,7 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                 }
               }
             }}
+          // label="Select Fit Type"
           >
             <MenuItem value="" disabled>
               <Typography variant="body1">Select Fit Type</Typography>

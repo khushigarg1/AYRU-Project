@@ -358,6 +358,7 @@ const SalePageContent = () => {
           <FormControl fullWidth>
             <InputLabel>Select Category</InputLabel>
             <Select
+              label="Select Category"
               value={selectedCategory}
               onChange={(e) => handleCategoryChange(e.target.value)}
             >
@@ -374,6 +375,8 @@ const SalePageContent = () => {
           <FormControl fullWidth>
             <InputLabel>Select Subcategory</InputLabel>
             <Select
+
+              label="Select Subcategory"
               value={selectedSubcategory}
               onChange={(e) => handleSubcategoryChange(e.target.value)}
               disabled={!selectedCategory}
@@ -471,6 +474,7 @@ const SalePageContent = () => {
               <Select
                 value={`${sortBy}-${sortOrder}`}
                 onChange={handleSortChange}
+                label="Sort By"
               >
                 <MenuItem value="sellingPrice-asc">Price low to high</MenuItem>
                 <MenuItem value="sellingPrice-desc">Price high to low</MenuItem>
@@ -484,6 +488,8 @@ const SalePageContent = () => {
               <FormControl fullWidth sx={{ marginTop: 2 }}>
                 <InputLabel>Category</InputLabel>
                 <Select
+
+                  label="Category"
                   value={selectedCategory}
                   onChange={(e) => handleCategoryChange(e.target.value)}
                 >
@@ -498,6 +504,7 @@ const SalePageContent = () => {
               <FormControl fullWidth sx={{ marginTop: 2 }}>
                 <InputLabel>Subcategory</InputLabel>
                 <Select
+                  label="Subcategory"
                   value={selectedSubcategory}
                   onChange={(e) => handleSubcategoryChange(e.target.value)}
                 >
@@ -546,6 +553,7 @@ const SalePageContent = () => {
                 <Select
                   value={extraOptionOutOfStock}
                   onChange={handleOutOfStockChange}
+                  label="Availability"
                 >
                   <MenuItem value="">All</MenuItem>
                   <MenuItem value="true">Out of stock</MenuItem>
