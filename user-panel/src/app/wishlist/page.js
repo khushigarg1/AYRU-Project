@@ -91,7 +91,7 @@ const WishlistPage = () => {
       '&:active': {
         backgroundColor: 'inherit',
       },
-      paddingBottom: "10px",
+      paddingBottom: "13px",
       minHeight: "70vh"
     }}>
       {/* <Typography variant="h4" gutterBottom>
@@ -159,7 +159,7 @@ const WishlistPage = () => {
                         onClick={() => router.push(`/shop/${item?.Inventory?.id}`)}
                         sx={{
                           objectFit: 'fit',
-                          height: "210px",
+                          height: "213px",
                           maxHeight: "100%",
                           maxWidth: "100%",
                           borderRadius: "0px"
@@ -174,34 +174,34 @@ const WishlistPage = () => {
                         <ClearIcon sx={{ width: "16px", height: "16px" }} />
                       </IconButton>
                     </Box>
-                    <CardContent sx={{ flexGrow: 1, padding: "12px 8px", '&:last-child': { paddingBottom: "10px" } }}>
-                      <Typography variant="body1" gutterBottom sx={{ lineHeight: "1", fontWeight: "bolder" }}>
+                    <CardContent sx={{ flexGrow: 1, padding: "12px 8px", '&:last-child': { paddingBottom: "13px" } }}>
+                      <Typography variant="body1" gutterBottom sx={{ lineHeight: "1", fontWeight: "bolder", fontSize: "16px" }}>
                         {item?.Inventory?.productName}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary" gutterBottom sx={{ fontSize: "10px" }}>
+                      <Typography variant="body2" color="text.secondary" gutterBottom sx={{ fontSize: "14px" }}>
                         <strong>Category: </strong>{item?.Inventory?.Category?.categoryName}
                       </Typography>
                       {item?.Inventory?.discountedPrice ? (
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Typography variant="body2" sx={{ textDecoration: 'line-through', fontSize: "10px" }}>
+                          <Typography variant="body1" sx={{ textDecoration: 'line-through', fontSize: "13px", fontWeight: "bold" }}>
                             Rs.{item?.Inventory?.sellingPrice}
                           </Typography>
-                          <Typography variant="body2" color={theme?.palette?.text?.contrastText} sx={{ fontSize: "10px" }}>
+                          <Typography variant="body2" color={theme?.palette?.text?.contrastText} sx={{ fontSize: "13px" }}>
                             Rs.{item?.Inventory?.discountedPrice}
                           </Typography>
                           <Typography variant="body2" color="error" sx={{
                             background: 'inherit',
-                            color: "black", fontSize: "10px"
+                            color: "black", fontSize: "13px"
                           }}>
                             {`(${Math.round(((item?.Inventory?.sellingPrice - item?.Inventory?.discountedPrice) / item?.Inventory?.sellingPrice) * 100)}% OFF)`}
                           </Typography>
                         </Box>
                       ) : (
-                        <Typography variant="body2" sx={{ fontSize: "10px" }}>
+                        <Typography variant="body2" sx={{ fontSize: "13px" }}>
                           Rs.{item?.Inventory?.sellingPrice}
                         </Typography>
                       )}
-                      <Typography variant='body1' sx={{ color: item?.Inventory?.extraOptionOutOfStock ? 'red' : 'green', fontSize: "10px" }}>
+                      <Typography variant='body1' sx={{ color: item?.Inventory?.extraOptionOutOfStock ? 'red' : 'green', fontSize: "13px" }}>
                         {item?.Inventory?.extraOptionOutOfStock === true ? "Out of Stock" : "In Stock"}
                       </Typography>
                     </CardContent>
