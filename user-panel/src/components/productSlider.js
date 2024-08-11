@@ -200,15 +200,12 @@ export const ProductSlider = ({ products }) => {
                     height: isMobile ? "200px" : "350px",
                   }}
                 />
-                <CardContent sx={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "left" }}>
+                <CardContent sx={{ display: "flex", flexDirection: "column", alignItems: "left", height: "100px", maxHeight: "200px" }}>
                   <Typography gutterBottom variant="body1" component="div" sx={{ fontSize: "14px", lineHeight: "1.1" }}>
                     {product.productName}
                   </Typography>
                   {product.discountedPrice ? (
                     <Box sx={{ display: 'flex', alignItems: 'left', gap: 0.5 }}>
-                      <Typography variant="body2">
-                        MRP
-                      </Typography>
                       <Typography variant="body2" sx={{ textDecoration: 'line-through' }}>
                         ₹{product.sellingPrice?.toFixed(2)}
                       </Typography>
@@ -227,7 +224,7 @@ export const ProductSlider = ({ products }) => {
             </Box>
           ))}
         </Slider>
-      </Box>
-    </Box>
+      </Box >
+    </Box >
   );
 };

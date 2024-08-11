@@ -48,7 +48,7 @@ Could you please provide me with the details regarding the process, any addition
                 </TableRow>
                 <TableRow>
                   <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder" }}>Item Weight</TableCell>
-                  <TableCell>{product.itemWeight || "N/A"}</TableCell>
+                  <TableCell>{product.itemWeight + " KG" || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder" }}>Thread Count</TableCell>

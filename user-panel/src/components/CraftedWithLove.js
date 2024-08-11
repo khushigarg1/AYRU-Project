@@ -67,6 +67,21 @@ export const CraftedWithLove = () => {
       {selectedCategory !== null && (
         <Box sx={{ width: isMobile ? '100%' : "80%", mt: 4 }}>
           <Grid container spacing={2}>
+            {categoryInventory.length == 0 &&
+              <Typography
+                sx={{
+                  display: "flex",
+                  textAlign: "center",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%", // Ensures it takes up the full height of the container
+                  width: "100%"  // Ensures it takes up the full width of the container
+                }}
+              >
+                No products found in this category
+              </Typography>
+            }
+
             {categoryInventory?.map((item) => (
               <Grid item key={item.id} xs={6} sm={6} md={4} lg={3}>
                 <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: "transparent", p: 0, cursor: "pointer" }} onClick={() => router.push(`/shop/${item?.id}`)}>
@@ -83,12 +98,23 @@ export const CraftedWithLove = () => {
                     }}
                   />
                   <CardContent sx={{ display: "flex", justifyContent: "left", alignItems: "left", flexDirection: "column", padding: "5px" }}>
-                    <Typography gutterBottom variant="body1" component="div" sx={{ display: "flex", justifyContent: "left", alignItems: "left", flexDirection: "column", lineHeight: 1.2 }}>
+                    <Typography gutterBottom variant="body1" component="div" sx={{ lineHeight: 1.2 }}
+                    // sx={{
+                    //   lineHeight: 1.2,
+                    //   overflow: 'hidden',
+                    //   textOverflow: 'ellipsis',
+                    //   display: '-webkit-box',
+                    //   WebkitLineClamp: 2, // Limits the text to 2 lines
+                    //   WebkitBoxOrient: 'vertical',
+                    //   wordBreak: 'break-all', // Breaks the word at the boundary
+                    //   hyphens: 'auto' // Adds a hyphen when the word is broken
+                    // }}
+                    >
                       {item.productName}
                     </Typography>
 
                     {item?.discountedPrice ? (
-                      <Box sx={{ display: 'flex', alignItems: 'left', gap: 0.5 }}>
+                      <Box sx={{ display: 'flex', gap: 0.5 }}>
                         <Typography variant="body2">
                           <strong>MRP</strong>
                         </Typography>
