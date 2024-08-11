@@ -127,7 +127,7 @@ function getAllAvailability(request, reply) {
                     },
                 },
                 orderBy: {
-                    createdAt: "desc",
+                    updatedAt: "desc",
                 },
             });
             if (!availabilityRequests || availabilityRequests.length === 0) {

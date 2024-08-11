@@ -18,7 +18,7 @@ Could you please provide me with the details regarding the process, any addition
           <Typography variant="h6">Description</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography variant='subtitle1' sx={{ fontWeight: "200" }}>{product.description || "No description available"}</Typography>
+          <Typography variant='subtitle1' sx={{ fontWeight: "200", lineHeight: 1.2 }}>{product.description || "No description available"}</Typography>
         </AccordionDetails>
       </Accordion>
       {/* Product Details Accordion */}
@@ -104,7 +104,7 @@ Could you please provide me with the details regarding the process, any addition
               )}
               <Typography variant="body1" sx={{ fontWeight: "bolder" }}>Others:</Typography>
               <ListItem>
-                <ListItemText primary={product.others || "N/A"} />
+                <ListItemText sx={{ lineHeight: 1.2 }} primary={product.others || "N/A"} />
               </ListItem>
             </List>
           </TableContainer>
@@ -135,7 +135,7 @@ Could you please provide me with the details regarding the process, any addition
           <Typography variant="h6">Disclaimer</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography variant='subtitle1' >{product.disclaimer || "No disclaimer available"}</Typography>
+          <Typography variant='subtitle1' sx={{ lineHeight: 1.2 }} >{product.disclaimer || "No disclaimer available"}</Typography>
         </AccordionDetails>
       </Accordion>
 

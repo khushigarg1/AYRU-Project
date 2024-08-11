@@ -351,12 +351,24 @@ export const filterInventory = async (
       baseFilterOptions.categoryId = Number(categoryId);
     }
     if (subCategoryId) {
+      const subCategoryIds = Array.isArray(subCategoryId)
+        ? subCategoryId.map((id) => parseInt(id))
+        : [parseInt(subCategoryId)];
       baseFilterOptions.InventorySubcategory = {
         some: {
-          subcategoryid: subCategoryId,
+          subcategoryid: { in: subCategoryIds },
         },
       };
     }
+    // if (subCategoryId) {
+    //   baseFilterOptions.InventorySubcategory = {
+    //     some: {
+    //       subcategoryid: {
+    //         has: Number(subCategoryId),
+    //       },
+    //     },
+    //   };
+    // }
     if (sale === "true") {
       baseFilterOptions.sale = true;
     }

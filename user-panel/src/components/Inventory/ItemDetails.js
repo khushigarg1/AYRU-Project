@@ -133,9 +133,12 @@ const ItemDetails = ({ product, queryParams }) => {
   };
 
   const handleDecrement = (event) => {
+    console.log("decrement");
+
     setAnchorEl(event.currentTarget);
     if (displayQuantity > (displayMinQuantity || 1)) {
       setDisplayQuantity(displayQuantity - 1);
+      handleClosePopover();
     }
     else {
       handleOpenPopover(event)
@@ -153,12 +156,15 @@ const ItemDetails = ({ product, queryParams }) => {
 
   const handleClosePopover = () => {
     setAnchorEl(null);
+    setSnackbarMessage('');
   };
   const handleIncrement = (event) => {
     setAnchorEl(event.currentTarget);
+    console.log("incerment");
 
     if (displayQuantity < (displayMaxQuantity || Infinity)) {
       setDisplayQuantity(displayQuantity + 1);
+      handleClosePopover();
     }
     else {
       handleOpenPopover(event)
@@ -681,7 +687,7 @@ Thank you so much!`;
               }
               {product?.extraNote &&
                 <Typography variant="caption" sx={{
-                  fontSize: '0.7rem',
+                  fontSize: '0.8rem',
                   color: 'text.secondary',
                   lineHeight: '1',
                   padding: 0,

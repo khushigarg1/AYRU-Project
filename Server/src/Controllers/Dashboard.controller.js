@@ -105,6 +105,7 @@ function getAllDashboardData(request, reply) {
                     const inventory = yield prisma.inventory.findUnique({
                         where: { id: item.inventoryId },
                         select: {
+                            id: true,
                             productName: true, // Assuming your inventory model has a 'name' field
                             Category: true,
                         },
@@ -134,6 +135,7 @@ function getAllDashboardData(request, reply) {
                     const inventory = yield prisma.inventory.findUnique({
                         where: { id: item.inventoryId },
                         select: {
+                            id: true,
                             productName: true, // Assuming your inventory model has a 'name' field
                             Category: true,
                         },

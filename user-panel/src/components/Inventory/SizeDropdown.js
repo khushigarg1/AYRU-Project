@@ -125,7 +125,7 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
 
       {(!hasBedsheets || selections.selectedOption === 'flat') && (
         <Box>
-          <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>Sizes:</Typography>
+          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Sizes:</Typography>
           <Select
             value={selections.selectedFlatItem}
             onChange={handleFlatItemChange}
@@ -133,10 +133,10 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
             sx={{
               width: '100%', marginBottom: 1,
               padding: "0px 0px",
-              fontFamily: theme.palette.typography.fontFamily
+              fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold'
             }}
           >
-            <MenuItem value="" disabled>Select Size</MenuItem>
+            <MenuItem sx={{ fontWeight: 'bold' }} value="" disabled>Select Size</MenuItem>
             {data.InventoryFlat.map((item, index) => (
               <MenuItem key={index} value={item.Flat.id}>
                 <Typography
@@ -149,7 +149,7 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                     transformOrigin: item?.quantity === 0 ? 'center center' : 'none',
                     textDecorationColor: "gray",
                     color: item?.quantity === 0 ? "gray" : "inherit",
-                    fontFamily: theme.palette.typography.fontFamily
+                    fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold'
                   }}
                 >
                   {item.Flat.name} {item?.Flat?.size && item?.Flat?.size}
@@ -162,17 +162,18 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
 
       {selections.selectedOption === 'fitted' && (
         <Box>
-          <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>Fitted Sizes:</Typography>
+          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Fitted Sizes:</Typography>
           <Select
             value={selections.selectedFittedItem}
             onChange={handleFittedItemChange}
             displayEmpty
             sx={{
               width: '100%', marginBottom: 1,
-              padding: "0px 0px"
+              padding: "0px 0px",
+              fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold'
             }}
           >
-            <MenuItem value="" disabled>Select Fitted Size</MenuItem>
+            <MenuItem value="" disabled sx={{ fontWeight: 'bold' }}>Select Fitted Size</MenuItem>
             {data.InventoryFitted.map((item, index) => (
               <MenuItem key={index} value={item.Fitted.id}>
                 <Typography
@@ -192,17 +193,18 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
 
       {selections.selectedOption === 'custom' && (
         <Box>
-          <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>Custom Fitted Sizes:</Typography>
+          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Custom Fitted Sizes:</Typography>
           <Select
             value={selections.selectedCustomFittedItem}
             onChange={handleCustomFittedItemChange}
             displayEmpty
             sx={{
               width: '100%', marginBottom: 1,
-              padding: "0px 0px"
+              padding: "0px 0px",
+              fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold'
             }}
           >
-            <MenuItem value="" disabled>Select Custom Fitted Size</MenuItem>
+            <MenuItem value="" disabled sx={{ fontWeight: 'bold' }}>Select Custom Fitted Size</MenuItem>
             {data.InventoryFlat.map((item, index) => (
               <MenuItem key={index} value={item.Flat.id}>
                 <Typography
@@ -222,7 +224,7 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
 
       {selections.selectedOption === 'custom' && selections.selectedCustomFittedItem && (
         <Box>
-          <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: 1 }}>Fill your mattress dimensions for a perfect fit !</Typography>
+          <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 1 }}>Fill your mattress dimensions for a perfect fit !</Typography>
           <Grid container spacing={1}>
             <Grid item xs={3}>
               <TextField
