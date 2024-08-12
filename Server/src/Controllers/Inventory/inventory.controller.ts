@@ -454,8 +454,19 @@ export const filterInventory = async (
     const sortedInventories = filteredInventories.sort((a, b) => {
       if (sortBy) {
         const order = sortOrder === "desc" ? -1 : 1;
-        const aValue = a[sortBy as keyof typeof a];
-        const bValue = b[sortBy as keyof typeof b];
+        // const aValue = a[sortBy as keyof typeof a];
+        // const bValue = b[sortBy as keyof typeof b];
+        const aDiscountedPrice = a.discountedPrice ?? a.sellingPrice;
+        const bDiscountedPrice = b.discountedPrice ?? b.sellingPrice;
+
+        const aValue =
+          sortBy === "discountedPrice"
+            ? aDiscountedPrice
+            : a[sortBy as keyof typeof a];
+        const bValue =
+          sortBy === "discountedPrice"
+            ? bDiscountedPrice
+            : b[sortBy as keyof typeof b];
 
         if (aValue == null || bValue == null) {
           return 0;

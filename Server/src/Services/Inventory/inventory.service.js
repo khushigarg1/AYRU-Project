@@ -547,7 +547,7 @@ class InventoryService {
                             costPrice: ((_d = inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.costPrice) !== null && _d !== void 0 ? _d : 0) +
                                 ((_f = (_e = customFittedIds[0]) === null || _e === void 0 ? void 0 : _e.costPrice) !== null && _f !== void 0 ? _f : 0),
                             discountedPrice: ((_g = inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.discountedPrice) !== null && _g !== void 0 ? _g : 0) +
-                                ((_j = (_h = customFittedIds[0]) === null || _h === void 0 ? void 0 : _h.discountedPrice) !== null && _j !== void 0 ? _j : 0),
+                                ((_j = (_h = customFittedIds[0]) === null || _h === void 0 ? void 0 : _h.sellingPrice) !== null && _j !== void 0 ? _j : 0),
                             inventoryId: updatedInventory === null || updatedInventory === void 0 ? void 0 : updatedInventory.id,
                             inventoryFlatId: inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.id,
                         });

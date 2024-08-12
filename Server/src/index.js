@@ -2,6 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 const fastify_1 = __importDefault(require("fastify"));
 const client_1 = require("@prisma/client");
@@ -49,18 +50,9 @@ server.get("/", function (request, reply) {
 server.get("/api/image/:imageUrl", awsfunction_1.getImage);
 // }
 (0, routes_1.default)(server);
-const port = 8080;
-const host = "localhost";
-server.listen({ port, host }, (err, address) => {
-    if (err) {
-        server.log.error(err);
-        console.error(err);
-        process.exit(1);
-    }
-    console.log(`Server listening on ${address}`);
-});
-// const port = parseInt(process.env.PORT ?? "4000", 10);
-// server.listen({ port, host: "0.0.0.0" }, (err, address) => {
+// const port = 8080;
+// const host = "localhost";
+// server.listen({ port, host }, (err, address) => {
 //   if (err) {
 //     server.log.error(err);
 //     console.error(err);
@@ -68,3 +60,12 @@ server.listen({ port, host }, (err, address) => {
 //   }
 //   console.log(`Server listening on ${address}`);
 // });
+const port = parseInt((_a = process.env.PORT) !== null && _a !== void 0 ? _a : "4000", 10);
+server.listen({ port, host: "0.0.0.0" }, (err, address) => {
+    if (err) {
+        server.log.error(err);
+        console.error(err);
+        process.exit(1);
+    }
+    console.log(`Server listening on ${address}`);
+});

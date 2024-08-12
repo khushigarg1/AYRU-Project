@@ -362,10 +362,19 @@ const filterInventory = (request, reply) => __awaiter(void 0, void 0, void 0, fu
             return isValid;
         });
         const sortedInventories = filteredInventories.sort((a, b) => {
+            var _a, _b;
             if (sortBy) {
                 const order = sortOrder === "desc" ? -1 : 1;
-                const aValue = a[sortBy];
-                const bValue = b[sortBy];
+                // const aValue = a[sortBy as keyof typeof a];
+                // const bValue = b[sortBy as keyof typeof b];
+                const aDiscountedPrice = (_a = a.discountedPrice) !== null && _a !== void 0 ? _a : a.sellingPrice;
+                const bDiscountedPrice = (_b = b.discountedPrice) !== null && _b !== void 0 ? _b : b.sellingPrice;
+                const aValue = sortBy === "discountedPrice"
+                    ? aDiscountedPrice
+                    : a[sortBy];
+                const bValue = sortBy === "discountedPrice"
+                    ? bDiscountedPrice
+                    : b[sortBy];
                 if (aValue == null || bValue == null) {
                     return 0;
                 }

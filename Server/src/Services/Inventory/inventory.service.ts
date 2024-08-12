@@ -612,7 +612,7 @@ export class InventoryService {
               (customFittedIds[0]?.costPrice ?? 0),
             discountedPrice:
               (inventoryFlat?.discountedPrice ?? 0) +
-              (customFittedIds[0]?.discountedPrice ?? 0),
+              (customFittedIds[0]?.sellingPrice ?? 0),
             inventoryId: updatedInventory?.id,
             inventoryFlatId: inventoryFlat?.id,
           })

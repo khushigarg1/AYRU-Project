@@ -248,6 +248,8 @@ const ShopPageContent = () => {
     const [newSortBy, newSortOrder] = event.target.value.split('-');
     setSortBy(newSortBy);
     setSortOrder(newSortOrder);
+    console.log(sortBy, sortOrder);
+
   };
 
 
@@ -471,8 +473,10 @@ const ShopPageContent = () => {
                 onChange={handleSortChange}
                 label="Sort By"
               >
-                <MenuItem value="sellingPrice-asc">Price low to high</MenuItem>
-                <MenuItem value="sellingPrice-desc">Price high to low</MenuItem>
+                <MenuItem value="discountedPrice-asc">Price low to high</MenuItem>
+                <MenuItem value="discountedPrice-desc">Price high to low</MenuItem>
+                {/* <MenuItem value="sellingPrice-asc">Price low to high</MenuItem>
+                <MenuItem value="sellingPrice-desc">Price high to low</MenuItem> */}
                 <MenuItem value="updatedAt-asc">Date old to new</MenuItem>
                 <MenuItem value="updatedAt-desc">Date new to old</MenuItem>
               </Select>
