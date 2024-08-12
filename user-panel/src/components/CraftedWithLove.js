@@ -58,10 +58,10 @@ export const CraftedWithLove = () => {
         variant="scrollable"
         scrollButtons="auto"
         aria-label="scrollable auto tabs example"
-        sx={{ width: isMobile ? "100%" : "50%", borderBottom: 1, borderColor: 'divider' }}
+        sx={{ width: isMobile ? "100%" : "50%", borderBottom: 1, borderColor: 'divider', fontFamily: theme.palette.typography.fontFamily }}
       >
         {categories.map((category, index) => (
-          <Tab key={category.id} label={category.categoryName} />
+          <Tab key={category.id} label={category.categoryName} sx={{ fontFamily: theme.palette.typography.fontFamily }} />
         ))}
       </Tabs>
       {selectedCategory !== null && (
@@ -115,13 +115,13 @@ export const CraftedWithLove = () => {
 
                     {item?.discountedPrice ? (
                       <Box sx={{ display: 'flex', gap: 0.5 }}>
-                        <Typography variant="body2">
+                        {/* <Typography variant="body2">
                           <strong>MRP</strong>
-                        </Typography>
-                        <Typography variant="body2" sx={{ textDecoration: 'line-through' }}>
+                        </Typography> */}
+                        <Typography variant="body2" sx={{ textDecoration: 'line-through', fontSize: "14px" }}>
                           ₹{item.sellingPrice?.toFixed(2)}
                         </Typography>
-                        <Typography variant="body2" sx={{ marginRight: "3px", fontWeight: "bold" }} >
+                        <Typography variant="body1" sx={{ marginRight: "3px", fontSize: "14px", fontWeight: "bold" }} >
                           ₹{item.discountedPrice?.toFixed(2)}
                         </Typography>
                         {/* <Typography variant="body2" color="error" sx={{
@@ -136,8 +136,8 @@ export const CraftedWithLove = () => {
                       </Typography> */}
                       </Box>
                     ) : (
-                      <Typography variant="body2" sx={{ marginRight: "3px", fontWeight: "bold" }} >
-                        <strong>MRP</strong> ₹{item.sellingPrice?.toFixed(2)}
+                      <Typography variant="body1" sx={{ marginRight: "3px", fontSize: "14px", fontWeight: "bold" }} >
+                        ₹{item.sellingPrice?.toFixed(2)}
                       </Typography>
                     )}
                   </CardContent>

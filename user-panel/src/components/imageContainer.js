@@ -101,7 +101,7 @@ const OverlayButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.background.contrast,
   color: theme.palette.primary.contrastText,
   '&:hover': {
-    // backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.primary.dark,
   },
 }));
 

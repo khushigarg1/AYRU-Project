@@ -376,21 +376,21 @@ export const CartItem = ({ item, fetchCartStatus }) => {
                       </Typography> */}
             {item?.cartSizeItem?.discountedPrice ? (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Typography variant="body2" sx={{ textDecoration: 'line-through', fontSize: "0.7em" }}>
+                <Typography variant="body2" sx={{ textDecoration: 'line-through', fontSize: "0.8em" }}>
                   Rs.{item?.cartSizeItem?.sellingPrice}
                 </Typography>
-                <Typography variant="body2" color={theme?.palette?.text?.contrastText} sx={{ fontSize: "0.7em" }}>
+                <Typography variant="body1" color={theme?.palette?.text?.contrastText} sx={{ fontSize: "0.8em" }}>
                   Rs.{item?.cartSizeItem?.discountedPrice}
                 </Typography>
                 <Typography variant="body2" color="error" sx={{
                   background: 'inherit',
-                  color: "black", fontSize: "0.7em"
+                  color: "black", fontSize: "0.8em"
                 }}>
                   {`(${Math.round(((item?.cartSizeItem?.sellingPrice - item?.cartSizeItem?.discountedPrice) / item?.cartSizeItem?.sellingPrice) * 100)}% OFF)`}
                 </Typography>
               </Box>
             ) : (
-              <Typography variant="body2" sx={{ fontSize: "0.7em" }}>
+              <Typography variant="body2" sx={{ fontSize: "0.8em", fontWeight: "bold" }}>
                 Rs.{item?.cartSizeItem?.sellingPrice}
               </Typography>
             )}

@@ -1,11 +1,12 @@
 "use client"
 import React, { Suspense, useEffect, useState } from 'react';
-import { Box, Grid, Typography, Card, CardActionArea, CardContent, CardMedia, Button, useTheme, IconButton, Divider, CircularProgress, useMediaQuery } from '@mui/material';
+import { Box, Grid, Typography, Card, CardActionArea, CardContent, CardMedia, Button, useTheme, IconButton, Divider, CircularProgress, useMediaQuery, Chip } from '@mui/material';
 import Link from 'next/link'; // Import Link from next/link for Next.js routing
 import api from '../../../api';
 import { useAuth } from '@/contexts/auth';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useRouter } from 'next/navigation';
+
 const WishlistPage = () => {
   const { openAuthModal, user, wishlistCount, setWishlistCount } = useAuth();
   const [wishlistItems, setWishlistItems] = useState([]);
@@ -151,6 +152,37 @@ const WishlistPage = () => {
                 >
                   <CardActionArea >
                     <Box sx={{ position: 'relative' }}>
+                      {item?.Inventory?.discountedPrice && (
+                        <Chip
+                          label={
+                            <div style={{ textAlign: 'center' }}>
+                              <Typography variant="caption" component="span" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
+                                {`${((item?.Inventory?.sellingPrice - item?.Inventory?.discountedPrice) / item?.Inventory?.sellingPrice * 100).toFixed(0)}%`}
+                              </Typography>
+                              <Typography variant="caption" component="div" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
+                                off
+                              </Typography>
+                            </div>
+                          }
+                          color="secondary"
+                          size="small"
+                          sx={{
+                            position: 'absolute',
+                            top: 4,
+                            left: 4,
+                            zIndex: 1,
+                            padding: '8px 4px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            height: '40px',
+                            width: '40px',
+                            borderRadius: '50%',
+                            fontSize: '2px',
+                            fontWeight: 'bold',
+                          }}
+                        />
+                      )}
                       <CardMedia
                         component="img"
                         height="300"
@@ -183,21 +215,21 @@ const WishlistPage = () => {
                       </Typography>
                       {item?.Inventory?.discountedPrice ? (
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Typography variant="body1" sx={{ textDecoration: 'line-through', fontSize: "13px", fontWeight: "bold" }}>
+                          <Typography variant="body2" sx={{ textDecoration: 'line-through', fontSize: "12px" }}>
                             Rs.{item?.Inventory?.sellingPrice}
                           </Typography>
-                          <Typography variant="body2" color={theme?.palette?.text?.contrastText} sx={{ fontSize: "13px" }}>
+                          <Typography variant="body1" color={theme?.palette?.text?.contrastText} sx={{ fontSize: "13px", fontWeight: "bold" }}>
                             Rs.{item?.Inventory?.discountedPrice}
                           </Typography>
-                          <Typography variant="body2" color="error" sx={{
+                          {/* <Typography variant="body2" color="error" sx={{
                             background: 'inherit',
-                            color: "black", fontSize: "13px"
+                            color: "black", fontSize: "12px"
                           }}>
                             {`(${Math.round(((item?.Inventory?.sellingPrice - item?.Inventory?.discountedPrice) / item?.Inventory?.sellingPrice) * 100)}% OFF)`}
-                          </Typography>
+                          </Typography> */}
                         </Box>
                       ) : (
-                        <Typography variant="body2" sx={{ fontSize: "13px" }}>
+                        <Typography variant="body2" sx={{ fontSize: "13px", fontWeight: "bold" }}>
                           Rs.{item?.Inventory?.sellingPrice}
                         </Typography>
                       )}

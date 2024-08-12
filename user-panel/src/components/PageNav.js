@@ -235,8 +235,8 @@ export default function PageNav({ children }) {
 
     return (
       <React.Fragment key={category.id}>
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => handleClickCategory(category.id, !!category.subcategories)}>
+        <ListItem disablePadding sx={{ fontWeight: "bold" }} >
+          <ListItemButton onClick={() => handleClickCategory(category.id, !!category.subcategories)} sx={{ fontWeight: "bold" }} >
             {/* {categories?.subcategories.length() === 0 && (
               <Link onClick={handleDrawerClose} href={`/shop?categoryId=${category.id}`}>
                 <ListItemText primary={category.categoryName} />
@@ -249,30 +249,30 @@ export default function PageNav({ children }) {
             )} */}
             {category.subcategories.length === 0 ? (
               <Link onClick={handleDrawerClose} href={`/shop?categoryId=${category.id}`} passHref>
-                <ListItemText primary={category.categoryName} sx={{ paddingLeft: "5px" }} />
+                <ListItemText primary={category.categoryName} sx={{ paddingLeft: "5px", fontWeight: "bold" }} />
               </Link>
             ) : (
               <>
-                <ListItemText primary={category.categoryName} sx={{ paddingLeft: "5px" }} />
+                <ListItemText primary={category.categoryName} sx={{ paddingLeft: "5px", fontWeight: "bold" }} />
                 {nestedOpen ? <ExpandLess /> : <ExpandMore />}
               </>
             )}
           </ListItemButton>
         </ListItem>
         <Collapse in={nestedOpen} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
+          <List component="div" disablePadding sx={{ fontWeight: "bold" }} >
             {category.subcategories.map((subcategory) => (
               <ListItem
                 key={subcategory.id}
                 disablePadding
-                sx={{ display: "block" }}
+                sx={{ display: "block", fontWeight: "bolder" }}
               >
-                <Link onClick={handleDrawerClose} href={`/shop?categoryId=${category.id}&subcategoryId=${subcategory.id}`}>
+                <Link onClick={handleDrawerClose} href={`/shop?categoryId=${category.id}&subcategoryId=${subcategory.id}`} sx={{ fontWeight: "bold" }} >
                   <ListItemButton
                     onClick={() => handleClickCategory(category.id, false)}
-                    sx={{ pl: 4 }}
+                    sx={{ pl: 4, fontWeight: "bolder" }}
                   >
-                    <ListItemText primary={subcategory.subcategoryName} />
+                    <ListItemText sx={{ fontWeight: "bold" }} primary={subcategory.subcategoryName} />
                   </ListItemButton>
                 </Link>
               </ListItem>

@@ -124,7 +124,8 @@ const ClientLoveSlider = () => {
 
   return (
     <Paper>
-      <Box sx={{ width: isMobile ? "100%" : "80%", margin: "0 auto", marginTop: "4%", marginBottom: "25px" }}>
+      <Box sx={{ width: "auto", margin: "0 auto", marginTop: "4%", marginBottom: "25px" }}>
+        {/* <Box sx={{ width: isMobile ? "100%" : "80%", margin: "0 auto", marginTop: "4%", marginBottom: "25px" }}> */}
         <Box style={{ width: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center' }} pt={2}>
           <Typography variant={isMobile ? 'h4' : 'h3'} sx={{ mb: 4, color: theme.palette.text.text }}>
             Client Love
@@ -166,7 +167,8 @@ const ClientLoveSlider = () => {
                   alt={`Slide ${idx}`}
                   sx={{
                     objectFit: 'contain',
-                    width: '100%',
+                    width: '250px',
+                    // width: '100%',
                     height: '300px',
                     borderRadius: "15px",
                   }}

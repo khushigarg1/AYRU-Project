@@ -149,12 +149,12 @@ const InventoryItem = ({ item, wishlistItems, setWishlistItems }) => {
             <Typography variant="body2" sx={{ textDecoration: 'line-through' }}>
               Rs.{item?.sellingPrice}
             </Typography>
-            <Typography variant="body2" color={theme?.palette?.text?.contrastText}>
+            <Typography variant="body1" color={theme?.palette?.text?.contrastText} sx={{ fontSize: "14px" }}>
               Rs.{item?.discountedPrice}
             </Typography>
           </Box>
         ) : (
-          <Typography variant="body2">
+          <Typography variant="body1" sx={{ fontSize: "14px", fontWeight: "bold" }}>
             Rs.{item?.sellingPrice}
           </Typography>
         )}

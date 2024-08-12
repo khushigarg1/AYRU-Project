@@ -204,17 +204,20 @@ export const ProductSlider = ({ products }) => {
                   <Typography gutterBottom variant="body1" component="div" sx={{ fontSize: "14px", lineHeight: "1.1" }}>
                     {product.productName}
                   </Typography>
+                  {/* <Typography variant="body2" gutterBottom>
+                    <strong>Category:</strong> {product?.Category?.categoryName}
+                  </Typography> */}
                   {product.discountedPrice ? (
                     <Box sx={{ display: 'flex', alignItems: 'left', gap: 0.5 }}>
-                      <Typography variant="body2" sx={{ textDecoration: 'line-through' }}>
+                      <Typography variant="body2" sx={{ textDecoration: 'line-through', fontSize: "14px" }}>
                         ₹{product.sellingPrice?.toFixed(2)}
                       </Typography>
-                      <Typography variant="body2" sx={{ marginRight: "3px", fontWeight: "bold" }} >
+                      <Typography variant="body1" sx={{ marginRight: "3px", fontSize: "14px", fontWeight: "bold" }} >
                         ₹{product.discountedPrice?.toFixed(2)}
                       </Typography>
                     </Box>
                   ) : (
-                    <Typography variant="body2" sx={{ marginRight: "3px", fontWeight: "bold" }} >
+                    <Typography variant="body1" sx={{ marginRight: "3px", fontSize: "14px", fontWeight: "bold" }} >
                       ₹{product.sellingPrice?.toFixed(2)}
                     </Typography>
                   )}

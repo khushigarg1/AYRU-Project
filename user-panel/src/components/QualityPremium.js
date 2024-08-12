@@ -17,7 +17,7 @@ export const Quality = () => {
         <Typography variant="h6" gutterBottom={!isMobile}>
           Premium Quality
         </Typography>
-        <Typography variant="subtitle1" style={{ fontSize: "90%" }}>
+        <Typography variant="subtitle1" style={{ fontSize: "90%", lineHeight: 1.3 }}>
           We prioritize the finest, high-quality, and pleasant products, that you can trust.
         </Typography>
       </Paper>

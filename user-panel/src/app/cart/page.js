@@ -233,12 +233,12 @@ const CartPage = () => {
             </Grid>
             <Grid container direction="column" spacing={2} style={{ padding: "0px 5px" }}>
               <Grid item>
-                <Typography variant='body2' style={{ color: "black", fontSize: "12px" }}>
+                <Typography variant='body2' style={{ color: "black", fontSize: "14px" }}>
                   Enjoy our standard SHIPPING FREE for all orders within INDIA
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography variant='body2' style={{ color: "black", fontSize: "12px", lineHeight: 1 }}>
+                <Typography variant='body2' style={{ color: "black", fontSize: "14px", lineHeight: 1 }}>
                   To ship all these items internationally, simply click on{' '}
                   <Button
                     aria-label="Chat on WhatsApp"

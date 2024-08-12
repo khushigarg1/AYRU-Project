@@ -1,11 +1,12 @@
 import React from 'react';
-import { Box, Typography, Accordion, AccordionSummary, AccordionDetails, Link, List, ListItem, ListItemText, Table, TableBody, TableCell, TableContainer, TableRow, Paper, Button } from '@mui/material';
+import { Box, Typography, Accordion, AccordionSummary, AccordionDetails, Link, List, ListItem, ListItemText, Table, TableBody, TableCell, TableContainer, TableRow, Paper, Button, useTheme } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useRouter } from 'next/navigation';
 import { WhatsappIcon } from 'next-share';
 
 export const FeatureAccordions = ({ product }) => {
   const router = useRouter();
+  const theme = useTheme();
   const whatsappMessage = `Hi, I am interested in your Express shipping service.
 
 Could you please provide me with the details regarding the process, any additional cost, and the estimated delivery time ? `;
@@ -29,34 +30,34 @@ Could you please provide me with the details regarding the process, any addition
         <AccordionDetails>
           <TableContainer component={Paper}>
             <Table>
-              <TableBody>
-                <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder" }}>Style</TableCell>
-                  <TableCell>{product.style || "N/A"}</TableCell>
+              <TableBody sx={{ fontFamily: theme.palette.typography.fontFamily }}>
+                <TableRow sx={{ fontFamily: theme.palette.typography.fontFamily }}>
+                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Style</TableCell>
+                  <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.style || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder" }}>Pattern</TableCell>
-                  <TableCell>{product.pattern || "N/A"}</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Pattern</TableCell>
+                  <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.pattern || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder" }}>Fabric</TableCell>
-                  <TableCell>{product.fabric || "N/A"}</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Fabric</TableCell>
+                  <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.fabric || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder" }}>Size</TableCell>
-                  <TableCell>{product.size || "N/A"}</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Size</TableCell>
+                  <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.size || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder" }}>Item Weight</TableCell>
-                  <TableCell>{product.itemWeight + " KG" || "N/A"}</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Item Weight</TableCell>
+                  <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.itemWeight + " KG" || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder" }}>Thread Count</TableCell>
-                  <TableCell>{product.threadCount || "N/A"}</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Thread Count</TableCell>
+                  <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.threadCount || "N/A"}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder" }}>Origin</TableCell>
-                  <TableCell>{product.origin || "N/A"}</TableCell>
+                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Origin</TableCell>
+                  <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.origin || "N/A"}</TableCell>
                 </TableRow>
                 {/* <TableRow>
                   <TableCell>Others</TableCell>
@@ -65,14 +66,14 @@ Could you please provide me with the details regarding the process, any addition
               </TableBody>
             </Table>
 
-            <List sx={{ padding: "2px 10px" }}>
+            <List sx={{ padding: "0px", paddingTop: "15px" }} mt={2}>
               {product.includedItems?.length > 0 && (
                 <>
-                  <Typography variant="body1" sx={{ fontWeight: "bolder" }} >Included Items:</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }} >Included Items:</Typography>
                   <List dense>
                     {product.includedItems.map((item, index) => (
                       <ListItem key={index} sx={{ padding: '0' }}>
-                        <ListItemText primary={`• ${item}`} />
+                        <ListItemText sx={{ fontWeight: "500px", fontSize: "16px" }} primary={`• ${item}`} />
                       </ListItem>
                     ))}
                   </List>
@@ -80,11 +81,11 @@ Could you please provide me with the details regarding the process, any addition
               )}
               {product.itemDimensions?.length > 0 && (
                 <>
-                  <Typography variant="body1" sx={{ fontWeight: "bolder" }}>Item Dimensions:</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Item Dimensions:</Typography>
                   <List dense>
                     {product.itemDimensions.map((dimension, index) => (
                       <ListItem key={index} sx={{ padding: '0' }}>
-                        <ListItemText primary={`• ${dimension}`} />
+                        <ListItemText sx={{ fontWeight: "500px", fontSize: "16px" }} primary={`• ${dimension}`} />
                       </ListItem>
                     ))}
                   </List>
@@ -92,19 +93,19 @@ Could you please provide me with the details regarding the process, any addition
               )}
               {product.specialFeatures?.length > 0 && (
                 <>
-                  <Typography variant="body1" sx={{ fontWeight: "bolder" }}>Special Features:</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Special Features:</Typography>
                   <List dense>
                     {product.specialFeatures.map((feature, index) => (
                       <ListItem key={index} sx={{ padding: '0' }}>
-                        <ListItemText primary={`• ${feature}`} />
+                        <ListItemText sx={{ fontWeight: "500px", fontSize: "16px" }} primary={`• ${feature}`} />
                       </ListItem>
                     ))}
                   </List>
                 </>
               )}
-              <Typography variant="body1" sx={{ fontWeight: "bolder" }}>Others:</Typography>
+              <Typography variant="body1" sx={{ fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Others:</Typography>
               <ListItem>
-                <ListItemText sx={{ lineHeight: 1.2 }} primary={product.others || "N/A"} />
+                <ListItemText sx={{ lineHeight: 1.2, fontWeight: "500px", fontSize: "16px" }} primary={product.others || "N/A"} />
               </ListItem>
             </List>
           </TableContainer>
@@ -121,7 +122,7 @@ Could you please provide me with the details regarding the process, any addition
             {product.careInstructions?.length > 0
               ? product.careInstructions.map((instruction, index) => (
                 <ListItem key={index} sx={{ padding: '0' }}>
-                  <ListItemText variant='subtitle1' primary={`• ${instruction}`} />
+                  <ListItemText sx={{ fontWeight: "500px", fontSize: "16px" }} variant='subtitle1' primary={`• ${instruction}`} />
                 </ListItem>
               ))
               : <Typography variant='subtitle1' >No instructions available</Typography>
@@ -152,6 +153,7 @@ Could you please provide me with the details regarding the process, any addition
             <ListItem sx={{ padding: '0' }}><ListItemText primary="• Delivers within 5-9 working days from the shipping date" /></ListItem>
             <ListItem sx={{ padding: '0' }}>
               <ListItemText
+                sx={{ fontWeight: "500px", fontSize: "16px" }}
                 primary={
                   <>
                     • To get Express Shipping (within 2-4 days), reach out to us on{" "}
