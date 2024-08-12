@@ -72,9 +72,9 @@ button,
   font-weight: 500;
 }
 
-.MuiListItemText-root .MuiTypography-body1 {
+/* .MuiListItemText-root .MuiTypography-body1 {
   font-weight: 500;
-}
+} */
 /* .MuiListItemText-root {
   font-weight: 500;
   font-size: 16px !important;
@@ -143,9 +143,9 @@ button,
     font-weight: 500;
   }
 
-  .MuiListItemText-root .MuiTypography-body1 {
+  /* .MuiListItemText-root .MuiTypography-body1 {
     font-weight: 500;
-  }
+  } */
 }
 
 @media (max-width: 992px) {
@@ -200,9 +200,9 @@ button,
     font-weight: 500;
   }
 
-  .MuiListItemText-root .MuiTypography-body1 {
+  /* .MuiListItemText-root .MuiTypography-body1 {
     font-weight: 500;
-  }
+  } */
 }
 
 @media (max-width: 768px) {
@@ -257,9 +257,9 @@ button,
     font-weight: 500;
   }
 
-  .MuiListItemText-root .MuiTypography-body1 {
+  /* .MuiListItemText-root .MuiTypography-body1 {
     font-weight: 500;
-  }
+  } */
 }
 
 @media (max-width: 576px) {
@@ -314,9 +314,9 @@ button,
     font-weight: 500;
   }
 
-  .MuiListItemText-root .MuiTypography-body1 {
+  /* .MuiListItemText-root .MuiTypography-body1 {
     font-weight: 500;
-  }
+  } */
 }
 * {
   outline: none !important;

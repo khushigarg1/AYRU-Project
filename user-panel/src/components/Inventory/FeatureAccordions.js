@@ -70,10 +70,13 @@ Could you please provide me with the details regarding the process, any addition
               {product.includedItems?.length > 0 && (
                 <>
                   <Typography variant="body1" sx={{ fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }} >Included Items:</Typography>
-                  <List dense>
+                  <List dense sx={{ fontWeight: "500", fontSize: "16px" }}>
                     {product.includedItems.map((item, index) => (
                       <ListItem key={index} sx={{ padding: '0' }}>
-                        <ListItemText sx={{ fontWeight: "500px", fontSize: "16px" }} primary={`• ${item}`} />
+                        <ListItemText sx={{ fontWeight: "500", fontSize: "16px" }} primaryTypographyProps={{
+                          fontWeight: 500,
+                          fontSize: "16px",
+                        }} primary={`• ${item}`} />
                       </ListItem>
                     ))}
                   </List>
@@ -85,7 +88,10 @@ Could you please provide me with the details regarding the process, any addition
                   <List dense>
                     {product.itemDimensions.map((dimension, index) => (
                       <ListItem key={index} sx={{ padding: '0' }}>
-                        <ListItemText sx={{ fontWeight: "500px", fontSize: "16px" }} primary={`• ${dimension}`} />
+                        <ListItemText sx={{ fontWeight: "500px", fontSize: "16px" }} primaryTypographyProps={{
+                          fontWeight: 500,
+                          fontSize: "16px",
+                        }} primary={`• ${dimension}`} />
                       </ListItem>
                     ))}
                   </List>
@@ -97,7 +103,10 @@ Could you please provide me with the details regarding the process, any addition
                   <List dense>
                     {product.specialFeatures.map((feature, index) => (
                       <ListItem key={index} sx={{ padding: '0' }}>
-                        <ListItemText sx={{ fontWeight: "500px", fontSize: "16px" }} primary={`• ${feature}`} />
+                        <ListItemText sx={{ fontWeight: "500px", fontSize: "16px" }} primaryTypographyProps={{
+                          fontWeight: 500,
+                          fontSize: "16px",
+                        }} primary={`• ${feature}`} />
                       </ListItem>
                     ))}
                   </List>
@@ -105,7 +114,10 @@ Could you please provide me with the details regarding the process, any addition
               )}
               <Typography variant="body1" sx={{ fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Others:</Typography>
               <ListItem>
-                <ListItemText sx={{ lineHeight: 1.2, fontWeight: "500px", fontSize: "16px" }} primary={product.others || "N/A"} />
+                <ListItemText sx={{ lineHeight: 1.2, fontWeight: "500px", fontSize: "16px" }} primaryTypographyProps={{
+                  fontWeight: 500,
+                  fontSize: "16px",
+                }} primary={product.others || "N/A"} />
               </ListItem>
             </List>
           </TableContainer>
@@ -122,7 +134,10 @@ Could you please provide me with the details regarding the process, any addition
             {product.careInstructions?.length > 0
               ? product.careInstructions.map((instruction, index) => (
                 <ListItem key={index} sx={{ padding: '0' }}>
-                  <ListItemText sx={{ fontWeight: "500px", fontSize: "16px" }} variant='subtitle1' primary={`• ${instruction}`} />
+                  <ListItemText sx={{ fontWeight: "500px", fontSize: "16px" }} primaryTypographyProps={{
+                    fontWeight: 500,
+                    fontSize: "16px",
+                  }} variant='subtitle1' primary={`• ${instruction}`} />
                 </ListItem>
               ))
               : <Typography variant='subtitle1' >No instructions available</Typography>
@@ -147,10 +162,34 @@ Could you please provide me with the details regarding the process, any addition
         </AccordionSummary>
         <AccordionDetails>
           <List dense variant='subtitle1' >
-            <ListItem sx={{ padding: '0' }}><ListItemText primary="• Only Prepaid orders are accepted (NO COD)." /></ListItem>
-            <ListItem sx={{ padding: '0' }}><ListItemText primary="• Standard Shipping FREE within INDIA" /></ListItem>
-            <ListItem sx={{ padding: '0' }}><ListItemText primary="• Ships within 1-3 working days." /></ListItem>
-            <ListItem sx={{ padding: '0' }}><ListItemText primary="• Delivers within 5-9 working days from the shipping date" /></ListItem>
+            <ListItem sx={{
+              padding: '0',
+              fontSize: "16px"
+            }}><ListItemText primaryTypographyProps={{
+              fontWeight: 500,
+              fontSize: "16px",
+            }} primary="• Only Prepaid orders are accepted (NO COD)." /></ListItem>
+            <ListItem sx={{
+              padding: '0',
+              fontSize: "16px"
+            }}><ListItemText primaryTypographyProps={{
+              fontWeight: 500,
+              fontSize: "16px",
+            }} primary="• Standard Shipping FREE within INDIA" /></ListItem>
+            <ListItem sx={{
+              padding: '0',
+              fontSize: "16px"
+            }}><ListItemText primaryTypographyProps={{
+              fontWeight: 500,
+              fontSize: "16px",
+            }} primary="• Ships within 1-3 working days." /></ListItem>
+            <ListItem sx={{
+              padding: '0',
+              fontSize: "16px"
+            }}><ListItemText primaryTypographyProps={{
+              fontWeight: 500,
+              fontSize: "16px",
+            }} primary="• Delivers within 5-9 working days from the shipping date" /></ListItem>
             <ListItem sx={{ padding: '0' }}>
               <ListItemText
                 sx={{ fontWeight: "500px", fontSize: "16px" }}
@@ -176,6 +215,10 @@ Could you please provide me with the details regarding the process, any addition
                     after placing your order (additional charges will apply)
                   </>
                 }
+                primaryTypographyProps={{
+                  fontWeight: 500,
+                  fontSize: "16px",
+                }}
               />
 
             </ListItem>
@@ -193,8 +236,24 @@ Could you please provide me with the details regarding the process, any addition
         </AccordionSummary>
         <AccordionDetails>
           <List dense variant='subtitle1' >
-            <ListItem sx={{ padding: '0' }}><ListItemText primary="• We ensure strict quality checks before dispatch." /></ListItem>
-            <ListItem sx={{ padding: '0' }}><ListItemText primary="• Exchanges are allowed for damaged or defective products only." /></ListItem>
+            <ListItem sx={{
+              padding: '0',
+              fontSize: "16px"
+            }}>
+              <ListItemText primaryTypographyProps={{
+                fontWeight: 500,
+                fontSize: "16px",
+              }} primary="• We ensure strict quality checks before dispatch." />
+            </ListItem>
+            <ListItem sx={{
+              padding: '0',
+              fontSize: "16px"
+            }}>
+              <ListItemText primaryTypographyProps={{
+                fontWeight: 500,
+                fontSize: "16px",
+              }} primary="• Exchanges are allowed for damaged or defective products only." />
+            </ListItem>
             <ListItem sx={{ padding: '0', textDecoration: "underline", color: "#FFD54F", fontSize: "14px", cursor: "pointer" }} onClick={() => router.push("/policies/Exchange-refund")}>
               For more details
             </ListItem>

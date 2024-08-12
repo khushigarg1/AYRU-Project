@@ -15,11 +15,10 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
-import { Badge, SvgIcon, useMediaQuery } from "@mui/material";
+import { Badge, ListItemText, SvgIcon, useMediaQuery } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useAuth } from "../contexts/auth";
@@ -117,6 +116,8 @@ const Drawer = styled(MuiDrawer, {
   whiteSpace: "nowrap",
   boxSizing: "border-box",
   zIndex: theme.zIndex.drawer + 2,
+  fontWeight: "bold",
+  fontSize: "20px",
   ...(open && {
     ...openedMixin(theme),
     "& .MuiDrawer-paper": openedMixin(theme),
@@ -126,6 +127,12 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper": closedMixin(theme),
   }),
   fontFamily: theme.palette.typography.fontFamily
+}));
+
+
+const CustomListItemText = styled(ListItemText)(({ theme }) => ({
+  fontSize: "20px",
+  fontWeight: "bold",
 }));
 
 const CustomAccountIcon = (props) => (
@@ -237,23 +244,20 @@ export default function PageNav({ children }) {
       <React.Fragment key={category.id}>
         <ListItem disablePadding sx={{ fontWeight: "bold" }} >
           <ListItemButton onClick={() => handleClickCategory(category.id, !!category.subcategories)} sx={{ fontWeight: "bold" }} >
-            {/* {categories?.subcategories.length() === 0 && (
-              <Link onClick={handleDrawerClose} href={`/shop?categoryId=${category.id}`}>
-                <ListItemText primary={category.categoryName} />
-              </Link>
-            )}
-            {category.subcategories && (<>
-              <ListItemText primary={category.categoryName} />
-              {nestedOpen ? <ExpandLess /> : <ExpandMore />}
-            </>
-            )} */}
+
             {category.subcategories.length === 0 ? (
               <Link onClick={handleDrawerClose} href={`/shop?categoryId=${category.id}`} passHref>
-                <ListItemText primary={category.categoryName} sx={{ paddingLeft: "5px", fontWeight: "bold" }} />
+                <CustomListItemText primaryTypographyProps={{
+                  fontWeight: 500,
+                  fontSize: "20px",
+                }} primary={category.categoryName} sx={{ paddingLeft: "5px", fontWeight: "bold" }} />
               </Link>
             ) : (
               <>
-                <ListItemText primary={category.categoryName} sx={{ paddingLeft: "5px", fontWeight: "bold" }} />
+                <CustomListItemText primaryTypographyProps={{
+                  fontWeight: 500,
+                  fontSize: "20px",
+                }} primary={category.categoryName} sx={{ paddingLeft: "5px", fontWeight: "bold" }} />
                 {nestedOpen ? <ExpandLess /> : <ExpandMore />}
               </>
             )}
@@ -272,7 +276,10 @@ export default function PageNav({ children }) {
                     onClick={() => handleClickCategory(category.id, false)}
                     sx={{ pl: 4, fontWeight: "bolder" }}
                   >
-                    <ListItemText sx={{ fontWeight: "bold" }} primary={subcategory.subcategoryName} />
+                    <CustomListItemText primaryTypographyProps={{
+                      fontWeight: 500,
+                      fontSize: "20px",
+                    }} sx={{ fontWeight: "bold" }} primary={subcategory.subcategoryName} />
                   </ListItemButton>
                 </Link>
               </ListItem>
@@ -354,7 +361,10 @@ export default function PageNav({ children }) {
                     px: 2.5,
                   }}
                 >
-                  <ListItemText
+                  <CustomListItemText primaryTypographyProps={{
+                    fontWeight: 500,
+                    fontSize: "20px",
+                  }}
                     primary={user?.email}
                     // primary={"Account"}
                     sx={{
@@ -397,7 +407,10 @@ export default function PageNav({ children }) {
                   px: 2.5,
                 }}
               >
-                <ListItemText
+                <CustomListItemText primaryTypographyProps={{
+                  fontWeight: 500,
+                  fontSize: "20px",
+                }}
                   primary={"Home"}
                   sx={{ opacity: open ? 1 : 0 }}
                 />
@@ -418,7 +431,10 @@ export default function PageNav({ children }) {
                   px: 2.5,
                 }}
               >
-                <ListItemText
+                <CustomListItemText primaryTypographyProps={{
+                  fontWeight: 500,
+                  fontSize: "20px",
+                }}
                   primary={"Shop"}
                   sx={{ opacity: open ? 1 : 0 }}
                 />
@@ -432,7 +448,10 @@ export default function PageNav({ children }) {
             ) : (
               <ListItem key={category.id} disablePadding>
                 <ListItemButton onClick={() => handleClickCategory(category.id, false)}>
-                  <ListItemText primary={category.categoryName} />
+                  <CustomListItemText primaryTypographyProps={{
+                    fontWeight: 500,
+                    fontSize: "20px",
+                  }} primary={category.categoryName} sx={{ fontWeight: "bold" }} />
                 </ListItemButton>
               </ListItem>
             )
@@ -452,9 +471,12 @@ export default function PageNav({ children }) {
                   px: 2.5,
                 }}
               >
-                <ListItemText
+                <CustomListItemText primaryTypographyProps={{
+                  fontWeight: 500,
+                  fontSize: "20px",
+                }}
                   primary={"SALE"}
-                  sx={{ opacity: open ? 1 : 0 }}
+                  sx={{ opacity: open ? 1 : 0, fontWeight: "bolder" }}
                 />
               </ListItemButton>
             </ListItem>
@@ -476,7 +498,10 @@ export default function PageNav({ children }) {
                       px: 2.5,
                     }}
                   >
-                    <ListItemText
+                    <CustomListItemText primaryTypographyProps={{
+                      fontWeight: 500,
+                      fontSize: "20px",
+                    }}
                       primary={"My Orders"}
                       sx={{ opacity: open ? 1 : 0 }}
                     />
@@ -497,7 +522,10 @@ export default function PageNav({ children }) {
                       px: 2.5,
                     }}
                   >
-                    <ListItemText
+                    <CustomListItemText primaryTypographyProps={{
+                      fontWeight: 500,
+                      fontSize: "20px",
+                    }}
                       primary={"Cart"}
                       sx={{ opacity: open ? 1 : 0 }}
                     />
@@ -518,7 +546,10 @@ export default function PageNav({ children }) {
                       px: 2.5,
                     }}
                   >
-                    <ListItemText
+                    <CustomListItemText primaryTypographyProps={{
+                      fontWeight: 500,
+                      fontSize: "20px",
+                    }}
                       primary={"Wishlist"}
                       sx={{ opacity: open ? 1 : 0 }}
                     />
@@ -541,7 +572,10 @@ export default function PageNav({ children }) {
                   px: 2.5,
                 }}
               >
-                <ListItemText
+                <CustomListItemText primaryTypographyProps={{
+                  fontWeight: 500,
+                  fontSize: "20px",
+                }}
                   primary={"About Us"}
                   sx={{ opacity: open ? 1 : 0 }}
                 />
@@ -566,7 +600,10 @@ export default function PageNav({ children }) {
                   px: 2.5,
                 }}
               >
-                <ListItemText
+                <CustomListItemText primaryTypographyProps={{
+                  fontWeight: 500,
+                  fontSize: "20px",
+                }}
                   primary={"Logout"}
                   sx={{ opacity: open ? 1 : 0 }}
                 />
