@@ -611,11 +611,15 @@ export class InventoryService {
               (inventoryFlat?.costPrice ?? 0) +
               (customFittedIds[0]?.costPrice ?? 0),
             discountedPrice:
-              inventoryFlat?.discountedPrice &&
-              inventoryFlat.discountedPrice !== 0
-                ? inventoryFlat.discountedPrice +
-                  (customFittedIds[0]?.sellingPrice ?? 0)
-                : inventoryFlat.discountedPrice ?? 0,
+              (inventoryFlat?.discountedPrice ?? 0) +
+              (customFittedIds[0]?.discountedPrice ?? 0),
+
+            // discountedPrice:
+            //   inventoryFlat?.discountedPrice &&
+            //   inventoryFlat.discountedPrice !== 0
+            //     ? inventoryFlat.discountedPrice +
+            //       (customFittedIds[0]?.sellingPrice ?? 0)
+            //     : inventoryFlat.discountedPrice ?? 0,
             inventoryId: updatedInventory?.id,
             inventoryFlatId: inventoryFlat?.id,
           })

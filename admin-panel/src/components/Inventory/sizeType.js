@@ -537,7 +537,7 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
                   fullWidth
                 />
               </Grid>
-              {/* <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={4}>
                 <TextField
                   type="number"
                   label="Discounted Price"
@@ -545,7 +545,7 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
                   onChange={(e) => setNewCustomFittedItem({ ...newCustomFittedItem, discountedPrice: parseFloat(e.target.value) })}
                   fullWidth
                 />
-              </Grid> */}
+              </Grid>
               <Grid item xs={12} sm={4}>
                 <Button onClick={addCustomFittedItem}>Add Custom Fitted</Button>
               </Grid>
