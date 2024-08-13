@@ -222,6 +222,9 @@ export class InventoryService {
 
   async getInventories() {
     const inventorydata = await prisma.inventory.findMany({
+      where: {
+        productstatus: "PUBLISHED",
+      },
       include: {
         customFittedInventory: {
           include: { InventoryFlat: { include: { Flat: true } } },
