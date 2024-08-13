@@ -17,6 +17,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useAuth } from '@/contexts/auth';
 import Cookies from 'js-cookie';
 
+const CustomSelect = styled(Select)(({ theme }) => ({
+  fontFamily: theme.palette.typography.fontFamily,
+  '& .MuiSelect-select': {
+    fontFamily: theme.palette.typography.fontFamily,
+  },
+}));
 const CustomBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
@@ -357,16 +363,16 @@ const SalePageContent = () => {
         <Grid item xs={6} sm={6} md={6}>
           <FormControl fullWidth>
             <InputLabel>Select Category</InputLabel>
-            <Select
+            <CustomSelect
               label="Select Category"
               value={selectedCategory}
               onChange={(e) => handleCategoryChange(e.target.value)}
             >
-              <MenuItem value="">ALL</MenuItem>
+              <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} value="">ALL</MenuItem>
               {categories.map(category => (
-                <MenuItem key={category.id} value={category.id}>{category.categoryName}</MenuItem>
+                <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} key={category.id} value={category.id}>{category.categoryName}</MenuItem>
               ))}
-            </Select>
+            </CustomSelect>
           </FormControl>
         </Grid>
 
@@ -374,18 +380,18 @@ const SalePageContent = () => {
         <Grid item xs={6} sm={6} md={6}>
           <FormControl fullWidth>
             <InputLabel>Select Subcategory</InputLabel>
-            <Select
+            <CustomSelect
 
               label="Select Subcategory"
               value={selectedSubcategory}
               onChange={(e) => handleSubcategoryChange(e.target.value)}
               disabled={!selectedCategory}
             >
-              <MenuItem value="">Select Subcategory</MenuItem>
+              <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} value="">Select Subcategory</MenuItem>
               {subcategories.map(subcategory => (
-                <MenuItem key={subcategory.id} value={subcategory.id}>{subcategory.subcategoryName}</MenuItem>
+                <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} key={subcategory.id} value={subcategory.id}>{subcategory.subcategoryName}</MenuItem>
               ))}
-            </Select>
+            </CustomSelect>
           </FormControl>
         </Grid >
         {/* )} */}
@@ -407,7 +413,7 @@ const SalePageContent = () => {
             ))
           ) : (
             <Grid item xs={12}>
-              <Typography variant="h6" align="center" p={4}>
+              <Typography variant="h6" align="center" p={5} mt={15} mb={15}>
                 Currently, there are no products on sale. Please revisit soon for future updates.
               </Typography>
             </Grid>
@@ -471,7 +477,7 @@ const SalePageContent = () => {
           {drawerContent === 'sort' && (
             <FormControl fullWidth>
               <InputLabel>Sort By</InputLabel>
-              <Select
+              <CustomSelect
                 value={`${sortBy}-${sortOrder}`}
                 onChange={handleSortChange}
                 label="Sort By"
@@ -480,14 +486,14 @@ const SalePageContent = () => {
                 <MenuItem value="sellingPrice-desc">Price high to low</MenuItem>
                 <MenuItem value="updatedAt-asc">Date old to new</MenuItem>
                 <MenuItem value="updatedAt-desc">Date new to old</MenuItem>
-              </Select>
+              </CustomSelect>
             </FormControl>
           )}
           {drawerContent === 'filter' && (
             <>
               <FormControl fullWidth sx={{ marginTop: 2 }}>
                 <InputLabel>Category</InputLabel>
-                <Select
+                <CustomSelect
 
                   label="Category"
                   value={selectedCategory}
@@ -499,11 +505,11 @@ const SalePageContent = () => {
                       {category.categoryName}
                     </MenuItem>
                   ))}
-                </Select>
+                </CustomSelect>
               </FormControl>
               <FormControl fullWidth sx={{ marginTop: 2 }}>
                 <InputLabel>Subcategory</InputLabel>
-                <Select
+                <CustomSelect
                   label="Subcategory"
                   value={selectedSubcategory}
                   onChange={(e) => handleSubcategoryChange(e.target.value)}
@@ -514,7 +520,7 @@ const SalePageContent = () => {
                       {subcategory.subcategoryName}
                     </MenuItem>
                   ))}
-                </Select>
+                </CustomSelect>
               </FormControl>
               <FormControl fullWidth sx={{ marginTop: 2, padding: 1 }}>
                 <Typography>Price Range</Typography>
@@ -550,7 +556,7 @@ const SalePageContent = () => {
               </CustomBox>
               <FormControl fullWidth sx={{ marginTop: 2 }}>
                 <InputLabel>Availability</InputLabel>
-                <Select
+                <CustomSelect
                   value={extraOptionOutOfStock}
                   onChange={handleOutOfStockChange}
                   label="Availability"
@@ -558,7 +564,7 @@ const SalePageContent = () => {
                   <MenuItem value="">All</MenuItem>
                   <MenuItem value="true">Out of stock</MenuItem>
                   <MenuItem value="false">In stock</MenuItem>
-                </Select>
+                </CustomSelect>
               </FormControl>
 
               <Grid container spacing={1} sx={{ marginTop: 0 }}>

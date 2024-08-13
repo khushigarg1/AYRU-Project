@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Box, Button, TextField, Typography, Paper, Avatar, Divider, Snackbar, Alert, useTheme } from '@mui/material';
+import { Box, Button, TextField, Typography, Paper, Avatar, Divider, Snackbar, Alert, useTheme, CircularProgress } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import api from '../../../api';
 import Cookies from 'js-cookie';
 import { useAuth } from '@/contexts/auth';
 import { useRouter } from 'next/navigation';
+import { ArrowBackIosNewSharp } from '@mui/icons-material';
 
 const LoginForm = ({ switchToSignUp }) => {
   const theme = useTheme();
@@ -17,8 +18,10 @@ const LoginForm = ({ switchToSignUp }) => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleSendEmailOTP = async () => {
+    setLoading(true);
     try {
       const response = await api.post('/auth/send-email-otp', { email, role: 'user' });
       setSnackbarMessage(response?.data?.message || 'OTP sent to your email');
@@ -29,10 +32,13 @@ const LoginForm = ({ switchToSignUp }) => {
       setSnackbarMessage(error?.response?.data?.message || 'Failed to send email OTP');
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
+    } finally {
+      setLoading(false); // Reset loading state
     }
   };
 
   const handleVerifyEmailOTP = async () => {
+    setLoading(true);
     try {
       const response = await api.post('/auth/verify-email-otp', { email, OTP: emailOTP, role: 'user' });
       const { isPhoneVerified, isEmailVerified } = response?.data?.data?.userdata;
@@ -57,10 +63,13 @@ const LoginForm = ({ switchToSignUp }) => {
       setSnackbarMessage(error?.response?.data?.message || 'Invalid email OTP');
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
+    } finally {
+      setLoading(false); // Reset loading state
     }
   };
 
   const handleLoginWithEmailPassword = async () => {
+    setLoading(true);
     try {
       const response = await api.post('/auth/user/login', { email, password, role: 'user' });
       const { isPhoneVerified, isEmailVerified } = response?.data?.data;
@@ -85,6 +94,8 @@ const LoginForm = ({ switchToSignUp }) => {
       setSnackbarMessage(error?.response?.data?.message || 'Invalid email or password');
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
+    } finally {
+      setLoading(false); // Reset loading state
     }
   };
 
@@ -92,6 +103,10 @@ const LoginForm = ({ switchToSignUp }) => {
     setSnackbarOpen(false);
   };
 
+  const handleGoBack = () => {
+    router.push('/');
+    window.location.reload();
+  };
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column', backgroundColor: theme.palette.background.paper }}>
       <Typography variant="h3" sx={{ mb: 2 }}>AYRU JAIPUR</Typography>
@@ -108,10 +123,10 @@ const LoginForm = ({ switchToSignUp }) => {
             <Box>
               <TextField fullWidth label="Email" value={email} onChange={(e) => setEmail(e.target.value)} margin="normal" />
               <Button fullWidth variant="contained" color="primary" onClick={handleSendEmailOTP} sx={{ mt: 2 }}>
-                Send OTP
+                {loading ? <CircularProgress size={24} /> : 'Send OTP'}
               </Button>
               <Button fullWidth variant="contained" color="primary" onClick={() => setStep(3)} sx={{ mt: 2, color: "black" }}>
-                Already a user? Login using password
+                {loading ? <CircularProgress size={24} /> : 'Already a user? Login using password'}
               </Button>
               {/* <Button fullWidth variant="text" color="primary" onClick={switchToSignUp} sx={{ mt: 2 }}>
                 Don't have an account? Sign Up
@@ -123,7 +138,7 @@ const LoginForm = ({ switchToSignUp }) => {
               <TextField fullWidth label="Email" value={email} disabled margin="normal" />
               <TextField fullWidth label="Email OTP" value={emailOTP} onChange={(e) => setEmailOTP(e.target.value)} margin="normal" />
               <Button fullWidth variant="contained" color="primary" onClick={handleVerifyEmailOTP} sx={{ mt: 2, color: "black" }}>
-                Verify OTP
+                {loading ? <CircularProgress size={24} /> : 'Verify OTP'}
               </Button>
             </Box>
           )}
@@ -132,15 +147,31 @@ const LoginForm = ({ switchToSignUp }) => {
               <TextField fullWidth label="Email" value={email} onChange={(e) => setEmail(e.target.value)} margin="normal" />
               <TextField fullWidth label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} margin="normal" />
               <Button fullWidth variant="contained" color="primary" onClick={handleLoginWithEmailPassword} sx={{ mt: 2 }}>
-                Sign In
+                {loading ? <CircularProgress size={24} /> : 'Sign In'}
               </Button>
               <Button fullWidth variant="contained" color="primary" onClick={() => setStep(1)} sx={{ mt: 2, color: "black" }}>
-                Verify with OTP
+                {loading ? <CircularProgress size={24} /> : 'Verify with OTP'}
               </Button>
             </Box>
           )}
         </Box>
+        <Button
+          variant="text"
+          color="primary"
+          onClick={handleGoBack}
+          sx={{
+            display: "flex",
+            alignSelf: 'flex-end !important',
+            // mt: 2,
+            textAlign: "right !important",
+            // color: "black"
+            color: theme.palette.primary.dark
+          }}
+        >
+          <ArrowBackIosNewSharp sx={{ width: "15px", height: "15px" }} /> Go Back to Website
+        </Button>
       </Paper>
+
       <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleCloseSnackbar}>
         <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
           {snackbarMessage}

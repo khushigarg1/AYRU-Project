@@ -67,6 +67,7 @@ const WishlistPage = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = wishlistItems.slice(indexOfFirstItem, indexOfLastItem);
 
+
   if (loading) {
     return (
       <Box
@@ -102,7 +103,7 @@ const WishlistPage = () => {
         wishlistItems.length === 0 && (
           <Typography variant="body2" sx={{ height: "100%", fontSize: "20px", padding: "20px" }}>
             {/* Your wishlist is empty. <strong><Link href="/shop">Browse products</Link></strong> to add items or <strong style={{ cursor: "pointer" }} onClick={handleLogin}>Login</strong> to see your saved items. */}
-            <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" padding={3} textAlign="center">
+            <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" padding={2} textAlign="center" mt={16} mb={16} >
               <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', pt: 2 }}>
                 Your Wishlist is Currently Empty
               </Typography>

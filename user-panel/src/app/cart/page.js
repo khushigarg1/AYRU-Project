@@ -63,9 +63,26 @@ const CartPage = () => {
   };
   useEffect(() => {
     // if (user && user.id && token) {
+    setLoading(true);
     fetchcartStatus();
+    setLoading(false);
     // }
   }, [user?.id, setCartCount]);
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    )
+  }
 
   const handleCheckout = () => {
     const outOfStockItems = cartItems.filter(item => item?.Inventory?.extraOptionOutOfStock);
@@ -157,7 +174,7 @@ const CartPage = () => {
         //   Your cart is empty <strong><Link href="/shop">Browse products</Link></strong> to add items or  <strong style={{ cursor: "pointer" }} onClick={handleLogin}>Login</strong> to see your saved cart.
         // </Typography>
 
-        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" padding={3} textAlign="center">
+        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" padding={3} mt={20} mb={20} textAlign="center">
           <Typography variant='h4' gutterBottom style={{ fontWeight: "bold" }}>
             Your Shopping Cart is Empty
           </Typography>
@@ -234,7 +251,7 @@ const CartPage = () => {
             <Grid container direction="column" spacing={2} style={{ padding: "0px 5px" }}>
               <Grid item>
                 <Typography variant='body2' style={{ color: "black", fontSize: "14px" }}>
-                  Enjoy our standard SHIPPING FREE for all orders within INDIA
+                  Enjoy our standard SHIPPING FREE for all orders within India
                 </Typography>
               </Grid>
               <Grid item>

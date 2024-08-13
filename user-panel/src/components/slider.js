@@ -29,12 +29,13 @@ const OverlayText = styled('div')(({ theme }) => ({
   },
 }));
 
-const StyledButton = styled(Button)({
+const StyledButton = styled(Button)(({ theme }) => ({
   fontFamily: 'Montserrat, sans-serif',
-  backgroundColor: 'white',
+  backgroundColor: theme.palette.background.primary,
+  // backgroundColor: 'white',
   color: 'black',
   padding: '7px 15px',
-  marginTop: '20px',
+  marginTop: '25px',
   textTransform: 'uppercase',
   letterSpacing: '1px',
   fontSize: '0.7rem',
@@ -45,7 +46,7 @@ const StyledButton = styled(Button)({
   '&:hover': {
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
   },
-});
+}));
 
 const StyledImage = styled('img')({
   width: '100%',

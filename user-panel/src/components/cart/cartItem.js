@@ -382,7 +382,7 @@ export const CartItem = ({ item, fetchCartStatus }) => {
                 <Typography variant="body1" color={theme?.palette?.text?.contrastText} sx={{ fontSize: "0.8em" }}>
                   Rs.{item?.cartSizeItem?.discountedPrice}
                 </Typography>
-                <Typography variant="body2" color="error" sx={{
+                <Typography variant="body1" color="error" sx={{
                   background: 'inherit',
                   color: "black", fontSize: "0.8em"
                 }}>
@@ -390,7 +390,7 @@ export const CartItem = ({ item, fetchCartStatus }) => {
                 </Typography>
               </Box>
             ) : (
-              <Typography variant="body2" sx={{ fontSize: "0.8em", fontWeight: "bold" }}>
+              <Typography variant="body1" sx={{ fontSize: "0.8em", fontWeight: "bold" }}>
                 Rs.{item?.cartSizeItem?.sellingPrice}
               </Typography>
             )}

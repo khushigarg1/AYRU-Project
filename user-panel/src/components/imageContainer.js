@@ -64,7 +64,7 @@ const ImageContainer = styled(Grid)(({ theme }) => ({
   padding: '5px',
   marginTop: '5px',
   backgroundColor: theme.palette.background.paper,
-  borderRadius: '8px',
+  // borderRadius: '8px',
   display: 'flex',
   flexDirection: 'row',
   flexWrap: 'wrap',
@@ -80,6 +80,7 @@ const ImageItem = styled('div')(({ theme, index }) => ({
   // animation: `${index % 2 === 0 ? fadeInLeft : fadeInRight} 0.9s ease-in-out`,
   animation: `${index % 2 === 0 ? slideFromBottom : slideFromTop} 0.5s ease-in-out`,
 
+  borderRadius: '12px',
   [theme.breakpoints.up('sm')]: {
     width: 'calc(50% - 10px)',
     paddingBottom: '50%',
@@ -126,7 +127,8 @@ const ImageGrid = () => {
     <ImageContainer container>
       {images.map((image, index) => (
         <ImageItem key={index} index={index} onClick={() => handleButtonClick(image.link)}>
-          <Image src={image.src} alt={image.alt} layout="fill" objectFit="cover" />
+          <Image
+            src={image.src} alt={image.alt} layout="fill" objectFit="cover" />
           <OverlayButton >{image.alt}</OverlayButton>
         </ImageItem>
       ))}

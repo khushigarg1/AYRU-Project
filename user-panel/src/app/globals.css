@@ -72,24 +72,6 @@ button,
   font-weight: 500;
 }
 
-/* .MuiListItemText-root .MuiTypography-body1 {
-  font-weight: 500;
-} */
-/* .MuiListItemText-root {
-  font-weight: 500;
-  font-size: 16px !important;
-} */
-
-/* .MuiListItemText-primary {
-  font-weight: 500;
-  font-size: 16px !important;
-} */
-/* 
-.MuiListItemText-secondary {
-  font-weight: 500;
-  font-size: 16px !important;
-} */
-
 /* Responsive Styles */
 @media (max-width: 1200px) {
   body,
