@@ -12,13 +12,11 @@ class FlatService {
   async createFlat(data: FlatData) {
     if (
       !data.name ||
-      !data.size ||
-      data.name.trim() === "" ||
-      data.size.trim() === ""
+      // !data.size ||
+      data.name.trim() === ""
+      // data.size.trim() === ""
     ) {
-      throw new ApiBadRequestError(
-        "Name and size are required and cannot be empty"
-      );
+      throw new ApiBadRequestError("Name are required and cannot be empty");
     }
 
     const existingFlat = await prisma.flat.findUnique({
