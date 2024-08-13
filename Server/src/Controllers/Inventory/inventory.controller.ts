@@ -346,7 +346,7 @@ export const filterInventory = async (
 
   try {
     const baseFilterOptions: any = {};
-
+    baseFilterOptions.productstatus = "PUBLISHED";
     if (categoryId) {
       baseFilterOptions.categoryId = Number(categoryId);
     }
@@ -534,9 +534,12 @@ export const searchInventory = async (
       ],
     };
 
+    whereClause.AND = whereClause.AND || [];
+    whereClause.AND.push({ productstatus: "PUBLISHED" });
+
     // Add categoryId filter
     if (categoryId) {
-      whereClause.AND = whereClause.AND || [];
+      // whereClause.AND = whereClause.AND || [];
       whereClause.AND.push({ categoryId: parseInt(categoryId) });
     }
 
@@ -590,6 +593,7 @@ export const filterSaleItem = async (
     const inventories = await prisma.inventory.findMany({
       where: {
         sale: true,
+        productstatus: "PUBLISHED",
       },
       include: {
         Category: true,
