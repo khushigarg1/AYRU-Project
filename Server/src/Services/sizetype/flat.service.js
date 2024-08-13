@@ -16,10 +16,11 @@ class FlatService {
     createFlat(data) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!data.name ||
-                !data.size ||
-                data.name.trim() === "" ||
-                data.size.trim() === "") {
-                throw new errors_1.ApiBadRequestError("Name and size are required and cannot be empty");
+                // !data.size ||
+                data.name.trim() === ""
+            // data.size.trim() === ""
+            ) {
+                throw new errors_1.ApiBadRequestError("Name are required and cannot be empty");
             }
             const existingFlat = yield prisma.flat.findUnique({
                 where: { name: data.name },

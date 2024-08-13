@@ -546,8 +546,14 @@ class InventoryService {
                                 ((_c = (_b = customFittedIds[0]) === null || _b === void 0 ? void 0 : _b.sellingPrice) !== null && _c !== void 0 ? _c : 0),
                             costPrice: ((_d = inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.costPrice) !== null && _d !== void 0 ? _d : 0) +
                                 ((_f = (_e = customFittedIds[0]) === null || _e === void 0 ? void 0 : _e.costPrice) !== null && _f !== void 0 ? _f : 0),
-                            discountedPrice: ((_g = inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.discountedPrice) !== null && _g !== void 0 ? _g : 0) +
-                                ((_j = (_h = customFittedIds[0]) === null || _h === void 0 ? void 0 : _h.sellingPrice) !== null && _j !== void 0 ? _j : 0),
+                            // discountedPrice:
+                            //   (inventoryFlat?.discountedPrice ?? 0) +
+                            //   (customFittedIds[0]?.discountedPrice ?? 0),
+                            discountedPrice: (inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.discountedPrice) &&
+                                inventoryFlat.discountedPrice !== 0
+                                ? inventoryFlat.discountedPrice +
+                                    ((_h = (_g = customFittedIds[0]) === null || _g === void 0 ? void 0 : _g.sellingPrice) !== null && _h !== void 0 ? _h : 0)
+                                : (_j = inventoryFlat.discountedPrice) !== null && _j !== void 0 ? _j : 0,
                             inventoryId: updatedInventory === null || updatedInventory === void 0 ? void 0 : updatedInventory.id,
                             inventoryFlatId: inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.id,
                         });

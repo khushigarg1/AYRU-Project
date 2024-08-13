@@ -18,6 +18,7 @@ const razorpay_1 = __importDefault(require("razorpay"));
 const errors_1 = require("../errors");
 const awsfunction_1 = require("../../config/awsfunction");
 const omitCostPrice_1 = require("../utils/omitCostPrice");
+const mail_1 = require("./mail");
 const prisma = new client_1.PrismaClient();
 const razorpayInstance = new razorpay_1.default({
     key_id: process.env.KEY,
@@ -367,19 +368,15 @@ function razorPayWebhookService(data) {
     return __awaiter(this, void 0, void 0, function* () {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
         try {
-            console.log(JSON.stringify(data));
-            // const referenceId = data?.reference_id;
             const referenceId = (_c = (_b = (_a = data === null || data === void 0 ? void 0 : data.payload) === null || _a === void 0 ? void 0 : _a.payment_link) === null || _b === void 0 ? void 0 : _b.entity) === null || _c === void 0 ? void 0 : _c.reference_id;
             if (!referenceId) {
                 throw new Error("Reference ID not found in webhook data");
             }
             const orderId = parseInt(referenceId, 10);
-            console.log("orderiiiiiiiiiiiiiiiiiddddddddddddddddd-----------------------------------------------------------------------------------------------------", orderId);
             // if (isNaN(orderId)) {
             //   throw new Error(`Invalid reference_id: ${referenceId}`);
             // }
             if ((data === null || data === void 0 ? void 0 : data.event) === "payment_link.paid") {
-                console.log("---------------------------------------------------------paid-------------------");
                 const orderItems = yield prisma.orderItem.findMany({
                     where: { orderId: orderId },
                 });
@@ -576,6 +573,19 @@ function razorPayWebhookService(data) {
                         paymentStatus: "paid",
                     },
                 });
+                const to = "ayrujaipur@gmail.com";
+                const subject = "Payment Received for Order";
+                const body = `
+        <div class="container">
+          <h1>Payment Received for Order</h1>
+          <p>Dear Admin,</p>
+          <p>We have received a payment for the order with ID: ${orderId}.</p>
+          <p>Order Status: Successfully Paid</p>
+          <p>Thank you for your attention.</p>
+          <p>Best regards,<br/>Your Team</p>
+        </div>
+      `;
+                yield (0, mail_1.sendEmail)(to, subject, body);
             }
             if ((data === null || data === void 0 ? void 0 : data.event) === "payment_link.expired") {
                 console.log("---------------------------------------------------------expired--------------------------------");

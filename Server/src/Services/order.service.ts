@@ -3,6 +3,7 @@ import Razorpay from "razorpay";
 import { ApiBadRequestError } from "../errors";
 import { deleteImageFromS3, uploadImageToS3 } from "../../config/awsfunction";
 import { omitCostPrice } from "../utils/omitCostPrice";
+import { sendEmail } from "./mail";
 const prisma = new PrismaClient();
 const razorpayInstance = new Razorpay({
   key_id: process.env.KEY as string,
@@ -354,9 +355,6 @@ export async function deleteOrderService(id: number): Promise<Order | null> {
 
 export async function razorPayWebhookService(data: any) {
   try {
-    console.log(JSON.stringify(data));
-
-    // const referenceId = data?.reference_id;
     const referenceId = data?.payload?.payment_link?.entity?.reference_id;
 
     if (!referenceId) {
@@ -364,20 +362,11 @@ export async function razorPayWebhookService(data: any) {
     }
 
     const orderId = parseInt(referenceId, 10);
-    console.log(
-      "orderiiiiiiiiiiiiiiiiiddddddddddddddddd-----------------------------------------------------------------------------------------------------",
-      orderId
-    );
-
     // if (isNaN(orderId)) {
     //   throw new Error(`Invalid reference_id: ${referenceId}`);
     // }
 
     if (data?.event === "payment_link.paid") {
-      console.log(
-        "---------------------------------------------------------paid-------------------"
-      );
-
       const orderItems = await prisma.orderItem.findMany({
         where: { orderId: orderId },
       });
@@ -650,6 +639,20 @@ export async function razorPayWebhookService(data: any) {
           paymentStatus: "paid",
         },
       });
+
+      const to = "ayrujaipur@gmail.com";
+      const subject = "Payment Received for Order";
+      const body = `
+        <div class="container">
+          <h1>Payment Received for Order</h1>
+          <p>Dear Admin,</p>
+          <p>We have received a payment for the order with ID: ${orderId}.</p>
+          <a>https://admin.ayrujaipur.in/order/${orderId}</a>
+          <p>Order Status: Successfully Paid</p>
+          <p>Thank you for your attention.</p>
+        </div>
+      `;
+      await sendEmail(to, subject, body);
     }
 
     if (data?.event === "payment_link.expired") {
@@ -664,6 +667,19 @@ export async function razorPayWebhookService(data: any) {
           paymentStatus: "failed",
         },
       });
+      const to = "ayrujaipur@gmail.com";
+      const subject = "Payment Link Expired for Order";
+      const body = `
+        <div class="container">
+          <h1>Payment Link Expired for Order</h1>
+          <p>Dear Admin,</p>
+          <p>The payment link for the order with ID: ${orderId} has expired.</p>
+          <p>Order Status: Failed</p>
+          <p>Please review the order status and take necessary actions.</p>
+          <p>Best regards,<br/>Your Team</p>
+        </div>
+      `;
+      await sendEmail(to, subject, body);
     }
   } catch (error) {
     console.error("Error processing webhook:", error);
