@@ -629,7 +629,7 @@ export default function PageNav({ children }) {
       </Drawer>
       <Main component="main" sx={{
         flexGrow: 1,
-        p: 0, marginTop: scrolledstate ? "58px" : "0px",
+        p: 0, marginTop: scrolledstate ? "62px" : "0px",
         transition: "margin-top 0.6s ease",
         paddingBottom: isMobile ? "0px" : "25px"
       }} mb={0}>

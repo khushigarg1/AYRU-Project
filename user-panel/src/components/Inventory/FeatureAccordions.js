@@ -31,34 +31,51 @@ Could you please provide me with the details regarding the process, any addition
           <TableContainer component={Paper}>
             <Table>
               <TableBody sx={{ fontFamily: theme.palette.typography.fontFamily }}>
-                <TableRow sx={{ fontFamily: theme.palette.typography.fontFamily }}>
-                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Style</TableCell>
-                  <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.style || "N/A"}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Pattern</TableCell>
-                  <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.pattern || "N/A"}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Fabric</TableCell>
-                  <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.fabric || "N/A"}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Size</TableCell>
-                  <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.size || "N/A"}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Item Weight</TableCell>
-                  <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.itemWeight + " KG" || "N/A"}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Thread Count</TableCell>
-                  <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.threadCount || "N/A"}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Origin</TableCell>
-                  <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.origin || "N/A"}</TableCell>
-                </TableRow>
+                {product?.style &&
+                  <TableRow sx={{ fontFamily: theme.palette.typography.fontFamily }}>
+                    <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Style</TableCell>
+                    <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.style || "N/A"}</TableCell>
+                  </TableRow>
+                }
+                {product?.pattern &&
+
+                  <TableRow>
+                    <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Pattern</TableCell>
+                    <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.pattern || "N/A"}</TableCell>
+                  </TableRow>
+                }
+                {product?.fabric &&
+
+                  <TableRow>
+                    <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Fabric</TableCell>
+                    <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.fabric || "N/A"}</TableCell>
+                  </TableRow>
+                }
+                {product?.size &&
+
+                  <TableRow>
+                    <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Size</TableCell>
+                    <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.size || "N/A"}</TableCell>
+                  </TableRow>
+                }
+                {product?.itemWeight &&
+                  <TableRow>
+                    <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Item Weight</TableCell>
+                    <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.itemWeight + " KG" || "N/A"}</TableCell>
+                  </TableRow>
+                }
+                {product?.threadCount &&
+                  <TableRow>
+                    <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Thread Count</TableCell>
+                    <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.threadCount || "N/A"}</TableCell>
+                  </TableRow>
+                }
+                {product?.origin &&
+                  <TableRow>
+                    <TableCell sx={{ backgroundColor: '#fcc73d', width: "40%", fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Origin</TableCell>
+                    <TableCell sx={{ fontSize: "15px", fontFamily: theme.palette.typography.fontFamily }}>{product.origin || "N/A"}</TableCell>
+                  </TableRow>
+                }
                 {/* <TableRow>
                   <TableCell>Others</TableCell>
                   <TableCell>{product.others || "N/A"}</TableCell>
@@ -112,13 +129,17 @@ Could you please provide me with the details regarding the process, any addition
                   </List>
                 </>
               )}
-              <Typography variant="body1" sx={{ fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Others:</Typography>
-              <ListItem>
-                <ListItemText sx={{ lineHeight: 1.2, fontWeight: "500px", fontSize: "16px" }} primaryTypographyProps={{
-                  fontWeight: 500,
-                  fontSize: "16px",
-                }} primary={product.others || "N/A"} />
-              </ListItem>
+              {product?.others &&
+                <>
+                  <Typography variant="body1" sx={{ fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Others:</Typography>
+                  <ListItem>
+                    <ListItemText sx={{ lineHeight: 1.2, fontWeight: "500px", fontSize: "16px" }} primaryTypographyProps={{
+                      fontWeight: 500,
+                      fontSize: "16px",
+                    }} primary={product.others || "N/A"} />
+                  </ListItem>
+                </>
+              }
             </List>
           </TableContainer>
         </AccordionDetails>

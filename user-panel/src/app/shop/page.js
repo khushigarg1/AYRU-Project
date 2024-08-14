@@ -412,7 +412,7 @@ const ShopPageContent = () => {
             )
             : (
               <Grid item xs={12}>
-                <Typography variant="h6" align="center" p={5} mt={15} mb={15}>
+                <Typography variant="h6" align="center" p={5} mt={5} mb={25}>
                   Currently, there are no products available. Please check back soon for new arrivals and updates.
                 </Typography>
               </Grid>

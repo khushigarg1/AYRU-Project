@@ -413,7 +413,7 @@ const SalePageContent = () => {
             ))
           ) : (
             <Grid item xs={12}>
-              <Typography variant="h6" align="center" p={5} mt={15} mb={15}>
+              <Typography variant="h6" align="center" p={5} mt={5} mb={25}>
                 Currently, there are no products on sale. Please revisit soon for future updates.
               </Typography>
             </Grid>

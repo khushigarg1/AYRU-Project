@@ -5,6 +5,21 @@ import api from '../../api';
 import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 
+import Laptop1 from "../../public/images/slider/laptop1.PNG";
+import Laptop2 from "../../public/images/slider/laptop2.PNG";
+import Laptop3 from "../../public/images/slider/laptop3.PNG";
+import Mobile1 from "../../public/images/slider/mobile1.PNG";
+import Mobile2 from "../../public/images/slider/mobile2.PNG";
+import Mobile3 from "../../public/images/slider/mobile3.PNG";
+import Mobile4 from "../../public/images/slider/mobile4.PNG";
+import Mobile5 from "../../public/images/slider/mobile5.PNG";
+import Image from 'next/image';
+
+// Images for each device type
+const mobileImages = [Mobile1, Mobile2, Mobile3, Mobile4, Mobile5];
+const tabletImages = [Mobile1, Mobile2, Mobile3, Mobile4, Mobile5];
+const laptopImages = [Laptop1, Laptop2, Laptop3];
+
 const OverlayText = styled('div')(({ theme }) => ({
   position: 'absolute',
   left: '50%',
@@ -58,6 +73,11 @@ const ImageCarousel = () => {
   const [images, setImages] = useState([]);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+  const isLaptop = useMediaQuery(theme.breakpoints.up('md'));
+
+  const displayImages = isMobile ? mobileImages : isTablet ? tabletImages : laptopImages;
+
   const router = useRouter();
   const [loading, setLoading] = useState(true);
 
@@ -85,7 +105,7 @@ const ImageCarousel = () => {
   };
 
   return (
-    <Box sx={{ position: 'relative', width: '100%', height: isMobile ? 'auto' : '800px' }} mb={0}>
+    <Box sx={{ position: 'relative', width: '100%', }} mb={0}>
       {images.length > 0 && (
         <Carousel
           autoPlay
@@ -100,28 +120,6 @@ const ImageCarousel = () => {
               opacity: "0.2",
             },
           }}
-          navButtonsWrapperProps={{
-            style: {
-              // position: 'absolute',
-              // width: '100%',
-              // height: '100%',
-              // display: 'flex',
-              // justifyContent: 'space-between',
-              // alignItems: 'center',
-              // top: 'unset',
-              // zIndex: 2,
-              // '&:nth-of-type(1)': {
-              // left: isMobile ? '-15px !important' : "0px",
-              // marginLeft: "5px",
-              // fontSize: "1px"
-              // },
-              // '&:nth-of-type(2)': {
-              // right: isMobile ? '-15px !important' : "0px",
-              // marginRight: "5px"
-              // fontSize: "1px"
-              // },
-            },
-          }}
           NextIcon={<ArrowForwardIos style={{ fontSize: '1.5rem' }} />}
           PrevIcon={<ArrowBackIos style={{ fontSize: '1.5rem' }} />}
           indicators
@@ -130,17 +128,23 @@ const ImageCarousel = () => {
               position: 'absolute',
               bottom: '10px',
               zIndex: 1000,
-
             },
           }}
         >
-          {images.map((image, index) => (
-            <Box key={index} sx={{ position: 'relative', height: '100%' }}>
-              <StyledImage
-                src={`https://ayrujaipur.s3.amazonaws.com/${image.imageUrl}`}
+          {displayImages.map((image, index) => (
+            // <Box key={index} sx={{ position: 'relative', height: '100%' }}>
+            <>
+              <Image
+                src={image}
                 alt={`Slide ${index}`}
-                sx={{
-                  height: !isMobile && "800px"
+                // fill
+                style={{
+                  width: '100%',
+                  // objectFit: 'fit',
+                  objectFit: isMobile ? "cover" : "fit",
+                  // objectFit: !isLaptop ? "cover" : "fit",
+                  transition: 'transform 0.5s ease-in-out',
+                  maxHeight: isMobile ? "475px" : "700px"
                 }}
               />
               <OverlayText style={{ top: isMobile ? '70%' : '60%' }}>
@@ -148,7 +152,8 @@ const ImageCarousel = () => {
                   Shop Now
                 </StyledButton>
               </OverlayText>
-            </Box>
+            </>
+            // </Box >
           ))}
         </Carousel>
       )

@@ -11,7 +11,7 @@ const MainContainer = styled('div')(({ theme }) => ({
   padding: '20px 40px',
   backgroundColor: theme.palette.background.paper,
   position: "relative",
-  marginTop: "-6px"
+  marginTop: "-7px"
 }));
 
 const NoteContainer = styled('div')(({ theme }) => ({
