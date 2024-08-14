@@ -605,29 +605,57 @@ export class InventoryService {
           customFittedIds[0]?.costPrice ||
           customFittedIds[0]?.discountedPrice)
       ) {
+        // const customFittedInventoryData = inventoryFlats.map(
+        //   (inventoryFlat) => ({
+        //     sellingPrice:
+        //       (inventoryFlat?.sellingPrice ?? 0) +
+        //       (customFittedIds[0]?.sellingPrice ?? 0),
+        //     costPrice:
+        //       (inventoryFlat?.costPrice ?? 0) +
+        //       (customFittedIds[0]?.costPrice ?? 0),
+        //     discountedPrice:
+        //       inventoryFlat?.discountedPrice &&
+        //       inventoryFlat.discountedPrice !== 0
+        //         ? inventoryFlat.discountedPrice +
+        //           (customFittedIds[0]?.sellingPrice ?? 0)
+        //         : inventoryFlat.discountedPrice ?? 0,
+        //     inventoryId: updatedInventory?.id,
+        //     inventoryFlatId: inventoryFlat?.id,
+        //   })
+        // );
         const customFittedInventoryData = inventoryFlats.map(
-          (inventoryFlat) => ({
-            sellingPrice:
-              (inventoryFlat?.sellingPrice ?? 0) +
-              (customFittedIds[0]?.sellingPrice ?? 0),
-            costPrice:
-              (inventoryFlat?.costPrice ?? 0) +
-              (customFittedIds[0]?.costPrice ?? 0),
-            // discountedPrice:
-            //   (inventoryFlat?.discountedPrice ?? 0) +
-            //   (customFittedIds[0]?.discountedPrice ?? 0),
+          (inventoryFlat) => {
+            const newSellingPrice =
+              (inventoryFlat?.sellingPrice ?? 0) <
+              customFittedIds[0]?.sellingPrice
+                ? customFittedIds[0]?.sellingPrice
+                : (inventoryFlat?.sellingPrice ?? 0) +
+                  (customFittedIds[0]?.sellingPrice ?? 0);
 
-            discountedPrice:
-              inventoryFlat?.discountedPrice &&
-              inventoryFlat.discountedPrice !== 0
-                ? inventoryFlat.discountedPrice +
-                  (customFittedIds[0]?.sellingPrice ?? 0)
-                : inventoryFlat.discountedPrice ?? 0,
-            inventoryId: updatedInventory?.id,
-            inventoryFlatId: inventoryFlat?.id,
-          })
+            const newCostPrice =
+              (inventoryFlat?.costPrice ?? 0) < customFittedIds[0]?.costPrice
+                ? customFittedIds[0]?.costPrice
+                : (inventoryFlat?.costPrice ?? 0) +
+                  (customFittedIds[0]?.costPrice ?? 0);
+
+            const newDiscountedPrice =
+              (inventoryFlat?.discountedPrice ?? 0) === 0
+                ? 0
+                : (inventoryFlat?.discountedPrice ?? 0) <
+                  customFittedIds[0]?.sellingPrice
+                ? customFittedIds[0]?.sellingPrice
+                : (inventoryFlat?.discountedPrice ?? 0) +
+                  (customFittedIds[0]?.sellingPrice ?? 0);
+
+            return {
+              sellingPrice: newSellingPrice,
+              costPrice: newCostPrice,
+              discountedPrice: newDiscountedPrice,
+              inventoryId: updatedInventory?.id,
+              inventoryFlatId: inventoryFlat?.id,
+            };
+          }
         );
-
         const customFittedInventory =
           await prisma.customFittedInventory.createMany({
             data: customFittedInventoryData,
@@ -654,6 +682,7 @@ export class InventoryService {
       throw error;
     }
   }
+
   async getInventoriesByCategory(categoryId: number, subCategoryId?: number) {
     if (!categoryId) {
       throw new ApiBadRequestError("Category ID is required");
