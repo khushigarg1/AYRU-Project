@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import Laptop1 from "../../public/images/slider/laptop1.PNG";
 import Laptop2 from "../../public/images/slider/laptop2.PNG";
 import Laptop3 from "../../public/images/slider/laptop3.PNG";
+import Laptop4 from "../../public/images/slider/laptop4.PNG";
 import Mobile1 from "../../public/images/slider/mobile1.PNG";
 import Mobile2 from "../../public/images/slider/mobile2.PNG";
 import Mobile3 from "../../public/images/slider/mobile3.PNG";
@@ -18,7 +19,7 @@ import Image from 'next/image';
 // Images for each device type
 const mobileImages = [Mobile1, Mobile2, Mobile3, Mobile4, Mobile5];
 const tabletImages = [Mobile1, Mobile2, Mobile3, Mobile4, Mobile5];
-const laptopImages = [Laptop1, Laptop2, Laptop3];
+const laptopImages = [Laptop1, Laptop2, Laptop3, Laptop4];
 
 const OverlayText = styled('div')(({ theme }) => ({
   position: 'absolute',
