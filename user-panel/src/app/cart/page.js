@@ -140,7 +140,7 @@ const CartPage = () => {
   }).join('\n');
   const userDetails = `\n\nMy Details are here:\n` +
     `${cartItems[0]?.User?.firstName || cartItems[0]?.User?.lastName ? `Name: ${cartItems[0]?.User.firstName || ''} ${cartItems[0]?.User.lastName || ''}\n` : ''}` +
-    `${cartItems[0]?.User?.address1 || cartItems[0]?.User?.address2 || cartItems[0]?.User?.city || cartItems[0]?.User?.state || cartItems[0]?.User?.[pincode] ? `Address: ${[cartItems[0]?.User.address1, cartItems[0]?.User.address2, cartItems[0]?.User.city, cartItems[0]?.User.state].filter(Boolean).join(', ')}\n` : '[Postal address, City, State]'}` +
+    `${cartItems[0]?.User?.address1 || cartItems[0]?.User?.address2 || cartItems[0]?.User?.city || cartItems[0]?.User?.state || cartItems[0]?.User?.pincode ? `Address: ${[cartItems[0]?.User.address1, cartItems[0]?.User.address2, cartItems[0]?.User.city, cartItems[0]?.User.state].filter(Boolean).join(', ')}\n` : '[Postal address, City, State]'}` +
     `${cartItems[0]?.User?.country ? `Country: ${cartItems[0]?.User.country}\n` : ''}` +
     `${cartItems[0]?.User?.pincode ? `ZipCode: ${cartItems[0]?.User.pincode}\n` : ''}` +
     `${cartItems[0]?.User?.phoneNumber ? `Phone Number: ${cartItems[0]?.User.phoneNumber}\n` : '' +

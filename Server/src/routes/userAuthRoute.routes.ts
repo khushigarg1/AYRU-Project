@@ -21,7 +21,11 @@ import {
 } from "../Controllers/userAuth.controller";
 
 export default async function AuthRoutes(server: FastifyInstance) {
-  server.get("/", (request, reply) => getAllUsers(server, request, reply));
+  server.get(
+    "/",
+    { onRequest: [server?.authenticateAdmin] },
+    (request, reply) => getAllUsers(server, request, reply)
+  );
 
   server.get(
     "/:id",
