@@ -391,12 +391,28 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                       {...params}
                       label="Country"
                       fullWidth
-                      margin="normal"
+                      margin="normal" InputProps={{
+                        ...params.InputProps,
+                        sx: {
+                          fontFamily: theme.palette.typography.fontFamily,
+                        },
+                      }}
                       sx={{ backgroundColor: 'white' }}
                       error={Boolean(errors.country)}
                       helperText={errors.country}
                     />
                   )}
+
+                  renderOption={(props, option) => (
+                    <li {...props} style={{ fontFamily: theme.palette.typography.fontFamily }}>
+                      {option.name}
+                    </li>
+                  )}
+                  ListboxProps={{
+                    sx: {
+                      fontFamily: theme.palette.typography.fontFamily,
+                    },
+                  }}
                   value={countries.find((country) => country.name === orderData.country) || null}
                   onChange={(event, newValue) => {
                     handleInputChange({ target: { name: 'country', value: newValue?.name || '' } });
@@ -413,12 +429,28 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                       {...params}
                       label="State"
                       fullWidth
-                      margin="normal"
+                      margin="normal" InputProps={{
+                        ...params.InputProps,
+                        sx: {
+                          fontFamily: theme.palette.typography.fontFamily,
+                        },
+                      }}
                       sx={{ backgroundColor: 'white' }}
                       error={Boolean(errors.state)}
                       helperText={errors.state}
                     />
                   )}
+
+                  renderOption={(props, option) => (
+                    <li {...props} style={{ fontFamily: theme.palette.typography.fontFamily }}>
+                      {option.name}
+                    </li>
+                  )}
+                  ListboxProps={{
+                    sx: {
+                      fontFamily: theme.palette.typography.fontFamily,
+                    },
+                  }}
                   value={states.find((state) => state.name === orderData.state) || null}
                   onChange={(event, newValue) => {
                     handleInputChange({ target: { name: 'state', value: newValue?.name || '' } });

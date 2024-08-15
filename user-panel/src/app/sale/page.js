@@ -406,15 +406,35 @@ const SalePageContent = () => {
                   {...params}
                   label="Select Category"
                   variant="outlined"
-                  sx={{ fontFamily: theme.typography.fontFamily }}
+                  InputProps={{
+                    ...params.InputProps,
+                    sx: {
+                      fontFamily: theme.palette.typography.fontFamily,
+                    },
+                  }}
+                  sx={{ fontFamily: theme.palette.typography.fontFamily }}
                 />
               )}
+
+              renderOption={(props, option) => (
+                <li {...props} style={{ fontFamily: theme.palette.typography.fontFamily }}>
+                  {option.categoryName}
+                </li>
+              )}
+              ListboxProps={{
+                sx: {
+                  fontFamily: theme.palette.typography.fontFamily,
+                },
+              }}
+              sx={{
+                fontFamily: theme.palette.typography.fontFamily,
+              }}
             />
           </FormControl>
         </Grid>
 
         <Grid item xs={6} sm={6} md={6}>
-          <FormControl fullWidth sx={{ fontFamily: theme.typography.fontFamily }}>
+          <FormControl fullWidth sx={{ fontFamily: theme.palette.typography.fontFamily }}>
             <Autocomplete
               options={subcategories || []}
               getOptionLabel={(option) => option.subcategoryName || ''}
@@ -424,10 +444,25 @@ const SalePageContent = () => {
                 <TextField
                   {...params}
                   label="Select Subcategory"
-                  variant="outlined"
-                  sx={{ fontFamily: theme.typography.fontFamily }}
+                  variant="outlined" InputProps={{
+                    ...params.InputProps,
+                    sx: {
+                      fontFamily: theme.palette.typography.fontFamily,
+                    },
+                  }}
+                  sx={{ fontFamily: theme.palette.typography.fontFamily }}
                 />
               )}
+              renderOption={(props, option) => (
+                <li {...props} style={{ fontFamily: theme.palette.typography.fontFamily }}>
+                  {option.subcategoryName}
+                </li>
+              )}
+              ListboxProps={{
+                sx: {
+                  fontFamily: theme.palette.typography.fontFamily,
+                },
+              }}
               disabled={!selectedCategory}
             />
           </FormControl>
