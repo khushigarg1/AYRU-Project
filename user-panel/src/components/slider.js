@@ -86,24 +86,24 @@ const ImageCarousel = () => {
     router.push('/shop');
   };
 
-  useEffect(() => {
-    fetchImages();
-  }, []);
+  // useEffect(() => {
+  //   fetchImages();
+  // }, []);
 
-  const fetchImages = async () => {
-    const type = 'main';
-    try {
-      setLoading(true);
-      const response = await api.get('/customer-side-data/media', {
-        params: { type },
-      });
-      setImages(response.data?.data);
-    } catch (error) {
-      console.error('Error fetching images:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const fetchImages = async () => {
+  //   const type = 'main';
+  //   try {
+  //     setLoading(true);
+  //     const response = await api.get('/customer-side-data/media', {
+  //       params: { type },
+  //     });
+  //     setImages(response.data?.data);
+  //   } catch (error) {
+  //     console.error('Error fetching images:', error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <Box sx={{ position: 'relative', width: '100%', }} mb={0}>
