@@ -49,7 +49,7 @@ const GroupDetails = ({ details }) => {
         <Typography variant="h6" color="primary">
           Selling Price:
         </Typography>
-        <Typography variant="body1">${details.sellingPrice}</Typography>
+        <Typography variant="body1">₹{details.sellingPrice}</Typography>
       </Grid>
 
       {/* Cost Price */}
@@ -57,7 +57,7 @@ const GroupDetails = ({ details }) => {
         <Typography variant="h6" color="primary">
           Cost Price:
         </Typography>
-        <Typography variant="body1">${details.costPrice}</Typography>
+        <Typography variant="body1">₹{details.costPrice}</Typography>
       </Grid>
 
       {/* Discounted Price */}
@@ -65,7 +65,7 @@ const GroupDetails = ({ details }) => {
         <Typography variant="h6" color="primary">
           Discounted Price:
         </Typography>
-        <Typography variant="body1">${details.discountedPrice}</Typography>
+        <Typography variant="body1">₹{details.discountedPrice}</Typography>
       </Grid>
 
       {/* Availability */}

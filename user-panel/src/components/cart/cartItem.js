@@ -141,15 +141,13 @@ export const CartItem = ({ item, fetchCartStatus }) => {
   const handleOpenPopover = (event) => {
     setAnchorEl(event.currentTarget);
 
-    // Clear any existing timeout
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
 
-    // Set a new timeout to close the popover
     const id = setTimeout(() => {
       setAnchorEl(null);
-    }, 3000); // Timeout duration in milliseconds (e.g., 3000ms = 3 seconds)
+    }, 1000);
 
     setTimeoutId(id);
   };
@@ -157,13 +155,11 @@ export const CartItem = ({ item, fetchCartStatus }) => {
   const handleClosePopover = () => {
     setAnchorEl(null);
 
-    // Clear timeout if the popover is manually closed
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
   };
 
-  // Clear timeout when component unmounts
   useEffect(() => {
     return () => {
       if (timeoutId) {

@@ -110,7 +110,7 @@ const ImageCarousel = () => {
       {displayImages.length > 0 && (
         <Carousel
           autoPlay
-          interval={3000}
+          interval={2000}
           animation="slide"
           navButtonsAlwaysVisible
           navButtonsProps={{

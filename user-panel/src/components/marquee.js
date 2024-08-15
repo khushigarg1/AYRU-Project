@@ -65,7 +65,7 @@ const Marquee = ({ text }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       handleNext();
-    }, 7000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, [currentIndex, points.length]);
@@ -75,7 +75,7 @@ const Marquee = ({ text }) => {
     setTimeout(() => {
       setCurrentIndex((prevIndex) => (prevIndex === 0 ? points.length - 1 : prevIndex - 1));
       setFade(false);
-    }, 7000);
+    }, 2000);
   };
 
   const handleNext = () => {

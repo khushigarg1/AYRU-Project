@@ -22,6 +22,7 @@ const ItemDetails = ({ product, queryParams }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [quantityOpen, setQuantityOpen] = useState(false);
   const [quantityMessage, setQuantityMessage] = useState('');
+  const [timeoutId, setTimeoutId] = useState(null);
 
   const hasBedsheets = product?.InventoryFitted.length > 0 || product.customFittedInventory.length > 0;
   const [selections, setSelections] = useState({
@@ -149,6 +150,15 @@ const ItemDetails = ({ product, queryParams }) => {
   const handleOpenPopover = (event) => {
     setAnchorEl(event.currentTarget);
 
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    const id = setTimeout(() => {
+      setAnchorEl(null);
+    }, 1000);
+
+    setTimeoutId(id);
   };
 
   const open = Boolean(anchorEl);
@@ -157,6 +167,10 @@ const ItemDetails = ({ product, queryParams }) => {
   const handleClosePopover = () => {
     setAnchorEl(null);
     setSnackbarMessage('');
+
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
   };
   const handleIncrement = (event) => {
     setAnchorEl(event.currentTarget);
