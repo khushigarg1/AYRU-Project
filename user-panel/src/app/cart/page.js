@@ -138,14 +138,15 @@ const CartPage = () => {
 
     return itemDetails;
   }).join('\n');
-  const userDetails = `\n\nMy Details are here:\n` +
-    `${cartItems[0]?.User?.firstName || cartItems[0]?.User?.lastName ? `Name: ${cartItems[0]?.User.firstName || ''} ${cartItems[0]?.User.lastName || ''}\n` : ''}` +
-    `${cartItems[0]?.User?.address1 || cartItems[0]?.User?.address2 || cartItems[0]?.User?.city || cartItems[0]?.User?.state || cartItems[0]?.User?.pincode ? `Address: ${[cartItems[0]?.User.address1, cartItems[0]?.User.address2, cartItems[0]?.User.city, cartItems[0]?.User.state].filter(Boolean).join(', ')}\n` : '[Postal address, City, State]'}` +
-    `${cartItems[0]?.User?.country ? `Country: ${cartItems[0]?.User.country}\n` : ''}` +
-    `${cartItems[0]?.User?.pincode ? `ZipCode: ${cartItems[0]?.User.pincode}\n` : ''}` +
-    `${cartItems[0]?.User?.phoneNumber ? `Phone Number: ${cartItems[0]?.User.phoneNumber}\n` : '' +
-      `${cartItems[0]?.User?.email ? `Email: ${cartItems[0]?.User.email}\n` : ''}`}`
-    ;
+  const userDetails = `
+My Details are here:
+Name: ${cartItems[0]?.User.firstName || ' '} ${cartItems[0]?.User.lastName || ' '}
+Address: ${[cartItems[0]?.User.address1, cartItems[0]?.User.address2, cartItems[0]?.User.city, cartItems[0]?.User.state].filter(Boolean).join(', ') || '[Postal address, City, State]'}
+Country: ${cartItems[0]?.User.country || ' '}
+Zipcode: ${cartItems[0]?.User.pincode || ' '}
+Mobile number: ${cartItems[0]?.User.phoneNumber || ' '}
+Gmail: ${cartItems[0]?.User.email || ' '}
+`;
 
   const whatsappURL = `https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(
     `Hi, I'd like to place an international order for the following items:\n\n${whatsappMessage}${userDetails}\n\nCould you please provide details on the process, shipping costs, and delivery times?`
