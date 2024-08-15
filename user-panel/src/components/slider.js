@@ -107,7 +107,7 @@ const ImageCarousel = () => {
 
   return (
     <Box sx={{ position: 'relative', width: '100%', }} mb={0}>
-      {images.length > 0 && (
+      {displayImages.length > 0 && (
         <Carousel
           autoPlay
           interval={3000}
