@@ -74,8 +74,8 @@ export const CraftedWithLove = () => {
                   textAlign: "center",
                   justifyContent: "center",
                   alignItems: "center",
-                  height: "100%", // Ensures it takes up the full height of the container
-                  width: "100%"  // Ensures it takes up the full width of the container
+                  height: "100%",
+                  width: "100%"
                 }}
               >
                 No products found in this category
@@ -83,7 +83,7 @@ export const CraftedWithLove = () => {
             }
 
             {categoryInventory?.map((item) => (
-              <Grid item key={item.id} xs={6} sm={6} md={4} lg={3}>
+              <Grid item key={item.id} xs={6} sm={6} md={4} lg={2.5}>
                 <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: "transparent", p: 0, cursor: "pointer" }} onClick={() => router.push(`/shop/${item?.id}`)}>
                   <CardMedia
                     component="img"
@@ -92,12 +92,15 @@ export const CraftedWithLove = () => {
                     alt={item.productName}
 
                     sx={{
-                      objectFit: 'contain',
+                      objectFit: 'fit',
                       height: "250px",
                       maxHeight: "100%",
                     }}
                   />
-                  <CardContent sx={{ display: "flex", justifyContent: "left", alignItems: "left", flexDirection: "column", padding: "5px" }}>
+                  <CardContent sx={{
+                    display: "flex", justifyContent: "left", alignItems: "left", flexDirection: "column", padding: "5px 3px",
+                    paddingBottom: "0px !important",
+                  }}>
                     <Typography gutterBottom variant="body1" component="div" sx={{ lineHeight: 1.2 }}
                     // sx={{
                     //   lineHeight: 1.2,

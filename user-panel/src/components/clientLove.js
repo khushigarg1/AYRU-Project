@@ -101,13 +101,16 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { Box, Card, CardContent, CardMedia, Paper, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Card, CardContent, CardMedia, Modal, Paper, Typography, useMediaQuery, useTheme } from '@mui/material';
 import api from '../../api';
+import ImagePopup from '@/modals/imagepopup';
 
 const ClientLoveSlider = () => {
   const [clientLoves, setClientLoves] = useState([]);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     fetchClientLoves();
@@ -122,82 +125,97 @@ const ClientLoveSlider = () => {
     }
   };
 
+  const handleOpenImageModal = (imageUrl) => {
+    setSelectedImage(imageUrl);
+    setImageModalOpen(true);
+  };
+  const handleCloseImageModal = () => {
+    setImageModalOpen(false);
+  };
   return (
-    <Paper>
-      <Box sx={{ width: "auto", margin: "0 auto", marginTop: "4%", marginBottom: "25px" }}>
-        {/* <Box sx={{ width: isMobile ? "100%" : "80%", margin: "0 auto", marginTop: "4%", marginBottom: "25px" }}> */}
-        <Box style={{ width: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center' }} pt={2}>
-          <Typography variant={isMobile ? 'h4' : 'h3'} sx={{ mb: 4, color: theme.palette.text.text }}>
-            Client Love
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            overflowX: 'auto',
-            paddingBottom: '10px',
-            "&::-webkit-scrollbar": {
-              height: '4px',
-            },
-            "&::-webkit-scrollbar-thumb": {
-              backgroundColor: theme.palette.primary.main,
-              borderRadius: '10px',
-            },
-            "&::-webkit-scrollbar-track": {
-              backgroundColor: theme.palette.background.default,
-              borderRadius: '10px',
-            },
-          }}
-        >
-          {clientLoves.map((item, idx) => (
-            <Card
-              key={idx}
-              sx={{
-                minWidth: isMobile ? "70%" : "calc(100% / 4.5)",
-                boxShadow: "none",
-                flex: "0 0 auto",
-                margin: "0 10px",
-                borderRadius: "15px",
-              }}
-            >
-              <Box sx={{ position: 'relative', flexGrow: 1 }}>
-                <CardMedia
-                  component="img"
-                  image={`https://ayrujaipur.s3.amazonaws.com/${item.imageUrl}`}
-                  alt={`Slide ${idx}`}
-                  sx={{
-                    objectFit: 'contain',
-                    width: '250px',
-                    // width: '100%',
-                    height: '300px',
-                    borderRadius: "15px",
-                  }}
-                />
-              </Box>
-              <CardContent
+    <>
+      <Paper>
+        <Box sx={{ width: "auto", margin: "0 auto", marginTop: "4%", marginBottom: "25px" }}>
+          {/* <Box sx={{ width: isMobile ? "100%" : "80%", margin: "0 auto", marginTop: "4%", marginBottom: "25px" }}> */}
+          <Box style={{ width: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center' }} pt={2}>
+            <Typography variant={isMobile ? 'h4' : 'h3'} sx={{ mb: 4, color: theme.palette.text.text }}>
+              Client Love
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              overflowX: 'auto',
+              paddingBottom: '10px',
+              "&::-webkit-scrollbar": {
+                height: '4px',
+              },
+              "&::-webkit-scrollbar-thumb": {
+                backgroundColor: theme.palette.primary.main,
+                borderRadius: '10px',
+              },
+              "&::-webkit-scrollbar-track": {
+                backgroundColor: theme.palette.background.default,
+                borderRadius: '10px',
+              },
+            }}
+          >
+            {clientLoves.map((item, idx) => (
+              <Card
+                key={idx}
                 sx={{
-                  backgroundColor: theme.palette.background.paper,
-                  textAlign: 'center',
-                  padding: "10px",
-                  width: "260px"
+                  minWidth: isMobile ? "70%" : "calc(100% / 5.5)",
+                  boxShadow: "none",
+                  flex: "0 0 auto",
+                  margin: "0 10px",
+                  // borderRadius: "15px",
                 }}
               >
-                <Typography
-                  variant="body1"
-                  component="div"
+                <Box sx={{ position: 'relative', flexGrow: 1 }}>
+                  <CardMedia
+                    component="img"
+                    image={`https://ayrujaipur.s3.amazonaws.com/${item.imageUrl}`}
+                    onClick={() => handleOpenImageModal(`https://ayrujaipur.s3.amazonaws.com/${item?.imageUrl}`)}
+                    alt={`Slide ${idx}`}
+                    sx={{
+                      objectFit: 'fit',
+                      width: '260px',
+                      // width: '100%',
+                      height: '350px',
+                      cursor: "pointer"
+                      // borderRadius: "15px",
+                    }}
+                  />
+                </Box>
+                <CardContent
                   sx={{
-                    wordBreak: 'break-word',   // Allows the text to break and wrap onto the next line
-                    whiteSpace: 'normal',      // Ensures that the text wraps naturally
+                    backgroundColor: theme.palette.background.paper,
+                    textAlign: 'center',
+                    padding: "10px",
+                    width: "260px"
                   }}
                 >
-                  {item?.text}
-                </Typography>
-              </CardContent>
-            </Card>
-          ))}
+                  <Typography
+                    variant="body1"
+                    component="div"
+                    sx={{
+                      wordBreak: 'break-word',   // Allows the text to break and wrap onto the next line
+                      whiteSpace: 'normal',      // Ensures that the text wraps naturally
+                    }}
+                  >
+                    {item?.text}
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))}
+          </Box>
         </Box>
-      </Box>
-    </Paper>
+      </Paper>
+
+      <Modal open={imageModalOpen} onClose={handleCloseImageModal}>
+        <ImagePopup imageUrl={selectedImage} onClose={handleCloseImageModal} />
+      </Modal>
+    </>
   );
 };
 
