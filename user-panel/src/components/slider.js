@@ -107,58 +107,53 @@ const ImageCarousel = () => {
 
   return (
     <Box sx={{ position: 'relative', width: '100%', }} mb={0}>
-      {displayImages.length > 0 && (
-        <Carousel
-          autoPlay
-          interval={2000}
-          animation="slide"
-          navButtonsAlwaysVisible
-          navButtonsProps={{
-            style: {
-              backgroundColor: 'transaprent',
-              borderRadius: "50%",
-              color: '#F5F5F5',
-              opacity: "0.2",
-            },
-          }}
-          NextIcon={<ArrowForwardIos style={{ fontSize: '1.5rem' }} />}
-          PrevIcon={<ArrowBackIos style={{ fontSize: '1.5rem' }} />}
-          indicators
-          indicatorContainerProps={{
-            style: {
-              position: 'absolute',
-              bottom: '10px',
-              zIndex: 1000,
-            },
-          }}
-        >
-          {displayImages.map((image, index) => (
-            // <Box key={index} sx={{ position: 'relative', height: '100%' }}>
-            <>
-              <Image
-                src={image}
-                alt={`Slide ${index}`}
-                // fill
-                style={{
-                  width: '100%',
-                  // objectFit: 'fit',
-                  objectFit: isMobile ? "cover" : "fit",
-                  // objectFit: !isLaptop ? "cover" : "fit",
-                  transition: 'transform 0.5s ease-in-out',
-                  maxHeight: isMobile ? "475px" : "700px"
-                }}
-              />
-              <OverlayText style={{ top: isMobile ? '70%' : '60%' }}>
-                <StyledButton style={{ fontSize: isMobile ? '0.7rem' : '1rem' }} onClick={handleShop}>
-                  Shop Now
-                </StyledButton>
-              </OverlayText>
-            </>
-            // </Box >
-          ))}
-        </Carousel>
-      )
-      }
+      {/* {displayImages.length > 0 && ( */}
+      <Carousel
+        autoPlay
+        interval={2000}
+        animation="slide"
+        navButtonsAlwaysVisible={false}
+        navButtonsProps={{
+          style: {
+            display: 'none',
+          },
+        }}
+        indicators
+        indicatorContainerProps={{
+          style: {
+            position: 'absolute',
+            bottom: '10px',
+            zIndex: 1000,
+          },
+        }}
+      >
+        {displayImages.map((image, index) => (
+          // <Box key={index} sx={{ position: 'relative', height: '100%' }}>
+          <>
+            <Image
+              src={image}
+              alt={`Slide ${index}`}
+              // fill
+              style={{
+                width: '100%',
+                // objectFit: 'fit',
+                objectFit: isMobile ? "cover" : "fit",
+                // objectFit: !isLaptop ? "cover" : "fit",
+                transition: 'transform 0.5s ease-in-out',
+                maxHeight: isMobile ? "475px" : "700px"
+              }}
+            />
+            <OverlayText style={{ top: isMobile ? '70%' : '60%' }}>
+              <StyledButton style={{ fontSize: isMobile ? '0.7rem' : '1rem' }} onClick={handleShop}>
+                Shop Now
+              </StyledButton>
+            </OverlayText>
+          </>
+          // </Box >
+        ))}
+      </Carousel>
+      {/* ) */}
+      {/* } */}
     </Box >
   );
 };
