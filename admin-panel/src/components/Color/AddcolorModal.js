@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import api from "@/api";
+import api from "../../../api";
 import Cookies from "js-cookie";
 
 export default function AddColorModal({ setAddColorOpen, refresh }) {

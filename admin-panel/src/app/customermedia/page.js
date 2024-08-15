@@ -257,8 +257,8 @@ import {
   AccordionDetails,
 } from '@mui/material';
 import { CloudUpload, ExpandMore, AddPhotoAlternate as AddPhotoAlternateIcon } from '@mui/icons-material';
-import api from '@/api';
-import ImagePopup from '@/src/modals/imagepopup';
+import api from '../../../api';
+import ImagePopup from '../../modals/imagepopup';
 // import ImagePopup from '@/src/modals/imagepopup';
 
 const CustomerMediaPage = () => {

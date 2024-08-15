@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Accordion, AccordionSummary, AccordionDetails, Typography, TextField, Button, IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useRouter } from 'next/navigation';
-import api from '@/api';
+import api from "../../../api"
 import ImageUploader from './imageuploader';
 
 const InventoryDetailsPage = () => {

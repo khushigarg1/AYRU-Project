@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import { Typography, TextField, Button, Grid, Select, MenuItem, Checkbox } from '@mui/material';
-import api from '@/api';
+import api from '../../../api';
 
 const ProductDetailsForm = ({ inventory, onSave, onCancel }) => {
   const [editedInventory, setEditedInventory] = useState({

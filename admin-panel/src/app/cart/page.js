@@ -15,9 +15,9 @@ import { ThemeProvider } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Cookies from "js-cookie";
-import api from "@/api";
+import api from "../../../api";
 import { useMediaQuery } from "@mui/material";
-import ErrorSnackbar from "@/src/components/errorcomp";
+import ErrorSnackbar from "../../components/errorcomp";
 import Link from "next/link";
 
 export default function Cart() {

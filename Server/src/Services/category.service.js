@@ -126,6 +126,9 @@ class CategoryService {
                         where: { visible: true },
                     },
                     Inventory: {
+                        where: {
+                            productstatus: "PUBLISHED",
+                        },
                         include: {
                             InventoryFlat: { include: { Flat: true } },
                             customFittedInventory: {

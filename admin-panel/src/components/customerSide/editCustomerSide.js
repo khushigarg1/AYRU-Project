@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import Cookies from "js-cookie";
-import api from "@/api";
+import api from "../../../api";
 
 export default function EditCustomerSideDataModal({ data, setEditModalOpen, refresh }) {
   const [marqueeText, setMarqueeText] = useState("");

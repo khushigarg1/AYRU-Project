@@ -1,5 +1,5 @@
 // src/utils/getImage.js
-import api from "@/api";
+import api from "../../../api";
 
 export const getImage = async (key) => {
   try {

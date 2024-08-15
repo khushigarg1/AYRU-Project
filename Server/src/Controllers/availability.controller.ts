@@ -147,11 +147,11 @@ export async function getAllAvailability(
       },
     });
 
-    if (!availabilityRequests || availabilityRequests.length === 0) {
-      return reply
-        .status(404)
-        .send({ error: "No availability requests found" });
-    }
+    // if (!availabilityRequests || availabilityRequests.length === 0) {
+    //   return reply
+    //     .status(404)
+    //     .send({ error: "No availability requests found" });
+    // }
 
     return reply.status(200).send({ data: availabilityRequests });
   } catch (error) {

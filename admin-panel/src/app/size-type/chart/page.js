@@ -20,9 +20,9 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import { GridDeleteIcon } from "@mui/x-data-grid";
 import Cookies from "js-cookie";
-import api from "@/api"; // Import your API functions
-import CreateSizeChartModal from "@/src/components/sizetype/SizeChart/AddSizeChartModal";
-import EditSizeChartModal from "@/src/components/sizetype/SizeChart/EditSizeChartModal";
+import api from "../../../../api";
+import CreateSizeChartModal from "../../../components/sizetype/SizeChart/AddSizeChartModal";
+import EditSizeChartModal from "../../../components/sizetype/SizeChart/EditSizeChartModal";
 
 export default function HomePage() {
   const [error, setError] = useState({ open: false, severity: "error", message: "" });

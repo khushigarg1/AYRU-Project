@@ -21,9 +21,9 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import { DataGrid, GridDeleteIcon } from "@mui/x-data-grid";
 import Cookies from "js-cookie";
-import api from "@/api";
-import CreateFittedModal from "@/src/components/sizetype/Fitted/AddFittedModal";
-import EditFittedModal from "@/src/components/sizetype/Fitted/EditFittedModal";
+import api from "../../../../api";
+import CreateFittedModal from "../../../components/sizetype/Fitted/AddFittedModal";
+import EditFittedModal from "../../../components/sizetype/Fitted/EditFittedModal";
 import { useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import EditIcon from "@mui/icons-material/Edit";

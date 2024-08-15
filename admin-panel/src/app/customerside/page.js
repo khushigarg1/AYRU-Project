@@ -12,10 +12,10 @@ import { DataGrid, GridDeleteIcon, GridToolbar } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import Cookies from "js-cookie";
-import api from "@/api";
-import AddCustomerSideDataModal from "@/src/components/customerSide/addCustomerSide";
-import EditCustomerSideDataModal from "@/src/components/customerSide/editCustomerSide";
-import ErrorSnackbar from "@/src/components/errorcomp";
+import api from "../../../api";
+import AddCustomerSideDataModal from "../../components/customerSide/addCustomerSide";
+import EditCustomerSideDataModal from "../../components/customerSide/editCustomerSide";
+import ErrorSnackbar from "../../components/errorcomp";
 import { ThemeProvider } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
 

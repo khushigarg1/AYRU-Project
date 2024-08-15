@@ -230,7 +230,7 @@ const WishlistPage = () => {
                           </Typography> */}
                         </Box>
                       ) : (
-                        <Typography variant="body2" sx={{ fontSize: "13px", fontWeight: "bold" }}>
+                        <Typography variant="body1" sx={{ fontSize: "13px", fontWeight: "bold" }}>
                           Rs.{item?.Inventory?.sellingPrice}
                         </Typography>
                       )}

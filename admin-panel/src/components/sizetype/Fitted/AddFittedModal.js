@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Box, Button, Paper, TextField, Typography, IconButton, Modal } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import api from "@/api";
+import api from "../../../../api";
 import Cookies from "js-cookie";
 import ErrorSnackbar from "../../errorcomp";
 import { GridCloseIcon } from "@mui/x-data-grid";

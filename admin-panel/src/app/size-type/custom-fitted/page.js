@@ -7,9 +7,9 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Cookies from "js-cookie";
-import api from "@/api";
-import CreateCustomFittedModal from "@/src/components/sizetype/CustomFitted/AddCustomFittedModal";
-import EditCustomFittedModal from "@/src/components/sizetype/CustomFitted/EditCustomFittedModal";
+import api from "../../../../api";
+import CreateCustomFittedModal from "../../../components/sizetype/CustomFitted/AddCustomFittedModal";
+import EditCustomFittedModal from "../../../components/sizetype/CustomFitted/EditCustomFittedModal";
 import { useMediaQuery } from "@mui/material";
 import { DataGrid, GridDeleteIcon, GridToolbar } from "@mui/x-data-grid";
 

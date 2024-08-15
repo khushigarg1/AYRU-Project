@@ -3,16 +3,16 @@ import React, { useState, useEffect } from 'react';
 import { Box, Accordion, AccordionSummary, AccordionDetails, Typography, Button, IconButton, Modal, Grid, FormControlLabel, Switch, Select, MenuItem, Paper } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useRouter } from 'next/navigation';
-import api from '@/api';
-import ImageUploader from '@/src/components/Inventory/imageuploader';
-import ImagePopup from '@/src/modals/imagepopup';
-import VideoPopup from '@/src/modals/videpopup';
-import ProductDetailsForm from '@/src/components/Inventory/ProductDetailsform';
-import PricingDetailsForm from '@/src/components/Inventory/PricingDetails';
-import ProductInformation from '@/src/components/Inventory/ProductInformation';
-import AdditionalInfo from '@/src/components/Inventory/AdditionalInfo';
-import SizeChartComponent from '@/src/components/Inventory/sizeType';
-import GroupDetails from '@/src/components/Inventory/Details';
+import api from '../../../../api';
+import ImageUploader from '../../../components/Inventory/imageuploader';
+import ImagePopup from '../../../modals/imagepopup';
+import VideoPopup from "../../../modals/videpopup"
+import ProductDetailsForm from '../../../components/Inventory/ProductDetailsform';
+import PricingDetailsForm from '../../../components/Inventory/PricingDetails';
+import ProductInformation from '../../../components/Inventory/ProductInformation';
+import AdditionalInfo from '../../../components/Inventory/AdditionalInfo';
+import SizeChartComponent from '../../../components/Inventory/sizeType';
+import GroupDetails from '../../../components/Inventory/Details';
 import { CloudUpload, DeleteForever, Padding } from '@mui/icons-material';
 import { GridDeleteIcon } from '@mui/x-data-grid';
 

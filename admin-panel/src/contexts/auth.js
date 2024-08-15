@@ -3,9 +3,19 @@ import React, { createContext, useState, useContext, useEffect } from 'react'
 import Cookies from 'js-cookie'
 import Router, { useRouter } from 'next/router'
 
-import api from '@/api';
+import api from '../../api';
 import LoginForm from '../components/LoginForm';
+import { decodeJWT } from 'aws-amplify/auth';
 
+// Define parseJwt function
+const parseJwt = (admintoken) => {
+  try {
+    return decodeJWT(admintoken);
+  } catch (error) {
+    console.error('Failed to parse JWT:', error);
+    return null;
+  }
+}
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
@@ -18,8 +28,12 @@ export const AuthProvider = ({ children }) => {
       const admintoken = Cookies.get('admintoken')
       if (admintoken) {
         try {
+          const tokenPayload = parseJwt(admintoken);
+          const userId = tokenPayload?.payload?.id;
+
           api.defaults.headers.Authorization = `Bearer ${admintoken}`
-          const { data: user } = await api.get('auth/admin/1')
+          const response = await api.get(`auth/admin/${userId}`);
+          const user = response?.data?.data
           setUser(user)
         }
         catch (err) {

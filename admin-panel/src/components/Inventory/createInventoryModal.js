@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Button, Modal, TextField, Typography, MenuItem, Paper, FormControl, InputLabel, Select } from '@mui/material';
-import api from '@/api';
+import api from '../../../api';
 import Cookies from 'js-cookie';
 
 const initialFormData = {

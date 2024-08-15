@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
-import api from "@/api";
+import api from "../../../../api";
 import Cookies from "js-cookie";
 import ErrorSnackbar from "../../errorcomp";
 

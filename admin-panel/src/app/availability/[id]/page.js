@@ -14,7 +14,7 @@ import {
   useTheme,
   useMediaQuery
 } from '@mui/material';
-import api from '@/api';
+import api from '../../../../api';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Box, Button, Paper, TextField, Typography, Switch, FormControlLabel } from "@mui/material";
 import { useState, useEffect } from "react";
-import api from "@/api";
+import api from "../../../api";
 import Cookies from "js-cookie";
 
 export default function EditCategoryModal({ category, setEditCategoryOpen, refresh }) {

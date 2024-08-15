@@ -580,9 +580,9 @@ function razorPayWebhookService(data) {
           <h1>Payment Received for Order</h1>
           <p>Dear Admin,</p>
           <p>We have received a payment for the order with ID: ${orderId}.</p>
+          <a>https://admin.ayrujaipur.in/order/${orderId}</a>
           <p>Order Status: Successfully Paid</p>
           <p>Thank you for your attention.</p>
-          <p>Best regards,<br/>Your Team</p>
         </div>
       `;
                 yield (0, mail_1.sendEmail)(to, subject, body);
@@ -596,6 +596,19 @@ function razorPayWebhookService(data) {
                         paymentStatus: "failed",
                     },
                 });
+                const to = "ayrujaipur@gmail.com";
+                const subject = "Payment Link Expired for Order";
+                const body = `
+        <div class="container">
+          <h1>Payment Link Expired for Order</h1>
+          <p>Dear Admin,</p>
+          <p>The payment link for the order with ID: ${orderId} has expired.</p>
+          <p>Order Status: Failed</p>
+          <p>Please review the order status and take necessary actions.</p>
+          <p>Best regards,<br/>Your Team</p>
+        </div>
+      `;
+                yield (0, mail_1.sendEmail)(to, subject, body);
             }
         }
         catch (error) {

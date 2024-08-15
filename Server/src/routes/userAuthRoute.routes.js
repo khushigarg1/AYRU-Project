@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const userAuth_controller_1 = require("../Controllers/userAuth.controller");
 function AuthRoutes(server) {
     return __awaiter(this, void 0, void 0, function* () {
-        server.get("/", (request, reply) => (0, userAuth_controller_1.getAllUsers)(server, request, reply));
+        server.get("/", { onRequest: [server === null || server === void 0 ? void 0 : server.authenticateAdmin] }, (request, reply) => (0, userAuth_controller_1.getAllUsers)(server, request, reply));
         server.get("/:id", { onRequest: [server === null || server === void 0 ? void 0 : server.authenticateUser] }, (request, reply) => (0, userAuth_controller_1.getUser)(server, request, reply));
         server.post("/send-email-otp", (request, reply) => (0, userAuth_controller_1.sendEmailOTP)(server, request, reply));
         server.post("/verify-email-otp", (request, reply) => (0, userAuth_controller_1.verifyEmailOTP)(server, request, reply));

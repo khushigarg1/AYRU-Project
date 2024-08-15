@@ -30,7 +30,7 @@ import { useAuth } from "../contexts/auth";
 import { Avatar, Button, Collapse } from "@mui/material";
 import LoginForm from "./LoginForm";
 import Link from "next/link";
-import { ArrowOutwardRounded, ColorLens, EventAvailableOutlined, ExpandLess, ExpandMore, HeatPumpRounded, InventoryOutlined, KingBed, MoneyOffCsredSharp, NightShelter, PermMediaOutlined, PersonPinCircleOutlined, PhotoSizeSelectActualOutlined, ShoppingCart } from "@mui/icons-material";
+import { ArrowOutwardRounded, ColorLens, EventAvailableOutlined, ExpandLess, ExpandMore, HeatPumpRounded, InventoryOutlined, KingBed, MoneyOffCsredSharp, NightShelter, PermMediaOutlined, Person2Rounded, PersonPinCircle, PersonPinCircleOutlined, PhotoSizeSelectActualOutlined, ShoppingCart } from "@mui/icons-material";
 import BedIcon from '@mui/icons-material/Bed';
 import BedRoundedIcon from '@mui/icons-material/BedRounded';
 import AspectRatioIcon from '@mui/icons-material/AspectRatio';
@@ -680,6 +680,36 @@ export default function PageNav({ children }) {
                 </Link>
               </ListItem>
 
+              <ListItem
+                key={"Users"}
+                onClick={() => setOpenTab("Users".toLowerCase())}
+                disablePadding
+                sx={{ display: "block" }}
+              >
+                <Link onClick={handleDrawerClose} href="/users">
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <PersonPinCircle />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={"Users"}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </Link>
+              </ListItem>
               {/* {["DashBoard", "Starred", "Send email", "Drafts"].map(
                 (text, index) => (
                   <ListItem
@@ -721,6 +751,36 @@ export default function PageNav({ children }) {
             </List>
             <Divider />
 
+            <Link onClick={handleDrawerClose} href="/admin">
+              <ListItem
+                key={"Admins"}
+                onClick={() => setOpenTab("Options".toLowerCase())}
+                disablePadding
+                sx={{ display: "block" }}
+              >
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Person2Rounded />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={"Admins"}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            </Link>
             <Link onClick={handleDrawerClose} href="/admin-details">
               <ListItem
                 key={"Settings"}

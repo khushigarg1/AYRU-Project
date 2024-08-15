@@ -12,7 +12,7 @@ import {
   Autocomplete,
 } from '@mui/material';
 import axios from 'axios';
-import api from '@/api';
+import api from '../../../api';
 
 const TrekkingDetails = ({ order, getOrder }) => {
   const [editMode, setEditMode] = React.useState(false);

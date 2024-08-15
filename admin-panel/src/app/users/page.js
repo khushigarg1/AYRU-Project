@@ -18,47 +18,39 @@ import Cookies from "js-cookie";
 import api from "../../../api";
 import { useMediaQuery } from "@mui/material";
 import ErrorSnackbar from "../../components/errorcomp";
-import Link from "next/link";
 
-export default function wishlist() {
+export default function UserList() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [error, setError] = useState({ open: false, severity: "error", message: "" });
   const [loading, setLoading] = useState(true);
-  const [wishlists, setwishlists] = useState([]);
+  const [users, setUsers] = useState([]);
   const [refresh, setRefresh] = useState(false);
-  const [selectedwishlist, setSelectedwishlist] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
+
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
-    { field: "userId", headerName: "User ID", width: 90 },
-    { field: "userName", headerName: "User Name", width: 150 },
-    { field: "inventoryId", headerName: "Inventory ID", width: 110 },
     {
-      field: "skuId", headerName: "SKU", width: 150,
-      valueGetter: (params) => params.row.Inventory?.skuId || "-",
+      field: "id", headerName: "id"
+      , width: 100,
     },
-    { field: "productName", headerName: "Product Name", width: 350 },
     {
-      field: "categoryName", headerName: "Category Name", width: 250,
-      valueGetter: (params) => params.row.Inventory?.Category?.categoryName || "-",
+      field: "username", headerName: "Username"
+      , width: 250,
     },
-    { field: "sellingPrice", headerName: "Selling Price", width: 120 },
-    { field: "discountedPrice", headerName: "Discounted Price", width: 150 }, {
+    {
+      field: "email", headerName: "Email", width: 250,
+    },
+    {
       field: "createdAt",
       headerName: "Created At",
-      width: 200,
-      valueGetter: (params) => formatDate(params.row.createdAt)
-    },
-    {
-      field: "updatedAt",
-      headerName: "Updated At",
-      width: 200,
-      valueGetter: (params) => formatDate(params.row.updatedAt)
+      width: 300,
+
+      valueGetter: (params) => formatDate(params.row.createdAt),
     },
     {
       field: "actions",
@@ -74,26 +66,23 @@ export default function wishlist() {
 
   useEffect(() => {
     setLoading(true);
-    getwishlists();
+    getUsers();
   }, [refresh]);
 
-  async function getwishlists() {
+  async function getUsers() {
     const admintoken = Cookies.get("admintoken");
     api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
-      const response = await api.get("/wishlist");
-      const wishlistData = response.data?.data?.wishlists?.map(wishlist => ({
-        ...wishlist,
-        userName: wishlist?.User?.firstName ? `${wishlist.User.firstName} ${wishlist.User.lastName}` : wishlist?.User?.username,
-        productName: wishlist?.Inventory?.productName,
-        sellingPrice: wishlist?.Inventory?.sellingPrice,
-        discountedPrice: wishlist?.Inventory?.discountedPrice,
+      const response = await api.get("/auth");
+      const userData = response.data?.data?.map(user => ({
+        ...user,
+        username: user.username || `${user.firstName || ""} ${user.lastName || ""}`.trim() || "-",
       }));
-      setwishlists(wishlistData);
+      setUsers(userData);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching wishlists:", error);
-      setError({ open: true, severity: "error", message: "Failed to fetch wishlist data." });
+      console.error("Error fetching users:", error);
+      setError({ open: true, severity: "error", message: "Failed to fetch user data." });
     } finally {
       setLoading(false);
     }
@@ -107,19 +96,19 @@ export default function wishlist() {
     setError({ open: false });
   };
 
-  const handleViewMore = (wishlist) => {
-    setSelectedwishlist(wishlist);
+  const handleViewMore = (user) => {
+    setSelectedUser(user);
   };
 
   const handleCloseModal = () => {
-    setSelectedwishlist(null);
+    setSelectedUser(null);
   };
 
   return (
     <>
       <Container disableGutters maxWidth="fixed">
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-          <Typography variant="h5">wishlists ({wishlists?.length})</Typography>
+          <Typography variant="h5">Users ({users?.length})</Typography>
           <Button variant="outlined" onClick={toggleRefresh}>
             Refresh
           </Button>
@@ -127,7 +116,7 @@ export default function wishlist() {
         <Box sx={{ height: "80vh" }}>
           <ThemeProvider theme={theme}>
             <DataGrid
-              rows={wishlists}
+              rows={users}
               columns={columns}
               autoPageSize
               loading={loading}
@@ -142,38 +131,20 @@ export default function wishlist() {
           </ThemeProvider>
         </Box>
       </Container>
-      <Modal open={!!selectedwishlist} onClose={handleCloseModal}
+      <Modal open={!!selectedUser} onClose={handleCloseModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
         <Paper sx={{ padding: 3, width: 400, margin: "auto", mt: 4, maxHeight: "80vh", position: "relative", overflow: "auto" }}>
-          <Typography variant="h6">wishlist Details</Typography>
-          {selectedwishlist && (
+          <Typography variant="h6">User Details</Typography>
+          {selectedUser && (
             <List>
-              {Object.entries(selectedwishlist).map(([key, value]) => (
+              {Object.entries(selectedUser).map(([key, value]) => (
                 <ListItem key={key}>
                   <ListItemText
                     primary={<Typography variant="body1"><strong>{key}:</strong> {value ? value.toString() : "-"}</Typography>}
                   />
                 </ListItem>
               ))}
-
-              {selectedwishlist.Inventory && (
-                <ListItem>
-                  <ListItemText
-                    primary={
-                      <Typography variant="body1">
-                        <strong>Inventory Page:</strong>{" "}
-                        <Link href={`/inventory/${selectedwishlist.Inventory.id}`} passHref>
-                          <Typography component="a" sx={{ color: theme.palette.primary.main, textDecoration: "underline" }}>
-                            View Inventory
-                          </Typography>
-                        </Link>
-
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-              )}
             </List>
           )}
           <Button variant="contained" onClick={handleCloseModal}>

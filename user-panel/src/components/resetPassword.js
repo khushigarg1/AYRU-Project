@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Box, Button, Modal, TextField, Typography, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import api from "@/api";
+import api from "../../api";
 import Cookies from "js-cookie";
-import ErrorSnackbar from "@/src/components/errorcomp";
+// import CustomSnackbar from "./snackbar";
 
 export default function ChangePasswordModal({ open, handleClose }) {
   const [passwordData, setPasswordData] = useState({
@@ -153,7 +153,7 @@ export default function ChangePasswordModal({ open, handleClose }) {
           Back
         </Button>
         {/* </Box> */}
-        <ErrorSnackbar open={error?.open} message={error?.message} handleClose={handleCloseSnackbar} />
+        {/* <CustomSnackbar open={error?.open} message={error?.message} handleClose={handleCloseSnackbar} /> */}
       </Box>
     </Modal>
   );

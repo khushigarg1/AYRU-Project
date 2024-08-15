@@ -28,9 +28,9 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import axios from 'axios';
-import api from '@/api';
+import api from '../../../../api';
 import Cookies from 'js-cookie';
-import TrekkingDetails from '@/src/components/order/trekkingDetail';
+import TrekkingDetails from "../../../components/order/trekkingDetail"
 import { useRouter } from 'next/navigation';
 import { useReactToPrint } from 'react-to-print';
 import { AddPhotoAlternate } from '@mui/icons-material';

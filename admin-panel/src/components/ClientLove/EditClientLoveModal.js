@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Box, Button, Modal, TextField, Typography, IconButton } from "@mui/material";
 import { CloudUpload, Delete } from "@mui/icons-material";
-import api from "@/api";
+import api from "../../../api";
 import Cookies from "js-cookie";
-import ErrorSnackbar from "@/src/components/errorcomp";
+import ErrorSnackbar from "../errorcomp";
 
 export default function EditClientLoveModal({ open, entry, handleClose, refresh }) {
   const [formDataVal, setFormData] = useState({

@@ -269,6 +269,7 @@ const filterInventory = (request, reply) => __awaiter(void 0, void 0, void 0, fu
     const { categoryId, subCategoryId, fabric, style, minPrice, maxPrice, sortBy, sortOrder, flatSize, fittedSize, customFittedId, sale, availability, extraOptionOutOfStock, } = request.query;
     try {
         const baseFilterOptions = {};
+        baseFilterOptions.productstatus = "PUBLISHED";
         if (categoryId) {
             baseFilterOptions.categoryId = Number(categoryId);
         }
@@ -431,9 +432,11 @@ const searchInventory = (request, reply) => __awaiter(void 0, void 0, void 0, fu
                 },
             ],
         };
+        whereClause.AND = whereClause.AND || [];
+        whereClause.AND.push({ productstatus: "PUBLISHED" });
         // Add categoryId filter
         if (categoryId) {
-            whereClause.AND = whereClause.AND || [];
+            // whereClause.AND = whereClause.AND || [];
             whereClause.AND.push({ categoryId: parseInt(categoryId) });
         }
         // Handle subCategoryId as an array
@@ -481,6 +484,7 @@ const filterSaleItem = (request, reply) => __awaiter(void 0, void 0, void 0, fun
         const inventories = yield prisma.inventory.findMany({
             where: {
                 sale: true,
+                productstatus: "PUBLISHED",
             },
             include: {
                 Category: true,

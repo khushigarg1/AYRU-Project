@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Button, Grid, Checkbox, Select, MenuItem, InputLabel, FormControl, ListItemText, TextField, useTheme, useMediaQuery } from '@mui/material';
 import { DeleteForever } from '@mui/icons-material';
-import api from '@/api';
+import api from '../../../api';
 
 const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => {
   const [data, setData] = useState({

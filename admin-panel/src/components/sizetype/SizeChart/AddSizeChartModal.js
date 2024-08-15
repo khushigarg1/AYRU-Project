@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import api from "@/api";
+import api from "../../../../api"
 import Cookies from "js-cookie";
 import ErrorSnackbar from "../../errorcomp";
 import { GridCloseIcon } from "@mui/x-data-grid";

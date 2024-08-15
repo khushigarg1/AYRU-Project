@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Box, Button, Modal, TextField, Typography, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import api from "@/api";
+import api from "../../api";
 import Cookies from "js-cookie";
-import ErrorSnackbar from "@/src/components/errorcomp";
+import ErrorSnackbar from "./errorcomp";
 
 export default function ChangePasswordModal({ open, handleClose }) {
   const [passwordData, setPasswordData] = useState({

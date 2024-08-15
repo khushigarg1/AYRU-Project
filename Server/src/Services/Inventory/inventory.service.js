@@ -210,6 +210,9 @@ class InventoryService {
     getInventories() {
         return __awaiter(this, void 0, void 0, function* () {
             const inventorydata = yield prisma.inventory.findMany({
+                where: {
+                    productstatus: "PUBLISHED",
+                },
                 include: {
                     customFittedInventory: {
                         include: { InventoryFlat: { include: { Flat: true } } },
@@ -539,24 +542,49 @@ class InventoryService {
                     (((_a = customFittedIds[0]) === null || _a === void 0 ? void 0 : _a.sellingPrice) ||
                         ((_b = customFittedIds[0]) === null || _b === void 0 ? void 0 : _b.costPrice) ||
                         ((_c = customFittedIds[0]) === null || _c === void 0 ? void 0 : _c.discountedPrice))) {
+                    // const customFittedInventoryData = inventoryFlats.map(
+                    //   (inventoryFlat) => ({
+                    //     sellingPrice:
+                    //       (inventoryFlat?.sellingPrice ?? 0) +
+                    //       (customFittedIds[0]?.sellingPrice ?? 0),
+                    //     costPrice:
+                    //       (inventoryFlat?.costPrice ?? 0) +
+                    //       (customFittedIds[0]?.costPrice ?? 0),
+                    //     discountedPrice:
+                    //       inventoryFlat?.discountedPrice &&
+                    //       inventoryFlat.discountedPrice !== 0
+                    //         ? inventoryFlat.discountedPrice +
+                    //           (customFittedIds[0]?.sellingPrice ?? 0)
+                    //         : inventoryFlat.discountedPrice ?? 0,
+                    //     inventoryId: updatedInventory?.id,
+                    //     inventoryFlatId: inventoryFlat?.id,
+                    //   })
+                    // );
                     const customFittedInventoryData = inventoryFlats.map((inventoryFlat) => {
-                        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
-                        return ({
-                            sellingPrice: ((_a = inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.sellingPrice) !== null && _a !== void 0 ? _a : 0) +
-                                ((_c = (_b = customFittedIds[0]) === null || _b === void 0 ? void 0 : _b.sellingPrice) !== null && _c !== void 0 ? _c : 0),
-                            costPrice: ((_d = inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.costPrice) !== null && _d !== void 0 ? _d : 0) +
-                                ((_f = (_e = customFittedIds[0]) === null || _e === void 0 ? void 0 : _e.costPrice) !== null && _f !== void 0 ? _f : 0),
-                            // discountedPrice:
-                            //   (inventoryFlat?.discountedPrice ?? 0) +
-                            //   (customFittedIds[0]?.discountedPrice ?? 0),
-                            discountedPrice: (inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.discountedPrice) &&
-                                inventoryFlat.discountedPrice !== 0
-                                ? inventoryFlat.discountedPrice +
-                                    ((_h = (_g = customFittedIds[0]) === null || _g === void 0 ? void 0 : _g.sellingPrice) !== null && _h !== void 0 ? _h : 0)
-                                : (_j = inventoryFlat.discountedPrice) !== null && _j !== void 0 ? _j : 0,
+                        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u;
+                        const newSellingPrice = ((_a = inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.sellingPrice) !== null && _a !== void 0 ? _a : 0) <
+                            ((_b = customFittedIds[0]) === null || _b === void 0 ? void 0 : _b.sellingPrice)
+                            ? (_c = customFittedIds[0]) === null || _c === void 0 ? void 0 : _c.sellingPrice
+                            : ((_d = inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.sellingPrice) !== null && _d !== void 0 ? _d : 0) +
+                                ((_f = (_e = customFittedIds[0]) === null || _e === void 0 ? void 0 : _e.sellingPrice) !== null && _f !== void 0 ? _f : 0);
+                        const newCostPrice = ((_g = inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.costPrice) !== null && _g !== void 0 ? _g : 0) < ((_h = customFittedIds[0]) === null || _h === void 0 ? void 0 : _h.costPrice)
+                            ? (_j = customFittedIds[0]) === null || _j === void 0 ? void 0 : _j.costPrice
+                            : ((_k = inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.costPrice) !== null && _k !== void 0 ? _k : 0) +
+                                ((_m = (_l = customFittedIds[0]) === null || _l === void 0 ? void 0 : _l.costPrice) !== null && _m !== void 0 ? _m : 0);
+                        const newDiscountedPrice = ((_o = inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.discountedPrice) !== null && _o !== void 0 ? _o : 0) === 0
+                            ? 0
+                            : ((_p = inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.discountedPrice) !== null && _p !== void 0 ? _p : 0) <
+                                ((_q = customFittedIds[0]) === null || _q === void 0 ? void 0 : _q.sellingPrice)
+                                ? (_r = customFittedIds[0]) === null || _r === void 0 ? void 0 : _r.sellingPrice
+                                : ((_s = inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.discountedPrice) !== null && _s !== void 0 ? _s : 0) +
+                                    ((_u = (_t = customFittedIds[0]) === null || _t === void 0 ? void 0 : _t.sellingPrice) !== null && _u !== void 0 ? _u : 0);
+                        return {
+                            sellingPrice: newSellingPrice,
+                            costPrice: newCostPrice,
+                            discountedPrice: newDiscountedPrice,
                             inventoryId: updatedInventory === null || updatedInventory === void 0 ? void 0 : updatedInventory.id,
                             inventoryFlatId: inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.id,
-                        });
+                        };
                     });
                     const customFittedInventory = yield prisma.customFittedInventory.createMany({
                         data: customFittedInventoryData,

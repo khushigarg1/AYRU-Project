@@ -14,9 +14,9 @@ import { useTheme } from "@mui/material/styles";
 import AddIcon from "@mui/icons-material/Add";
 import { DataGrid, GridDeleteIcon, GridToolbar } from "@mui/x-data-grid";
 import Cookies from "js-cookie";
-import api from "@/api";
-import CreateFlatModal from "@/src/components/sizetype/Flat/AddFlatModal";
-import EditFlatModal from "@/src/components/sizetype/Flat/EditFlatModal";
+import api from "../../../../api";
+import CreateFlatModal from "../../../components/sizetype/Flat/AddFlatModal";
+import EditFlatModal from "../../../components/sizetype/Flat/EditFlatModal";
 import { useMediaQuery } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 

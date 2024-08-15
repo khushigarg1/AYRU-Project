@@ -5,8 +5,6 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import Checkbox from "@mui/material/Checkbox";
-import api from "@/api";
-
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Alert,
@@ -19,6 +17,7 @@ import {
 } from "@mui/material";
 import Cookies from "js-cookie";
 import { isAlphaNumeric } from "@/utils";
+import api from '../../api';
 
 export default function AddressForm(props) {
   const { handleNext, setAddUserOpen, refresh } = props;

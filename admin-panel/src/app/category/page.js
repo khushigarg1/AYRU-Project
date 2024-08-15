@@ -14,12 +14,11 @@ import { useTheme } from "@mui/material/styles";
 import AddIcon from "@mui/icons-material/Add";
 import { DataGrid, GridDeleteIcon, GridToolbar } from "@mui/x-data-grid";
 import Cookies from "js-cookie";
-import api from "@/api";
-import AddCategoryModal from "@/src/components/Categories/AddCategoryModel";
-import EditCategoryModal from "@/src/components/Categories/EditCategoryModal";
+import api from "../../../api";
+import AddCategoryModal from "../../components/Categories/AddCategoryModel"
+import EditCategoryModal from "../../components/Categories/EditCategoryModal";
 import { useMediaQuery } from "@mui/material";
-import CustomSnackbar from "@/src/components/snackbar";
-import ErrorSnackbar from "@/src/components/errorcomp";
+import ErrorSnackbar from "../../components/errorcomp";
 import EditIcon from "@mui/icons-material/Edit";
 
 export default function Home() {
