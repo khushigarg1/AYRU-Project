@@ -4,7 +4,7 @@
 
 
 import React, { useState, useEffect, Suspense } from 'react';
-import { Grid, Select, MenuItem, FormControl, InputLabel, Box, Paper, Typography, useTheme, Button, Drawer, TextField, IconButton, Divider, Slider, FormControlLabel, Checkbox, styled, CircularProgress } from '@mui/material';
+import { Grid, Select, MenuItem, FormControl, InputLabel, Box, Paper, Typography, useTheme, Button, Drawer, TextField, IconButton, Divider, Slider, FormControlLabel, Checkbox, styled, CircularProgress, Autocomplete } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import api from '../../../api';
@@ -360,7 +360,7 @@ const SalePageContent = () => {
             }}
           />
         </Grid>
-        <Grid item xs={6} sm={6} md={6}>
+        {/* <Grid item xs={6} sm={6} md={6}>
           <FormControl fullWidth>
             <InputLabel>Select Category</InputLabel>
             <CustomSelect
@@ -376,7 +376,6 @@ const SalePageContent = () => {
           </FormControl>
         </Grid>
 
-        {/* {selectedCategory && ( */}
         <Grid item xs={6} sm={6} md={6}>
           <FormControl fullWidth>
             <InputLabel>Select Subcategory</InputLabel>
@@ -393,8 +392,46 @@ const SalePageContent = () => {
               ))}
             </CustomSelect>
           </FormControl>
-        </Grid >
-        {/* )} */}
+        </Grid > */}
+
+        <Grid item xs={6} sm={6} md={6}>
+          <FormControl fullWidth>
+            <Autocomplete
+              options={categories || []}
+              getOptionLabel={(option) => option.categoryName || ''}
+              value={categories.find(category => category.id === selectedCategory) || null}
+              onChange={(event, newValue) => handleCategoryChange(newValue?.id || '')}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Select Category"
+                  variant="outlined"
+                  sx={{ fontFamily: theme.typography.fontFamily }}
+                />
+              )}
+            />
+          </FormControl>
+        </Grid>
+
+        <Grid item xs={6} sm={6} md={6}>
+          <FormControl fullWidth sx={{ fontFamily: theme.typography.fontFamily }}>
+            <Autocomplete
+              options={subcategories || []}
+              getOptionLabel={(option) => option.subcategoryName || ''}
+              value={subcategories.find(subcategory => subcategory.id === selectedSubcategory) || null}
+              onChange={(event, newValue) => handleSubcategoryChange(newValue?.id || '')}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Select Subcategory"
+                  variant="outlined"
+                  sx={{ fontFamily: theme.typography.fontFamily }}
+                />
+              )}
+              disabled={!selectedCategory}
+            />
+          </FormControl>
+        </Grid>
       </Grid >
       <Grid container spacing={3} className="shop-page" style={{ padding: " 3% 2%" }}>
         <Grid container spacing={1} item xs={12}>

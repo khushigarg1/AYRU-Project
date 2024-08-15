@@ -61,28 +61,35 @@ const CartPage = () => {
       console.error('Error fetching cart:', error);
     }
   };
-  useEffect(() => {
-    // if (user && user.id && token) {
-    setLoading(true);
-    fetchcartStatus();
-    setLoading(false);
-    // }
-  }, [user?.id, setCartCount]);
+  const fetchcart = async () => {
 
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    )
-  }
+    setLoading(true);
+    try {
+      if (token) {
+
+        const response = await api.get(`/cart/user`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setCartItems(response?.data?.data?.userCart);
+        setTotalCount(response?.data?.data?.totalPrice);
+        const cartItemsData = response.data.data?.userCart;
+        setCartCount(cartItemsData.length);
+        const cartMap = cartItemsData.reduce((acc, cartItem) => {
+          acc[cartItem.inventoryId] = cartItem.id;
+          return acc;
+        }, {});
+      }
+    } catch (error) {
+      console.error('Error fetching cart:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchcart();
+  }, [user?.id, setCartCount]);
 
   const handleCheckout = () => {
     const outOfStockItems = cartItems.filter(item => item?.Inventory?.extraOptionOutOfStock);
@@ -151,6 +158,22 @@ Gmail: ${cartItems[0]?.User.email || ' '}
   const whatsappURL = `https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(
     `Hi, I'd like to place an international order for the following items:\n\n${whatsappMessage}${userDetails}\n\nCould you please provide details on the process, shipping costs, and delivery times?`
   )}`;
+
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    )
+  }
 
   return (
     <Box p={1} style={{

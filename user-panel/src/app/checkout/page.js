@@ -168,9 +168,9 @@ const CheckoutPage = () => {
             {activeStep === 1 && (
               <ReviewAndConfirmStep handleNext={handleNext} cartItems={cartItems} Totalcount={Totalcount} orderData={orderData} setOrderData={handleSetOrderData} />
             )}
-            <Box>
-              <Button disabled={activeStep === 0} onClick={handleBack}>
-                <ArrowBackIosNewSharp /> Back
+            <Box sx={{ color: "black" }}>
+              <Button disabled={activeStep === 0} onClick={handleBack} sx={{ color: "black" }}>
+                <ArrowBackIosNewSharp style={{ color: "black" }} /> Back
               </Button>
               {/* <Button variant="contained" color="primary" onClick={handleNext}>
                 {activeStep === steps.length - 1 ? 'Place Order' : 'Next'}
