@@ -131,8 +131,11 @@ const CartPage = () => {
     let itemDetails = `${index + 1} Product: ${item?.Inventory?.productName}\n` +
       `   ProductUrl: ${process.env.REACT_APP_BASE_URL}/shop/${item?.Inventory?.id}\n` +
       `   Quantity: ${item.quantity}\n` +
-      `   Selling Price: ₹${item?.cartSizeItem?.sellingPrice}\n` +
-      `   Discounted Price: ₹${item?.cartSizeItem?.discountedPrice}\n`;
+      `   Selling Price: ₹${item?.cartSizeItem?.sellingPrice}\n`;
+
+    if (item?.cartSizeItem?.discountedPrice > 0) {
+      itemDetails += `   Discounted Price: ₹${item?.cartSizeItem?.discountedPrice}\n`;
+    }
 
     if (item.sizeOption === 'flat') {
       itemDetails += `   Size: ${item.selectedFlatItem}\n`;
