@@ -31,6 +31,9 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
   const theme = useTheme();
   const token = Cookies.get("token");
   const router = useRouter();
+
+  console.log("orderdaat2", orderData);
+
   const handleOrder = async () => {
     try {
       if (token) {

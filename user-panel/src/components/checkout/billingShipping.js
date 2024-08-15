@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Stepper, Step, StepLabel, Typography, Paper, Accordion, AccordionSummary, AccordionDetails, TextField, Checkbox, FormControlLabel, useTheme, useMediaQuery, Divider, Grid, Card, CardContent, CardMedia, Chip, IconButton, MenuItem, Snackbar, Alert } from '@mui/material';
+import { Box, Button, Stepper, Step, StepLabel, Typography, Paper, Accordion, AccordionSummary, AccordionDetails, TextField, Checkbox, FormControlLabel, useTheme, useMediaQuery, Divider, Grid, Card, CardContent, CardMedia, Chip, IconButton, MenuItem, Snackbar, Alert, Autocomplete } from '@mui/material';
 import { Close, DeleteForever, Edit } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useAuth } from '@/contexts/auth';
@@ -30,6 +30,7 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
   const [snackbar, setSnackbar] = useState(false);
   const [extraNote, setExtraNote] = useState(orderData?.remark || '');
   const [errors, setErrors] = useState({});
+  console.log("orderdaat1", orderData);
 
   const handleContinue = () => {
     const newErrors = {};
@@ -43,7 +44,6 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
     if (!orderData.city) newErrors.city = 'This field is mandatory';
     if (!orderData.pincode) newErrors.pincode = 'This field is mandatory';
     if (!orderData.addressLine1) newErrors.addressLine1 = 'This field is mandatory';
-    if (!orderData.addressLine2) newErrors.addressLine2 = 'This field is mandatory';
 
     setErrors(newErrors);
 
@@ -84,17 +84,28 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
   useEffect(() => {
     if (currentUser) {
       setOrderData({
-        firstName: currentUser.firstName || orderData?.firstName,
-        lastName: currentUser.lastName || orderData?.lastName,
+        firstName: orderData?.firstName,
+        lastName: orderData?.lastName,
         email: currentUser.email || orderData?.email,
-        phoneNumber: currentUser.phoneNumber || orderData?.phoneNumber,
+        phoneNumber: orderData?.phoneNumber,
         alternateMobileNumber: orderData?.alternateMobileNumber,
-        addressLine1: currentUser.address1 || orderData?.address1,
-        addressLine2: currentUser.address2 || orderData?.address2,
-        pincode: currentUser.pincode || orderData?.pincode,
-        city: currentUser.city || orderData?.city,
-        state: currentUser.state || orderData?.state,
-        country: currentUser.country || orderData?.country,
+        addressLine1: orderData?.addressLine1,
+        addressLine2: orderData?.addressLine2,
+        pincode: orderData?.pincode,
+        city: orderData?.city,
+        state: orderData?.state,
+        country: orderData?.country,
+        // firstName: currentUser.firstName || orderData?.firstName,
+        // lastName: currentUser.lastName || orderData?.lastName,
+        // email: currentUser.email || orderData?.email,
+        // phoneNumber: currentUser.phoneNumber || orderData?.phoneNumber,
+        // alternateMobileNumber: orderData?.alternateMobileNumber,
+        // addressLine1: currentUser.address1 || orderData?.address1,
+        // addressLine2: currentUser.address2 || orderData?.address2,
+        // pincode: currentUser.pincode || orderData?.pincode,
+        // city: currentUser.city || orderData?.city,
+        // state: currentUser.state || orderData?.state,
+        // country: currentUser.country || orderData?.country,
       });
     }
 
@@ -372,47 +383,49 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                 />
               </Grid>
               <Grid item xs={12} md={6}>
-                <TextField
-                  required
-                  select
-                  label="Country"
-                  name="country"
-                  fullWidth
-                  margin="normal"
-                  sx={{ backgroundColor: 'white' }}
-                  value={orderData.country}
-                  onChange={handleInputChange}
-                  error={Boolean(errors.country)}
-                  helperText={errors.country}
-                >
-                  {countries.map((country) => (
-                    <MenuItem key={country.name} value={country.name}>
-                      {country.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                <Autocomplete
+                  options={countries}
+                  getOptionLabel={(option) => option.name || ''}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Country"
+                      fullWidth
+                      margin="normal"
+                      sx={{ backgroundColor: 'white' }}
+                      error={Boolean(errors.country)}
+                      helperText={errors.country}
+                    />
+                  )}
+                  value={countries.find((country) => country.name === orderData.country) || null}
+                  onChange={(event, newValue) => {
+                    handleInputChange({ target: { name: 'country', value: newValue?.name || '' } });
+                  }}
+                />
               </Grid>
+
               <Grid item xs={12} md={6}>
-                <TextField
-                  required
-                  select
-                  label="State"
-                  name="state"
-                  fullWidth
-                  margin="normal"
-                  sx={{ backgroundColor: 'white' }}
-                  value={orderData.state}
-                  onChange={handleInputChange}
-                  error={Boolean(errors.state)}
-                  helperText={errors.state}
-                >
-                  {states.map((state) => (
-                    <MenuItem key={state.name} value={state.name}>
-                      {state.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                <Autocomplete
+                  options={states}
+                  getOptionLabel={(option) => option.name || ''}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="State"
+                      fullWidth
+                      margin="normal"
+                      sx={{ backgroundColor: 'white' }}
+                      error={Boolean(errors.state)}
+                      helperText={errors.state}
+                    />
+                  )}
+                  value={states.find((state) => state.name === orderData.state) || null}
+                  onChange={(event, newValue) => {
+                    handleInputChange({ target: { name: 'state', value: newValue?.name || '' } });
+                  }}
+                />
               </Grid>
+
               <Grid item xs={12} md={6}>
                 <TextField
                   required
@@ -457,7 +470,7 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
-                  required
+                  // required
                   label="Address Line 2"
                   name="addressLine2"
                   fullWidth
@@ -465,8 +478,8 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                   sx={{ backgroundColor: 'white' }}
                   value={orderData.addressLine2}
                   onChange={handleInputChange}
-                  error={Boolean(errors.addressLine2)}
-                  helperText={errors.addressLine2}
+                // error={Boolean(errors.addressLine2)}
+                // helperText={errors.addressLine2}
                 />
               </Grid>
             </Grid>
