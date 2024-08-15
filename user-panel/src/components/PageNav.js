@@ -150,7 +150,8 @@ export default function PageNav({ children }) {
 
   const { isAuthenticated, isLoading, logout, openTab, setOpenTab, wishlistCount, cartCount, user, openAuthModal } = useAuth();
   const theme = useTheme();
-  const [open, setOpen] = useState(isAuthenticated);
+  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(isAuthenticated);
   const [categories, setCategories] = useState([]);
   const [scrolledstate, setScrolledstate] = useState(false);
   const router = useRouter();
