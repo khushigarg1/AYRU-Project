@@ -128,9 +128,14 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
 
   const getProductShareText = () => {
     const productName = itemlist.productName;
-    // const description = itemlist.description;
-    const price = discountedPriceToDisplay ? `Now available at a discounted price of ₹${discountedPriceToDisplay}! (Original price: ₹${sellingPriceToDisplay})` : `Price: ₹${sellingPriceToDisplay}`;
-    return `Check out this amazing product: ${productName} 🌟\n\n${price}\n\n🛒 Don't miss out! Click the link to view more details and make a purchase!`;
+    const discountedPrice = discountedPriceToDisplay > 0 ? `₹${discountedPriceToDisplay}` : null;
+    const originalPrice = discountedPriceToDisplay > 0 ? `₹${sellingPriceToDisplay}` : `₹${sellingPriceToDisplay}`;
+
+    const price = discountedPrice
+      ? `Now available at a discounted price of ${discountedPrice}! (Original price: ${originalPrice})`
+      : `Price: ${originalPrice}`;
+
+    return `Check out this amazing product: ${productName} 🌟\n\n${price}\n\n🛒 Hurry, Limited Stock!\n Click the link to view product details and make a purchase!`;
   };
 
   return (
