@@ -156,7 +156,7 @@ const ItemDetails = ({ product, queryParams }) => {
 
     const id = setTimeout(() => {
       setAnchorEl(null);
-    }, 1000);
+    }, 800);
 
     setTimeoutId(id);
   };
