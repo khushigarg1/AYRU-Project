@@ -321,8 +321,11 @@ const ItemDetails = ({ product, queryParams }) => {
         ...prevItems,
         [product.id]: response.data.data.id
       }));
-      setCartCount(prevCount => prevCount + 1);
-      setSnackbarMessage(`${product.productName} added to cart`);
+      if (response?.data?.data?.newCartItem) {
+        setCartCount(prevCount => prevCount + 1);
+        setSnackbarMessage(`${product.productName} added to cart`);
+      }
+      setSnackbarMessage(`Quantity of ${product.productName} increased in cart`);
       setOpenSnackbar(true);
       // }
     } catch (error) {
