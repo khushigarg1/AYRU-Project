@@ -457,7 +457,7 @@ const ShopPageContent = () => {
         </Grid>
 
       </Grid >
-      <Grid container spacing={3} className="shop-page" style={{ padding: " 3% 2%" }}>
+      <Grid container spacing={3} className="shop-page" style={{ padding: " 1% 2%" }}>
         <Grid container spacing={1} item xs={12}>
           {/* {inventory.map(item => (
             item?.productstatus === "PUBLISHED" && (

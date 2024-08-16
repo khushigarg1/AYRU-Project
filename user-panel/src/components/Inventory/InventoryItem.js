@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardMedia, Typography, IconButton, Box, Chip, useTheme } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, IconButton, Box, Chip, useTheme, useMediaQuery } from '@mui/material';
 import { FavoriteBorderOutlined, FavoriteOutlined } from '@mui/icons-material';
 import Cookies from 'js-cookie';
 import api from '../../../api';
@@ -11,6 +11,7 @@ const InventoryItem = ({ item, wishlistItems, setWishlistItems }) => {
   const { openAuthModal, user, setWishlistCount } = useAuth();
   const token = Cookies.get('token');
   const router = useRouter();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleToggleWishlist = async (event) => {
     event.stopPropagation();
@@ -128,6 +129,10 @@ const InventoryItem = ({ item, wishlistItems, setWishlistItems }) => {
           image={`https://ayrujaipur.s3.amazonaws.com/${item?.Media[0]?.url}`}
           height="200"
           alt={item?.productName}
+          sx={{
+            borderRadius: "5px",
+            height: isMobile ? "200px" : "300px"
+          }}
         />
         <IconButton
           aria-label="Add to Wishlist"

@@ -83,7 +83,7 @@ const HomePage = () => {
 
   const columns = isMobile ? [
     { field: "id", headerName: "ID", width: 80 },
-    { field: "productName", headerName: "Product Name", width: 250 },
+    { field: "productName", headerName: "Product Name", width: 350 },
     { field: "skuId", headerName: "SKU ID", width: 150 },
     { field: "quantity", headerName: "Quantity", width: 130 },
     { field: "soldQuantity", headerName: "Sold Quantity", width: 130 },
@@ -110,7 +110,7 @@ const HomePage = () => {
     }
   ] : [
     { field: "id", headerName: "ID", width: 80 },
-    { field: "productName", headerName: "Product Name", width: 250 },
+    { field: "productName", headerName: "Product Name", width: 350 },
     { field: "skuId", headerName: "SKU ID", width: 150 },
     { field: "quantity", headerName: "Quantity", width: 100 },
     { field: "soldQuantity", headerName: "Sold Quantity", width: 150 },

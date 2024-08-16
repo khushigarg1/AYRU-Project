@@ -142,9 +142,9 @@ const WishlistPage = () => {
             </Typography>
             <Divider />
           </Box>
-          <Grid container spacing={1} >
+          <Grid container spacing={isMobile ? 1 : 4} pt={2}>
             {currentItems.map((item) => (
-              <Grid item key={item.id} xs={6} sm={6} md={4} lg={3}>
+              <Grid item key={item.id} xs={6} sm={6} md={4} lg={2.4}>
                 <Card sx={{
                   position: 'relative',
                   display: 'flex', flexDirection: 'column', height: '100%', cursor: "pointer",
@@ -192,10 +192,10 @@ const WishlistPage = () => {
                         onClick={() => router.push(`/shop/${item?.Inventory?.id}`)}
                         sx={{
                           objectFit: 'fit',
-                          height: "213px",
+                          height: isMobile ? "213px" : "300px",
                           maxHeight: "100%",
                           maxWidth: "100%",
-                          borderRadius: "0px"
+                          borderRadius: "5px"
                         }}
                       />
 

@@ -110,19 +110,22 @@ const ImageCarousel = () => {
       position: 'relative', width: '100%',
       // backgroundColor: theme.palette.background.paper
     }} mb={0}
-      p={4}
+      p={isMobile ? 0 : 4}
     >
       {/* {displayImages.length > 0 && ( */}
       <Carousel
         autoPlay
         interval={2000}
         animation="slide"
-        navButtonsAlwaysVisible={false}
         navButtonsProps={{
           style: {
-            display: 'none',
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+            color: "white",
+            borderRadius: "50%",
+            display: isMobile && "none"
           },
         }}
+        navButtonsAlwaysVisible
         stopAutoPlayOnHover={false}
         indicators
         indicatorContainerProps={{

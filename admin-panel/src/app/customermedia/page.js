@@ -349,9 +349,8 @@ const CustomerMediaPage = () => {
   };
 
   const determineMediaType = (mediaUrl) => {
-    // Example function to determine media type based on file extension
     const extension = mediaUrl.split('.').pop().toLowerCase();
-    if (extension === 'mp4' || extension === 'webm' || extension === 'ogg') {
+    if (extension === 'mp4' || extension === 'mov' || extension === 'mkv' || extension === 'webm' || extension === 'ogg' || extension === 'avi' || extension === 'wmv' || extension === 'flv' || extension === 'mpeg' || extension === 'ogv' || extension === 'swf' || extension === 'f4v') {
       return 'video';
     } else {
       return 'image';

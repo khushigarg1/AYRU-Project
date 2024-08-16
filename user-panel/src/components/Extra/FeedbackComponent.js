@@ -24,11 +24,23 @@ export const FeedbackComponent = () => {
         params: { type },
       });
       const mediaData = response.data.data;
-      const firstMediaItem = mediaData.find(media => media.imageUrl && (media.imageUrl.endsWith('.jpg') || media.imageUrl.endsWith('.png') || media.imageUrl.endsWith('.mp4')));
+      const firstMediaItem = mediaData.find(media => media.imageUrl);
+      // const firstMediaItem = mediaData.find(media => media.imageUrl && (media.imageUrl.endsWith('.jpg') || media.imageUrl.endsWith('.png') || media.imageUrl.endsWith('.mp4') || media.imageUrl.endsWith('.mkv') || media.imageUrl.endsWith('.mov') || media.imageUrl.endsWith('.webm') || media.imageUrl.endsWith('.ogg')));
 
       setFirstMedia(firstMediaItem);
     } catch (error) {
       console.error('Error fetching media:', error);
+    }
+  };
+
+  const determineMediaType = (mediaUrl) => {
+    // Example function to determine media type based on file extension
+    const extension = mediaUrl.split('.').pop().toLowerCase();
+
+    if (extension === 'mp4' || extension === 'mov' || extension === 'mkv' || extension === 'webm' || extension === 'ogg' || extension === 'avi' || extension === 'wmv' || extension === 'flv' || extension === 'mpeg' || extension === 'ogv' || extension === 'swf' || extension === 'f4v') {
+      return 'video';
+    } else {
+      return 'image';
     }
   };
 
@@ -65,7 +77,8 @@ export const FeedbackComponent = () => {
           <Box>
             {firstMedia && (
               <Box>
-                {firstMedia.imageUrl.endsWith('.mp4') ? (
+                {/* {firstMedia.imageUrl.endsWith('.mp4') || firstMedia.imageUrl.endsWith('.mov') ? ( */}
+                {determineMediaType(firstMedia.imageUrl) === 'video' ? (
                   <>
                     <video
                       controls

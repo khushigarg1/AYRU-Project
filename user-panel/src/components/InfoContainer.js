@@ -64,11 +64,14 @@ export const InfoComponent = () => {
         cycleNavigation={true}
         sx={{
           width: '100%',
-          maxWidth: '800px',
+          maxWidth: isMobile ? '800px' : "600px",
         }}
       >
         {slides.map((slide, index) => (
-          <Box key={index} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 2, width: '100%', boxSizing: 'border-box' }}>
+          <Box key={index} sx={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 2
+            , width: '100%', boxSizing: 'border-box'
+          }}>
             <Grid container alignItems="center" spacing={2}>
               <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'center' }}>
                 {slide.icon}
