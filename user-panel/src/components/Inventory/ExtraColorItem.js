@@ -69,12 +69,12 @@ export const InventoryAccordion = ({ relatedInventories }) => {
                       ₹ {inventory?.sellingPrice}
                     </Typography>
                     <Typography variant="body1" sx={{ fontSize: "12px" }}>
-                      ₹ {inventory?.discountedPrice?.toFixed(2)}
+                      ₹ {inventory?.discountedPrice}
                     </Typography>
                   </Box>
                 ) : (
                   <Typography variant="body1" sx={{ fontSize: "12px" }}>
-                    ₹ {inventory?.sellingPrice?.toFixed(2)}
+                    ₹ {inventory?.sellingPrice}
                   </Typography>
                 )}
                 <Typography variant='body2' sx={{ color: inventory?.extraOptionOutOfStock ? 'red' : 'green', fontSize: "12px" }}>

@@ -42,8 +42,8 @@ const ItemDetails = ({ product, queryParams }) => {
   const selectedCustomFittedItem = selections?.selectedCustomFittedItem;
   console.log(selections, selectedFlatItem, selectedFittedItem, selectedCustomFittedItem);
 
-  const [discountedPriceToDisplay, setDiscountedPriceToDisplay] = useState(product?.discountedPrice?.toFixed(2));
-  const [sellingPriceToDisplay, setSellingPriceToDisplay] = useState(product?.sellingPrice?.toFixed(2));
+  const [discountedPriceToDisplay, setDiscountedPriceToDisplay] = useState(product?.discountedPrice);
+  const [sellingPriceToDisplay, setSellingPriceToDisplay] = useState(product?.sellingPrice);
   const [displayQuantity, setDisplayQuantity] = useState(product?.quantity);
   const [quantity, setQuantity] = useState(product?.quantity);
   const [displayMinQuantity, setDisplayMinQuantity] = useState(0);
@@ -67,8 +67,8 @@ const ItemDetails = ({ product, queryParams }) => {
     if (selections.selectedFlatItem && product?.InventoryFlat) {
       const selectedFlat = product.InventoryFlat.find(item => item.flatId === selections.selectedFlatItem);
       if (selectedFlat) {
-        setDiscountedPriceToDisplay(selectedFlat.discountedPrice.toFixed(2));
-        setSellingPriceToDisplay(selectedFlat.sellingPrice.toFixed(2));
+        setDiscountedPriceToDisplay(selectedFlat.discountedPrice);
+        setSellingPriceToDisplay(selectedFlat.sellingPrice);
         setDisplayQuantity(selectedFlat.minQuantity);
         setQuantity(selectedFlat.quantity);
         setDisplayMinQuantity(selectedFlat.minQuantity);
@@ -78,8 +78,8 @@ const ItemDetails = ({ product, queryParams }) => {
     } else if (selections.selectedFittedItem && product?.InventoryFitted) {
       const selectedFitted = product.InventoryFitted.find(item => item.fittedId === selections.selectedFittedItem);
       if (selectedFitted) {
-        setDiscountedPriceToDisplay(selectedFitted.discountedPrice.toFixed(2));
-        setSellingPriceToDisplay(selectedFitted.sellingPrice.toFixed(2));
+        setDiscountedPriceToDisplay(selectedFitted.discountedPrice);
+        setSellingPriceToDisplay(selectedFitted.sellingPrice);
         setDisplayQuantity(selectedFitted?.minQuantity);
         setQuantity(selectedFitted.quantity);
         setDisplayMinQuantity(selectedFitted.minQuantity);
@@ -90,8 +90,8 @@ const ItemDetails = ({ product, queryParams }) => {
       const selectedCustomFitted = product.customFittedInventory.find(item => item?.InventoryFlat?.flatId === selections.selectedCustomFittedItem);
 
       if (selectedCustomFitted) {
-        setDiscountedPriceToDisplay(selectedCustomFitted.discountedPrice.toFixed(2));
-        setSellingPriceToDisplay(selectedCustomFitted.sellingPrice.toFixed(2));
+        setDiscountedPriceToDisplay(selectedCustomFitted.discountedPrice);
+        setSellingPriceToDisplay(selectedCustomFitted.sellingPrice);
         setDisplayQuantity(selectedCustomFitted.InventoryFlat?.minQuantity);
         setQuantity(selectedCustomFitted.InventoryFlat.quantity);
         setDisplayMinQuantity(selectedCustomFitted.InventoryFlat.minQuantity);

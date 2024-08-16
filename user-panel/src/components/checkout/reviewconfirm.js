@@ -156,7 +156,7 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
                             </Grid>
                             <Grid item>
                               <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
-                                {`₹${(item?.quantity * (item?.Inventory?.discountedPrice || item?.Inventory?.sellingPrice)).toFixed(2)}`}
+                                {`₹${(item?.quantity * (item?.Inventory?.discountedPrice || item?.Inventory?.sellingPrice))}`}
                               </Typography>
                             </Grid>
                           </Grid>
@@ -177,7 +177,7 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
                 </Grid>
                 <Grid item>
                   <Typography variant='h5' style={{ fontWeight: "bolder", color: "black", fontSize: "0.8rem" }}>
-                    {`₹${Totalcount.toFixed(2)}`}
+                    {`₹${Totalcount}`}
                   </Typography>
                 </Grid>
               </Grid>
@@ -204,7 +204,7 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
                 </Grid>
                 <Grid item>
                   <Typography variant='h5' style={{ fontWeight: "bolder", color: "black", fontSize: "0.8rem" }}>
-                    {`₹${Totalcount.toFixed(2)}`}
+                    {`₹${Totalcount}`}
                   </Typography>
                 </Grid>
               </Grid>
@@ -287,7 +287,7 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
               </Grid>
               <Grid item>
                 <Typography variant='h5' style={{ fontWeight: "bolder", color: "black", fontSize: "0.8rem" }}>
-                  {`₹${Totalcount.toFixed(2)}`}
+                  {`₹${Totalcount}`}
                 </Typography>
               </Grid>
             </Grid>
@@ -314,7 +314,7 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
               </Grid>
               <Grid item>
                 <Typography variant='h5' style={{ fontWeight: "bolder", color: "black", fontSize: "0.8rem" }}>
-                  {`₹${Totalcount.toFixed(2)}`}
+                  {`₹${Totalcount}`}
                 </Typography>
               </Grid>
             </Grid>

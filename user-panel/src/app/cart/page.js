@@ -268,7 +268,7 @@ Gmail: ${cartItems[0]?.User.email || ' '}
               </Grid>
               <Grid item>
                 <Typography variant='h5' style={{ fontWeight: "bolder", color: "black", fontSize: "1.5rem" }}>
-                  {`₹${Totalcount.toFixed(2)}`}
+                  {`₹${Totalcount}`}
                   <Typography variant="body2" sx={{ fontSize: '0.55rem', color: 'text.secondary', mb: 1 }}>
                     (Price inclusive of all taxes)
                   </Typography>

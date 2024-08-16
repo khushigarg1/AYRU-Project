@@ -128,10 +128,10 @@ export const CraftedWithLove = () => {
                           <strong>MRP</strong>
                         </Typography> */}
                         <Typography variant="body2" sx={{ textDecoration: 'line-through', fontSize: "14px" }}>
-                          ₹{item.sellingPrice?.toFixed(2)}
+                          ₹{item.sellingPrice}
                         </Typography>
                         <Typography variant="body1" sx={{ marginRight: "3px", fontSize: "14px", fontWeight: "bold" }} >
-                          ₹{item.discountedPrice?.toFixed(2)}
+                          ₹{item.discountedPrice}
                         </Typography>
                         {/* <Typography variant="body2" color="error" sx={{
                         display: 'inline-block',
@@ -141,12 +141,12 @@ export const CraftedWithLove = () => {
                         clipPath: 'polygon(0 0, 100% 0, 90% 100%, 0% 100%)',
                         color: "white",
                       }}>
-                        {`${Math.round(((product.sellingPrice?.toFixed(2) - product.discountedPrice?.toFixed(2)) / product.sellingPrice?.toFixed(2)) * 100)}% OFF!`}
+                        {`${Math.round(((product.sellingPrice? - product.discountedPrice?) / product.sellingPrice?) * 100)}% OFF!`}
                       </Typography> */}
                       </Box>
                     ) : (
                       <Typography variant="body1" sx={{ marginRight: "3px", fontSize: "14px", fontWeight: "bold" }} >
-                        ₹{item.sellingPrice?.toFixed(2)}
+                        ₹{item.sellingPrice}
                       </Typography>
                     )}
                   </CardContent>

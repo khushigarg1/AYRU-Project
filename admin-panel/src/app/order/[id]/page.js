@@ -120,7 +120,7 @@ const OrderAccordion = ({ params }) => {
       acc + (item.discountedPrice || item.sellingPrice) * item.quantity, 0);
 
     // Format the subtotal to 3 decimal places
-    return `₹${subtotal.toFixed(3)}`;
+    return `₹${subtotal}`;
   };
   return (
     <div>
@@ -326,7 +326,7 @@ const OrderAccordion = ({ params }) => {
                         </Grid>
                         <Grid item>
                           <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
-                            {`Rs. ${(item?.quantity * (item?.inventory?.discountedPrice || item?.inventory?.sellingPrice)).toFixed(2)}`}
+                            {`Rs. ${(item?.quantity * (item?.inventory?.discountedPrice || item?.inventory?.sellingPrice))}`}
                           </Typography>
                         </Grid>
                       </Grid> */}
@@ -341,7 +341,7 @@ const OrderAccordion = ({ params }) => {
                           </Grid>
                           <Grid item>
                             <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
-                              {`Rs. ${(item?.quantity * (item?.discountedPrice || item?.sellingPrice)).toFixed(2)}`}
+                              {`Rs. ${(item?.quantity * (item?.discountedPrice || item?.sellingPrice))}`}
                             </Typography>
                           </Grid>
                         </Grid>
@@ -371,7 +371,7 @@ const OrderAccordion = ({ params }) => {
                   </Grid>
                   <Grid item>
                     <Typography variant='h5' style={{ fontWeight: "bolder", color: "black", fontSize: "1.5rem" }}>
-                      {`₹${order?.Total.toFixed(2)}`}
+                      {`₹${order?.Total}`}
                       <Typography variant="body2" sx={{ fontSize: '0.55rem', color: 'text.secondary', mb: 1 }}>
                         (Price inclusive of all taxes)
                       </Typography>

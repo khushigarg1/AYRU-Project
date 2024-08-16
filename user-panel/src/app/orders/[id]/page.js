@@ -559,7 +559,7 @@ Here are my order details:
                               </Grid>
                               <Grid item>
                                 <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "12px" }}>
-                                  {`₹${(item?.quantity * (item?.discountedPrice || item?.sellingPrice)).toFixed(2)}`}
+                                  {`₹${(item?.quantity * (item?.discountedPrice || item?.sellingPrice))}`}
                                 </Typography>
                               </Grid>
                             </Grid>

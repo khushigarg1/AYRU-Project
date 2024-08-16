@@ -158,15 +158,15 @@
 //               {product.discountedPrice ? (
 //                 <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.5 }}>
 //                   <Typography variant="body2" sx={{ textDecoration: 'line-through', fontSize: "14px" }}>
-//                     ₹{product.sellingPrice?.toFixed(2)}
+//                     ₹{product.sellingPrice?}
 //                   </Typography>
 //                   <Typography variant="body1" sx={{ fontSize: "14px", fontWeight: "bold" }}>
-//                     ₹{product.discountedPrice?.toFixed(2)}
+//                     ₹{product.discountedPrice?}
 //                   </Typography>
 //                 </Box>
 //               ) : (
 //                 <Typography variant="body1" sx={{ fontSize: "14px", fontWeight: "bold" }}>
-//                   ₹{product.sellingPrice?.toFixed(2)}
+//                   ₹{product.sellingPrice?}
 //                 </Typography>
 //               )}
 //             </CardContent>
@@ -393,15 +393,15 @@ export const ProductSlider = ({ products }) => {
                 {product.discountedPrice ? (
                   <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.5 }}>
                     <Typography variant="body2" sx={{ textDecoration: 'line-through', fontSize: "14px" }}>
-                      ₹{product.sellingPrice?.toFixed(2)}
+                      ₹{product.sellingPrice}
                     </Typography>
                     <Typography variant="body1" sx={{ fontSize: "14px", fontWeight: "bold" }}>
-                      ₹{product.discountedPrice?.toFixed(2)}
+                      ₹{product.discountedPrice}
                     </Typography>
                   </Box>
                 ) : (
                   <Typography variant="body1" sx={{ fontSize: "14px", fontWeight: "bold" }}>
-                    ₹{product.sellingPrice?.toFixed(2)}
+                    ₹{product.sellingPrice}
                   </Typography>
                 )}
               </CardContent>

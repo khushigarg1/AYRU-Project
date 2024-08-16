@@ -510,7 +510,7 @@ export const CartItem = ({ item, fetchCartStatus }) => {
             </Grid>
             <Grid item>
               <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
-                {`Rs. ${(item?.quantity * (item?.cartSizeItem?.discountedPrice || item?.cartSizeItem?.sellingPrice)).toFixed(2)}`}
+                {`Rs. ${(item?.quantity * (item?.cartSizeItem?.discountedPrice || item?.cartSizeItem?.sellingPrice))}`}
               </Typography>
             </Grid>
           </Grid>

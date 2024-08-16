@@ -148,19 +148,19 @@ const Dashboard = () => {
           <Grid item xs={6} md={4}>
             <Paper sx={{ p: 3, textAlign: 'center' }}>
               <Typography variant="h6">Total Cost</Typography>
-              <Typography variant="h4">{totalCost.toFixed(3)}</Typography>
+              <Typography variant="h4">{totalCost}</Typography>
             </Paper>
           </Grid>
           <Grid item xs={6} md={4}>
             <Paper sx={{ p: 3, textAlign: 'center' }}>
               <Typography variant="h6">Total Revenue</Typography>
-              <Typography variant="h4">{totalRevenue.toFixed(3)}</Typography>
+              <Typography variant="h4">{totalRevenue}</Typography>
             </Paper>
           </Grid>
           <Grid item xs={6} md={4}>
             <Paper sx={{ p: 3, textAlign: 'center' }}>
               <Typography variant="h6">Total Profit</Typography>
-              <Typography variant="h4">{totalProfit.toFixed(3)}</Typography>
+              <Typography variant="h4">{totalProfit}</Typography>
             </Paper>
           </Grid>
         </Grid>
@@ -169,13 +169,13 @@ const Dashboard = () => {
           <Grid item xs={6} md={4}>
             <Paper sx={{ p: 3, textAlign: 'center' }}>
               <Typography variant="h6">Total Selling Price</Typography>
-              <Typography variant="h4">{totalSellingPrice.toFixed(3)}</Typography>
+              <Typography variant="h4">{totalSellingPrice}</Typography>
             </Paper>
           </Grid>
           <Grid item xs={6} md={4}>
             <Paper sx={{ p: 3, textAlign: 'center' }}>
               <Typography variant="h6">Total discounted Price</Typography>
-              <Typography variant="h4">{totalDiscountedPrice.toFixed(3)}</Typography>
+              <Typography variant="h4">{totalDiscountedPrice}</Typography>
             </Paper>
           </Grid>
         </Grid> */}
