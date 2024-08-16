@@ -147,8 +147,8 @@ const ImageCarousel = () => {
               style={{
                 width: '100%',
                 // objectFit: 'fit',
-                objectFit: "contain",
-                // objectFit: isMobile ? "cover" : "fit",
+                // objectFit: "contain",
+                objectFit: isMobile ? "cover" : "contain",
                 // objectFit: !isLaptop ? "cover" : "fit",
                 transition: 'transform 0.5s ease-in-out',
                 maxHeight: isMobile ? "475px" : "550px"
