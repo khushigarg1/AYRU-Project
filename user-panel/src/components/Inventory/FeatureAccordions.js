@@ -133,10 +133,10 @@ Could you please provide me with the details regarding the process, any addition
                 <>
                   <Typography variant="body1" sx={{ fontWeight: "bolder", fontSize: "16px", fontFamily: theme.palette.typography.fontFamily }}>Others:</Typography>
                   <ListItem>
-                    <ListItemText sx={{ lineHeight: 1.2, fontWeight: "500px", fontSize: "16px" }} primaryTypographyProps={{
+                    <ListItemText sx={{ fontWeight: "500px", fontSize: "16px" }} secondaryTypographyProps={{
                       fontWeight: 500,
                       fontSize: "16px",
-                    }} primary={product.others || "N/A"} />
+                    }} secondary={product.others || "N/A"} />
                   </ListItem>
                 </>
               }
