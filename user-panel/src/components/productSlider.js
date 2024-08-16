@@ -14,7 +14,7 @@ export const ProductSlider = ({ products }) => {
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const itemsPerPage = isMobile ? 1 : 2;
   const router = useRouter();
-  const slicedProducts = products.slice(0, 10);
+  const slicedProducts = products.slice(0, 20);
   const { openAuthModal, user, wishlistCount, setWishlistCount } = useAuth();
   const [wishlistItems, setWishlistItems] = useState({});
   const token = Cookies.get('token');
