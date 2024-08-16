@@ -36,7 +36,6 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         try {
           setLoading(true);
-
           const tokenPayload = parseJwt(token);
           const userId = tokenPayload?.payload?.id;
           api.defaults.headers.Authorization = `Bearer ${token}`;
@@ -61,10 +60,14 @@ export const AuthProvider = ({ children }) => {
           setUser(response.data?.data);
         } catch (error) {
           console.error('Error fetching user:', error);
+          setLoading(false);
           setUser(null);
         } finally {
           setLoading(false);
         }
+      }
+      else {
+        setLoading(false);
       }
     }
     loadUserFromCookies();
