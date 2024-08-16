@@ -217,7 +217,7 @@ model Inventory {
   relatedInventories    Inventory[]             @relation("InventoryToInventory")
   relatedByInventories  Inventory[]             @relation("InventoryToInventory")
   createdAt             DateTime                @default(now())
-  updatedAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
   Category              Category?               @relation(fields: [categoryId], references: [id])
   categoryId            Int?
   OrderItem             OrderItem[]
