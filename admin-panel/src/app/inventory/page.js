@@ -81,20 +81,38 @@ const HomePage = () => {
     return subcategory ? subcategory.subcategoryName : "-";
   };
 
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
   const columns = isMobile ? [
     { field: "id", headerName: "ID", width: 80 },
     { field: "productName", headerName: "Product Name", width: 350 },
     { field: "skuId", headerName: "SKU ID", width: 150 },
+    { field: "categoryId", headerName: "Category", width: 150, renderCell: (params) => getCategoryName(params.row.categoryId) },
     { field: "quantity", headerName: "Quantity", width: 130 },
     { field: "soldQuantity", headerName: "Sold Quantity", width: 130 },
     { field: "sellingPrice", headerName: "Selling Price", width: 150 },
-    { field: "categoryId", headerName: "Category", width: 150, renderCell: (params) => getCategoryName(params.row.categoryId) },
+    { field: "discountedPrice", headerName: "Discounted Price", width: 150 },
     // { field: "subCategoryId", headerName: "Subcategory", width: 150, renderCell: (params) => getSubcategoryName(params.row.categoryId, params.row.subCategoryId) },
     { field: "status", headerName: "Status", width: 140 },
     { field: "productstatus", headerName: "Product Status", width: 170 },
     { field: "availability", headerName: "Availability", width: 150, type: 'boolean' },
     { field: "extraOptionOutOfStock", headerName: "Out of Stock", width: 180, type: 'boolean' },
     { field: "sale", headerName: "SaleItem", width: 180, type: 'boolean' },
+    {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 200,
+      valueGetter: (params) => formatDate(params.row.createdAt)
+    },
+    {
+      field: "updatedAt",
+      headerName: "Updated At",
+      width: 200,
+      valueGetter: (params) => formatDate(params.row.updatedAt)
+    },
     {
       field: "actions",
       headerName: "Actions",
@@ -112,16 +130,29 @@ const HomePage = () => {
     { field: "id", headerName: "ID", width: 80 },
     { field: "productName", headerName: "Product Name", width: 350 },
     { field: "skuId", headerName: "SKU ID", width: 150 },
+    { field: "categoryId", headerName: "Category", width: 150, renderCell: (params) => getCategoryName(params?.row?.categoryId) },
     { field: "quantity", headerName: "Quantity", width: 100 },
     { field: "soldQuantity", headerName: "Sold Quantity", width: 150 },
     { field: "sellingPrice", headerName: "Selling Price", width: 150 },
-    { field: "categoryId", headerName: "Category", width: 150, renderCell: (params) => getCategoryName(params?.row?.categoryId) },
+    { field: "discountedPrice", headerName: "Discounted Price", width: 150 },
     // { field: "subCategoryId", headerName: "Subcategory", width: 150, renderCell: (params) => getSubcategoryName(params?.row?.categoryId, params.row.subCategoryId) },
     { field: "status", headerName: "Status", width: 150 },
     { field: "productstatus", headerName: "Product Status", width: 180 },
     { field: "availability", headerName: "Availability", width: 180, type: 'boolean' },
     { field: "extraOptionOutOfStock", headerName: "Out of Stock", width: 180, type: 'boolean' },
     { field: "sale", headerName: "SaleItem", width: 180, type: 'boolean' },
+    {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 200,
+      valueGetter: (params) => formatDate(params.row.createdAt)
+    },
+    {
+      field: "updatedAt",
+      headerName: "Updated At",
+      width: 200,
+      valueGetter: (params) => formatDate(params.row.updatedAt)
+    },
     {
       field: "actions",
       headerName: "Actions",

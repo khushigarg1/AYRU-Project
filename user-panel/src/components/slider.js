@@ -133,6 +133,7 @@ const ImageCarousel = () => {
             position: 'absolute',
             bottom: '10px',
             zIndex: 1000,
+            display: isMobile && "none"
           },
         }}
       >
