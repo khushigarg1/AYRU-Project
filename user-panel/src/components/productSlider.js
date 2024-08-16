@@ -94,7 +94,7 @@ export const ProductSlider = ({ products }) => {
         sx={{
           display: 'flex',
           overflowX: 'scroll',
-          gap: 2,
+          gap: isMobile ? 2 : 5,
           padding: '10px',
           width: '100%',
           '&::-webkit-scrollbar': {
@@ -118,12 +118,13 @@ export const ProductSlider = ({ products }) => {
             key={product.id}
             sx={{
               // minWidth: isMobile ? '30%' : '40%',
-              width: isMobile ? "42%" : isTablet ? "30%" : "20%",
+              width: isMobile ? "42%" : isTablet ? "30%" : "18%",
               flexShrink: 0,
               backgroundColor: "transparent",
               boxShadow: "none",
               position: 'relative',
               cursor: "pointer",
+              borderRadius: "0px"
             }}
             onClick={() => router.push(`/shop/${product?.id}`)}
           >
@@ -147,6 +148,7 @@ export const ProductSlider = ({ products }) => {
               sx={{
                 objectFit: 'fit',
                 height: isMobile ? 200 : 350,
+                // borderRadius: "5px"
               }}
             />
             <CardContent sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", height: "100px", maxHeight: "200px", padding: "10px 0px" }}>

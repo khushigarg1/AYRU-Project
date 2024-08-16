@@ -182,8 +182,8 @@ const ClientLoveSlider = () => {
                       width: '260px',
                       // width: '100%',
                       height: '350px',
-                      cursor: "pointer"
-                      // borderRadius: "15px",
+                      cursor: "pointer",
+                      borderRadius: "5px",
                     }}
                   />
                 </Box>

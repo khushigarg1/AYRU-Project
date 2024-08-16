@@ -19,7 +19,7 @@ export const CraftedWithLove = () => {
         const response = await api.get('/categories/visible');
         const sortedCategories = response.data.data.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt));
         setCategories(sortedCategories);
-        setCategoryInventory(response.data.data[selectedCategory]?.Inventory.slice(0, 4));
+        setCategoryInventory(response.data.data[selectedCategory]?.Inventory.slice(0, isMobile ? 4 : 5));
         setLoadMoreUrl(`/shop?categoryId=${response.data.data[selectedCategory]?.id}`);
       } catch (error) {
         console.error('Error fetching visible categories:', error);
@@ -83,8 +83,13 @@ export const CraftedWithLove = () => {
             }
 
             {categoryInventory?.map((item) => (
-              <Grid item key={item.id} xs={6} sm={6} md={4} lg={2.5}>
-                <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: "transparent", p: 0, cursor: "pointer" }} onClick={() => router.push(`/shop/${item?.id}`)}>
+              <Grid item key={item.id} xs={6} sm={6} md={4} lg={2.4}>
+                <Card sx={{
+                  height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: "transparent", p: 0, cursor: "pointer"
+                  ,
+                  borderRadius: "0px"
+
+                }} onClick={() => router.push(`/shop/${item?.id}`)}>
                   <CardMedia
                     component="img"
                     // height="250"
@@ -93,8 +98,9 @@ export const CraftedWithLove = () => {
 
                     sx={{
                       objectFit: 'fit',
-                      height: "250px",
+                      height: isMobile ? "250px" : "300px",
                       maxHeight: "100%",
+                      // borderRadius: "5px"
                     }}
                   />
                   <CardContent sx={{

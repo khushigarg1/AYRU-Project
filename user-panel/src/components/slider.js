@@ -106,7 +106,12 @@ const ImageCarousel = () => {
   // };
 
   return (
-    <Box sx={{ position: 'relative', width: '100%', }} mb={0}>
+    <Box sx={{
+      position: 'relative', width: '100%',
+      // backgroundColor: theme.palette.background.paper
+    }} mb={0}
+      p={4}
+    >
       {/* {displayImages.length > 0 && ( */}
       <Carousel
         autoPlay
@@ -118,6 +123,7 @@ const ImageCarousel = () => {
             display: 'none',
           },
         }}
+        stopAutoPlayOnHover={false}
         indicators
         indicatorContainerProps={{
           style: {
@@ -137,10 +143,11 @@ const ImageCarousel = () => {
               style={{
                 width: '100%',
                 // objectFit: 'fit',
-                objectFit: isMobile ? "cover" : "fit",
+                objectFit: "contain",
+                // objectFit: isMobile ? "cover" : "fit",
                 // objectFit: !isLaptop ? "cover" : "fit",
                 transition: 'transform 0.5s ease-in-out',
-                maxHeight: isMobile ? "475px" : "700px"
+                maxHeight: isMobile ? "475px" : "550px"
               }}
             />
             <OverlayText style={{ top: isMobile ? '70%' : '60%' }}>
