@@ -153,6 +153,9 @@ class CategoryService {
                             Media: true,
                             SizeChartMedia: true,
                         },
+                        orderBy: {
+                            updatedAt: "desc",
+                        },
                     },
                 },
                 orderBy: {

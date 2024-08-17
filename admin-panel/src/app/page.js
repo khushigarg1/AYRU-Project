@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import api from '../../api';
-import { Box, Grid, Paper, Typography, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ThemeProvider, useTheme, createTheme } from '@mui/material';
+import { Box, Grid, Paper, Typography, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ThemeProvider, useTheme, createTheme, TextField, Button } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import { useRouter } from 'next/navigation';
@@ -12,24 +12,46 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const router = useRouter();
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const theme = useTheme();
-  useEffect(() => {
-    const fetchDashboardData = async () => {
-      const admintoken = Cookies.get('admintoken');
-      api.defaults.headers.Authorization = `Bearer ${admintoken}`;
-      try {
-        const response = await api.get('/dashboard');
-        setDashboardData(response.data);
-      } catch (error) {
-        console.error('Error fetching dashboard data:', error);
-        setError('Failed to fetch dashboard data.');
-      } finally {
-        setLoading(false);
+
+
+  const fetchDashboardData = async () => {
+    const admintoken = Cookies.get('admintoken');
+    api.defaults.headers.Authorization = `Bearer ${admintoken}`;
+    try {
+      // const response = await api.get('/dashboard');
+
+      let url = `/dashboard`;
+
+      // Add query parameters if dates are selected
+      if (startDate && endDate) {
+        url += `?startDate=${startDate}&endDate=${endDate}`;
       }
-    };
+
+      const response = await api.get(url);
+      setDashboardData(response.data);
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+      setError('Failed to fetch dashboard data.');
+    } finally {
+      setLoading(false);
+    }
+  };
+  const ResetFilters = () => {
+    setStartDate('')
+    setEndDate('');
+    fetchDashboardData();
+  }
+
+  useEffect(() => {
 
     fetchDashboardData();
   }, []);
+  // useEffect(() => {
+  //   fetchDashboardData();
+  // }, [startDate, endDate]);
 
   if (loading) return <CircularProgress />;
   if (error) return <Typography color="error">{error}</Typography>;
@@ -94,8 +116,45 @@ const Dashboard = () => {
   return (
     <Box sx={{ p: 3 }}>
       <Grid container spacing={3}>
+
+        <Grid container spacing={3}>
+          <Grid item xs={6} sm={6}>
+            <TextField
+              label="Start Date"
+              type="date"
+              fullWidth
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <TextField
+              label="End Date"
+              type="date"
+              fullWidth
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Button fullWidth variant="contained" onClick={fetchDashboardData}>
+              Apply Filters
+            </Button>
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Button fullWidth variant="contained" onClick={ResetFilters}>
+              Reset Filters
+            </Button>
+          </Grid>
+        </Grid>
         {/* Total Users */}
-        <Grid container spacing={2}>
+        <Grid container spacing={2} mt={2}>
 
           <Grid item xs={6} sm={4} md={3}>
             <Paper sx={{ p: 3, textAlign: 'center' }}>

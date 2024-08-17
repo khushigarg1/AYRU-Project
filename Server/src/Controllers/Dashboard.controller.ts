@@ -73,21 +73,46 @@ export async function getAllDashboardData(
   reply: FastifyReply
 ) {
   try {
-    const totalUsers = await prisma.user.count();
+    // const { dateFilter } = request.query as { dateFilter?: string };
 
-    const { dateFilter } = request.query as { dateFilter?: string };
-    const totalOrders = await prisma.order.count();
+    const { startDate, endDate } = request.query as {
+      startDate?: string;
+      endDate?: string;
+    };
 
-    const totalCartItems = await prisma.cart.count();
+    const start = startDate ? new Date(startDate) : undefined;
+    const end = endDate ? new Date(endDate) : undefined;
+    const dateRangeFilter =
+      start && end
+        ? {
+            gte: start,
+            lte: end,
+          }
+        : undefined;
+
+    const totalUsers = await prisma.user.count({
+      where: dateRangeFilter ? { createdAt: dateRangeFilter } : {},
+    });
+    const totalOrders = await prisma.order.count({
+      where: dateRangeFilter ? { createdAt: dateRangeFilter } : {},
+    });
+
+    const totalCartItems = await prisma.cart.count({
+      where: dateRangeFilter ? { createdAt: dateRangeFilter } : {},
+    });
 
     //-------------------------------------------------wishlist items
-    const totalWishlistItems = await prisma.wishlist.count();
+    const totalWishlistItems = await prisma.wishlist.count({
+      where: dateRangeFilter ? { createdAt: dateRangeFilter } : {},
+    });
+
     const topWishlistItems = await prisma.wishlist
       .groupBy({
         by: ["inventoryId"],
         _count: {
           inventoryId: true,
         },
+        where: dateRangeFilter ? { createdAt: dateRangeFilter } : {},
         orderBy: {
           _count: {
             inventoryId: "desc",
@@ -102,7 +127,7 @@ export async function getAllDashboardData(
               where: { id: item.inventoryId },
               select: {
                 id: true,
-                productName: true, // Assuming your inventory model has a 'name' field
+                productName: true,
                 Category: true,
               },
             });
@@ -122,6 +147,7 @@ export async function getAllDashboardData(
         _count: {
           inventoryId: true,
         },
+        where: dateRangeFilter ? { createdAt: dateRangeFilter } : {},
         orderBy: {
           _count: {
             inventoryId: "desc",
@@ -136,7 +162,7 @@ export async function getAllDashboardData(
               where: { id: item.inventoryId },
               select: {
                 id: true,
-                productName: true, // Assuming your inventory model has a 'name' field
+                productName: true,
                 Category: true,
               },
             });
@@ -150,7 +176,7 @@ export async function getAllDashboardData(
 
     //------------------------------------------------ Order statistics
     const orders = await prisma.order.findMany({
-      where: { paymentStatus: "paid" },
+      where: { paymentStatus: "paid", createdAt: dateRangeFilter },
       include: { orderItems: true },
     });
 
@@ -174,17 +200,27 @@ export async function getAllDashboardData(
         totalCost += costPrice;
         totalSellingPrice += sellingPrice;
         totalDiscountedPrice += discountedPrice;
-        totalItems += 1; // Count the number of items
+        totalItems += 1;
       });
     });
+
     const pendingOrders = await prisma.order.count({
-      where: { status: "pending" },
+      where: {
+        status: "pending",
+        createdAt: dateRangeFilter,
+      },
     });
     const successOrders = await prisma.order.count({
-      where: { status: "success" },
+      where: {
+        status: "success",
+        createdAt: dateRangeFilter,
+      },
     });
     const failedOrders = await prisma.order.count({
-      where: { status: "failed" },
+      where: {
+        status: "failed",
+        createdAt: dateRangeFilter,
+      },
     });
 
     //--------------------------

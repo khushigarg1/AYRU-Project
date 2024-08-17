@@ -81,18 +81,36 @@ function getOrderCountsByState() {
 function getAllDashboardData(request, reply) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const totalUsers = yield prisma.user.count();
-            const { dateFilter } = request.query;
-            const totalOrders = yield prisma.order.count();
-            const totalCartItems = yield prisma.cart.count();
+            // const { dateFilter } = request.query as { dateFilter?: string };
+            const { startDate, endDate } = request.query;
+            const start = startDate ? new Date(startDate) : undefined;
+            const end = endDate ? new Date(endDate) : undefined;
+            const dateRangeFilter = start && end
+                ? {
+                    gte: start,
+                    lte: end,
+                }
+                : undefined;
+            const totalUsers = yield prisma.user.count({
+                where: dateRangeFilter ? { createdAt: dateRangeFilter } : {},
+            });
+            const totalOrders = yield prisma.order.count({
+                where: dateRangeFilter ? { createdAt: dateRangeFilter } : {},
+            });
+            const totalCartItems = yield prisma.cart.count({
+                where: dateRangeFilter ? { createdAt: dateRangeFilter } : {},
+            });
             //-------------------------------------------------wishlist items
-            const totalWishlistItems = yield prisma.wishlist.count();
+            const totalWishlistItems = yield prisma.wishlist.count({
+                where: dateRangeFilter ? { createdAt: dateRangeFilter } : {},
+            });
             const topWishlistItems = yield prisma.wishlist
                 .groupBy({
                 by: ["inventoryId"],
                 _count: {
                     inventoryId: true,
                 },
+                where: dateRangeFilter ? { createdAt: dateRangeFilter } : {},
                 orderBy: {
                     _count: {
                         inventoryId: "desc",
@@ -106,7 +124,7 @@ function getAllDashboardData(request, reply) {
                         where: { id: item.inventoryId },
                         select: {
                             id: true,
-                            productName: true, // Assuming your inventory model has a 'name' field
+                            productName: true,
                             Category: true,
                         },
                     });
@@ -123,6 +141,7 @@ function getAllDashboardData(request, reply) {
                 _count: {
                     inventoryId: true,
                 },
+                where: dateRangeFilter ? { createdAt: dateRangeFilter } : {},
                 orderBy: {
                     _count: {
                         inventoryId: "desc",
@@ -136,7 +155,7 @@ function getAllDashboardData(request, reply) {
                         where: { id: item.inventoryId },
                         select: {
                             id: true,
-                            productName: true, // Assuming your inventory model has a 'name' field
+                            productName: true,
                             Category: true,
                         },
                     });
@@ -148,7 +167,7 @@ function getAllDashboardData(request, reply) {
             }));
             //------------------------------------------------ Order statistics
             const orders = yield prisma.order.findMany({
-                where: { paymentStatus: "paid" },
+                where: { paymentStatus: "paid", createdAt: dateRangeFilter },
                 include: { orderItems: true },
             });
             let totalRevenue = 0;
@@ -169,17 +188,26 @@ function getAllDashboardData(request, reply) {
                     totalCost += costPrice;
                     totalSellingPrice += sellingPrice;
                     totalDiscountedPrice += discountedPrice;
-                    totalItems += 1; // Count the number of items
+                    totalItems += 1;
                 });
             });
             const pendingOrders = yield prisma.order.count({
-                where: { status: "pending" },
+                where: {
+                    status: "pending",
+                    createdAt: dateRangeFilter,
+                },
             });
             const successOrders = yield prisma.order.count({
-                where: { status: "success" },
+                where: {
+                    status: "success",
+                    createdAt: dateRangeFilter,
+                },
             });
             const failedOrders = yield prisma.order.count({
-                where: { status: "failed" },
+                where: {
+                    status: "failed",
+                    createdAt: dateRangeFilter,
+                },
             });
             //--------------------------
             const ordersByCountry = yield getOrderCountsByCountry();
