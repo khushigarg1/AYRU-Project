@@ -406,7 +406,7 @@ const ShopPageContent = () => {
                 closeMenuOnScroll: true
               }}
             >
-              <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} value="">
+              <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} value="All">
                 All Categories
               </MenuItem>
               {categories.map((category) => (
@@ -481,7 +481,7 @@ const ShopPageContent = () => {
                 closeMenuOnScroll: true
               }}
             >
-              <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} value="">Select Subcategory</MenuItem>
+              <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} value="All">Select Subcategory</MenuItem>
               {subcategories.map(subcategory => (
                 <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} key={subcategory.id} value={subcategory.id}>{subcategory.subcategoryName}</MenuItem>
               ))}
@@ -726,7 +726,7 @@ const ShopPageContent = () => {
                     closeMenuOnScroll: true
                   }}
                 >
-                  <MenuItem value="">All Categories</MenuItem>
+                  <MenuItem value="All">All Categories</MenuItem>
                   {categories.map(category => (
                     <MenuItem key={category.id} value={category.id}>
                       {category.categoryName}
@@ -790,7 +790,7 @@ const ShopPageContent = () => {
                     closeMenuOnScroll: true
                   }}
                 >
-                  <MenuItem value="">All Subcategories</MenuItem>
+                  <MenuItem value="All">All Subcategories</MenuItem>
                   {subcategories.map(subcategory => (
                     <MenuItem key={subcategory.id} value={subcategory.id}>
                       {subcategory.subcategoryName}
@@ -836,7 +836,7 @@ const ShopPageContent = () => {
                   onChange={handleOutOfStockChange}
                   label="Availability"
                 >
-                  <MenuItem value="">All</MenuItem>
+                  <MenuItem value="All">All</MenuItem>
                   <MenuItem value="true">Out of stock</MenuItem>
                   <MenuItem value="false">In stock</MenuItem>
                 </CustomSelect>

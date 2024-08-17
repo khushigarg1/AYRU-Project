@@ -417,7 +417,7 @@ const SalePageContent = () => {
                 closeMenuOnScroll: true
               }}
             >
-              <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} value="">ALL</MenuItem>
+              <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} value="All">All Categories</MenuItem>
               {categories.map(category => (
                 <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} key={category.id} value={category.id}>{category.categoryName}</MenuItem>
               ))}
@@ -483,7 +483,7 @@ const SalePageContent = () => {
                 closeMenuOnScroll: true
               }}
             >
-              <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} value="">Select Subcategory</MenuItem>
+              <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} value="All">Select Subcategory</MenuItem>
               {subcategories.map(subcategory => (
                 <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} key={subcategory.id} value={subcategory.id}>{subcategory.subcategoryName}</MenuItem>
               ))}
@@ -668,7 +668,7 @@ const SalePageContent = () => {
                   value={selectedCategory}
                   onChange={(e) => handleCategoryChange(e.target.value)}
                 >
-                  <MenuItem value="">ALL</MenuItem>
+                  <MenuItem value="All">All Categories</MenuItem>
                   {categories.map(category => (
                     <MenuItem key={category.id} value={category.id}>
                       {category.categoryName}
@@ -683,7 +683,7 @@ const SalePageContent = () => {
                   value={selectedSubcategory}
                   onChange={(e) => handleSubcategoryChange(e.target.value)}
                 >
-                  <MenuItem value="">All Subcategories</MenuItem>
+                  <MenuItem value="All">All Subcategories</MenuItem>
                   {subcategories.map(subcategory => (
                     <MenuItem key={subcategory.id} value={subcategory.id}>
                       {subcategory.subcategoryName}
@@ -730,7 +730,7 @@ const SalePageContent = () => {
                   onChange={handleOutOfStockChange}
                   label="Availability"
                 >
-                  <MenuItem value="">All</MenuItem>
+                  <MenuItem value="All">All</MenuItem>
                   <MenuItem value="true">Out of stock</MenuItem>
                   <MenuItem value="false">In stock</MenuItem>
                 </CustomSelect>
