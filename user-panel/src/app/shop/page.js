@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, Suspense, useRef } from 'react';
 import { Grid, Select, MenuItem, FormControl, InputLabel, Box, Paper, Typography, useTheme, Button, Drawer, TextField, IconButton, Divider, Slider, FormControlLabel, Checkbox, styled, CircularProgress, Autocomplete, Popper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -130,11 +130,11 @@ const ShopPageContent = () => {
           setSubcategories(selectedCategoryData.subcategories);
           setCategoryName(selectedCategoryData.categoryName);
         }
-        setLoading(false);
       }
       if (categoryId || subcategoryId) {
         fetchInventory(categoryId, subcategoryId);
       }
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
@@ -346,19 +346,77 @@ const ShopPageContent = () => {
             }}
           />
         </Grid>
-        {/* <Grid item xs={6} sm={6} md={6}>
-          <FormControl fullWidth >
-            <InputLabel label="outlined">Select Category</InputLabel>
+
+
+        <Grid item xs={6} sm={6} md={6}>
+          <FormControl fullWidth>
+            <InputLabel>Select Category</InputLabel>
             <CustomSelect
               value={selectedCategory}
+              closeMenuOnScroll={true}
               label="Select Category"
               onChange={(e) => handleCategoryChange(e.target.value)}
-              sx={{ fontFamily: theme.palette.typography.fontFamily }}
-
+              sx={{
+                fontFamily: theme.palette.typography.fontFamily,
+                '& .MuiSelect-root': {
+                  padding: '10px',
+                },
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: theme.palette.primary.main,
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: theme.palette.background.contrast,
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: theme.palette.background.contrast,
+                },
+              }}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    maxHeight: 250,
+                    '& .MuiMenuItem-root': {
+                      fontFamily: theme.palette.typography.fontFamily,
+                      '&:hover': {
+                        backgroundColor: theme.palette.action.hover,
+                      },
+                      '&.Mui-selected': {
+                        backgroundColor: theme.palette.background.contrast,
+                        '&:hover': {
+                          backgroundColor: theme.palette.background.contrast,
+                        },
+                      },
+                    },
+                    '&::-webkit-scrollbar': {
+                      width: '6px',
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                      backgroundColor: theme.palette.background.contrast,
+                      borderRadius: '10px',
+                    },
+                    '&::-webkit-scrollbar-thumb:hover': {
+                      backgroundColor: theme.palette.background.contrast,
+                    },
+                    '&::-webkit-scrollbar-track': {
+                      backgroundColor: theme.palette.background.paper,
+                    },
+                  },
+                },
+                disableScrollLock: true,
+                closeMenuOnScroll: true
+              }}
             >
-              <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} value="">All Categories</MenuItem>
-              {categories.map(category => (
-                <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} key={category.id} value={category.id}>{category.categoryName}</MenuItem>
+              <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} value="">
+                All Categories
+              </MenuItem>
+              {categories.map((category) => (
+                <MenuItem
+                  sx={{ fontFamily: theme.palette.typography.fontFamily }}
+                  key={category.id}
+                  value={category.id}
+                >
+                  {category.categoryName}
+                </MenuItem>
               ))}
             </CustomSelect>
           </FormControl>
@@ -370,10 +428,58 @@ const ShopPageContent = () => {
             <InputLabel>Select Subcategory</InputLabel>
             <CustomSelect
               value={selectedSubcategory}
-              sx={{ fontFamily: theme.palette.typography.fontFamily }}
               label="Select Subcategory"
               onChange={(e) => handleSubcategoryChange(e.target.value)}
               disabled={!selectedCategory}
+
+              sx={{
+                fontFamily: theme.palette.typography.fontFamily,
+                '& .MuiSelect-root': {
+                  padding: '10px',
+                },
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: theme.palette.primary.main,
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: theme.palette.background.contrast,
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: theme.palette.background.contrast,
+                },
+              }}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    maxHeight: 250,
+                    '& .MuiMenuItem-root': {
+                      fontFamily: theme.palette.typography.fontFamily,
+                      '&:hover': {
+                        backgroundColor: theme.palette.action.hover,
+                      },
+                      '&.Mui-selected': {
+                        backgroundColor: theme.palette.background.contrast,
+                        '&:hover': {
+                          backgroundColor: theme.palette.background.contrast,
+                        },
+                      },
+                    },
+                    '&::-webkit-scrollbar': {
+                      width: '6px',
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                      backgroundColor: theme.palette.background.contrast,
+                      borderRadius: '10px',
+                    },
+                    '&::-webkit-scrollbar-thumb:hover': {
+                      backgroundColor: theme.palette.background.contrast,
+                    },
+                    '&::-webkit-scrollbar-track': {
+                      backgroundColor: theme.palette.background.paper,
+                    },
+                  },
+                },
+                closeMenuOnScroll: true
+              }}
             >
               <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} value="">Select Subcategory</MenuItem>
               {subcategories.map(subcategory => (
@@ -381,9 +487,9 @@ const ShopPageContent = () => {
               ))}
             </CustomSelect>
           </FormControl>
-        </Grid > */}
+        </Grid >
 
-        <Grid item xs={6} sm={6} md={6}>
+        {/* <Grid item xs={6} sm={6} md={6}>
           <FormControl fullWidth sx={{ fontFamily: theme.palette.typography.fontFamily }}
           >
             <Autocomplete
@@ -454,7 +560,7 @@ const ShopPageContent = () => {
               disabled={!selectedCategory}
             />
           </FormControl>
-        </Grid>
+        </Grid> */}
 
       </Grid >
       <Grid container spacing={3} className="shop-page" style={{ padding: " 1% 2%" }}>
@@ -570,6 +676,55 @@ const ShopPageContent = () => {
                   label="Category"
                   value={selectedCategory}
                   onChange={(e) => handleCategoryChange(e.target.value)}
+
+                  sx={{
+                    fontFamily: theme.palette.typography.fontFamily,
+                    '& .MuiSelect-root': {
+                      padding: '10px',
+                    },
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderColor: theme.palette.primary.main,
+                    },
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: theme.palette.background.contrast,
+                    },
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: theme.palette.background.contrast,
+                    },
+                  }}
+                  MenuProps={{
+                    PaperProps: {
+                      sx: {
+                        maxHeight: 250,
+                        '& .MuiMenuItem-root': {
+                          fontFamily: theme.palette.typography.fontFamily,
+                          '&:hover': {
+                            backgroundColor: theme.palette.action.hover,
+                          },
+                          '&.Mui-selected': {
+                            backgroundColor: theme.palette.background.contrast,
+                            '&:hover': {
+                              backgroundColor: theme.palette.background.contrast,
+                            },
+                          },
+                        },
+                        '&::-webkit-scrollbar': {
+                          width: '6px',
+                        },
+                        '&::-webkit-scrollbar-thumb': {
+                          backgroundColor: theme.palette.background.contrast,
+                          borderRadius: '10px',
+                        },
+                        '&::-webkit-scrollbar-thumb:hover': {
+                          backgroundColor: theme.palette.background.contrast,
+                        },
+                        '&::-webkit-scrollbar-track': {
+                          backgroundColor: theme.palette.background.paper,
+                        },
+                      },
+                    },
+                    closeMenuOnScroll: true
+                  }}
                 >
                   <MenuItem value="">All Categories</MenuItem>
                   {categories.map(category => (
@@ -585,6 +740,55 @@ const ShopPageContent = () => {
                   label="Subcategory"
                   value={selectedSubcategory}
                   onChange={(e) => handleSubcategoryChange(e.target.value)}
+
+                  sx={{
+                    fontFamily: theme.palette.typography.fontFamily,
+                    '& .MuiSelect-root': {
+                      padding: '10px',
+                    },
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderColor: theme.palette.primary.main,
+                    },
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: theme.palette.background.contrast,
+                    },
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: theme.palette.background.contrast,
+                    },
+                  }}
+                  MenuProps={{
+                    PaperProps: {
+                      sx: {
+                        maxHeight: 250,
+                        '& .MuiMenuItem-root': {
+                          fontFamily: theme.palette.typography.fontFamily,
+                          '&:hover': {
+                            backgroundColor: theme.palette.action.hover,
+                          },
+                          '&.Mui-selected': {
+                            backgroundColor: theme.palette.background.contrast,
+                            '&:hover': {
+                              backgroundColor: theme.palette.background.contrast,
+                            },
+                          },
+                        },
+                        '&::-webkit-scrollbar': {
+                          width: '6px',
+                        },
+                        '&::-webkit-scrollbar-thumb': {
+                          backgroundColor: theme.palette.background.contrast,
+                          borderRadius: '10px',
+                        },
+                        '&::-webkit-scrollbar-thumb:hover': {
+                          backgroundColor: theme.palette.background.contrast,
+                        },
+                        '&::-webkit-scrollbar-track': {
+                          backgroundColor: theme.palette.background.paper,
+                        },
+                      },
+                    },
+                    closeMenuOnScroll: true
+                  }}
                 >
                   <MenuItem value="">All Subcategories</MenuItem>
                   {subcategories.map(subcategory => (

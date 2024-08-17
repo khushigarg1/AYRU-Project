@@ -85,6 +85,7 @@ export const FeedbackComponent = () => {
                       src={`https://ayrujaipur.s3.amazonaws.com/${firstMedia.imageUrl}`}
                       style={{ maxWidth: '20em', maxHeight: '25em', borderRadius: '8px', marginBottom: '10px', backgroundColor: "transparent" }}
                       autoPlay
+                      muted
                     />
                   </>
                 ) : (

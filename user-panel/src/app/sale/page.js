@@ -360,13 +360,62 @@ const SalePageContent = () => {
             }}
           />
         </Grid>
-        {/* <Grid item xs={6} sm={6} md={6}>
+        <Grid item xs={6} sm={6} md={6}>
           <FormControl fullWidth>
             <InputLabel>Select Category</InputLabel>
             <CustomSelect
               label="Select Category"
               value={selectedCategory}
               onChange={(e) => handleCategoryChange(e.target.value)}
+              sx={{
+                fontFamily: theme.palette.typography.fontFamily,
+                '& .MuiSelect-root': {
+                  padding: '10px',
+                },
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: theme.palette.primary.main,
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: theme.palette.background.contrast,
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: theme.palette.background.contrast,
+                },
+              }}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    maxHeight: 250,
+                    '& .MuiMenuItem-root': {
+                      fontFamily: theme.palette.typography.fontFamily,
+                      '&:hover': {
+                        backgroundColor: theme.palette.action.hover,
+                      },
+                      '&.Mui-selected': {
+                        backgroundColor: theme.palette.background.contrast,
+                        '&:hover': {
+                          backgroundColor: theme.palette.background.contrast,
+                        },
+                      },
+                    },
+                    '&::-webkit-scrollbar': {
+                      width: '6px',
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                      backgroundColor: theme.palette.background.contrast,
+                      borderRadius: '10px',
+                    },
+                    '&::-webkit-scrollbar-thumb:hover': {
+                      backgroundColor: theme.palette.background.contrast,
+                    },
+                    '&::-webkit-scrollbar-track': {
+                      backgroundColor: theme.palette.background.paper,
+                    },
+                  },
+                },
+                disableScrollLock: true,
+                closeMenuOnScroll: true
+              }}
             >
               <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} value="">ALL</MenuItem>
               {categories.map(category => (
@@ -380,11 +429,59 @@ const SalePageContent = () => {
           <FormControl fullWidth>
             <InputLabel>Select Subcategory</InputLabel>
             <CustomSelect
-
               label="Select Subcategory"
               value={selectedSubcategory}
               onChange={(e) => handleSubcategoryChange(e.target.value)}
               disabled={!selectedCategory}
+              sx={{
+                fontFamily: theme.palette.typography.fontFamily,
+                '& .MuiSelect-root': {
+                  padding: '10px',
+                },
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: theme.palette.primary.main,
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: theme.palette.background.contrast,
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: theme.palette.background.contrast,
+                },
+              }}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    maxHeight: 250,
+                    '& .MuiMenuItem-root': {
+                      fontFamily: theme.palette.typography.fontFamily,
+                      '&:hover': {
+                        backgroundColor: theme.palette.action.hover,
+                      },
+                      '&.Mui-selected': {
+                        backgroundColor: theme.palette.background.contrast,
+                        '&:hover': {
+                          backgroundColor: theme.palette.background.contrast,
+                        },
+                      },
+                    },
+                    '&::-webkit-scrollbar': {
+                      width: '6px',
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                      backgroundColor: theme.palette.background.contrast,
+                      borderRadius: '10px',
+                    },
+                    '&::-webkit-scrollbar-thumb:hover': {
+                      backgroundColor: theme.palette.background.contrast,
+                    },
+                    '&::-webkit-scrollbar-track': {
+                      backgroundColor: theme.palette.background.paper,
+                    },
+                  },
+                },
+                disableScrollLock: true,
+                closeMenuOnScroll: true
+              }}
             >
               <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} value="">Select Subcategory</MenuItem>
               {subcategories.map(subcategory => (
@@ -392,9 +489,9 @@ const SalePageContent = () => {
               ))}
             </CustomSelect>
           </FormControl>
-        </Grid > */}
+        </Grid >
 
-        <Grid item xs={6} sm={6} md={6}>
+        {/* <Grid item xs={6} sm={6} md={6}>
           <FormControl fullWidth>
             <Autocomplete
               options={categories || []}
@@ -466,7 +563,7 @@ const SalePageContent = () => {
               disabled={!selectedCategory}
             />
           </FormControl>
-        </Grid>
+        </Grid> */}
       </Grid >
       <Grid container spacing={3} className="shop-page" style={{ padding: " 3% 2%" }}>
         <Grid container spacing={1} item xs={12}>
