@@ -483,7 +483,7 @@ const SalePageContent = () => {
                 closeMenuOnScroll: true
               }}
             >
-              <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} value="All">Select Subcategory</MenuItem>
+              <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} value="All">All Subcategory</MenuItem>
               {subcategories.map(subcategory => (
                 <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} key={subcategory.id} value={subcategory.id}>{subcategory.subcategoryName}</MenuItem>
               ))}
