@@ -37,6 +37,7 @@ export default function wishlist() {
     { field: "id", headerName: "ID", width: 90 },
     { field: "userId", headerName: "User ID", width: 90 },
     { field: "userName", headerName: "User Name", width: 150 },
+    { field: "email", headerName: "Email", width: 250 },
     { field: "inventoryId", headerName: "Inventory ID", width: 110 },
     {
       field: "skuId", headerName: "SKU", width: 150,
@@ -85,6 +86,7 @@ export default function wishlist() {
       const wishlistData = response.data?.data?.wishlists?.map(wishlist => ({
         ...wishlist,
         userName: wishlist?.User?.firstName ? `${wishlist.User.firstName} ${wishlist.User.lastName}` : wishlist?.User?.username,
+        email: wishlist?.User?.email ? wishlist.User.email : wishlist?.User?.email,
         productName: wishlist?.Inventory?.productName,
         sellingPrice: wishlist?.Inventory?.sellingPrice,
         discountedPrice: wishlist?.Inventory?.discountedPrice,
