@@ -339,7 +339,7 @@ export default function PageNav({ children }) {
                   </ListItemButton>
                 </ListItem>
               </Link>
-              <Link onClick={handleDrawerClose} href="/color">
+              {/* <Link onClick={handleDrawerClose} href="/color">
                 <ListItem
                   key={"Colors"}
                   onClick={() => setOpenTab("color".toLowerCase())}
@@ -368,8 +368,8 @@ export default function PageNav({ children }) {
                     />
                   </ListItemButton>
                 </ListItem>
-              </Link>
-              <Link onClick={handleDrawerClose} href="/size-type/chart">
+              </Link> */}
+              {/* <Link onClick={handleDrawerClose} href="/size-type/chart">
                 <ListItem
                   key={"SizeChart"}
                   onClick={() => setOpenTab("Cycles".toLowerCase())}
@@ -398,7 +398,7 @@ export default function PageNav({ children }) {
                     />
                   </ListItemButton>
                 </ListItem>
-              </Link>
+              </Link> */}
               <ListItemButton
                 onClick={handleNestedClick}
                 sx={{
