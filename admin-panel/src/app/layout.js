@@ -34,23 +34,29 @@ const materialTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#FFD54F", // Yellow
+      main: "#FFD54F",
       light: "#FFE082",
       dark: "#FFC107",
-      contrastText: "#212121", // Dark text for contrast
+      contrastText: "#212121",
     },
     secondary: {
-      main: "#FF8A65", // Orange
+      main: "#FF8A65",
       light: "#FFAB91",
       dark: "#E64A19",
-      contrastText: "#000000", // Black text for contrast
+      contrastText: "#000000",
     },
-    divider: "rgba(0,0,0,0.12)", // Lighter divider color
+    divider: "rgba(0,0,0,0.12)",
     background: {
-      paper: "#FFF9C4", // Light yellow background
+      primary: "#FFD54F",
+      secondary: "#fcc73d",
+      paper: "#FFF9C4",
+      contrast: "#fcc73d"
     },
+    typography: {
+      fontFamily: "Neuton !important",
+      fontFamily2: "Neuton, serif",
+    }
   },
-
 
   breakpoints: {
     values: {

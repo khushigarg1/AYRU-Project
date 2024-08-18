@@ -89,6 +89,19 @@ const HomePage = () => {
   const columns = isMobile ? [
     { field: "id", headerName: "ID", width: 80 },
     { field: "productName", headerName: "Product Name", width: 350 },
+    {
+      field: "actions",
+      headerName: "Actions",
+      renderCell: (params) => (
+        <Box>
+          <Link href={`/inventory/${params.row.id}`} passHref>
+            <Button color="primary">Know More</Button>
+          </Link>
+          <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button>
+        </Box>
+      ),
+      width: 180
+    },
     { field: "skuId", headerName: "SKU ID", width: 150 },
     { field: "categoryId", headerName: "Category", width: 150, renderCell: (params) => getCategoryName(params.row.categoryId) },
     { field: "quantity", headerName: "Quantity", width: 130 },
@@ -113,6 +126,9 @@ const HomePage = () => {
       width: 200,
       valueGetter: (params) => formatDate(params.row.updatedAt)
     },
+  ] : [
+    { field: "id", headerName: "ID", width: 80 },
+    { field: "productName", headerName: "Product Name", width: 350 },
     {
       field: "actions",
       headerName: "Actions",
@@ -125,10 +141,7 @@ const HomePage = () => {
         </Box>
       ),
       width: 180
-    }
-  ] : [
-    { field: "id", headerName: "ID", width: 80 },
-    { field: "productName", headerName: "Product Name", width: 350 },
+    },
     { field: "skuId", headerName: "SKU ID", width: 150 },
     { field: "categoryId", headerName: "Category", width: 150, renderCell: (params) => getCategoryName(params?.row?.categoryId) },
     { field: "quantity", headerName: "Quantity", width: 100 },
@@ -152,19 +165,6 @@ const HomePage = () => {
       headerName: "Updated At",
       width: 200,
       valueGetter: (params) => formatDate(params.row.updatedAt)
-    },
-    {
-      field: "actions",
-      headerName: "Actions",
-      renderCell: (params) => (
-        <Box>
-          <Link href={`/inventory/${params.row.id}`} passHref>
-            <Button color="primary">Know More</Button>
-          </Link>
-          <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button>
-        </Box>
-      ),
-      width: 180
     }
   ];
   const handleDelete = async (id) => {

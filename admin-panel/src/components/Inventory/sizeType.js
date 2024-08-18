@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Grid, Checkbox, Select, MenuItem, InputLabel, FormControl, ListItemText, TextField, useTheme, useMediaQuery } from '@mui/material';
+import { Typography, Button, Grid, Checkbox, Select, MenuItem, InputLabel, FormControl, ListItemText, TextField, useTheme, useMediaQuery, Autocomplete, Chip } from '@mui/material';
 import { DeleteForever } from '@mui/icons-material';
 import api from '../../../api';
 
@@ -554,7 +554,70 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
 
         </FormControl>
       </Grid>
+
       <Grid item xs={12}>
+        <Autocomplete
+          multiple
+          options={relatedInventories || []}
+          value={relatedInventories.filter((inventory) =>
+            data?.relatedInventoriesIds?.includes(inventory.id)
+          )}
+          onChange={(event, newValue) => {
+            const selectedIds = newValue.map((item) => item.id);
+            handleChange({ target: { value: selectedIds } }, 'relatedInventoriesIds');
+          }}
+          getOptionLabel={(option) => `${option.id} ${option.productName}`}
+          isOptionEqualToValue={(option, value) => option.id === value.id}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Related Inventories"
+              variant="outlined"
+              margin="normal"
+              fullWidth
+            />
+          )}
+          renderTags={(value, getTagProps) =>
+            value.map((option, index) => (
+              <Chip
+                label={`${option.id} ${option.productName}`}
+                {...getTagProps({ index })}
+              />
+            ))
+          }
+          PaperProps={{
+            sx: {
+              maxHeight: 300,
+              border: `2px solid ${theme.palette.background.main}`,
+              '& .MuiAutocomplete-option': {
+                fontFamily: theme.palette.typography.fontFamily,
+              },
+            },
+          }}
+          ListboxProps={{
+            sx: {
+              '& .MuiAutocomplete-option[aria-selected="true"]': {
+                backgroundColor: theme.palette.primary.main,
+                color: theme.palette.primary.contrastText,
+                '&:hover': {
+                  backgroundColor: theme.palette.primary.main,
+                },
+              },
+              // '& .MuiAutocomplete-option.Mui-focused': {
+              //   backgroundColor: theme.palette.primary.light,
+              //   color: theme.palette.primary.contrastText,
+              // },
+            },
+          }}
+          slotProps={{
+            popper: {
+              disablePortal: true,
+            },
+          }}
+        />
+      </Grid>
+
+      {/* <Grid item xs={12}>
         <FormControl fullWidth variant="outlined" margin="normal">
           <InputLabel id="relatedInventories-label">Related Inventories</InputLabel>
           <Select
@@ -563,6 +626,55 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
             value={data?.relatedInventoriesIds || []}
             onChange={(e) => handleChange(e, 'relatedInventoriesIds')}
             renderValue={(selected) => getInventoryNames(selected, relatedInventories)}
+            sx={{
+              fontFamily: theme.palette.typography.fontFamily,
+              '& .MuiSelect-root': {
+                padding: '10px',
+              },
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: theme.palette.primary.main,
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: theme.palette.background.contrast,
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: theme.palette.background.contrast,
+              },
+            }}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  maxHeight: 300,
+                  '& .MuiMenuItem-root': {
+                    fontFamily: theme.palette.typography.fontFamily,
+                    '&:hover': {
+                      backgroundColor: theme.palette.action.hover,
+                    },
+                    '&.Mui-selected': {
+                      backgroundColor: theme.palette.action.hover,
+                      '&:hover': {
+                        backgroundColor: theme.palette.action.hover,
+                      },
+                    },
+                  },
+                  '&::-webkit-scrollbar': {
+                    width: '6px',
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: theme.palette.background.contrast,
+                    borderRadius: '10px',
+                  },
+                  '&::-webkit-scrollbar-thumb:hover': {
+                    backgroundColor: theme.palette.background.contrast,
+                  },
+                  '&::-webkit-scrollbar-track': {
+                    backgroundColor: theme.palette.background.paper,
+                  },
+                },
+              },
+              disableScrollLock: true,
+              closeMenuOnScroll: true
+            }}
           >
             {relatedInventories?.map((inventory) => (
               <MenuItem key={inventory?.id} value={inventory?.id}>
@@ -572,7 +684,7 @@ const SizeChartComponent = ({ inventory, onSave, onCancel, Editadditional }) => 
             ))}
           </Select>
         </FormControl>
-      </Grid>
+      </Grid> */}
 
       <Grid item xs={12}>
         <Button variant="contained" color="primary" onClick={handleSave} sx={{ mt: 2 }}>
