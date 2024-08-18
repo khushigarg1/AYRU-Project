@@ -85,7 +85,7 @@ const LoginForm = ({ switchToSignUp }) => {
         setUser(user);
         closeAuthModal();
       } else {
-        setSnackbarMessage(response?.data?.message || 'Email not verified');
+        setSnackbarMessage(response?.data?.message || 'Email not verified, Please sign in using OTP.');
         setSnackbarSeverity('error');
         setSnackbarOpen(true);
       }
