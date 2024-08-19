@@ -470,7 +470,7 @@ Thank you so much!`;
                       margin: "10px 0px"
                     }}
                     >
-                      Only {quantity} units left
+                      Only {quantity} unit left
                     </Typography>
                   )
                 )
