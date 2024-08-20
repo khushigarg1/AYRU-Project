@@ -10,10 +10,11 @@ const RequestAvailabilityModal = ({ getAvailabilityStatus, product, open, handle
   const [mobileNumber, setMobileNumber] = useState('');
   const [isValid, setIsValid] = useState(false);
   const [whatsappURL, setWhatsappURL] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSendRequest = async () => {
     const token = Cookies.get('token');
-
+    setLoading(true);
     try {
       await api.post(
         'availability/',
@@ -43,6 +44,8 @@ const RequestAvailabilityModal = ({ getAvailabilityStatus, product, open, handle
       getAvailabilityStatus();
     } catch (error) {
       console.error('Error sending request:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -117,9 +120,9 @@ const RequestAvailabilityModal = ({ getAvailabilityStatus, product, open, handle
           fullWidth
           onClick={handleSendRequest}
           sx={{ mt: 2 }}
-          disabled={!isValid}
+          disabled={!isValid || loading}
         >
-          Send Request
+          {loading ? 'Sending...' : 'Send Request'}
         </Button>
 
         <Button
