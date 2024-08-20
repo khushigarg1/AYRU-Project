@@ -36,7 +36,7 @@ export const InventoryAccordion = ({ relatedInventories }) => {
               key={inventory.id}
               onClick={() => window.location.href = `/shop/${inventory.id}`}
               sx={{
-                height: "220px",
+                height: "200px",
                 padding: "0px",
                 boxShadow: "none",
                 border: "1px solid gray",
@@ -53,7 +53,7 @@ export const InventoryAccordion = ({ relatedInventories }) => {
                 sx={{
                   objectFit: 'fit',
                   // objectFit: 'contain',
-                  height: "150px",
+                  height: "130px",
                   width: "100%"
                 }}
               />
