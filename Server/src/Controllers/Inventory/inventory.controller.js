@@ -39,13 +39,13 @@ const createInventory = (request, reply) => __awaiter(void 0, void 0, void 0, fu
 });
 exports.createInventory = createInventory;
 const getInventoriesByCategory = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
-    const { categoryId, subCategoryId } = request.query;
+    const { categoryId, subCategoryId, sale } = request.query;
     if (!categoryId) {
         reply.status(400).send({ error: "Category ID is required" });
         return;
     }
     try {
-        const inventories = yield inventoryService.getInventoriesByCategory(Number(categoryId), subCategoryId ? Number(subCategoryId) : undefined);
+        const inventories = yield inventoryService.getInventoriesByCategory(Number(categoryId), subCategoryId ? Number(subCategoryId) : undefined, sale);
         reply.send({ data: inventories });
     }
     catch (error) {

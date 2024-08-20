@@ -105,6 +105,8 @@ const ShopPageContent = () => {
       setSelectedSubcategory(subcategoryId && subcategoryId)
       fetchCategories();
     } else {
+      setSelectedCategory('');
+      setSelectedSubcategory(null);
       fetchAllInventory();
     }
   }, [categoryId, subcategoryId]);
@@ -148,8 +150,9 @@ const ShopPageContent = () => {
     setSelectedCategory(categoryId);
     setSelectedSubcategory('');
 
-    if (categoryId === '') {
+    if (categoryId === 'All') {
       setCategoryName('All Categories');
+      setSubcategories('');
       fetchAllInventory();
     } else {
       const selectedCategoryData = categories.find(cat => cat.id === parseInt(categoryId));
@@ -162,8 +165,13 @@ const ShopPageContent = () => {
   };
 
   const handleSubcategoryChange = (subcategoryId) => {
-    setSelectedSubcategory(subcategoryId);
-    fetchInventory(selectedCategory, subcategoryId);
+    if (subcategoryId === 'All') {
+      setSelectedSubcategory('');
+      fetchInventory(selectedCategory, '');
+    } else {
+      setSelectedSubcategory(subcategoryId);
+      fetchInventory(selectedCategory, subcategoryId);
+    }
   };
 
   const fetchInventory = (categoryId, subcategoryId) => {
@@ -430,8 +438,7 @@ const ShopPageContent = () => {
               value={selectedSubcategory}
               label="Select Subcategory"
               onChange={(e) => handleSubcategoryChange(e.target.value)}
-              disabled={!selectedCategory}
-
+              disabled={!selectedCategory || selectedCategory === 'All'}
               sx={{
                 fontFamily: theme.palette.typography.fontFamily,
                 '& .MuiSelect-root': {
@@ -482,7 +489,7 @@ const ShopPageContent = () => {
               }}
             >
               <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} value="All">All Subcategory</MenuItem>
-              {subcategories.map(subcategory => (
+              {subcategories && subcategories?.map(subcategory => (
                 <MenuItem sx={{ fontFamily: theme.palette.typography.fontFamily }} key={subcategory.id} value={subcategory.id}>{subcategory.subcategoryName}</MenuItem>
               ))}
             </CustomSelect>
@@ -791,7 +798,7 @@ const ShopPageContent = () => {
                   }}
                 >
                   <MenuItem value="All">All Subcategories</MenuItem>
-                  {subcategories.map(subcategory => (
+                  {subcategories && subcategories?.map(subcategory => (
                     <MenuItem key={subcategory.id} value={subcategory.id}>
                       {subcategory.subcategoryName}
                     </MenuItem>

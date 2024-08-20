@@ -683,7 +683,11 @@ export class InventoryService {
     }
   }
 
-  async getInventoriesByCategory(categoryId: number, subCategoryId?: number) {
+  async getInventoriesByCategory(
+    categoryId: number,
+    subCategoryId?: number,
+    sale?: string
+  ) {
     if (!categoryId) {
       throw new ApiBadRequestError("Category ID is required");
     }
@@ -699,7 +703,12 @@ export class InventoryService {
         },
       };
     }
-    console.log("whereClause:", JSON.stringify(whereClause, null, 2));
+
+    if (sale === "true") {
+      whereClause.sale = true;
+    }
+    (whereClause.productstatus = "PUBLISHED"),
+      console.log("whereClause:", JSON.stringify(whereClause, null, 2));
 
     const inventorydata = await prisma.inventory.findMany({
       where: whereClause,

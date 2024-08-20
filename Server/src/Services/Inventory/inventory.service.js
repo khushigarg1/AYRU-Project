@@ -608,7 +608,7 @@ class InventoryService {
             }
         });
     }
-    getInventoriesByCategory(categoryId, subCategoryId) {
+    getInventoriesByCategory(categoryId, subCategoryId, sale) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!categoryId) {
                 throw new errors_1.ApiBadRequestError("Category ID is required");
@@ -623,7 +623,11 @@ class InventoryService {
                     },
                 };
             }
-            console.log("whereClause:", JSON.stringify(whereClause, null, 2));
+            if (sale === "true") {
+                whereClause.sale = true;
+            }
+            (whereClause.productstatus = "PUBLISHED"),
+                console.log("whereClause:", JSON.stringify(whereClause, null, 2));
             const inventorydata = yield prisma.inventory.findMany({
                 where: whereClause,
                 include: {

@@ -50,9 +50,10 @@ export const getInventoriesByCategory = async (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
-  const { categoryId, subCategoryId } = request.query as {
+  const { categoryId, subCategoryId, sale } = request.query as {
     categoryId: string;
     subCategoryId?: string;
+    sale?: string;
   };
 
   if (!categoryId) {
@@ -63,7 +64,8 @@ export const getInventoriesByCategory = async (
   try {
     const inventories = await inventoryService.getInventoriesByCategory(
       Number(categoryId),
-      subCategoryId ? Number(subCategoryId) : undefined
+      subCategoryId ? Number(subCategoryId) : undefined,
+      sale
     );
     reply.send({ data: inventories });
   } catch (error) {

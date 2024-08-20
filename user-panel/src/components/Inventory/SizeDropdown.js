@@ -1,7 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Box, Select, MenuItem, TextField, Typography, Grid, useTheme } from '@mui/material';
 
 const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
+  const [openDropdown, setOpenDropdown] = useState({
+    fitType: false,
+    flatItem: false,
+    fittedItem: false,
+    customFittedItem: false,
+    unit: false
+  });
+
+  const dropdownRefs = {
+    fitType: useRef(null),
+    flatItem: useRef(null),
+    fittedItem: useRef(null),
+    customFittedItem: useRef(null),
+    unit: useRef(null)
+  };
   const defaultFlatItem = data.InventoryFlat.length > 0 ? data.InventoryFlat[0].Flat.id : '';
   // console.log(selections);
   const theme = useTheme();
@@ -19,7 +34,23 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
         length: selections?.dimensions?.length || ''
       }
     });
+
+    const handleScroll = () => {
+      setOpenDropdown({
+        fitType: false,
+        flatItem: false,
+        fittedItem: false,
+        customFittedItem: false,
+        unit: false
+      });
+    };
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [hasBedsheets, defaultFlatItem, setSelections]);
+
 
   const handleSelectChange = (event) => {
     const { value } = event.target;
@@ -37,6 +68,15 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
       }
     }));
   };
+
+  const handleDropdownClose = (type) => {
+    setOpenDropdown((prevState) => ({ ...prevState, [type]: false }));
+  };
+
+  const handleDropdownOpen = (type) => {
+    setOpenDropdown((prevState) => ({ ...prevState, [type]: true }));
+  };
+
 
   const handleFlatItemChange = (event) => {
     const { value } = event.target;
@@ -89,6 +129,9 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
           <Select
             value={selections.selectedOption}
             onChange={handleSelectChange}
+            open={openDropdown.fitType}
+            onClose={() => handleDropdownClose('fitType')}
+            onOpen={() => handleDropdownOpen('fitType')}
             displayEmpty
             sx={{
               width: '100%', marginBottom: 1,
@@ -101,6 +144,8 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                 }
               }
             }}
+            ref={dropdownRefs.fitType}
+
           // label="Select Fit Type"
           >
             <MenuItem value="" disabled>
@@ -129,12 +174,16 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
           <Select
             value={selections.selectedFlatItem}
             onChange={handleFlatItemChange}
+            open={openDropdown.flatItem}
+            onClose={() => handleDropdownClose('flatItem')}
+            onOpen={() => handleDropdownOpen('flatItem')}
             displayEmpty
             sx={{
               width: '100%', marginBottom: 1,
               padding: "0px 0px",
               fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold'
             }}
+            ref={dropdownRefs.flatItem}
           >
             <MenuItem sx={{ fontWeight: 'bold' }} value="" disabled>Select Size</MenuItem>
             {data.InventoryFlat.map((item, index) => (
@@ -166,12 +215,16 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
           <Select
             value={selections.selectedFittedItem}
             onChange={handleFittedItemChange}
+            open={openDropdown.fittedItem}
+            onClose={() => handleDropdownClose('fittedItem')}
+            onOpen={() => handleDropdownOpen('fittedItem')}
             displayEmpty
             sx={{
               width: '100%', marginBottom: 1,
               padding: "0px 0px",
               fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold'
             }}
+            ref={dropdownRefs.fittedItem}
           >
             <MenuItem value="" disabled sx={{ fontWeight: 'bold' }}>Select Fitted Size</MenuItem>
             {data.InventoryFitted.map((item, index) => (
@@ -194,15 +247,20 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
       {selections.selectedOption === 'custom' && (
         <Box>
           <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Custom Fitted Sizes:</Typography>
+
           <Select
             value={selections.selectedCustomFittedItem}
             onChange={handleCustomFittedItemChange}
+            open={openDropdown.customFittedItem}
+            onClose={() => handleDropdownClose('customFittedItem')}
+            onOpen={() => handleDropdownOpen('customFittedItem')}
             displayEmpty
             sx={{
               width: '100%', marginBottom: 1,
               padding: "0px 0px",
               fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold'
             }}
+            ref={dropdownRefs.customFittedItem}
           >
             <MenuItem value="" disabled sx={{ fontWeight: 'bold' }}>Select Custom Fitted Size</MenuItem>
             {data.InventoryFlat.map((item, index) => (

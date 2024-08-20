@@ -157,7 +157,7 @@ const SalePageContent = () => {
     setSelectedCategory(categoryId);
     setSelectedSubcategory('');
 
-    if (categoryId === '') {
+    if (categoryId === 'All') {
       setCategoryName('SALE');
       fetchAllInventory();
     } else {
@@ -171,8 +171,13 @@ const SalePageContent = () => {
   };
 
   const handleSubcategoryChange = (subcategoryId) => {
-    setSelectedSubcategory(subcategoryId);
-    fetchInventory(selectedCategory, subcategoryId);
+    if (subcategoryId === 'All') {
+      setSelectedSubcategory('');
+      fetchInventory(selectedCategory, '');
+    } else {
+      setSelectedSubcategory(subcategoryId);
+      fetchInventory(selectedCategory, subcategoryId);
+    }
   };
 
   const fetchInventory = (categoryId, subcategoryId) => {
@@ -185,6 +190,7 @@ const SalePageContent = () => {
     if (subcategoryId) {
       params.subCategoryId = subcategoryId;
     }
+    params.sale = "true"
     setLoading(true);
 
     api.get(url, { params })
@@ -432,7 +438,7 @@ const SalePageContent = () => {
               label="Select Subcategory"
               value={selectedSubcategory}
               onChange={(e) => handleSubcategoryChange(e.target.value)}
-              disabled={!selectedCategory}
+              disabled={!selectedCategory || selectedCategory === 'All'}
               sx={{
                 fontFamily: theme.palette.typography.fontFamily,
                 '& .MuiSelect-root': {
