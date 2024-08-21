@@ -59,7 +59,10 @@ export const InventoryAccordion = ({ relatedInventories }) => {
               />
               <CardContent sx={{ mt: 0, padding: "5px" }}>
                 <Typography variant="body2" color={inventory?.colorVariation || 'black'} component="p"
-                  style={{ textTransform: "capitalize" }}
+                  style={{
+                    textTransform: "capitalize", fontSize: "13px",
+                    letterSpacing: "-0.5px",
+                  }}
                 >
                   {inventory?.colorVariation}
                 </Typography>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, Select, MenuItem, TextField, Typography, Grid, useTheme } from '@mui/material';
+import { Box, Select, MenuItem, TextField, Typography, Grid, useTheme, Divider } from '@mui/material';
 
 const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
   const [openDropdown, setOpenDropdown] = useState({
@@ -135,12 +135,41 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
             displayEmpty
             sx={{
               width: '100%', marginBottom: 1,
-              padding: "0px 0px"
+              padding: "0px 0px",
+              fontSize: '0.8rem',
             }}
+
             MenuProps={{
               PaperProps: {
-                style: {
-                  padding: 0
+                sx: {
+                  '& .MuiMenuItem-root': {
+                    fontFamily: theme.palette.typography.fontFamily,
+                    '&:hover': {
+                      backgroundColor: theme.palette.action.hover,
+                    },
+                    '&.Mui-selected': {
+                      backgroundColor: theme.palette.background.contrast,
+                      '&:hover': {
+                        backgroundColor: theme.palette.background.contrast,
+                      },
+                      '&:focus': {
+                        backgroundColor: theme.palette.background.contrast,
+                      },
+                      '&:active': {
+                        backgroundColor: theme.palette.background.contrast,
+                      },
+                    },
+                    '&:focus': {
+                      backgroundColor: theme.palette.background.contrast,
+                    },
+                    '&:active': {
+                      backgroundColor: theme.palette.background.contrast,
+                    },
+                  },
+                  // border: "1px solid",
+                  // borderColor: theme.palette.background.contrast,
+                  // borderRadius: "0px"
+                  // backgroundColor: theme.palette.background.contrast
                 }
               }
             }}
@@ -148,187 +177,407 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
 
           // label="Select Fit Type"
           >
-            <MenuItem value="" disabled>
+            <MenuItem sx={{
+              fontWeight: 'bold',
+              fontSize: '0.8rem',
+            }} value="" disabled>
               <Typography variant="body1">Select Fit Type</Typography>
             </MenuItem>
-            <MenuItem value="flat">
-              <Typography variant="body1">Flat</Typography>
+            <MenuItem sx={{
+              fontWeight: 'bold',
+              fontSize: '0.8rem',
+            }} value="flat">
+              <Typography variant="body1"
+                sx={{
+                  fontSize: '0.8rem'
+                }}
+              >Flat</Typography>
             </MenuItem>
             {data.InventoryFitted.length > 0 && (
-              <MenuItem value="fitted">
-                <Typography variant="body1">Fitted</Typography>
+              <MenuItem sx={{
+                fontWeight: 'bold',
+                fontSize: '0.8rem',
+              }} value="fitted" >
+                <Typography variant="body1"
+                  sx={{
+                    fontSize: '0.8rem'
+                  }}>Fitted</Typography>
               </MenuItem>
             )}
             {data.customFittedInventory.length > 0 && (
-              <MenuItem value="custom">
-                <Typography variant="body1">Custom Fitted</Typography>
+              <MenuItem sx={{
+                fontWeight: 'bold',
+                fontSize: '0.8rem',
+              }} value="custom">
+                <Typography variant="body1"
+                  sx={{
+                    fontSize: '0.8rem'
+                  }}>Custom Fitted</Typography>
               </MenuItem>
             )}
           </Select>
         </>
-      )}
+      )
+      }
 
-      {(!hasBedsheets || selections.selectedOption === 'flat') && (
-        <Box>
-          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Sizes:</Typography>
-          <Select
-            value={selections.selectedFlatItem}
-            onChange={handleFlatItemChange}
-            open={openDropdown.flatItem}
-            onClose={() => handleDropdownClose('flatItem')}
-            onOpen={() => handleDropdownOpen('flatItem')}
-            displayEmpty
-            sx={{
-              width: '100%', marginBottom: 1,
-              padding: "0px 0px",
-              fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold'
-            }}
-            ref={dropdownRefs.flatItem}
-          >
-            <MenuItem sx={{ fontWeight: 'bold' }} value="" disabled>Select Size</MenuItem>
-            {data.InventoryFlat.map((item, index) => (
-              <MenuItem key={index} value={item.Flat.id}>
-                <Typography
-                  component="div"
-                  style={{
-                    fontSize: item.Flat.name.length > 25 ? '0.79rem' : '1rem',
-                    maxWidth: '100%',
-                    textDecoration: item?.quantity === 0 ? 'line-through' : 'none',
-                    // transform: item?.quantity === 0 ? 'rotate(-45deg)' : 'none',
-                    transformOrigin: item?.quantity === 0 ? 'center center' : 'none',
-                    textDecorationColor: "gray",
-                    color: item?.quantity === 0 ? "gray" : "inherit",
-                    fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold'
+      {
+        (!hasBedsheets || selections.selectedOption === 'flat') && (
+          <Box>
+            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Sizes:</Typography>
+            <Select
+              value={selections.selectedFlatItem}
+              onChange={handleFlatItemChange}
+              open={openDropdown.flatItem}
+              onClose={() => handleDropdownClose('flatItem')}
+              onOpen={() => handleDropdownOpen('flatItem')}
+              displayEmpty
+              sx={{
+                width: '100%', marginBottom: 1,
+                padding: "0px 0px",
+                fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold',
+                fontSize: '0.8rem',
+                //  borderRadius: "0px"
+              }}
+
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    '& .MuiMenuItem-root': {
+                      fontFamily: theme.palette.typography.fontFamily,
+                      '&:hover': {
+                        backgroundColor: theme.palette.action.hover,
+                      },
+                      '&.Mui-selected': {
+                        backgroundColor: theme.palette.background.contrast,
+                        '&:hover': {
+                          backgroundColor: theme.palette.background.contrast,
+                        },
+                        '&:focus': {
+                          backgroundColor: theme.palette.background.contrast,
+                        },
+                        '&:active': {
+                          backgroundColor: theme.palette.background.contrast,
+                        },
+                      },
+                      '&:focus': {
+                        backgroundColor: theme.palette.background.contrast,
+                      },
+                      '&:active': {
+                        backgroundColor: theme.palette.background.contrast,
+                      },
+                    },
+                    // border: "1px solid",
+                    // borderColor: theme.palette.background.contrast,
+                    // borderRadius: "0px"
+                    // backgroundColor: theme.palette.background.contrast
+                  }
+                }
+              }}
+              ref={dropdownRefs.flatItem}
+            >
+              <MenuItem sx={{
+                fontWeight: 'bold',
+                fontSize: '0.8rem',
+              }} value="" disabled>Select Size</MenuItem>
+
+              {data.InventoryFlat.map((item, index) => (
+                // <>
+                <MenuItem key={index} value={item.Flat.id}
+                  sx={{
+                    padding: '4px 8px',
+                    borderBottom: index < data.InventoryFlat.length - 1 && "1px solid rgba(128, 128, 128, 0.2)",
+                  }} >
+                  <Typography
+                    component="div"
+                    style={{
+                      fontSize: '0.8rem',
+                      // fontSize: item.Flat?.name?.length + item?.Flat?.size.length > 40 ? '0.72rem' : '0.8rem',
+                      maxWidth: '100%',
+                      textDecoration: item?.quantity === 0 ? 'line-through' : 'none',
+                      // transform: item?.quantity === 0 ? 'rotate(-45deg)' : 'none',
+                      transformOrigin: item?.quantity === 0 ? 'center center' : 'none',
+                      textDecorationColor: "gray",
+                      color: item?.quantity === 0 ? "gray" : "inherit",
+                      fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold',
+                      whiteSpace: 'normal',
+                      wordBreak: 'break-word',
+                    }}
+                  >
+                    {item.Flat.name} {item?.Flat?.size && item?.Flat?.size}
+                  </Typography>
+                </MenuItem>
+                // {index < data.InventoryFlat.length - 1 && <Divider />}
+                // </>
+              ))}
+            </Select>
+          </Box>
+        )
+      }
+
+      {
+        selections.selectedOption === 'fitted' && (
+          <Box>
+            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Fitted Sizes:</Typography>
+            <Select
+              value={selections.selectedFittedItem}
+              onChange={handleFittedItemChange}
+              open={openDropdown.fittedItem}
+              onClose={() => handleDropdownClose('fittedItem')}
+              onOpen={() => handleDropdownOpen('fittedItem')}
+              displayEmpty
+              sx={{
+                width: '100%', marginBottom: 1,
+                padding: "0px 0px",
+                fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold',
+                fontSize: '0.8rem',
+              }}
+
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    '& .MuiMenuItem-root': {
+                      fontFamily: theme.palette.typography.fontFamily,
+                      '&:hover': {
+                        backgroundColor: theme.palette.action.hover,
+                      },
+                      '&.Mui-selected': {
+                        backgroundColor: theme.palette.background.contrast,
+                        '&:hover': {
+                          backgroundColor: theme.palette.background.contrast,
+                        },
+                        '&:focus': {
+                          backgroundColor: theme.palette.background.contrast,
+                        },
+                        '&:active': {
+                          backgroundColor: theme.palette.background.contrast,
+                        },
+                      },
+                      '&:focus': {
+                        backgroundColor: theme.palette.background.contrast,
+                      },
+                      '&:active': {
+                        backgroundColor: theme.palette.background.contrast,
+                      },
+                    },
+                    // border: "1px solid",
+                    // borderColor: theme.palette.background.contrast,
+                    // borderRadius: "0px"
+                    // backgroundColor: theme.palette.background.contrast
+                  }
+                }
+              }}
+              ref={dropdownRefs.fittedItem}
+            >
+              <MenuItem value="" disabled sx={{
+                fontWeight: 'bold',
+                fontSize: '0.8rem',
+              }}>Select Fitted Size</MenuItem>
+              {data.InventoryFitted.map((item, index) => (
+                <MenuItem key={index} value={item.Fitted.id} sx={{
+                  padding: '4px 8px',
+                  borderBottom: index < data.InventoryFlat.length - 1 && "1px solid rgba(128, 128, 128, 0.2)",
+                }}>
+                  <Typography
+                    component="div"
+                    style={{
+                      fontSize: '0.8rem',
+                      // fontSize: item.Fitted?.name?.length > 40 ? '0.72rem' : '0.8rem',
+
+                      textDecoration: item?.quantity === 0 ? 'line-through' : 'none',
+                      // transform: item?.quantity === 0 ? 'rotate(-45deg)' : 'none',
+                      transformOrigin: item?.quantity === 0 ? 'center center' : 'none',
+                      textDecorationColor: "gray",
+                      color: item?.quantity === 0 ? "gray" : "inherit",
+                      fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold',
+                      maxWidth: '100%',
+                      whiteSpace: 'normal',
+                      wordBreak: 'break-word',
+                    }}
+                  >
+                    {item.Fitted.name}
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
+        )
+      }
+
+      {
+        selections.selectedOption === 'custom' && (
+          <Box>
+            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Custom Fitted Sizes:</Typography>
+
+            <Select
+              value={selections.selectedCustomFittedItem}
+              onChange={handleCustomFittedItemChange}
+              open={openDropdown.customFittedItem}
+              onClose={() => handleDropdownClose('customFittedItem')}
+              onOpen={() => handleDropdownOpen('customFittedItem')}
+              displayEmpty
+              sx={{
+                width: '100%', marginBottom: 1,
+                padding: "0px 0px",
+                fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold',
+                fontSize: '0.8rem',
+              }}
+
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    '& .MuiMenuItem-root': {
+                      fontFamily: theme.palette.typography.fontFamily,
+                      '&:hover': {
+                        backgroundColor: theme.palette.action.hover,
+                      },
+                      '&.Mui-selected': {
+                        backgroundColor: theme.palette.background.contrast,
+                        '&:hover': {
+                          backgroundColor: theme.palette.background.contrast,
+                        },
+                        '&:focus': {
+                          backgroundColor: theme.palette.background.contrast,
+                        },
+                        '&:active': {
+                          backgroundColor: theme.palette.background.contrast,
+                        },
+                      },
+                      '&:focus': {
+                        backgroundColor: theme.palette.background.contrast,
+                      },
+                      '&:active': {
+                        backgroundColor: theme.palette.background.contrast,
+                      },
+                    },
+                    // border: "1px solid",
+                    // borderColor: theme.palette.background.contrast,
+                    // borderRadius: "0px"
+                    // backgroundColor: theme.palette.background.contrast
+                  }
+                }
+              }}
+              ref={dropdownRefs.customFittedItem}
+            >
+              <MenuItem value="" disabled sx={{
+                fontWeight: 'bold',
+                fontSize: '0.8rem',
+              }}>Select Custom Fitted Size</MenuItem>
+              {data.InventoryFlat.map((item, index) => (
+                <MenuItem key={index} value={item.Flat.id} sx={{
+                  padding: '4px 8px',
+                  borderBottom: index < data.InventoryFlat.length - 1 && "1px solid rgba(128, 128, 128, 0.2)",
+                }}>
+                  <Typography
+                    component="div"
+                    style={{
+                      fontSize: '0.8rem',
+                      // fontSize: item.Flat?.name?.length + item?.Flat?.size.length > 40 ? '0.72rem' : '0.8rem',
+                      maxWidth: '100%',
+                      textDecoration: item?.quantity === 0 ? 'line-through' : 'none',
+                      // transform: item?.quantity === 0 ? 'rotate(-45deg)' : 'none',
+                      transformOrigin: item?.quantity === 0 ? 'center center' : 'none',
+                      textDecorationColor: "gray",
+                      color: item?.quantity === 0 ? "gray" : "inherit",
+                      fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold',
+                      whiteSpace: 'normal',
+                      wordBreak: 'break-word',
+                    }}
+                  >
+                    {item.Flat.name}
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
+        )
+      }
+
+      {
+        selections.selectedOption === 'custom' && selections.selectedCustomFittedItem && (
+          <Box>
+            <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 1 }}>Fill your mattress dimensions for a perfect fit !</Typography>
+            <Grid container spacing={1}>
+              <Grid item xs={3}>
+                <TextField
+                  label="Length"
+                  name="length"
+                  value={selections.dimensions.length}
+                  onChange={handleInputChange}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  label="Width"
+                  name="width"
+                  value={selections.dimensions.width}
+                  onChange={handleInputChange}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  label="Height"
+                  name="height"
+                  value={selections.dimensions.height}
+                  onChange={handleInputChange}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Select
+                  value={selections.selectedUnit}
+                  onChange={handleUnitChange}
+                  displayEmpty
+                  sx={{
+                    width: '100%', marginBottom: 1,
+                    padding: "0px 0px"
+                  }}
+
+                  MenuProps={{
+                    PaperProps: {
+                      sx: {
+                        '& .MuiMenuItem-root': {
+                          fontFamily: theme.palette.typography.fontFamily,
+                          '&:hover': {
+                            backgroundColor: theme.palette.action.hover,
+                          },
+                          '&.Mui-selected': {
+                            backgroundColor: theme.palette.background.contrast,
+                            '&:hover': {
+                              backgroundColor: theme.palette.background.contrast,
+                            },
+                            '&:focus': {
+                              backgroundColor: theme.palette.background.contrast,
+                            },
+                            '&:active': {
+                              backgroundColor: theme.palette.background.contrast,
+                            },
+                          },
+                          '&:focus': {
+                            backgroundColor: theme.palette.background.contrast,
+                          },
+                          '&:active': {
+                            backgroundColor: theme.palette.background.contrast,
+                          },
+                        },
+                        // border: "1px solid",
+                        // borderColor: theme.palette.background.contrast,
+                        // borderRadius: "0px"
+                        // backgroundColor: theme.palette.background.contrast
+                      }
+                    }
                   }}
                 >
-                  {item.Flat.name} {item?.Flat?.size && item?.Flat?.size}
-                </Typography>
-              </MenuItem>
-            ))}
-          </Select>
-        </Box>
-      )}
-
-      {selections.selectedOption === 'fitted' && (
-        <Box>
-          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Fitted Sizes:</Typography>
-          <Select
-            value={selections.selectedFittedItem}
-            onChange={handleFittedItemChange}
-            open={openDropdown.fittedItem}
-            onClose={() => handleDropdownClose('fittedItem')}
-            onOpen={() => handleDropdownOpen('fittedItem')}
-            displayEmpty
-            sx={{
-              width: '100%', marginBottom: 1,
-              padding: "0px 0px",
-              fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold'
-            }}
-            ref={dropdownRefs.fittedItem}
-          >
-            <MenuItem value="" disabled sx={{ fontWeight: 'bold' }}>Select Fitted Size</MenuItem>
-            {data.InventoryFitted.map((item, index) => (
-              <MenuItem key={index} value={item.Fitted.id}>
-                <Typography
-                  component="div"
-                  style={{
-                    fontSize: item.Fitted?.name?.length > 20 ? '0.7rem' : '1rem',
-                    maxWidth: '100%',
-                  }}
-                >
-                  {item.Fitted.name}
-                </Typography>
-              </MenuItem>
-            ))}
-          </Select>
-        </Box>
-      )}
-
-      {selections.selectedOption === 'custom' && (
-        <Box>
-          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Custom Fitted Sizes:</Typography>
-
-          <Select
-            value={selections.selectedCustomFittedItem}
-            onChange={handleCustomFittedItemChange}
-            open={openDropdown.customFittedItem}
-            onClose={() => handleDropdownClose('customFittedItem')}
-            onOpen={() => handleDropdownOpen('customFittedItem')}
-            displayEmpty
-            sx={{
-              width: '100%', marginBottom: 1,
-              padding: "0px 0px",
-              fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold'
-            }}
-            ref={dropdownRefs.customFittedItem}
-          >
-            <MenuItem value="" disabled sx={{ fontWeight: 'bold' }}>Select Custom Fitted Size</MenuItem>
-            {data.InventoryFlat.map((item, index) => (
-              <MenuItem key={index} value={item.Flat.id}>
-                <Typography
-                  component="div"
-                  style={{
-                    fontSize: item.Flat?.name?.length > 35 ? '0.7rem' : '1rem',
-                    maxWidth: '100%',
-                  }}
-                >
-                  {item.Flat.name}
-                </Typography>
-              </MenuItem>
-            ))}
-          </Select>
-        </Box>
-      )}
-
-      {selections.selectedOption === 'custom' && selections.selectedCustomFittedItem && (
-        <Box>
-          <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 1 }}>Fill your mattress dimensions for a perfect fit !</Typography>
-          <Grid container spacing={1}>
-            <Grid item xs={3}>
-              <TextField
-                label="Length"
-                name="length"
-                value={selections.dimensions.length}
-                onChange={handleInputChange}
-                fullWidth
-              />
+                  <MenuItem value="inch">in</MenuItem>
+                  <MenuItem value="cm">cm</MenuItem>
+                </Select>
+              </Grid>
             </Grid>
-            <Grid item xs={3}>
-              <TextField
-                label="Width"
-                name="width"
-                value={selections.dimensions.width}
-                onChange={handleInputChange}
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <TextField
-                label="Height"
-                name="height"
-                value={selections.dimensions.height}
-                onChange={handleInputChange}
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Select
-                value={selections.selectedUnit}
-                onChange={handleUnitChange}
-                displayEmpty
-                sx={{
-                  width: '100%', marginBottom: 1,
-                  padding: "0px 0px"
-                }}
-              >
-                <MenuItem value="inch">in</MenuItem>
-                <MenuItem value="cm">cm</MenuItem>
-              </Select>
-            </Grid>
-          </Grid>
-        </Box>
-      )}
-    </Box>
+          </Box>
+        )
+      }
+    </Box >
   );
 };
 
