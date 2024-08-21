@@ -54,6 +54,7 @@ const ShopPageContent = () => {
 
   useEffect(() => {
     const fetchWishlistStatus = async () => {
+      setLoading(true);
       try {
         if (token) {
           const response = await api.get(`/wishlist/user/${user.id}`, {
@@ -68,9 +69,11 @@ const ShopPageContent = () => {
             return acc;
           }, {});
           setWishlistItems(wishlistMap);
+          setLoading(false);
         }
       } catch (error) {
         console.error('Error fetching wishlist:', error);
+        setLoading(false);
       }
     };
 
@@ -138,7 +141,8 @@ const ShopPageContent = () => {
       }
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      console.error('Error fetching categories:', error); setLoading(false);
+
     }
   };
 
@@ -262,9 +266,7 @@ const ShopPageContent = () => {
     setSortBy(newSortBy);
     setSortOrder(newSortOrder);
     console.log(sortBy, sortOrder);
-
   };
-
 
   const searchInventory = () => {
     let url = '/inventory/search';
@@ -579,29 +581,41 @@ const ShopPageContent = () => {
               </Grid>
             )
           ))} */}
-          {inventory.length > 0 ?
-            (
-              <>
-                <Grid xs={12} sm={12} md={12} xl={12} p={1}>
-                  <Typography>Total Items: {inventory?.length}</Typography>
+          {loading ? (
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          ) : (
+            inventory.length > 0 ?
+              (
+                <>
+                  <Grid xs={12} sm={12} md={12} xl={12} p={1}>
+                    <Typography>Total Items: {inventory?.length}</Typography>
+                  </Grid>
+                  {inventory.map(item => (
+                    item?.productstatus === "PUBLISHED" && (
+                      <Grid key={item.id} item xs={6} sm={6} md={4} lg={2.4} xl={2}>
+                        <InventoryItem item={item} wishlistItems={wishlistItems} setWishlistItems={setWishlistItems} />
+                      </Grid>
+                    )
+                  ))
+                  }
+                </>
+              )
+              : (
+                <Grid item xs={12}>
+                  <Typography variant="h6" align="center" p={5} mt={5} mb={25}>
+                    Currently, there are no products available. Please check back soon for new arrivals and updates.
+                  </Typography>
                 </Grid>
-                {inventory.map(item => (
-                  item?.productstatus === "PUBLISHED" && (
-                    <Grid key={item.id} item xs={6} sm={6} md={4} lg={2.4} xl={2}>
-                      <InventoryItem item={item} wishlistItems={wishlistItems} setWishlistItems={setWishlistItems} />
-                    </Grid>
-                  )
-                ))
-                }
-              </>
-            )
-            : (
-              <Grid item xs={12}>
-                <Typography variant="h6" align="center" p={5} mt={5} mb={25}>
-                  Currently, there are no products available. Please check back soon for new arrivals and updates.
-                </Typography>
-              </Grid>
-            )}
+              ))}
         </Grid>
       </Grid>
 

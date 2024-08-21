@@ -159,9 +159,6 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                         backgroundColor: theme.palette.background.contrast,
                       },
                     },
-                    '&:focus': {
-                      backgroundColor: theme.palette.background.contrast,
-                    },
                     '&:active': {
                       backgroundColor: theme.palette.background.contrast,
                     },
@@ -259,9 +256,6 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                           backgroundColor: theme.palette.background.contrast,
                         },
                       },
-                      '&:focus': {
-                        backgroundColor: theme.palette.background.contrast,
-                      },
                       '&:active': {
                         backgroundColor: theme.palette.background.contrast,
                       },
@@ -352,9 +346,6 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                           backgroundColor: theme.palette.background.contrast,
                         },
                       },
-                      '&:focus': {
-                        backgroundColor: theme.palette.background.contrast,
-                      },
                       '&:active': {
                         backgroundColor: theme.palette.background.contrast,
                       },
@@ -441,9 +432,6 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                         '&:active': {
                           backgroundColor: theme.palette.background.contrast,
                         },
-                      },
-                      '&:focus': {
-                        backgroundColor: theme.palette.background.contrast,
                       },
                       '&:active': {
                         backgroundColor: theme.palette.background.contrast,
@@ -553,9 +541,6 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                             '&:active': {
                               backgroundColor: theme.palette.background.contrast,
                             },
-                          },
-                          '&:focus': {
-                            backgroundColor: theme.palette.background.contrast,
                           },
                           '&:active': {
                             backgroundColor: theme.palette.background.contrast,

@@ -26,7 +26,7 @@ export const InventoryAccordion = ({ relatedInventories }) => {
           sx={{
             display: 'flex',
             overflowX: 'auto',
-            gap: 2,
+            gap: 1,
             paddingBottom: '10px',
             '::-webkit-scrollbar': { display: 'none' } // Hide scrollbar for webkit browsers
           }}
