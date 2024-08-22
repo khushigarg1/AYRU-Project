@@ -306,7 +306,8 @@ export const ProductSlider = ({ products }) => {
                 borderRadius: "50%",
                 display: isMobile && "none",
                 width: "30px",
-                height: "30px"
+                height: "30px",
+                paddingLeft: "12px"
               }}
               onClick={scrollLeft}
             >

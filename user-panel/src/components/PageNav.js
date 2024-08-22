@@ -418,6 +418,22 @@ export default function PageNav({ children }) {
               </ListItemButton>
             </ListItem>
           </Link>
+
+          {categories.map((category) => (
+            category.subcategories ? (
+              <NestedList key={category.id} category={category} />
+            ) : (
+              <ListItem key={category.id} disablePadding>
+                <ListItemButton onClick={() => handleClickCategory(category.id, false)}>
+                  <CustomListItemText primaryTypographyProps={{
+                    fontWeight: 500,
+                    fontSize: "17px",
+                  }} primary={category.categoryName} sx={{ fontWeight: "bold" }} />
+                </ListItemButton>
+              </ListItem>
+            )
+          ))}
+
           <Link onClick={handleDrawerClose} href="/shop">
             <ListItem
               key={"Shop"}
@@ -436,28 +452,12 @@ export default function PageNav({ children }) {
                   fontWeight: 500,
                   fontSize: "17px",
                 }}
-                  primary={"Shop"}
+                  primary={"Shop All"}
                   sx={{ opacity: open ? 1 : 0 }}
                 />
               </ListItemButton>
             </ListItem>
           </Link>
-
-          {categories.map((category) => (
-            category.subcategories ? (
-              <NestedList key={category.id} category={category} />
-            ) : (
-              <ListItem key={category.id} disablePadding>
-                <ListItemButton onClick={() => handleClickCategory(category.id, false)}>
-                  <CustomListItemText primaryTypographyProps={{
-                    fontWeight: 500,
-                    fontSize: "17px",
-                  }} primary={category.categoryName} sx={{ fontWeight: "bold" }} />
-                </ListItemButton>
-              </ListItem>
-            )
-          ))}
-
           <Link onClick={handleDrawerClose} href="/sale">
             <ListItem
               key={"sale"}

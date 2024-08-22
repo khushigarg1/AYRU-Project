@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import { Box, Card, CardMedia, Chip, IconButton, Modal, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { FavoriteBorderOutlined, FavoriteOutlined, Share } from '@mui/icons-material';
+import { FavoriteBorderOutlined, FavoriteOutlined, Share, ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
 import Cookies from 'js-cookie';
 import api from '../../../api';
 import { useAuth } from '../../contexts/auth';
@@ -87,15 +87,61 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
     }
   };
 
+
+  const CustomNextArrow = ({ onClick }) => (
+    <IconButton
+      onClick={onClick}
+      sx={{
+        position: 'absolute',
+        top: '50%',
+        right: '2px',
+        transform: 'translateY(-50%)',
+        zIndex: 1,
+        backgroundColor: "rgba(0, 0, 0, 0.4)",
+        '&:hover': {
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        },
+        color: "white",
+        width: "30px",
+        height: "30px"
+      }}
+    >
+      <ArrowForwardIos fontSize='10px' style={{ width: "15px", height: "15px" }} />
+    </IconButton>
+  );
+
+  const CustomPrevArrow = ({ onClick }) => (
+    <IconButton
+      onClick={onClick}
+      sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '2px',
+        transform: 'translateY(-50%)',
+        zIndex: 1,
+        backgroundColor: "rgba(0, 0, 0, 0.4)", '&:hover': {
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        },
+        color: "white",
+        width: "30px",
+        height: "30px",
+        paddingLeft: "12px"
+      }}
+    >
+      <ArrowBackIos fontSize='10px' style={{ width: "15px", height: "15px" }} />
+    </IconButton>
+  );
+
   const settings = {
     dots: true,
     infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: false,
+    arrows: isMobile ? false : true,
+    nextArrow: <CustomNextArrow />,
+    prevArrow: <CustomPrevArrow />,
   };
-
 
   const handleShare = async () => {
     const productUrl = `${process.env.REACT_APP_BASE_URL}/${itemlist.id}`;
