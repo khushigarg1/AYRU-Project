@@ -372,7 +372,7 @@ Gmail: ${cartItems[0]?.User.email || ' '}
         >
           <SnackbarContent style={{
             backgroundColor: "#fa6666",
-            color: "black"
+            color: "white"
           }}
             message={snackbarMessage}
           />
