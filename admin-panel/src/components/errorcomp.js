@@ -15,8 +15,8 @@ const ErrorSnackbar = ({ open, message, handleClose }) => {
     >
       <SnackbarContent
         style={{
-          backgroundColor: '#f44336',
-          color: '#ffffff',
+          backgroundColor: "#fa6666",
+          color: "white"
         }}
         message={"! " + message}
         // variant='filled'

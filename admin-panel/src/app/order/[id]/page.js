@@ -139,11 +139,11 @@ const OrderAccordion = ({ params }) => {
 
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Trekking Image</Typography>
+          <Typography>Tracking Image</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Box display="flex" flexDirection="column" width="100%">
-            <Typography variant="h5" gutterBottom>Trekking Image</Typography>
+            <Typography variant="h5" gutterBottom>Tracking Image</Typography>
             <Box mb={2}>
               <input
                 accept="image/*"
@@ -503,7 +503,7 @@ const OrderAccordion = ({ params }) => {
 
                     <Grid item xs={4}>
                       <Typography variant="h6">Order Details</Typography>
-                      <Typography variant="body2">Order Number: {order.orderid}</Typography>
+                      <Typography variant="body2">Order ID: {order.orderid}</Typography>
                       <Typography variant="body2">Order Date: {new Date(order.createdAt).toLocaleDateString()}</Typography>
                       <Typography variant="body2">Payment Status: {order.paymentStatus}</Typography>
                       <Typography variant="body2">Total Items: {order?.orderItems.length}</Typography>
