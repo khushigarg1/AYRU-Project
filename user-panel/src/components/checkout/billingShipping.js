@@ -248,12 +248,12 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                               <Grid container justifyContent="space-between" alignItems="flex-start" style={{ position: "absolute", bottom: "1px", width: "100%", overflow: "hidden", paddingRight: "20px" }}>
                                 <Grid item>
                                   <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
-                                    {`QTY: ${item?.quantity || 0} × ₹${item?.Inventory?.discountedPrice ? item?.Inventory?.discountedPrice : item?.Inventory?.sellingPrice} =`}
+                                    {`QTY: ${item?.quantity || 0} × ₹${item?.cartSizeItem?.discountedPrice ? item?.cartSizeItem?.discountedPrice : item?.cartSizeItem?.sellingPrice} =`}
                                   </Typography>
                                 </Grid>
                                 <Grid item>
                                   <Typography variant='body2' style={{ fontWeight: "bolder", color: "gray", fontSize: "10px" }}>
-                                    {`₹${(item?.quantity * (item?.Inventory?.discountedPrice || item?.Inventory?.sellingPrice))}`}
+                                    {`₹${(item?.quantity * (item?.cartSizeItem?.discountedPrice || item?.cartSizeItem?.sellingPrice))}`}
                                   </Typography>
                                 </Grid>
                               </Grid>

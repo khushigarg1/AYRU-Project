@@ -325,7 +325,9 @@ const ItemDetails = ({ product, queryParams }) => {
         setCartCount(prevCount => prevCount + 1);
         setSnackbarMessage(`${product.productName} added to cart`);
       }
-      setSnackbarMessage(`Quantity of ${product.productName} increased in cart`);
+      else {
+        setSnackbarMessage(`Quantity of ${product.productName} increased in cart`);
+      }
       setOpenSnackbar(true);
       // }
     } catch (error) {
@@ -680,7 +682,12 @@ Thank you so much!`;
                               onClick={handleAddToCart}
                               color="inherit"
                               fullWidth
-                              sx={{ backgroundColor: theme.palette.background.contrast }}
+                              sx={{
+                                backgroundColor: theme.palette.background.contrast,
+                                '&:hover': {
+                                  backgroundColor: theme.palette.primary.dark,
+                                },
+                              }}
                             >
                               Add to Cart
                             </Button>
