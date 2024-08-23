@@ -28,7 +28,7 @@ let orderCounter = 0;
 function generateOrderId() {
     return __awaiter(this, void 0, void 0, function* () {
         orderCounter = (yield prisma.order.count()) + 1;
-        return `order##${orderCounter}`;
+        return `#AR${orderCounter}`;
     });
 }
 function createOrderService(data, userId) {

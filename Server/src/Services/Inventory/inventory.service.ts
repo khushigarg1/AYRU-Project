@@ -12,6 +12,13 @@ import {
 import { omitCostPrice } from "../../utils/omitCostPrice";
 
 const prisma = new PrismaClient();
+interface CustomFittedInventoryData {
+  sellingPrice: number;
+  costPrice: number;
+  discountedPrice: number;
+  inventoryId: number;
+  inventoryFlatId: number;
+}
 
 export class InventoryService {
   async uploadMedias(data: any) {
@@ -599,30 +606,29 @@ export class InventoryService {
         (inventoryFlat) => inventoryFlat.id
       );
       let inventory = null;
+
+      const hasOnlyAllowedColumns = (
+        obj: any
+      ): obj is Partial<CustomFittedInventoryData> => {
+        const allowedKeys = [
+          "sellingPrice",
+          "costPrice",
+          "discountedPrice",
+          "id",
+        ];
+
+        return (
+          Object.keys(obj).every((key) => allowedKeys.includes(key)) &&
+          Object.keys(obj).length === allowedKeys.length
+        );
+      };
+
       if (
         customFittedIds &&
-        (customFittedIds[0]?.sellingPrice ||
-          customFittedIds[0]?.costPrice ||
-          customFittedIds[0]?.discountedPrice)
+        customFittedIds.length <= 1 &&
+        hasOnlyAllowedColumns(customFittedIds[0])
       ) {
-        // const customFittedInventoryData = inventoryFlats.map(
-        //   (inventoryFlat) => ({
-        //     sellingPrice:
-        //       (inventoryFlat?.sellingPrice ?? 0) +
-        //       (customFittedIds[0]?.sellingPrice ?? 0),
-        //     costPrice:
-        //       (inventoryFlat?.costPrice ?? 0) +
-        //       (customFittedIds[0]?.costPrice ?? 0),
-        //     discountedPrice:
-        //       inventoryFlat?.discountedPrice &&
-        //       inventoryFlat.discountedPrice !== 0
-        //         ? inventoryFlat.discountedPrice +
-        //           (customFittedIds[0]?.sellingPrice ?? 0)
-        //         : inventoryFlat.discountedPrice ?? 0,
-        //     inventoryId: updatedInventory?.id,
-        //     inventoryFlatId: inventoryFlat?.id,
-        //   })
-        // );
+        // console.log("heyyy cond", customFittedIds, inventoryFlats);
         const customFittedInventoryData = inventoryFlats.map(
           (inventoryFlat) => {
             const newSellingPrice =
@@ -660,23 +666,51 @@ export class InventoryService {
           await prisma.customFittedInventory.createMany({
             data: customFittedInventoryData,
           });
-
-        // const customFittedInventory =
-        //   await prisma.customFittedInventory.createMany({
-        //     data: inventoryFlatIds.map((inventoryFlatId) => ({
-        //       sellingPrice: customFittedIds[0]?.sellingPrice,
-        //       costPrice: customFittedIds[0]?.costPrice,
-        //       discountedPrice: customFittedIds[0]?.discountedPrice,
-        //       inventoryId: updatedInventory?.id,
-        //       inventoryFlatId: inventoryFlatId,
-        //     })),
-        //   });
         inventory = {
           ...updatedInventory,
           customFittedInventory: customFittedInventory,
         };
-      }
+      } else {
+        // console.log("heyyycond2", customFittedIds, inventoryFlats);
+        if (customFittedIds) {
+          // console.log("heyyycond3", customFittedIds, inventoryFlats);
 
+          const customFittedInventoryData = inventoryFlats.map(
+            (item, index) => {
+              const reverseIndex =
+                customFittedIds.length - 1 - (index % customFittedIds.length);
+
+              const customFittedId = customFittedIds[reverseIndex] || {};
+              return {
+                sellingPrice: customFittedId.sellingPrice,
+                costPrice: customFittedId.costPrice,
+                discountedPrice: customFittedId.discountedPrice,
+                inventoryId: updatedInventory?.id!,
+                inventoryFlatId: item?.id,
+              } as CustomFittedInventoryData;
+            }
+          );
+          // const customFittedInventoryData =
+          //   customFittedIds &&
+          //   customFittedIds.map((item) => {
+          //     return {
+          //       ...item,
+          //       inventoryId: updatedInventory?.id!,
+          //       inventoryFlatId: item?.inventoryFlatId,
+          //     } as CustomFittedInventoryData;
+          //   });
+
+          const customFittedInventory =
+            await prisma.customFittedInventory.createMany({
+              data: customFittedInventoryData,
+            });
+
+          inventory = {
+            ...updatedInventory,
+            customFittedInventory: customFittedInventory,
+          };
+        }
+      }
       return { inventory: inventory ? inventory : updatedInventory };
     } catch (error) {
       throw error;

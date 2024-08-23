@@ -14,7 +14,7 @@ let orderCounter = 0;
 
 async function generateOrderId(): Promise<string> {
   orderCounter = (await prisma.order.count()) + 1;
-  return `order##${orderCounter}`;
+  return `#AR${orderCounter}`;
 }
 
 export async function createOrderService(

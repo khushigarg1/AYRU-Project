@@ -408,7 +408,6 @@ class InventoryService {
     }
     updateInventory(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            var _a, _b, _c;
             const { productName, skuId, quantity, soldQuantity, minQuantity, maxQuantity, sellingPrice, costPrice, discountedPrice, availability, weight, itemWeight, productstatus, status, style, pattern, fabric, type, size, includedItems, itemDimensions, colorVariation, extraOptionOutOfStock, sale, specialFeatures, threadCount, origin, extraNote, disclaimer, description, careInstructions, categoryId, subCategoryIds, flatIds, fittedIds, customFittedIds, others, others1, colorIds, relatedInventoriesIds, } = data;
             const deleteManyOptions = { where: { inventoryId: id } };
             yield prisma.inventoryFitted.deleteMany(deleteManyOptions);
@@ -538,28 +537,20 @@ class InventoryService {
                 });
                 const inventoryFlatIds = inventoryFlats.map((inventoryFlat) => inventoryFlat.id);
                 let inventory = null;
+                const hasOnlyAllowedColumns = (obj) => {
+                    const allowedKeys = [
+                        "sellingPrice",
+                        "costPrice",
+                        "discountedPrice",
+                        "id",
+                    ];
+                    return (Object.keys(obj).every((key) => allowedKeys.includes(key)) &&
+                        Object.keys(obj).length === allowedKeys.length);
+                };
                 if (customFittedIds &&
-                    (((_a = customFittedIds[0]) === null || _a === void 0 ? void 0 : _a.sellingPrice) ||
-                        ((_b = customFittedIds[0]) === null || _b === void 0 ? void 0 : _b.costPrice) ||
-                        ((_c = customFittedIds[0]) === null || _c === void 0 ? void 0 : _c.discountedPrice))) {
-                    // const customFittedInventoryData = inventoryFlats.map(
-                    //   (inventoryFlat) => ({
-                    //     sellingPrice:
-                    //       (inventoryFlat?.sellingPrice ?? 0) +
-                    //       (customFittedIds[0]?.sellingPrice ?? 0),
-                    //     costPrice:
-                    //       (inventoryFlat?.costPrice ?? 0) +
-                    //       (customFittedIds[0]?.costPrice ?? 0),
-                    //     discountedPrice:
-                    //       inventoryFlat?.discountedPrice &&
-                    //       inventoryFlat.discountedPrice !== 0
-                    //         ? inventoryFlat.discountedPrice +
-                    //           (customFittedIds[0]?.sellingPrice ?? 0)
-                    //         : inventoryFlat.discountedPrice ?? 0,
-                    //     inventoryId: updatedInventory?.id,
-                    //     inventoryFlatId: inventoryFlat?.id,
-                    //   })
-                    // );
+                    customFittedIds.length <= 1 &&
+                    hasOnlyAllowedColumns(customFittedIds[0])) {
+                    console.log("heyyy cond", customFittedIds, inventoryFlats);
                     const customFittedInventoryData = inventoryFlats.map((inventoryFlat) => {
                         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u;
                         const newSellingPrice = ((_a = inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.sellingPrice) !== null && _a !== void 0 ? _a : 0) <
@@ -589,17 +580,37 @@ class InventoryService {
                     const customFittedInventory = yield prisma.customFittedInventory.createMany({
                         data: customFittedInventoryData,
                     });
-                    // const customFittedInventory =
-                    //   await prisma.customFittedInventory.createMany({
-                    //     data: inventoryFlatIds.map((inventoryFlatId) => ({
-                    //       sellingPrice: customFittedIds[0]?.sellingPrice,
-                    //       costPrice: customFittedIds[0]?.costPrice,
-                    //       discountedPrice: customFittedIds[0]?.discountedPrice,
-                    //       inventoryId: updatedInventory?.id,
-                    //       inventoryFlatId: inventoryFlatId,
-                    //     })),
-                    //   });
                     inventory = Object.assign(Object.assign({}, updatedInventory), { customFittedInventory: customFittedInventory });
+                }
+                else {
+                    console.log("heyyycond2", customFittedIds, inventoryFlats);
+                    if (customFittedIds) {
+                        console.log("heyyycond3", customFittedIds, inventoryFlats);
+                        const customFittedInventoryData = inventoryFlats.map((item, index) => {
+                            const reverseIndex = customFittedIds.length - 1 - (index % customFittedIds.length);
+                            const customFittedId = customFittedIds[reverseIndex] || {};
+                            return {
+                                sellingPrice: customFittedId.sellingPrice,
+                                costPrice: customFittedId.costPrice,
+                                discountedPrice: customFittedId.discountedPrice,
+                                inventoryId: updatedInventory === null || updatedInventory === void 0 ? void 0 : updatedInventory.id,
+                                inventoryFlatId: item === null || item === void 0 ? void 0 : item.id,
+                            };
+                        });
+                        // const customFittedInventoryData =
+                        //   customFittedIds &&
+                        //   customFittedIds.map((item) => {
+                        //     return {
+                        //       ...item,
+                        //       inventoryId: updatedInventory?.id!,
+                        //       inventoryFlatId: item?.inventoryFlatId,
+                        //     } as CustomFittedInventoryData;
+                        //   });
+                        const customFittedInventory = yield prisma.customFittedInventory.createMany({
+                            data: customFittedInventoryData,
+                        });
+                        inventory = Object.assign(Object.assign({}, updatedInventory), { customFittedInventory: customFittedInventory });
+                    }
                 }
                 return { inventory: inventory ? inventory : updatedInventory };
             }
