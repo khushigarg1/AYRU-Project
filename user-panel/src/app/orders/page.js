@@ -151,7 +151,8 @@ const Orders = () => {
                   />
                 </Box>
                 <CardContent sx={{ flexGrow: 1, padding: "12px", '&:last-child': { paddingBottom: "10px", position: "relative" }, paddingTop: "0px" }}>
-                  <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>Order #{order.id} / {formatDate(order.createdAt)}</Typography>
+                  <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>{order?.orderid} / {formatDate(order.createdAt)}</Typography>
+                  {/* <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>Order #{order.id} / {formatDate(order.createdAt)}</Typography> */}
                   <Typography variant="body2"><strong>Name: </strong>{order?.shippingAddress?.userName}</Typography>
                   <Typography variant="body2"><strong>Order Status: </strong>{order.status}</Typography>
                   <Typography variant="body2"><strong>Payment Status: </strong>{order.paymentStatus}</Typography>
