@@ -402,6 +402,7 @@ export async function razorPayWebhookService(data: any) {
           data: {
             quantity: updatedQuantity,
             soldQuantity: updatedSoldQuantity,
+            updatedAt: inventory.updatedAt,
             // maxQuantity: updatedMaxQuantity,
             // minQuantity: updatedMinQuantity,
             // extraOptionOutOfStock: updatedQuantity <= 0,
@@ -618,6 +619,7 @@ export async function razorPayWebhookService(data: any) {
             where: { id: item.inventoryId },
             data: {
               extraOptionOutOfStock: true,
+              updatedAt: inventory.updatedAt,
             },
           });
         }
