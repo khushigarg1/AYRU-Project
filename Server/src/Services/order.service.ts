@@ -367,33 +367,24 @@ export async function razorPayWebhookService(data: any) {
     // }
 
     if (data?.event === "payment_link.paid") {
+      // if (data?.event === "payment_link.paid") {
       const orderItems = await prisma.orderItem.findMany({
         where: { orderId: orderId },
       });
 
       for (const item of orderItems) {
-        // const inventory = await prisma.inventory.findUnique({
-        //   where: { id: item.inventoryId },
-        //   include: {
-        //     customFittedInventory: {
-        //       include: { InventoryFlat: { include: { Flat: true } } },
-        //     },
-        //     InventoryFlat: { include: { Flat: true } },
-        //     InventoryFitted: {
-        //       include: {
-        //         Fitted: true,
-        //       },
-        //     },
-        //   },
-        // });
+        const inventory = await prisma.inventory.findUnique({
+          where: { id: item.inventoryId },
+        });
 
-        // if (!inventory) {
-        //   console.error(`Inventory item not found for ID: ${item.inventoryId}`);
-        //   throw new Error("Inventory item not found");
-        // }
+        if (!inventory) {
+          console.error(`Inventory item not found for ID: ${item.inventoryId}`);
+          throw new Error("Inventory item not found");
+        }
+        console.log("hyyyyyyyyyyyyyyyyyyyyyyyyyyyy", inventory);
 
-        // const newQuantity = (inventory.quantity ?? 0) - item.quantity;
-        // const newSoldQuantity = (inventory.soldQuantity ?? 0) + item.quantity;
+        const newQuantity = (inventory.quantity ?? 0) - item.quantity;
+        const newSoldQuantity = (inventory.soldQuantity ?? 0) + item.quantity;
         // const newMaxQuantity = (inventory.maxQuantity ?? 0) - item.quantity;
         // let newMinQuantity = inventory.minQuantity ?? 0;
 
@@ -401,21 +392,21 @@ export async function razorPayWebhookService(data: any) {
         //   newMinQuantity = newMaxQuantity - 1;
         // }
 
-        // let updatedQuantity = newQuantity < 0 ? 0 : newQuantity;
-        // let updatedSoldQuantity = newSoldQuantity < 0 ? 0 : newSoldQuantity;
+        let updatedQuantity = newQuantity < 0 ? 0 : newQuantity;
+        let updatedSoldQuantity = newSoldQuantity < 0 ? 0 : newSoldQuantity;
         // let updatedMaxQuantity = newMaxQuantity < 0 ? 0 : newMaxQuantity;
         // let updatedMinQuantity = newMinQuantity < 0 ? 0 : newMinQuantity;
 
-        // await prisma.inventory.update({
-        //   where: { id: item.inventoryId },
-        //   data: {
-        //     quantity: updatedQuantity,
-        //     soldQuantity: updatedSoldQuantity,
-        //     maxQuantity: updatedMaxQuantity,
-        //     minQuantity: updatedMinQuantity,
-        //     extraOptionOutOfStock: updatedQuantity <= 0,
-        //   },
-        // });
+        await prisma.inventory.update({
+          where: { id: item.inventoryId },
+          data: {
+            quantity: updatedQuantity,
+            soldQuantity: updatedSoldQuantity,
+            // maxQuantity: updatedMaxQuantity,
+            // minQuantity: updatedMinQuantity,
+            // extraOptionOutOfStock: updatedQuantity <= 0,
+          },
+        });
         let cartdata;
         let totalquantity = 0;
         if (item?.cartId) {

@@ -550,7 +550,7 @@ class InventoryService {
                 if (customFittedIds &&
                     customFittedIds.length <= 1 &&
                     hasOnlyAllowedColumns(customFittedIds[0])) {
-                    console.log("heyyy cond", customFittedIds, inventoryFlats);
+                    // console.log("heyyy cond", customFittedIds, inventoryFlats);
                     const customFittedInventoryData = inventoryFlats.map((inventoryFlat) => {
                         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u;
                         const newSellingPrice = ((_a = inventoryFlat === null || inventoryFlat === void 0 ? void 0 : inventoryFlat.sellingPrice) !== null && _a !== void 0 ? _a : 0) <
@@ -583,9 +583,9 @@ class InventoryService {
                     inventory = Object.assign(Object.assign({}, updatedInventory), { customFittedInventory: customFittedInventory });
                 }
                 else {
-                    console.log("heyyycond2", customFittedIds, inventoryFlats);
+                    // console.log("heyyycond2", customFittedIds, inventoryFlats);
                     if (customFittedIds) {
-                        console.log("heyyycond3", customFittedIds, inventoryFlats);
+                        // console.log("heyyycond3", customFittedIds, inventoryFlats);
                         const customFittedInventoryData = inventoryFlats.map((item, index) => {
                             const reverseIndex = customFittedIds.length - 1 - (index % customFittedIds.length);
                             const customFittedId = customFittedIds[reverseIndex] || {};

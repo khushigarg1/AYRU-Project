@@ -366,7 +366,7 @@ function deleteOrderService(id) {
 exports.deleteOrderService = deleteOrderService;
 function razorPayWebhookService(data) {
     return __awaiter(this, void 0, void 0, function* () {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
         try {
             const referenceId = (_c = (_b = (_a = data === null || data === void 0 ? void 0 : data.payload) === null || _a === void 0 ? void 0 : _a.payment_link) === null || _b === void 0 ? void 0 : _b.entity) === null || _c === void 0 ? void 0 : _c.reference_id;
             if (!referenceId) {
@@ -376,50 +376,41 @@ function razorPayWebhookService(data) {
             // if (isNaN(orderId)) {
             //   throw new Error(`Invalid reference_id: ${referenceId}`);
             // }
-            if ((data === null || data === void 0 ? void 0 : data.event) === "payment_link.paid") {
+            if ((data === null || data === void 0 ? void 0 : data.event) === "payment_link.paid" || true) {
+                // if (data?.event === "payment_link.paid") {
                 const orderItems = yield prisma.orderItem.findMany({
                     where: { orderId: orderId },
                 });
                 for (const item of orderItems) {
-                    // const inventory = await prisma.inventory.findUnique({
-                    //   where: { id: item.inventoryId },
-                    //   include: {
-                    //     customFittedInventory: {
-                    //       include: { InventoryFlat: { include: { Flat: true } } },
-                    //     },
-                    //     InventoryFlat: { include: { Flat: true } },
-                    //     InventoryFitted: {
-                    //       include: {
-                    //         Fitted: true,
-                    //       },
-                    //     },
-                    //   },
-                    // });
-                    // if (!inventory) {
-                    //   console.error(`Inventory item not found for ID: ${item.inventoryId}`);
-                    //   throw new Error("Inventory item not found");
-                    // }
-                    // const newQuantity = (inventory.quantity ?? 0) - item.quantity;
-                    // const newSoldQuantity = (inventory.soldQuantity ?? 0) + item.quantity;
+                    const inventory = yield prisma.inventory.findUnique({
+                        where: { id: item.inventoryId },
+                    });
+                    if (!inventory) {
+                        console.error(`Inventory item not found for ID: ${item.inventoryId}`);
+                        throw new Error("Inventory item not found");
+                    }
+                    console.log("hyyyyyyyyyyyyyyyyyyyyyyyyyyyy", inventory);
+                    const newQuantity = ((_d = inventory.quantity) !== null && _d !== void 0 ? _d : 0) - item.quantity;
+                    const newSoldQuantity = ((_e = inventory.soldQuantity) !== null && _e !== void 0 ? _e : 0) + item.quantity;
                     // const newMaxQuantity = (inventory.maxQuantity ?? 0) - item.quantity;
                     // let newMinQuantity = inventory.minQuantity ?? 0;
                     // if (newMinQuantity > newMaxQuantity) {
                     //   newMinQuantity = newMaxQuantity - 1;
                     // }
-                    // let updatedQuantity = newQuantity < 0 ? 0 : newQuantity;
-                    // let updatedSoldQuantity = newSoldQuantity < 0 ? 0 : newSoldQuantity;
+                    let updatedQuantity = newQuantity < 0 ? 0 : newQuantity;
+                    let updatedSoldQuantity = newSoldQuantity < 0 ? 0 : newSoldQuantity;
                     // let updatedMaxQuantity = newMaxQuantity < 0 ? 0 : newMaxQuantity;
                     // let updatedMinQuantity = newMinQuantity < 0 ? 0 : newMinQuantity;
-                    // await prisma.inventory.update({
-                    //   where: { id: item.inventoryId },
-                    //   data: {
-                    //     quantity: updatedQuantity,
-                    //     soldQuantity: updatedSoldQuantity,
-                    //     maxQuantity: updatedMaxQuantity,
-                    //     minQuantity: updatedMinQuantity,
-                    //     extraOptionOutOfStock: updatedQuantity <= 0,
-                    //   },
-                    // });
+                    yield prisma.inventory.update({
+                        where: { id: item.inventoryId },
+                        data: {
+                            quantity: updatedQuantity,
+                            soldQuantity: updatedSoldQuantity,
+                            // maxQuantity: updatedMaxQuantity,
+                            // minQuantity: updatedMinQuantity,
+                            // extraOptionOutOfStock: updatedQuantity <= 0,
+                        },
+                    });
                     let cartdata;
                     let totalquantity = 0;
                     if (item === null || item === void 0 ? void 0 : item.cartId) {
@@ -442,10 +433,10 @@ function razorPayWebhookService(data) {
                                     },
                                 });
                                 console.log(flatInventory);
-                                const newQuantity = ((_d = flatInventory === null || flatInventory === void 0 ? void 0 : flatInventory.quantity) !== null && _d !== void 0 ? _d : 0) - item.quantity;
-                                const newSoldQuantity = ((_e = flatInventory === null || flatInventory === void 0 ? void 0 : flatInventory.soldQuantity) !== null && _e !== void 0 ? _e : 0) + item.quantity;
-                                const newMaxQuantity = ((_f = flatInventory === null || flatInventory === void 0 ? void 0 : flatInventory.maxQuantity) !== null && _f !== void 0 ? _f : 0) - item.quantity;
-                                let newMinQuantity = (_g = flatInventory === null || flatInventory === void 0 ? void 0 : flatInventory.minQuantity) !== null && _g !== void 0 ? _g : 0;
+                                const newQuantity = ((_f = flatInventory === null || flatInventory === void 0 ? void 0 : flatInventory.quantity) !== null && _f !== void 0 ? _f : 0) - item.quantity;
+                                const newSoldQuantity = ((_g = flatInventory === null || flatInventory === void 0 ? void 0 : flatInventory.soldQuantity) !== null && _g !== void 0 ? _g : 0) + item.quantity;
+                                const newMaxQuantity = ((_h = flatInventory === null || flatInventory === void 0 ? void 0 : flatInventory.maxQuantity) !== null && _h !== void 0 ? _h : 0) - item.quantity;
+                                let newMinQuantity = (_j = flatInventory === null || flatInventory === void 0 ? void 0 : flatInventory.minQuantity) !== null && _j !== void 0 ? _j : 0;
                                 if (newMinQuantity > newMaxQuantity) {
                                     newMinQuantity = newMaxQuantity;
                                 }
@@ -477,10 +468,10 @@ function razorPayWebhookService(data) {
                                         fittedId: cartdata === null || cartdata === void 0 ? void 0 : cartdata.fittedId,
                                     },
                                 });
-                                const newQuantity = ((_h = fittedInventory === null || fittedInventory === void 0 ? void 0 : fittedInventory.quantity) !== null && _h !== void 0 ? _h : 0) - item.quantity;
-                                const newSoldQuantity = ((_j = fittedInventory === null || fittedInventory === void 0 ? void 0 : fittedInventory.soldQuantity) !== null && _j !== void 0 ? _j : 0) + item.quantity;
-                                const newMaxQuantity = ((_k = fittedInventory === null || fittedInventory === void 0 ? void 0 : fittedInventory.maxQuantity) !== null && _k !== void 0 ? _k : 0) - item.quantity;
-                                let newMinQuantity = (_l = fittedInventory === null || fittedInventory === void 0 ? void 0 : fittedInventory.minQuantity) !== null && _l !== void 0 ? _l : 0;
+                                const newQuantity = ((_k = fittedInventory === null || fittedInventory === void 0 ? void 0 : fittedInventory.quantity) !== null && _k !== void 0 ? _k : 0) - item.quantity;
+                                const newSoldQuantity = ((_l = fittedInventory === null || fittedInventory === void 0 ? void 0 : fittedInventory.soldQuantity) !== null && _l !== void 0 ? _l : 0) + item.quantity;
+                                const newMaxQuantity = ((_m = fittedInventory === null || fittedInventory === void 0 ? void 0 : fittedInventory.maxQuantity) !== null && _m !== void 0 ? _m : 0) - item.quantity;
+                                let newMinQuantity = (_o = fittedInventory === null || fittedInventory === void 0 ? void 0 : fittedInventory.minQuantity) !== null && _o !== void 0 ? _o : 0;
                                 if (newMinQuantity > newMaxQuantity) {
                                     newMinQuantity = newMaxQuantity;
                                 }
@@ -524,10 +515,10 @@ function razorPayWebhookService(data) {
                                             id: customInventory === null || customInventory === void 0 ? void 0 : customInventory.inventoryFlatId,
                                         },
                                     });
-                                    const newQuantity = ((_m = finalCustomInventory === null || finalCustomInventory === void 0 ? void 0 : finalCustomInventory.quantity) !== null && _m !== void 0 ? _m : 0) - item.quantity;
-                                    const newSoldQuantity = ((_o = finalCustomInventory === null || finalCustomInventory === void 0 ? void 0 : finalCustomInventory.soldQuantity) !== null && _o !== void 0 ? _o : 0) + item.quantity;
-                                    const newMaxQuantity = ((_p = finalCustomInventory === null || finalCustomInventory === void 0 ? void 0 : finalCustomInventory.maxQuantity) !== null && _p !== void 0 ? _p : 0) - item.quantity;
-                                    let newMinQuantity = (_q = finalCustomInventory === null || finalCustomInventory === void 0 ? void 0 : finalCustomInventory.minQuantity) !== null && _q !== void 0 ? _q : 0;
+                                    const newQuantity = ((_p = finalCustomInventory === null || finalCustomInventory === void 0 ? void 0 : finalCustomInventory.quantity) !== null && _p !== void 0 ? _p : 0) - item.quantity;
+                                    const newSoldQuantity = ((_q = finalCustomInventory === null || finalCustomInventory === void 0 ? void 0 : finalCustomInventory.soldQuantity) !== null && _q !== void 0 ? _q : 0) + item.quantity;
+                                    const newMaxQuantity = ((_r = finalCustomInventory === null || finalCustomInventory === void 0 ? void 0 : finalCustomInventory.maxQuantity) !== null && _r !== void 0 ? _r : 0) - item.quantity;
+                                    let newMinQuantity = (_s = finalCustomInventory === null || finalCustomInventory === void 0 ? void 0 : finalCustomInventory.minQuantity) !== null && _s !== void 0 ? _s : 0;
                                     if (newMinQuantity > newMaxQuantity) {
                                         newMinQuantity = newMaxQuantity;
                                     }

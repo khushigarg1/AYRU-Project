@@ -118,7 +118,7 @@ export async function getAllDashboardData(
             inventoryId: "desc",
           },
         },
-        take: 30,
+        take: 50,
       })
       .then(async (groupedItems) => {
         return Promise.all(
@@ -153,7 +153,7 @@ export async function getAllDashboardData(
             inventoryId: "desc",
           },
         },
-        take: 30,
+        take: 50,
       })
       .then(async (groupedItems) => {
         return Promise.all(

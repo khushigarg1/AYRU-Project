@@ -137,7 +137,7 @@ const ItemDetails = ({ product, queryParams }) => {
     console.log("decrement");
 
     setAnchorEl(event.currentTarget);
-    if (displayQuantity > (displayMinQuantity || 1)) {
+    if (displayQuantity > (displayMinQuantity || 0)) {
       setDisplayQuantity(displayQuantity - 1);
       handleClosePopover();
     }
@@ -176,7 +176,7 @@ const ItemDetails = ({ product, queryParams }) => {
     setAnchorEl(event.currentTarget);
     console.log("incerment");
 
-    if (displayQuantity < (displayMaxQuantity || Infinity)) {
+    if (displayQuantity < (displayMaxQuantity || 0)) {
       setDisplayQuantity(displayQuantity + 1);
       handleClosePopover();
     }

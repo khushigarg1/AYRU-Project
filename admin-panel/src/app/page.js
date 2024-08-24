@@ -366,12 +366,12 @@ const Dashboard = () => {
           </Paper>
         </Grid>
 
-        {/* Top 30 Cart Items */}
+        {/* Top 50 Cart Items */}
         <Grid item xs={12}>
           <Paper sx={{ p: 3 }}>
             <ThemeProvider theme={customTheme}>
 
-              <Typography variant="h6">Top 30 Cart Items</Typography>
+              <Typography variant="h6">Top 50 Cart Items</Typography>
               <DataGrid
                 autoHeight
                 rows={topCartItems.map((item, index) => ({
@@ -406,12 +406,12 @@ const Dashboard = () => {
           </Paper>
         </Grid>
 
-        {/* Top 30 Wishlist Items */}
+        {/* Top 50 Wishlist Items */}
         <Grid item xs={12}>
           <Paper sx={{ p: 3 }}>
             <ThemeProvider theme={customTheme}>
 
-              <Typography variant="h6">Top 30 Wishlist Items</Typography>
+              <Typography variant="h6">Top 50 Wishlist Items</Typography>
               <DataGrid
                 autoHeight
                 rows={topWishlistItems.map((item, index) => ({
