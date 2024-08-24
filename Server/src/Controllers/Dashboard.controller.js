@@ -116,7 +116,7 @@ function getAllDashboardData(request, reply) {
                         inventoryId: "desc",
                     },
                 },
-                take: 30,
+                take: 50,
             })
                 .then((groupedItems) => __awaiter(this, void 0, void 0, function* () {
                 return Promise.all(groupedItems.map((item) => __awaiter(this, void 0, void 0, function* () {
@@ -147,7 +147,7 @@ function getAllDashboardData(request, reply) {
                         inventoryId: "desc",
                     },
                 },
-                take: 30,
+                take: 50,
             })
                 .then((groupedItems) => __awaiter(this, void 0, void 0, function* () {
                 return Promise.all(groupedItems.map((item) => __awaiter(this, void 0, void 0, function* () {

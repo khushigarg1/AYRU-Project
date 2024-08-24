@@ -56,51 +56,8 @@ const OrderPage = () => {
   };
   const columns = isMobile
     ? [
-      { field: "id", headerName: "ID", width: 100 },
-      { field: "inventoryid", headerName: "Inventory ID", width: 150 },
-      { field: "userId", headerName: "User ID", width: 130 },
-      {
-        field: "status",
-        headerName: "Status",
-        width: 120,
-        renderCell: (params) => {
-          let color;
-          switch (params.value) {
-            case "approved":
-              color = "green";
-              break;
-            case "pending":
-              color = "orange";
-              break;
-            case "rejected":
-              color = "red";
-              break;
-            default:
-              color = "black";
-          }
-          return <span style={{ color }}>{params.value}</span>;
-        },
-      },
-      { field: "mobilenumber", headerName: "Mobile Number", width: 180 }, {
-        field: "createdAt",
-        headerName: "Created At",
-        width: 200,
-        valueGetter: (params) => formatDate(params.row.createdAt)
-      },
-      {
-        field: "updatedAt",
-        headerName: "Updated At",
-        width: 200,
-        valueGetter: (params) => formatDate(params.row.updatedAt)
-      },
-      {
-        field: "productName", headerName: "Product Name", width: 250,
-        valueGetter: (params) => params.row.inventory?.productName || "N/A",
-      },
-      {
-        field: "email", headerName: "Email", width: 210,
-        valueGetter: (params) => params.row.user?.email || "N/A",
-      },
+      // { field: "id", headerName: "ID", width: 100 },
+      { field: "inventoryid", headerName: "Inventory ID", width: 80 },
       {
         field: "actions",
         headerName: "Actions",
@@ -109,16 +66,11 @@ const OrderPage = () => {
             <Link href={`/availability/${params.row.id}`} passHref>
               <Button color="primary">Know More</Button>
             </Link>
-            <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button>
+            {/* <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button> */}
           </Box>
         ),
-        width: 180,
+        width: 120,
       },
-    ]
-    : [
-      { field: "id", headerName: "ID", width: 80 },
-      { field: "inventoryid", headerName: "Inventory ID", width: 150 },
-      { field: "userId", headerName: "User ID", width: 150 },
       {
         field: "status",
         headerName: "Status",
@@ -141,7 +93,16 @@ const OrderPage = () => {
           return <span style={{ color }}>{params.value}</span>;
         },
       },
+      {
+        field: "productName", headerName: "Product Name", width: 400,
+        valueGetter: (params) => params.row.inventory?.productName || "N/A",
+      },
+      { field: "userId", headerName: "User ID", width: 80 },
       { field: "mobilenumber", headerName: "Mobile Number", width: 150 },
+      {
+        field: "email", headerName: "Email", width: 250,
+        valueGetter: (params) => params.row.user?.email || "N/A",
+      },
       {
         field: "createdAt",
         headerName: "Created At",
@@ -154,14 +115,10 @@ const OrderPage = () => {
         width: 200,
         valueGetter: (params) => formatDate(params.row.updatedAt)
       },
-      {
-        field: "productName", headerName: "Product Name", width: 250,
-        valueGetter: (params) => params.row.inventory?.productName || "N/A",
-      },
-      {
-        field: "email", headerName: "Email", width: 210,
-        valueGetter: (params) => params.row.user?.email || "N/A",
-      },
+    ]
+    : [
+      // { field: "id", headerName: "ID", width: 80 },
+      { field: "inventoryid", headerName: "Inventory ID", width: 100 },
       {
         field: "actions",
         headerName: "Actions",
@@ -174,6 +131,50 @@ const OrderPage = () => {
           </Box>
         ),
         width: 180,
+      },
+      {
+        field: "status",
+        headerName: "Status",
+        width: 100,
+        renderCell: (params) => {
+          let color;
+          switch (params.value) {
+            case "approved":
+              color = "green";
+              break;
+            case "pending":
+              color = "orange";
+              break;
+            case "rejected":
+              color = "red";
+              break;
+            default:
+              color = "black";
+          }
+          return <span style={{ color }}>{params.value}</span>;
+        },
+      },
+      {
+        field: "productName", headerName: "Product Name", width: 450,
+        valueGetter: (params) => params.row.inventory?.productName || "N/A",
+      },
+      { field: "userId", headerName: "User ID", width: 100 },
+      { field: "mobilenumber", headerName: "Mobile Number", width: 150 },
+      {
+        field: "email", headerName: "Email", width: 250,
+        valueGetter: (params) => params.row.user?.email || "N/A",
+      },
+      {
+        field: "createdAt",
+        headerName: "Created At",
+        width: 200,
+        valueGetter: (params) => formatDate(params.row.createdAt)
+      },
+      {
+        field: "updatedAt",
+        headerName: "Updated At",
+        width: 200,
+        valueGetter: (params) => formatDate(params.row.updatedAt)
       },
     ];
 

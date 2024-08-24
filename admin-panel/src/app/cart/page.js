@@ -34,38 +34,13 @@ export default function Cart() {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    // { field: "id", headerName: "ID", width: 90 },
     { field: "userId", headerName: "User ID", width: 90 },
     { field: "userName", headerName: "User Name", width: 150 },
     { field: "inventoryId", headerName: "Inventory ID", width: 110 },
     {
-      field: "skuId", headerName: "SKU", width: 150,
+      field: "skuId", headerName: "SKU", width: 180,
       valueGetter: (params) => params.row.Inventory?.skuId || "-",
-    },
-    { field: "productName", headerName: "Product Name", width: 150 }, {
-      field: "categoryName", headerName: "Category Name", width: 250,
-      valueGetter: (params) => params.row.Inventory?.Category?.categoryName || "-",
-    },
-    { field: "quantity", headerName: "Quantity", width: 110 },
-    { field: "sizeOption", headerName: "Size Option", width: 120 },
-    { field: "selectedFlatItem", headerName: "Selected Flat Item", width: 150 },
-    { field: "selectedFittedItem", headerName: "Selected Fitted Item", width: 150 },
-    { field: "selectedCustomFittedItem", headerName: "Selected Custom Fitted Item", width: 180 },
-    { field: "unit", headerName: "Unit", width: 90 },
-    { field: "length", headerName: "Length", width: 90 },
-    { field: "width", headerName: "Width", width: 90 },
-    { field: "height", headerName: "Height", width: 90 },
-    { field: "remark", headerName: "Remark", width: 150 }, {
-      field: "createdAt",
-      headerName: "Created At",
-      width: 200,
-      valueGetter: (params) => formatDate(params.row.createdAt)
-    },
-    {
-      field: "updatedAt",
-      headerName: "Updated At",
-      width: 200,
-      valueGetter: (params) => formatDate(params.row.updatedAt)
     },
     {
       field: "actions",
@@ -77,6 +52,33 @@ export default function Cart() {
         </Button>
       ),
     },
+    { field: "productName", headerName: "Product Name", width: 400 },
+    {
+      field: "categoryName", headerName: "Category Name", width: 150,
+      valueGetter: (params) => params.row.Inventory?.Category?.categoryName || "-",
+    },
+    { field: "quantity", headerName: "Quantity", width: 110 },
+    { field: "sizeOption", headerName: "Size Option", width: 150 },
+    { field: "selectedFlatItem", headerName: "Selected Flat Item", width: 350 },
+    { field: "selectedFittedItem", headerName: "Selected Fitted Item", width: 350 },
+    { field: "selectedCustomFittedItem", headerName: "Selected Custom Fitted Item", width: 350 },
+    { field: "unit", headerName: "Unit", width: 90 },
+    { field: "length", headerName: "Length", width: 90 },
+    { field: "width", headerName: "Width", width: 90 },
+    { field: "height", headerName: "Height", width: 90 },
+    // { field: "remark", headerName: "Remark", width: 150 },
+    {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 200,
+      valueGetter: (params) => formatDate(params.row.createdAt)
+    },
+    // {
+    //   field: "updatedAt",
+    //   headerName: "Updated At",
+    //   width: 200,
+    //   valueGetter: (params) => formatDate(params.row.updatedAt)
+    // },
   ];
 
   useEffect(() => {

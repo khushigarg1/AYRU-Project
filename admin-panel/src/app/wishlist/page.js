@@ -34,7 +34,7 @@ export default function wishlist() {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    // { field: "id", headerName: "ID", width: 90 },
     { field: "userId", headerName: "User ID", width: 90 },
     { field: "userName", headerName: "User Name", width: 150 },
     { field: "email", headerName: "Email", width: 250 },
@@ -42,24 +42,6 @@ export default function wishlist() {
     {
       field: "skuId", headerName: "SKU", width: 150,
       valueGetter: (params) => params.row.Inventory?.skuId || "-",
-    },
-    { field: "productName", headerName: "Product Name", width: 350 },
-    {
-      field: "categoryName", headerName: "Category Name", width: 250,
-      valueGetter: (params) => params.row.Inventory?.Category?.categoryName || "-",
-    },
-    { field: "sellingPrice", headerName: "Selling Price", width: 120 },
-    { field: "discountedPrice", headerName: "Discounted Price", width: 150 }, {
-      field: "createdAt",
-      headerName: "Created At",
-      width: 200,
-      valueGetter: (params) => formatDate(params.row.createdAt)
-    },
-    {
-      field: "updatedAt",
-      headerName: "Updated At",
-      width: 200,
-      valueGetter: (params) => formatDate(params.row.updatedAt)
     },
     {
       field: "actions",
@@ -71,6 +53,25 @@ export default function wishlist() {
         </Button>
       ),
     },
+    { field: "productName", headerName: "Product Name", width: 350 },
+    {
+      field: "categoryName", headerName: "Category Name", width: 150,
+      valueGetter: (params) => params.row.Inventory?.Category?.categoryName || "-",
+    },
+    // { field: "sellingPrice", headerName: "Selling Price", width: 120 },
+    // { field: "discountedPrice", headerName: "Discounted Price", width: 150 },
+    {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 200,
+      valueGetter: (params) => formatDate(params.row.createdAt)
+    },
+    // {
+    //   field: "updatedAt",
+    //   headerName: "Updated At",
+    //   width: 200,
+    //   valueGetter: (params) => formatDate(params.row.updatedAt)
+    // },
   ];
 
   useEffect(() => {

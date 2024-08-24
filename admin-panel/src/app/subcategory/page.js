@@ -55,8 +55,8 @@ export default function Home() {
   const columns = isMobile
     ? [
       { field: "subcategoryName", headerName: "Name", width: 150 },
-      { field: "description", headerName: "Description", width: 200 },
-      { field: "icon", headerName: "Icon URL", width: 150 },
+      // { field: "description", headerName: "Description", width: 200 },
+      // { field: "icon", headerName: "Icon URL", width: 150 },
       {
         field: "categoryName",
         headerName: "Category",
@@ -87,8 +87,8 @@ export default function Home() {
     : [
       { field: "id", headerName: "ID" },
       { field: "subcategoryName", headerName: "Name", width: 200 },
-      { field: "description", headerName: "Description", width: 300 },
-      { field: "icon", headerName: "Icon URL", width: 200 },
+      // { field: "description", headerName: "Description", width: 300 },
+      // { field: "icon", headerName: "Icon URL", width: 200 },
       {
         field: "categoryName",
         headerName: "Category",

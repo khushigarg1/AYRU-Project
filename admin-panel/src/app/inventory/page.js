@@ -88,7 +88,7 @@ const HomePage = () => {
   };
   const columns = isMobile ? [
     { field: "id", headerName: "ID", width: 80 },
-    { field: "productName", headerName: "Product Name", width: 350 },
+    { field: "productName", headerName: "Product Name", width: 450 },
     {
       field: "actions",
       headerName: "Actions",
@@ -97,23 +97,71 @@ const HomePage = () => {
           <Link href={`/inventory/${params.row.id}`} passHref>
             <Button color="primary">Know More</Button>
           </Link>
-          <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button>
+          {/* <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button> */}
         </Box>
       ),
       width: 180
     },
-    { field: "skuId", headerName: "SKU ID", width: 150 },
     { field: "categoryId", headerName: "Category", width: 150, renderCell: (params) => getCategoryName(params.row.categoryId) },
-    { field: "quantity", headerName: "Quantity", width: 130 },
-    { field: "soldQuantity", headerName: "Sold Quantity", width: 130 },
-    { field: "sellingPrice", headerName: "Selling Price", width: 150 },
-    { field: "discountedPrice", headerName: "Discounted Price", width: 150 },
+    {
+      field: "extraOptionOutOfStock",
+      headerName: "Out of Stock",
+      width: 180,
+      type: "boolean",
+      renderCell: (params) => (
+        <span
+          style={{
+            color: params.value ? "green" : "red",
+            fontWeight: "bold",
+          }}
+        >
+          {params.value ? "True" : "False"}
+        </span>
+      ),
+    },
+    { field: "skuId", headerName: "SKU ID", width: 180 },
+    { field: "sellingPrice", headerName: "Selling Price", width: 130 },
+    { field: "discountedPrice", headerName: "Discounted Price", width: 130 },
     // { field: "subCategoryId", headerName: "Subcategory", width: 150, renderCell: (params) => getSubcategoryName(params.row.categoryId, params.row.subCategoryId) },
-    { field: "status", headerName: "Status", width: 140 },
-    { field: "productstatus", headerName: "Product Status", width: 170 },
-    { field: "availability", headerName: "Availability", width: 150, type: 'boolean' },
-    { field: "extraOptionOutOfStock", headerName: "Out of Stock", width: 180, type: 'boolean' },
-    { field: "sale", headerName: "SaleItem", width: 180, type: 'boolean' },
+    // { field: "status", headerName: "Status", width: 140 },
+    { field: "productstatus", headerName: "Product Status", width: 130 },
+    // { field: "availability", headerName: "Availability", width: 130, type: 'boolean' },
+    // { field: "extraOptionOutOfStock", headerName: "Out of Stock", width: 150, type: 'boolean' },
+    // { field: "sale", headerName: "SaleItem", width: 150, type: 'boolean' },
+    {
+      field: "availability",
+      headerName: "Availability",
+      width: 180,
+      type: "boolean",
+      renderCell: (params) => (
+        <span
+          style={{
+            color: params.value ? "green" : "red",
+            fontWeight: "bold",
+          }}
+        >
+          {params.value ? "True" : "False"}
+        </span>
+      ),
+    },
+    {
+      field: "sale",
+      headerName: "Sale Item",
+      width: 180,
+      type: "boolean",
+      renderCell: (params) => (
+        <span
+          style={{
+            color: params.value ? "green" : "red",
+            fontWeight: "bold",
+          }}
+        >
+          {params.value ? "True" : "False"}
+        </span>
+      ),
+    },
+    { field: "quantity", headerName: "Quantity", width: 100 },
+    { field: "soldQuantity", headerName: "Sold Quantity", width: 100 },
     {
       field: "createdAt",
       headerName: "Created At",
@@ -125,10 +173,20 @@ const HomePage = () => {
       headerName: "Updated At",
       width: 200,
       valueGetter: (params) => formatDate(params.row.updatedAt)
+    },
+    {
+      field: "Delete",
+      headerName: "Delete",
+      renderCell: (params) => (
+        <Box>
+          <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button>
+        </Box>
+      ),
+      width: 100
     },
   ] : [
     { field: "id", headerName: "ID", width: 80 },
-    { field: "productName", headerName: "Product Name", width: 350 },
+    { field: "productName", headerName: "Product Name", width: 450 },
     {
       field: "actions",
       headerName: "Actions",
@@ -137,23 +195,71 @@ const HomePage = () => {
           <Link href={`/inventory/${params.row.id}`} passHref>
             <Button color="primary">Know More</Button>
           </Link>
-          <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button>
+          {/* <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button> */}
         </Box>
       ),
-      width: 180
+      width: 130
     },
-    { field: "skuId", headerName: "SKU ID", width: 150 },
     { field: "categoryId", headerName: "Category", width: 150, renderCell: (params) => getCategoryName(params?.row?.categoryId) },
-    { field: "quantity", headerName: "Quantity", width: 100 },
-    { field: "soldQuantity", headerName: "Sold Quantity", width: 150 },
+    {
+      field: "extraOptionOutOfStock",
+      headerName: "Out of Stock",
+      width: 180,
+      type: "boolean",
+      renderCell: (params) => (
+        <span
+          style={{
+            color: params.value ? "green" : "red",
+            fontWeight: "bold",
+          }}
+        >
+          {params.value ? "True" : "False"}
+        </span>
+      ),
+    },
+    { field: "skuId", headerName: "SKU ID", width: 180 },
     { field: "sellingPrice", headerName: "Selling Price", width: 150 },
     { field: "discountedPrice", headerName: "Discounted Price", width: 150 },
     // { field: "subCategoryId", headerName: "Subcategory", width: 150, renderCell: (params) => getSubcategoryName(params?.row?.categoryId, params.row.subCategoryId) },
-    { field: "status", headerName: "Status", width: 150 },
-    { field: "productstatus", headerName: "Product Status", width: 180 },
-    { field: "availability", headerName: "Availability", width: 180, type: 'boolean' },
-    { field: "extraOptionOutOfStock", headerName: "Out of Stock", width: 180, type: 'boolean' },
-    { field: "sale", headerName: "SaleItem", width: 180, type: 'boolean' },
+    // { field: "status", headerName: "Status", width: 150 },
+    // { field: "productstatus", headerName: "Product Status", width: 180 },
+    // { field: "availability", headerName: "Availability", width: 180, type: 'boolean' },
+    // { field: "extraOptionOutOfStock", headerName: "Out of Stock", width: 180, type: 'boolean' },
+    {
+      field: "availability",
+      headerName: "Availability",
+      width: 180,
+      type: "boolean",
+      renderCell: (params) => (
+        <span
+          style={{
+            color: params.value ? "green" : "red",
+            fontWeight: "bold",
+          }}
+        >
+          {params.value ? "True" : "False"}
+        </span>
+      ),
+    },
+    {
+      field: "sale",
+      headerName: "Sale Item",
+      width: 180,
+      type: "boolean",
+      renderCell: (params) => (
+        <span
+          style={{
+            color: params.value ? "green" : "red",
+            fontWeight: "bold",
+          }}
+        >
+          {params.value ? "True" : "False"}
+        </span>
+      ),
+    },
+    // { field: "sale", headerName: "SaleItem", width: 180, type: 'boolean' },
+    { field: "quantity", headerName: "Quantity", width: 100 },
+    { field: "soldQuantity", headerName: "Sold Quantity", width: 100 },
     {
       field: "createdAt",
       headerName: "Created At",
@@ -165,7 +271,17 @@ const HomePage = () => {
       headerName: "Updated At",
       width: 200,
       valueGetter: (params) => formatDate(params.row.updatedAt)
-    }
+    },
+    {
+      field: "Delete",
+      headerName: "Delete",
+      renderCell: (params) => (
+        <Box>
+          <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button>
+        </Box>
+      ),
+      width: 100
+    },
   ];
   const handleDelete = async (id) => {
     setLoading(true);

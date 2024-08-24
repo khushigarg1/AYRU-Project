@@ -376,7 +376,7 @@ function razorPayWebhookService(data) {
             // if (isNaN(orderId)) {
             //   throw new Error(`Invalid reference_id: ${referenceId}`);
             // }
-            if ((data === null || data === void 0 ? void 0 : data.event) === "payment_link.paid" || true) {
+            if ((data === null || data === void 0 ? void 0 : data.event) === "payment_link.paid") {
                 // if (data?.event === "payment_link.paid") {
                 const orderItems = yield prisma.orderItem.findMany({
                     where: { orderId: orderId },
@@ -406,6 +406,7 @@ function razorPayWebhookService(data) {
                         data: {
                             quantity: updatedQuantity,
                             soldQuantity: updatedSoldQuantity,
+                            updatedAt: inventory.updatedAt,
                             // maxQuantity: updatedMaxQuantity,
                             // minQuantity: updatedMinQuantity,
                             // extraOptionOutOfStock: updatedQuantity <= 0,
@@ -552,6 +553,7 @@ function razorPayWebhookService(data) {
                             where: { id: item.inventoryId },
                             data: {
                                 extraOptionOutOfStock: true,
+                                updatedAt: inventory.updatedAt,
                             },
                         });
                     }

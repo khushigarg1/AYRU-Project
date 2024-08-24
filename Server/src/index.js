@@ -49,11 +49,8 @@ server.get("/", function (request, reply) {
 server.get("/api/image/:imageUrl", awsfunction_1.getImage);
 // }
 (0, routes_1.default)(server);
-const port = 8080;
-const host = "localhost";
-server.listen({ port, host }, (err, address) => {
+server.listen(8080, (err, address) => {
     if (err) {
-        server.log.error(err);
         console.error(err);
         process.exit(1);
     }

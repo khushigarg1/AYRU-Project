@@ -56,17 +56,30 @@ const OrderPage = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 80 },
-    { field: "orderid", headerName: "Order ID", width: 150 },
-    { field: "userId", headerName: "User ID", width: 100 },
+    // { field: "id", headerName: "ID", width: 80 },
+    { field: "orderid", headerName: "Order ID", width: 120 },
     {
-      field: "userName", headerName: "username", width: 210,
+      field: "actions",
+      headerName: "Actions",
+      renderCell: (params) => (
+        <Box>
+          <Link href={`/order/${params.row.id}`} passHref>
+            <Button color="primary">Know More</Button>
+          </Link>
+          {/* <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button> */}
+        </Box>
+      ),
+      width: 150,
+    },
+    { field: "deliveryStatus", headerName: "Delivery Status", width: 130 },
+    {
+      field: "userName", headerName: "username", width: 150,
       valueGetter: (params) => params.row.shippingAddress?.userName || "N/A",
     },
+    { field: "paymentStatus", headerName: "Payment Status", width: 130 },
+    { field: "Total", headerName: "Total", width: 100 },
     { field: "status", headerName: "Status", width: 100 },
-    { field: "paymentStatus", headerName: "Payment Status", width: 150 },
-    { field: "deliveryStatus", headerName: "Delivery Status", width: 150 },
-    { field: "Total", headerName: "Total", width: 200 },
+    { field: "userId", headerName: "User ID", width: 100 },
     {
       field: "createdAt",
       headerName: "Created At",
@@ -78,19 +91,6 @@ const OrderPage = () => {
       headerName: "Updated At",
       width: 200,
       valueGetter: (params) => formatDate(params.row.updatedAt)
-    },
-    {
-      field: "actions",
-      headerName: "Actions",
-      renderCell: (params) => (
-        <Box>
-          <Link href={`/order/${params.row.id}`} passHref>
-            <Button color="primary">Know More</Button>
-          </Link>
-          <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button>
-        </Box>
-      ),
-      width: 180,
     },
   ];
 

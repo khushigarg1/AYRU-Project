@@ -113,7 +113,33 @@ export default function CustomerSideDataManager() {
   return (
     <>
       <Container disableGutters maxWidth="fixed">
-        <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+        <Box
+          sx={{
+            p: 2,
+            borderRadius: 2,
+            boxShadow: 3,
+            backgroundColor: 'background.paper',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            width: "100%"
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+            Marquee Text:
+          </Typography>
+          <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
+            {customerSideData[0]?.marqueeText}
+          </Typography>
+          <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'primary.main', mt: 2 }}>
+            Extra Note:
+          </Typography>
+          <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
+            {customerSideData[0]?.extraNote}
+          </Typography>
+        </Box>
+
+        <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} mt={2}>
           <Typography variant="h5">Customer Side Data</Typography>
           <Button
             onClick={handleAddModalOpen}

@@ -58,8 +58,8 @@ export default function Home() {
   const columns = isMobile
     ? [
       { field: "categoryName", headerName: "Name", width: 150 },
-      { field: "description", headerName: "Description", width: 200 },
-      { field: "icon", headerName: "Icon URL", width: 150 },
+      // { field: "description", headerName: "Description", width: 200 },
+      // { field: "icon", headerName: "Icon URL", width: 150 },
       {
         field: "visible",
         headerName: "Visible",
@@ -92,8 +92,8 @@ export default function Home() {
     : [
       { field: "id", headerName: "ID" },
       { field: "categoryName", headerName: "Name", width: 200 },
-      { field: "description", headerName: "Description", width: 300 },
-      { field: "icon", headerName: "Icon URL", width: 300 },
+      // { field: "description", headerName: "Description", width: 300 },
+      // { field: "icon", headerName: "Icon URL", width: 300 },
       {
         field: "visible",
         headerName: "Visible",
