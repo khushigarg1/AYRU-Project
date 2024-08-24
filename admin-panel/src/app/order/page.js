@@ -91,6 +91,15 @@ const OrderPage = () => {
       headerName: "Updated At",
       width: 200,
       valueGetter: (params) => formatDate(params.row.updatedAt)
+    }, {
+      field: "delete",
+      headerName: "Delete",
+      renderCell: (params) => (
+        <Box>
+          <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button>
+        </Box>
+      ),
+      width: 150,
     },
   ];
 

@@ -115,6 +115,19 @@ const OrderPage = () => {
         width: 200,
         valueGetter: (params) => formatDate(params.row.updatedAt)
       },
+      {
+        field: "delete",
+        headerName: "Delete",
+        renderCell: (params) => (
+          <Box>
+            {/* <Link href={`/availability/${params.row.id}`} passHref>
+              <Button color="primary">Know More</Button>
+            </Link> */}
+            <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button>
+          </Box>
+        ),
+        width: 100,
+      },
     ]
     : [
       // { field: "id", headerName: "ID", width: 80 },
@@ -127,10 +140,10 @@ const OrderPage = () => {
             <Link href={`/availability/${params.row.id}`} passHref>
               <Button color="primary">Know More</Button>
             </Link>
-            <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button>
+            {/* <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button> */}
           </Box>
         ),
-        width: 180,
+        width: 130,
       },
       {
         field: "status",
@@ -175,6 +188,19 @@ const OrderPage = () => {
         headerName: "Updated At",
         width: 200,
         valueGetter: (params) => formatDate(params.row.updatedAt)
+      },
+      {
+        field: "delete",
+        headerName: "Delete",
+        renderCell: (params) => (
+          <Box>
+            {/* <Link href={`/availability/${params.row.id}`} passHref>
+              <Button color="primary">Know More</Button>
+            </Link> */}
+            <Button color="secondary" onClick={() => handleDelete(params.row.id)}><DeleteForever /></Button>
+          </Box>
+        ),
+        width: 100,
       },
     ];
 
