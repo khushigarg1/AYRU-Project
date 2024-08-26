@@ -44,7 +44,7 @@ export default function Home() {
     const admintoken = Cookies.get("admintoken");
     api.defaults.headers.Authorization = `Bearer ${admintoken}`;
     try {
-      await api.delete(`/category/${id}`);
+      await api.delete(`/subcategory/${id}`);
       toggleRefresh();
     } catch (error) {
       setError({
