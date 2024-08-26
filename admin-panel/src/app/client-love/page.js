@@ -28,6 +28,7 @@ export default function ClientLove() {
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
+  const [pageSize, setPageSize] = useState(5);
 
   useEffect(() => {
     fetchClientLoveEntries();
@@ -209,7 +210,12 @@ export default function ClientLove() {
           <DataGrid
             rows={clientLoveEntries}
             columns={columns}
-            autoPageSize
+            // autoPageSize
+
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            rowsPerPageOptions={[5, 10, 20]}
+            pagination
             loading={loading}
             disableRowSelectionOnClick
             slots={{ toolbar: GridToolbar }}

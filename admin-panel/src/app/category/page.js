@@ -31,6 +31,7 @@ export default function Home() {
   const [addUserOpen, setAddUserOpen] = useState(false);
   const [editCategoryOpen, setEditCategoryOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [pageSize, setPageSize] = useState(5);
 
   const handleAddUserOpen = () => setAddUserOpen(true);
   const handleAddUserClose = () => setAddUserOpen(false);
@@ -173,7 +174,12 @@ export default function Home() {
             <DataGrid
               rows={categories}
               columns={columns}
-              autoPageSize
+              // autoPageSize
+
+              pageSize={pageSize}
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+              rowsPerPageOptions={[5, 10, 20]}
+              pagination
               loading={loading}
               disableRowSelectionOnClick
               // disableColumnSelector

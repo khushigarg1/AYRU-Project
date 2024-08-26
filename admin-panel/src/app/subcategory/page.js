@@ -33,6 +33,8 @@ export default function Home() {
   const handleAddSubcategoryClose = () => setAddSubcategoryOpen(false);
   const [editCategoryOpen, setEditSubcategoryOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [pageSize, setPageSize] = useState(5);
+
   const handleEditCategoryOpen = (category) => {
     setSelectedCategory(category);
     setEditSubcategoryOpen(true);
@@ -174,7 +176,11 @@ export default function Home() {
             <DataGrid
               rows={subcategories}
               columns={columns}
-              autoPageSize
+              // autoPageSize
+              pageSize={pageSize}
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+              rowsPerPageOptions={[5, 10, 20, 40]}
+              pagination
               loading={loading}
               disableRowSelectionOnClick
               // disableColumnSelector

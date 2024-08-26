@@ -26,6 +26,7 @@ export default function AdminList() {
   const [admins, setAdmins] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [selectedAdmin, setSelectedAdmin] = useState(null);
+  const [pageSize, setPageSize] = useState(5);
 
   const formatDate = (dateString) => {
     const options = {
@@ -107,7 +108,12 @@ export default function AdminList() {
             <DataGrid
               rows={admins}
               columns={columns}
-              autoPageSize
+              // autoPageSize
+
+              pageSize={pageSize}
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+              rowsPerPageOptions={[5, 10, 20]}
+              pagination
               loading={loading}
               disableRowSelectionOnClick
               slots={{ toolbar: GridToolbar }}

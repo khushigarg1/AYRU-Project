@@ -27,6 +27,7 @@ export default function UserList() {
   const [users, setUsers] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [pageSize, setPageSize] = useState(5);
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
@@ -118,7 +119,12 @@ export default function UserList() {
             <DataGrid
               rows={users}
               columns={columns}
-              autoPageSize
+              // autoPageSize
+
+              pageSize={pageSize}
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+              rowsPerPageOptions={[5, 10, 20]}
+              pagination
               loading={loading}
               disableRowSelectionOnClick
               slots={{ toolbar: GridToolbar }}

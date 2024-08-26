@@ -40,7 +40,7 @@ export default function HomePage() {
   const [editFittedOpen, setEditFittedOpen] = useState(false);
   const [selectedFitted, setSelectedFitted] = useState(null);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleAddFittedOpen = () => setAddFittedOpen(true);
@@ -250,7 +250,7 @@ export default function HomePage() {
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[5, 10, 15]}
+            rowsPerPageOptions={[25, 50, 100]}
             component="div"
             count={filteredFitteds.length}
             rowsPerPage={rowsPerPage}

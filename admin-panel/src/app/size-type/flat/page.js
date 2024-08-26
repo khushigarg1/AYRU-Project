@@ -30,6 +30,7 @@ export default function Home() {
   const [addFlatOpen, setAddFlatOpen] = useState(false);
   const [editFlatOpen, setEditFlatOpen] = useState(false);
   const [selectedFlat, setSelectedFlat] = useState(null);
+  const [pageSize, setPageSize] = useState(5);
 
   const handleAddFlatOpen = () => setAddFlatOpen(true);
   const handleAddFlatClose = () => setAddFlatOpen(false);
@@ -149,7 +150,12 @@ export default function Home() {
             <DataGrid
               rows={flats}
               columns={columns}
-              autoPageSize
+              // autoPageSize
+
+              pageSize={pageSize}
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+              rowsPerPageOptions={[5, 10, 20]}
+              paginations
               loading={loading}
               disableRowSelectionOnClick
               // disableColumnSelector

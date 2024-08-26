@@ -28,6 +28,7 @@ export default function wishlist() {
   const [wishlists, setwishlists] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [selectedwishlist, setSelectedwishlist] = useState(null);
+  const [pageSize, setPageSize] = useState(5);
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
@@ -132,7 +133,12 @@ export default function wishlist() {
             <DataGrid
               rows={wishlists}
               columns={columns}
-              autoPageSize
+              // autoPageSize
+
+              pageSize={pageSize}
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+              rowsPerPageOptions={[5, 10, 20]}
+              pagination
               loading={loading}
               disableRowSelectionOnClick
               slots={{ toolbar: GridToolbar }}

@@ -28,6 +28,7 @@ export default function Cart() {
   const [carts, setCarts] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [selectedCart, setSelectedCart] = useState(null);
+  const [pageSize, setPageSize] = useState(5);
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
@@ -136,7 +137,12 @@ export default function Cart() {
             <DataGrid
               rows={carts}
               columns={columns}
-              autoPageSize
+              // autoPageSize
+
+              pageSize={pageSize}
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+              rowsPerPageOptions={[5, 10, 20]}
+              pagination
               loading={loading}
               disableRowSelectionOnClick
               slots={{ toolbar: GridToolbar }}
