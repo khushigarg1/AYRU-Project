@@ -136,7 +136,7 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
             sx={{
               width: '100%', marginBottom: 1,
               padding: "0px 0px",
-              fontSize: '0.8rem',
+              fontSize: '0.9rem',
             }}
 
             MenuProps={{
@@ -163,9 +163,9 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                       backgroundColor: theme.palette.background.contrast,
                     },
                   },
-                  // border: "1px solid",
-                  // borderColor: theme.palette.background.contrast,
-                  // borderRadius: "0px"
+                  border: "1px solid",
+                  borderColor: theme.palette.background.contrast,
+                  borderRadius: "5px"
                   // backgroundColor: theme.palette.background.contrast
                 }
               }
@@ -176,39 +176,39 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
           >
             <MenuItem sx={{
               fontWeight: 'bold',
-              fontSize: '0.8rem',
+              fontSize: '0.9rem',
             }} value="" disabled>
               <Typography variant="body1">Select Fit Type</Typography>
             </MenuItem>
             <MenuItem sx={{
               fontWeight: 'bold',
-              fontSize: '0.8rem',
+              fontSize: '0.9rem',
             }} value="flat">
               <Typography variant="body1"
                 sx={{
-                  fontSize: '0.8rem'
+                  fontSize: '0.9rem'
                 }}
               >Flat</Typography>
             </MenuItem>
             {data.InventoryFitted.length > 0 && (
               <MenuItem sx={{
                 fontWeight: 'bold',
-                fontSize: '0.8rem',
+                fontSize: '0.9rem',
               }} value="fitted" >
                 <Typography variant="body1"
                   sx={{
-                    fontSize: '0.8rem'
+                    fontSize: '0.9rem'
                   }}>Fitted</Typography>
               </MenuItem>
             )}
             {data.customFittedInventory.length > 0 && (
               <MenuItem sx={{
                 fontWeight: 'bold',
-                fontSize: '0.8rem',
+                fontSize: '0.9rem',
               }} value="custom">
                 <Typography variant="body1"
                   sx={{
-                    fontSize: '0.8rem'
+                    fontSize: '0.9rem'
                   }}>Custom Fitted</Typography>
               </MenuItem>
             )}
@@ -232,8 +232,8 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                 width: '100%', marginBottom: 1,
                 padding: "0px 0px",
                 fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold',
-                fontSize: '0.8rem',
-                //  borderRadius: "0px"
+                fontSize: '0.9rem',
+                //  borderRadius: "5px"
               }}
 
               MenuProps={{
@@ -260,9 +260,9 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                         backgroundColor: theme.palette.background.contrast,
                       },
                     },
-                    // border: "1px solid",
-                    // borderColor: theme.palette.background.contrast,
-                    // borderRadius: "0px"
+                    border: "1px solid",
+                    borderColor: theme.palette.background.contrast,
+                    borderRadius: "5px"
                     // backgroundColor: theme.palette.background.contrast
                   }
                 }
@@ -271,21 +271,21 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
             >
               <MenuItem sx={{
                 fontWeight: 'bold',
-                fontSize: '0.8rem',
+                fontSize: '0.9rem',
               }} value="" disabled>Select Size</MenuItem>
 
               {data.InventoryFlat.map((item, index) => (
                 // <>
                 <MenuItem key={index} value={item.Flat.id}
                   sx={{
-                    padding: '4px 8px',
+                    // padding: '4px 8px',
                     borderBottom: index < data.InventoryFlat.length - 1 && "1px solid rgba(128, 128, 128, 0.2)",
                   }} >
                   <Typography
                     component="div"
                     style={{
-                      fontSize: '0.8rem',
-                      // fontSize: item.Flat?.name?.length + item?.Flat?.size.length > 40 ? '0.72rem' : '0.8rem',
+                      fontSize: '0.9rem',
+                      // fontSize: item.Flat?.name?.length + item?.Flat?.size.length > 40 ? '0.72rem' : '0.9rem',
                       maxWidth: '100%',
                       textDecoration: item?.quantity === 0 ? 'line-through' : 'none',
                       // transform: item?.quantity === 0 ? 'rotate(-45deg)' : 'none',
@@ -323,7 +323,7 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                 width: '100%', marginBottom: 1,
                 padding: "0px 0px",
                 fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold',
-                fontSize: '0.8rem',
+                fontSize: '0.9rem',
               }}
 
               MenuProps={{
@@ -350,9 +350,9 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                         backgroundColor: theme.palette.background.contrast,
                       },
                     },
-                    // border: "1px solid",
-                    // borderColor: theme.palette.background.contrast,
-                    // borderRadius: "0px"
+                    border: "1px solid",
+                    borderColor: theme.palette.background.contrast,
+                    borderRadius: "5px"
                     // backgroundColor: theme.palette.background.contrast
                   }
                 }
@@ -361,18 +361,18 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
             >
               <MenuItem value="" disabled sx={{
                 fontWeight: 'bold',
-                fontSize: '0.8rem',
+                fontSize: '0.9rem',
               }}>Select Fitted Size</MenuItem>
               {data.InventoryFitted.map((item, index) => (
                 <MenuItem key={index} value={item.Fitted.id} sx={{
-                  padding: '4px 8px',
+                  // padding: '4px 8px',
                   borderBottom: index < data.InventoryFlat.length - 1 && "1px solid rgba(128, 128, 128, 0.2)",
                 }}>
                   <Typography
                     component="div"
                     style={{
-                      fontSize: '0.8rem',
-                      // fontSize: item.Fitted?.name?.length > 40 ? '0.72rem' : '0.8rem',
+                      fontSize: '0.9rem',
+                      // fontSize: item.Fitted?.name?.length > 40 ? '0.72rem' : '0.9rem',
 
                       textDecoration: item?.quantity === 0 ? 'line-through' : 'none',
                       // transform: item?.quantity === 0 ? 'rotate(-45deg)' : 'none',
@@ -410,7 +410,7 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                 width: '100%', marginBottom: 1,
                 padding: "0px 0px",
                 fontFamily: theme.palette.typography.fontFamily, fontWeight: 'bold',
-                fontSize: '0.8rem',
+                fontSize: '0.9rem',
               }}
 
               MenuProps={{
@@ -437,9 +437,9 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                         backgroundColor: theme.palette.background.contrast,
                       },
                     },
-                    // border: "1px solid",
-                    // borderColor: theme.palette.background.contrast,
-                    // borderRadius: "0px"
+                    border: "1px solid",
+                    borderColor: theme.palette.background.contrast,
+                    borderRadius: "5px"
                     // backgroundColor: theme.palette.background.contrast
                   }
                 }
@@ -448,18 +448,18 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
             >
               <MenuItem value="" disabled sx={{
                 fontWeight: 'bold',
-                fontSize: '0.8rem',
+                fontSize: '0.9rem',
               }}>Select Custom Fitted Size</MenuItem>
               {data.InventoryFlat.map((item, index) => (
                 <MenuItem key={index} value={item.Flat.id} sx={{
-                  padding: '4px 8px',
+                  // padding: '4px 8px',
                   borderBottom: index < data.InventoryFlat.length - 1 && "1px solid rgba(128, 128, 128, 0.2)",
                 }}>
                   <Typography
                     component="div"
                     style={{
-                      fontSize: '0.8rem',
-                      // fontSize: item.Flat?.name?.length + item?.Flat?.size.length > 40 ? '0.72rem' : '0.8rem',
+                      fontSize: '0.9rem',
+                      // fontSize: item.Flat?.name?.length + item?.Flat?.size.length > 40 ? '0.72rem' : '0.9rem',
                       maxWidth: '100%',
                       textDecoration: item?.quantity === 0 ? 'line-through' : 'none',
                       // transform: item?.quantity === 0 ? 'rotate(-45deg)' : 'none',
@@ -546,9 +546,9 @@ const CustomDropdown = ({ data, selections, setSelections, hasBedsheets }) => {
                             backgroundColor: theme.palette.background.contrast,
                           },
                         },
-                        // border: "1px solid",
-                        // borderColor: theme.palette.background.contrast,
-                        // borderRadius: "0px"
+                        border: "1px solid",
+                        borderColor: theme.palette.background.contrast,
+                        borderRadius: "5px"
                         // backgroundColor: theme.palette.background.contrast
                       }
                     }
