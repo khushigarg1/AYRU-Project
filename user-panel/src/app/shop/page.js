@@ -54,7 +54,7 @@ const ShopPageContent = () => {
 
   useEffect(() => {
     const fetchWishlistStatus = async () => {
-      setLoading(true);
+      // setLoading(true);
       try {
         if (token) {
           const response = await api.get(`/wishlist/user/${user.id}`, {
@@ -69,11 +69,11 @@ const ShopPageContent = () => {
             return acc;
           }, {});
           setWishlistItems(wishlistMap);
-          setLoading(false);
+          // setLoading(false);
         }
       } catch (error) {
         console.error('Error fetching wishlist:', error);
-        setLoading(false);
+        // setLoading(false);
       }
     };
 
@@ -139,10 +139,9 @@ const ShopPageContent = () => {
       if (categoryId || subcategoryId) {
         fetchInventory(categoryId, subcategoryId);
       }
-      setLoading(false);
+      // setLoading(false);
     } catch (error) {
       console.error('Error fetching categories:', error); setLoading(false);
-
     }
   };
 
