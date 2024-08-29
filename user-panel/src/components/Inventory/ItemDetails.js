@@ -614,8 +614,13 @@ Thank you so much!`;
                               onClick={handleAvailabilty}
                               color="inherit"
                               fullWidth
-                              sx={{ backgroundColor: theme.palette.background.contrast }}
-                            >
+
+                              sx={{
+                                backgroundColor: theme.palette.background.contrast,
+                                '&:hover': {
+                                  backgroundColor: theme.palette.primary.dark,
+                                },
+                              }}                            >
                               Check Availability
                             </Button>
                           </Grid>
