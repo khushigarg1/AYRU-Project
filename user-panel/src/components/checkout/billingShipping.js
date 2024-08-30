@@ -30,7 +30,7 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
   const [snackbar, setSnackbar] = useState(false);
   const [extraNote, setExtraNote] = useState(orderData?.remark || '');
   const [errors, setErrors] = useState({});
-  console.log("orderdaat1", orderData);
+  // console.log("orderdaat1", orderData);
 
   const handleContinue = () => {
     const newErrors = {};

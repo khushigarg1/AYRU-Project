@@ -264,7 +264,7 @@ const ShopPageContent = () => {
     const [newSortBy, newSortOrder] = event.target.value.split('-');
     setSortBy(newSortBy);
     setSortOrder(newSortOrder);
-    console.log(sortBy, sortOrder);
+    // console.log(sortBy, sortOrder);
   };
 
   const searchInventory = () => {

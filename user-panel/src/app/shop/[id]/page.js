@@ -32,7 +32,7 @@ const ProductDetails = ({ params }) => {
       queryParamsObject[key] = value;
     }
     setQueryParams(queryParamsObject);
-    console.log(queryParams, queryParamsObject);
+    // console.log(queryParams, queryParamsObject);
   }, []);
 
   useEffect(() => {

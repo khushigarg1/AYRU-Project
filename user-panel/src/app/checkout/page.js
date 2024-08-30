@@ -101,7 +101,7 @@ const CheckoutPage = () => {
           orderItems: response?.data?.data?.userCart,
           Total: response?.data?.data?.totalPrice
         }));
-        console.log(response?.data?.data?.userCart);
+        // console.log(response?.data?.data?.userCart);
       }
     } catch (error) {
       console.error('Error fetching cart:', error);

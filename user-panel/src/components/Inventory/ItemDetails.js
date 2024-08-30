@@ -40,7 +40,7 @@ const ItemDetails = ({ product, queryParams }) => {
   const selectedFlatItem = selections?.selectedFlatItem;
   const selectedFittedItem = selections?.selectedFittedItem;
   const selectedCustomFittedItem = selections?.selectedCustomFittedItem;
-  console.log(selections, selectedFlatItem, selectedFittedItem, selectedCustomFittedItem);
+  // console.log(selections, selectedFlatItem, selectedFittedItem, selectedCustomFittedItem);
 
   const [discountedPriceToDisplay, setDiscountedPriceToDisplay] = useState(product?.discountedPrice);
   const [sellingPriceToDisplay, setSellingPriceToDisplay] = useState(product?.sellingPrice);
@@ -99,7 +99,7 @@ const ItemDetails = ({ product, queryParams }) => {
         setDisplayAvailability(selectedCustomFitted.InventoryFlat.quantity === 0);
       }
     }
-    console.log("called", selections?.selectedFlatItem, selectedFlatItem, typeof (selections?.selectedFlatItem), typeof (selectedFlatItem), displayQuantity);
+    // console.log("called", selections?.selectedFlatItem, selectedFlatItem, typeof (selections?.selectedFlatItem), typeof (selectedFlatItem), displayQuantity);
 
   };
 
@@ -111,7 +111,7 @@ const ItemDetails = ({ product, queryParams }) => {
       const status = response?.data?.data?.status;
 
       setAvailabilityStatus(status);
-      console.log("status", status, availabilitystatus, product?.availability);
+      // console.log("status", status, availabilitystatus, product?.availability);
     } catch (error) {
       console.error("Error fetching admin details:", error);
     }
@@ -134,7 +134,7 @@ const ItemDetails = ({ product, queryParams }) => {
   };
 
   const handleDecrement = (event) => {
-    console.log("decrement");
+    // console.log("decrement");
 
     setAnchorEl(event.currentTarget);
     if (displayQuantity > (displayMinQuantity || 0)) {
@@ -174,7 +174,7 @@ const ItemDetails = ({ product, queryParams }) => {
   };
   const handleIncrement = (event) => {
     setAnchorEl(event.currentTarget);
-    console.log("incerment");
+    // console.log("incerment");
 
     if (displayQuantity < (displayMaxQuantity || 0)) {
       setDisplayQuantity(displayQuantity + 1);
@@ -338,7 +338,7 @@ const ItemDetails = ({ product, queryParams }) => {
   //-------------------------------------------------------------------------------
   const handleBuyNow = () => {
     // Implement logic to proceed to checkout or buy now action
-    console.log('Buying now:', product);
+    // console.log('Buying now:', product);
   };
 
   //-------------------------------------------------------------------------------

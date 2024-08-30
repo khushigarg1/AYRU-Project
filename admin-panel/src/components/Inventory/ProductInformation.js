@@ -17,9 +17,12 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
   // };
   const handleChange = (e, field) => {
     let { value } = e.target;
+    // console.log("value", value);
+
     if (field === 'weight' || field === 'itemWeight') {
-      value = parseFloat(value);
+      value = value ? parseFloat(value) : '';
     }
+    // console.log("value", editedProduct);
     setEditedProduct((prev) => ({ ...prev, [field]: value }));
   };
 

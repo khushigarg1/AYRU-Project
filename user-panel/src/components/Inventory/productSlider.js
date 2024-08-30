@@ -154,7 +154,7 @@ export const ProductSlider = ({ itemlist, displayAvailability, discountedPriceTo
           text: text,
           url: productUrl,
         });
-        console.log('Content shared successfully');
+        // console.log('Content shared successfully');
       } else {
         alert('Web Share API is not supported in your browser. Please copy the following message and share it manually:\n' + text);
       }

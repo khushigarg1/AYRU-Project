@@ -38,7 +38,7 @@ const CartPage = () => {
   };
 
   const fetchcartStatus = async () => {
-    console.log("dcalll");
+    // console.log("dcalll");
 
     try {
       if (token) {

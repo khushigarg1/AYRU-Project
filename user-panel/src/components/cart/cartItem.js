@@ -116,10 +116,10 @@ export const CartItem = ({ item, fetchCartStatus }) => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const handleButtonClick = (action, event) => {
-    console.log(action);
+    // console.log(action);
 
     if (action === 'decrement' && displayQuantity <= (displayMinQuantity || 1)) {
-      console.log("heyyy");
+      // console.log("heyyy");
 
       setSnackbarMessage('Minimum quantity reached');
       setSnackbarOpen(true);
