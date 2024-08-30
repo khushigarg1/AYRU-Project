@@ -117,6 +117,8 @@ const HomePage = ({ params }) => {
   };
 
   const formatInventoryData = (inventory) => {
+    // console.log("data", inventory);
+
     return {
       ...inventory,
       colorIds: inventory?.ColorVariations?.map((cv) => cv?.colorId) || [],

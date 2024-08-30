@@ -4,6 +4,7 @@ import { Box, Container, Grid, Typography, IconButton, useTheme, useMediaQuery }
 import { Add, Remove } from '@mui/icons-material';
 import Image from 'next/image';
 import Img from "../../public/images/footer.JPEG";
+import Rajorpay from "../../public/images/image.png";
 import { FacebookShareButton, InstagramIcon, TwitterShareButton, WhatsappShareButton } from 'next-share';
 import { FacebookIcon, TwitterIcon, WhatsappIcon } from 'next-share';
 import Insta from "../../public/images/insta.png"
@@ -138,6 +139,14 @@ const Footer = () => {
                 </Box>
               </Grid>
             </Grid>
+
+            <Box sx={{ px: 0 }}>
+              <Image
+                alt="rajorpay"
+                src={Rajorpay}
+                style={{ width: '100%', height: '100%' }}
+              />
+            </Box>
           </Container>
         </>
         )
@@ -236,10 +245,19 @@ const Footer = () => {
               </Grid>
             </Grid>
 
+
+            {/* <Grid item xs={12}> */}
+            <Box sx={{ px: 10, mt: 2 }}>
+              <Image
+                alt="rajorpay"
+                src={Rajorpay}
+                style={{ width: '100%', height: '100%' }}
+              />
+            </Box>
+            {/* </Grid> */}
           </Container>
         )
       }
-
     </Box>
   );
 };
