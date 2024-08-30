@@ -538,6 +538,8 @@ class InventoryService {
                 const inventoryFlatIds = inventoryFlats.map((inventoryFlat) => inventoryFlat.id);
                 let inventory = null;
                 const hasOnlyAllowedColumns = (obj) => {
+                    if (!obj)
+                        return false;
                     const allowedKeys = [
                         "sellingPrice",
                         "costPrice",
@@ -615,6 +617,7 @@ class InventoryService {
                 return { inventory: inventory ? inventory : updatedInventory };
             }
             catch (error) {
+                console.log(error);
                 throw error;
             }
         });

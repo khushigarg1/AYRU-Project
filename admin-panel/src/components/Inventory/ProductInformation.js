@@ -20,7 +20,7 @@ const ProductInformation = ({ inventory, onSave, onCancel }) => {
     // console.log("value", value);
 
     if (field === 'weight' || field === 'itemWeight') {
-      value = value ? parseFloat(value) : '';
+      value = parseFloat(value)
     }
     // console.log("value", editedProduct);
     setEditedProduct((prev) => ({ ...prev, [field]: value }));
