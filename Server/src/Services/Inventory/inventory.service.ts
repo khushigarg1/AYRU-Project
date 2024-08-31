@@ -610,7 +610,7 @@ export class InventoryService {
       const hasOnlyAllowedColumns = (
         obj: any
       ): obj is Partial<CustomFittedInventoryData> => {
-        if (!obj) return false;
+        // if (!obj) return false;
         const allowedKeys = [
           "sellingPrice",
           "costPrice",
