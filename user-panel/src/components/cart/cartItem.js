@@ -31,7 +31,7 @@ export const CartItem = ({ item, fetchCartStatus }) => {
   };
 
   const handleDecrement = () => {
-    if (displayQuantity > (displayMinQuantity || 1)) {
+    if (displayQuantity > (displayMinQuantity || 0)) {
       const newQuantity = displayQuantity - 1;
       setDisplayQuantity(newQuantity);
       updateQuantity(newQuantity);
@@ -39,7 +39,7 @@ export const CartItem = ({ item, fetchCartStatus }) => {
   };
 
   const handleIncrement = () => {
-    if (displayQuantity < (displayMaxQuantity || Infinity)) {
+    if (displayQuantity < (displayMaxQuantity || 0)) {
       const newQuantity = displayQuantity + 1;
       setDisplayQuantity(newQuantity);
       updateQuantity(newQuantity);
@@ -118,13 +118,13 @@ export const CartItem = ({ item, fetchCartStatus }) => {
   const handleButtonClick = (action, event) => {
     // console.log(action);
 
-    if (action === 'decrement' && displayQuantity <= (displayMinQuantity || 1)) {
+    if (action === 'decrement' && displayQuantity <= (displayMinQuantity || 0)) {
       // console.log("heyyy");
 
       setSnackbarMessage('Minimum quantity reached');
       setSnackbarOpen(true);
       handleOpenPopover(event)
-    } else if (action === 'increment' && displayQuantity >= (displayMaxQuantity || Infinity)) {
+    } else if (action === 'increment' && displayQuantity >= (displayMaxQuantity || 0)) {
       setSnackbarMessage('Maximum quantity reached');
       setSnackbarOpen(true);
       handleOpenPopover(event)
@@ -195,7 +195,7 @@ export const CartItem = ({ item, fetchCartStatus }) => {
             maxHeight: "100%",
             padding: "15px 5px",
             boxShadow: "none",
-            border: item?.quantity > (item?.cartSizeItem?.quantity) || item?.quantity < (item?.cartSizeItem?.minQuantity) ? '1px solid red' : 'none',
+            border: item?.cartSizeItem?.quantity === 0 ? '1px solid #cf2e2e' : 'none',
             outline: "none",
             '&:focus': {
               outline: 'none',
@@ -283,34 +283,70 @@ export const CartItem = ({ item, fetchCartStatus }) => {
               e.stopPropagation();
             }}
           >
-            <Chip
-              label={
-                <div style={{ textAlign: 'center' }}>
-                  <Typography variant="caption" component="span" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
-                    {item?.quantity}
-                    {/* {`${((item.sellingPrice - item.discountedPrice) / item.sellingPrice * 100).toFixed(0)}%`} */}
-                  </Typography>
-                </div>
-              }
-              color="secondary"
-              size="small"
-              sx={{
-                position: 'absolute',
-                top: 0,
-                right: 0,
-                zIndex: 1,
-                padding: '4px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                height: '18px',
-                width: '18px',
-                borderRadius: '50%',
-                boxShadow: 'none',
-                fontSize: '1px',
-                fontWeight: 'bold',
-              }}
-            />
+            {item?.extraOptionOutOfStock || item?.cartSizeItem?.quantity === 0 ? (
+              <Chip
+                label={
+                  <div style={{ textAlign: 'center' }}>
+                    <Typography variant="caption" component="span" sx={{ lineHeight: 1, fontWeight: "bolder", fontSize: "9px" }}>
+                      sold
+                    </Typography>
+                    <Typography variant="caption" component="div" sx={{ lineHeight: 1, fontWeight: "bolder", fontSize: "9px" }}>
+                      out
+                    </Typography>
+                  </div>
+                }
+                color="secondary"
+                size="small"
+                sx={{
+                  position: 'absolute',
+                  top: -2,
+                  right: -2,
+                  zIndex: 1,
+                  padding: '4px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  height: '25px',
+                  width: '25px',
+                  borderRadius: '50%',
+                  fontSize: '2px',
+                  fontWeight: 'bold',
+                  // backgroundColor: "red",
+                  backgroundColor: "#cf2e2e",
+                  color: "white"
+                }}
+              />
+            ) : (
+              <Chip
+                label={
+                  <div style={{ textAlign: 'center' }}>
+                    <Typography variant="caption" component="span" sx={{ lineHeight: 1, fontWeight: "bolder" }}>
+                      {item?.quantity}
+                      {/* {`${((item.sellingPrice - item.discountedPrice) / item.sellingPrice * 100).toFixed(0)}%`} */}
+                    </Typography>
+                  </div>
+                }
+                color="secondary"
+                size="small"
+                sx={{
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  zIndex: 1,
+                  padding: '4px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  height: '18px',
+                  width: '18px',
+                  borderRadius: '50%',
+                  boxShadow: 'none',
+                  fontSize: '1px',
+                  fontWeight: 'bold',
+                }}
+              />
+            )}
+
             <CardMedia
               component="img"
               // height="100"
@@ -390,14 +426,13 @@ export const CartItem = ({ item, fetchCartStatus }) => {
                 Rs.{item?.cartSizeItem?.sellingPrice}
               </Typography>
             )}
-            <Typography variant='body2' sx={{ color: item?.Inventory?.extraOptionOutOfStock ? 'red' : 'green', fontSize: "0.6em" }}>
-              {item?.Inventory?.extraOptionOutOfStock === true || item?.quantity === 0 ? "Out of Stock" : "In Stock"}
+            <Typography variant='body2' sx={{ color: item?.Inventory?.extraOptionOutOfStock || item?.cartSizeItem?.quantity === 0 ? '#cf2e2e' : 'green', fontSize: "0.6em" }}>
+              {item?.Inventory?.extraOptionOutOfStock === true || item?.cartSizeItem?.quantity === 0 ? "Out of Stock" : "In Stock"}
             </Typography>
             <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                border: '1px solid rgba(0, 0, 0, 0.12)',
                 borderRadius: '4px',
                 padding: '2px',
                 gap: 1,
@@ -409,8 +444,8 @@ export const CartItem = ({ item, fetchCartStatus }) => {
                 },
                 '&:active': {
                   backgroundColor: 'inherit',
-                }
-
+                },
+                border: (item?.quantity > (item?.cartSizeItem?.quantity) || item?.quantity < (item?.cartSizeItem?.minQuantity)) && item?.cartSizeItem?.quantity !== 0 ? '1px solid #cf2e2e' : '1px solid rgba(0, 0, 0, 0.1)',
               }}
               mt={1}
             >
@@ -419,6 +454,7 @@ export const CartItem = ({ item, fetchCartStatus }) => {
                 <IconButton
                   onClick={(event) => handleButtonClick('decrement', event)}
                   // disabled={displayQuantity <= (displayMinQuantity || 1)}
+                  disabled={item?.cartSizeItem?.quantity === 0}
                   size='small'
                   sx={{ padding: '4px' }}
                 >
@@ -431,6 +467,7 @@ export const CartItem = ({ item, fetchCartStatus }) => {
                 value={displayQuantity}
                 // onChange={handleChange}
                 // disabled
+                disabled={item?.cartSizeItem?.quantity === 0}
                 inputProps={{
                   min: displayMinQuantity || 1,
                   max: displayMaxQuantity || Infinity,
@@ -452,6 +489,7 @@ export const CartItem = ({ item, fetchCartStatus }) => {
                 <IconButton
                   onClick={(event) => handleButtonClick('increment', event)}
                   // disabled={displayQuantity >= (displayMaxQuantity || Infinity)}
+                  disabled={item?.cartSizeItem?.quantity === 0}
                   size='small'
                   sx={{ padding: '4px' }}
                 >

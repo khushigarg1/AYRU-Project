@@ -75,8 +75,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>AYRU Jaipur - Authentic Handcrafted Fashion and Lifestyle Products</title>
-        <meta name="description" content="Discover AYRU Jaipur, your destination for authentic handcrafted fashion and lifestyle products. Explore our unique collection today!" />
+        <title>AYRU JAIPUR | Premium Cotton Home Furnishing & Lifestyle Fashion</title>
+        <meta name="description" content="Discover authentic handcrafted Bedding, Bedsheet, Quilt, Dohar, Bedcover and more." />
         <meta name="keywords" content="AYRU Jaipur, handcrafted fashion, lifestyle products, authentic fashion, Jaipur fashion, handmade clothing, artisanal products, ayru, jaipur, jaipur bedsheets, dohar, quilt, jaipur bedcover" />
         <link rel="icon" href="/images/AppIcon.png" type="image/x-icon" />
       </head>

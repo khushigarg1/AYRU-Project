@@ -448,6 +448,20 @@ Thank you so much!`;
                 <strong>SKU:</strong> {product?.skuId}
               </Typography>
               <Divider sx={{ borderStyle: "dotted", mt: 2, mb: 2 }} />
+              {product?.extraNote &&
+                <Typography variant="caption" sx={{
+                  fontSize: '0.8rem',
+                  color: 'text.secondary',
+                  lineHeight: '1',
+                  padding: 0,
+                  display: 'block',
+                  // margin: "6px 0px"
+                }}
+                >
+                  <strong>Note: </strong>{product?.extraNote}
+                </Typography>
+              }
+              <Divider sx={{ borderStyle: "dotted", mt: 2, mb: 2 }} />
               {product?.availability === false ?
                 '' :
                 (quantity === 0 ? (
@@ -714,7 +728,7 @@ Thank you so much!`;
                   </>
                 )
               }
-              {product?.extraNote &&
+              {/* {product?.extraNote &&
                 <Typography variant="caption" sx={{
                   fontSize: '0.8rem',
                   color: 'text.secondary',
@@ -726,7 +740,7 @@ Thank you so much!`;
                 >
                   <strong>Note: </strong>{product?.extraNote}
                 </Typography>
-              }
+              } */}
               {
                 product?.SizeChartMedia?.length > 0 &&
                 <Accordion sx={{ mt: 2 }} disableGutters>

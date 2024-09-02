@@ -92,7 +92,9 @@ const CartPage = () => {
   }, [user?.id, setCartCount]);
 
   const handleCheckout = () => {
-    const outOfStockItems = cartItems.filter(item => item?.Inventory?.extraOptionOutOfStock);
+    const outOfStockItems = cartItems.filter(item => item?.Inventory?.extraOptionOutOfStock
+      || item?.cartSizeItem?.quantity === 0
+    );
     const quantityIssues = cartItems.some(item => {
       const cartSizeItem = item?.cartSizeItem;
       return (
@@ -103,11 +105,11 @@ const CartPage = () => {
 
     let message = '';
     if (outOfStockItems.length > 0 && quantityIssues) {
-      message = "Some items in your cart are out of stock and have quantity issues; Please adjust";
-    } else if (outOfStockItems.length > 0) {
-      message = "Some items in your cart are out of stock.";
+      message = "Some items in your cart are out of stock and exceed available quantity, Please modify your cart to proceed.";
     } else if (quantityIssues) {
-      message = "Desired quantity for an item in your cart is unavailable; please adjust.";
+      message = "The requested quantity for some items in your cart is unavailable, Please adjust your cart to proceed.";
+    } else {
+      message = "Some items in your cart are currently out of stock. Please remove them to proceed.";
     }
 
     if (message) {
