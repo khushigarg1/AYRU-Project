@@ -98,8 +98,9 @@ const CartPage = () => {
     const quantityIssues = cartItems.some(item => {
       const cartSizeItem = item?.cartSizeItem;
       return (
-        item?.quantity > (cartSizeItem?.quantity) ||
-        item?.quantity < (cartSizeItem?.minQuantity)
+        (item?.quantity > (cartSizeItem?.quantity) ||
+          item?.quantity < (cartSizeItem?.minQuantity))
+        && item?.cartSizeItem?.quantity !== 0
       );
     });
 
