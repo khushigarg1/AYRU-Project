@@ -97,6 +97,7 @@ const CartPage = () => {
     );
     const quantityIssues = cartItems.some(item => {
       const cartSizeItem = item?.cartSizeItem;
+      console.log("hey", item?.cartSizeItem?.quantity, item?.cartSizeItem?.quantity !== 0)
       return (
         (item?.quantity > (cartSizeItem?.quantity) ||
           item?.quantity < (cartSizeItem?.minQuantity))
@@ -109,7 +110,7 @@ const CartPage = () => {
       message = "Some items in your cart are out of stock and exceed available quantity, Please modify your cart to proceed.";
     } else if (quantityIssues) {
       message = "The requested quantity for some items in your cart is unavailable, Please adjust your cart to proceed.";
-    } else {
+    } else if (outOfStockItems.length > 0) {
       message = "Some items in your cart are currently out of stock. Please remove them to proceed.";
     }
 
