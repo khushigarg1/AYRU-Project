@@ -1,7 +1,7 @@
 "use client";
 
 import "./globals.css";
-import { THEME_ID, createTheme, styled, useTheme } from "@mui/material/styles";
+import { THEME_ID, createTheme } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "@emotion/react";
 import PageNav from "../components/PageNav";
@@ -10,6 +10,7 @@ import Marquee from "@/components/marquee";
 import api from "../../api";
 import Footer from "@/components/Footer";
 import FloatingWhatsAppButton from "@/components/floatingButton";
+import Script from 'next/script';
 
 const materialTheme = createTheme({
   palette: {
@@ -79,6 +80,23 @@ export default function RootLayout({ children }) {
         <meta name="description" content="Discover authentic handcrafted Bedding, Bedsheet, Quilt, Dohar, Bedcover and more." />
         <meta name="keywords" content="AYRU Jaipur, handcrafted fashion, lifestyle products, authentic fashion, Jaipur fashion, handmade clothing, artisanal products, ayru, jaipur, jaipur bedsheets, dohar, quilt, jaipur bedcover" />
         <link rel="icon" href="/images/AppIcon.png" type="image/x-icon" />
+        <Script
+          src="https://connect.facebook.net/en_US/fbevents.js"
+          strategy="afterInteractive"
+          onLoad={() => {
+            if (window.fbq) {
+              window.fbq('init', '946251690601571');
+              window.fbq('track', 'PageView');
+            } else {
+              console.error('Facebook Pixel script did not load correctly.');
+            }
+          }}
+        />
+        <noscript>
+          <img height="1" width="1" style={{ display: "none" }}
+            src="https://www.facebook.com/tr?id=946251690601571&ev=PageView&noscript=1"
+          />
+        </noscript>
       </head>
       <body style={{ width: "100%", padding: "0px", overflowX: "hidden", marginLeft: 0, marginRight: 0, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <ThemeProvider theme={{ [THEME_ID]: materialTheme }}>
