@@ -559,7 +559,8 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
             <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
               Please fill all required fields!!!
             </Alert>
-          </Snackbar>}
+          </Snackbar>
+        }
       </Paper>
     </>
   );

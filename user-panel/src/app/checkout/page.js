@@ -166,7 +166,7 @@ const CheckoutPage = () => {
               <PaymentStep handleNext={handleNext} cartItems={cartItems} Totalcount={Totalcount} orderData={orderData} setOrderData={handleSetOrderData} />
             )} */}
             {activeStep === 1 && (
-              <ReviewAndConfirmStep handleNext={handleNext} cartItems={cartItems} Totalcount={Totalcount} orderData={orderData} setOrderData={handleSetOrderData} />
+              <ReviewAndConfirmStep handleNext={handleNext} cartItems={cartItems} Totalcount={Totalcount} orderData={orderData} setOrderData={handleSetOrderData} handleBack={handleBack} />
             )}
             <Box sx={{ color: "black" }}>
               <Button disabled={activeStep === 0} onClick={handleBack} sx={{ color: "black" }}>

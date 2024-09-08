@@ -1,9 +1,9 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Divider, Stepper, Step, StepLabel, Typography, Paper, Accordion, AccordionSummary, AccordionDetails, Grid, TextField, Checkbox, FormControlLabel, useTheme, useMediaQuery, Card, Chip, CardMedia, CardContent, styled } from '@mui/material';
+import { Box, Button, Divider, Stepper, Step, StepLabel, Typography, Paper, Accordion, AccordionSummary, AccordionDetails, Grid, TextField, Checkbox, FormControlLabel, useTheme, useMediaQuery, Card, Chip, CardMedia, CardContent, styled, Modal, IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useAuth } from '@/contexts/auth';
-import { ExpandMoreSharp } from '@mui/icons-material';
+import { Close, ExpandMoreSharp } from '@mui/icons-material';
 import api from '../../../api';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
@@ -12,6 +12,21 @@ import RajorPay from "../../../public/images/razorpay.png";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PaymentIcon from '@mui/icons-material/Payment';
 import SecurityIcon from '@mui/icons-material/Security';
+import CircularProgress from '@mui/material/CircularProgress';
+
+
+const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+  borderRadius: 2,
+};
+
 
 const ShippingDetailsBox = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -27,14 +42,22 @@ const ShippingInfoBox = styled(Paper)(({ theme }) => ({
   flexDirection: "column",
   gap: theme.spacing(1),
 }));
-export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Totalcount, orderData, setOrderData }) => {
+export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, handleBack, cartItems, Totalcount, orderData, setOrderData }) => {
   const theme = useTheme();
   const token = Cookies.get("token");
   const router = useRouter();
 
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [placeOrderDisabled, setPlaceOrderDisabled] = useState(false);
+  const [placeOrderLoading, setPlaceOrderLoading] = useState(false);
+
   // console.log("orderdaat2", orderData);
 
   const handleOrder = async () => {
+    setPlaceOrderLoading(true);
     try {
       if (token) {
         const response = await api.post(`/order?token=${token}`, orderData, {
@@ -42,6 +65,7 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
             Authorization: `Bearer ${token}`
           }
         });
+
 
         const paymentUrl = response?.data?.newPayment?.short_url;
         if (paymentUrl) {
@@ -57,6 +81,10 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
       }
     } catch (error) {
       console.error('Error fetching cart:', error);
+      setPlaceOrderLoading(false);
+      setPlaceOrderDisabled(true);
+      setOpen(true);
+
     }
   };
   return (
@@ -67,6 +95,36 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography>Order Summary ({cartItems.length})</Typography>
           </AccordionSummary>
+
+
+          <Modal open={open} onClose={handleClose}>
+            <Box sx={modalStyle}>
+              <IconButton onClick={handleClose} sx={{ position: 'absolute', top: 4, right: 4 }}>
+                <Close />
+              </IconButton>
+
+              <Typography id="request-availability-modal-title" variant="h5" sx={{ lineHeight: 1.2, textAlign: "center" }} mb={1}>
+                Invalid Details
+              </Typography>
+              <Divider />
+              <Typography variant='body2' id="request-availability-modal-description" sx={{ mt: 2, lineHeight: 1.2 }}>
+                There is some issue with the details you shared.
+                Please make Sure that the phone number is correct and try again.
+              </Typography>
+              <Divider />
+              <Box sx={{ mt: 2 }}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleBack}
+                  sx={{ mr: 2 }}
+                  fullWidth
+                >
+                  Proceed to Edit Details...
+                </Button>
+              </Box>
+            </Box>
+          </Modal>
           <AccordionDetails>
             {cartItems.length !== 0 && (
               <>
@@ -323,9 +381,11 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, cartItems, Tot
 
       </Paper>
 
-      <Button variant='contained' onClick={handleOrder} sx={{ width: "100%" }}>
-        Place Order
+      <Button variant='contained' disabled={placeOrderLoading || placeOrderDisabled} onClick={handleOrder} sx={{ width: "100%" }} >
+        {placeOrderLoading ? <CircularProgress color='inherit' size={24} /> :
+          "Place Order"
+        }
       </Button>
     </>
   );
-};
+}; 

@@ -47,7 +47,7 @@ const AvailabilityPage = ({ params }) => {
     const productLink = `https://ayrujaipur.in/shop/${availability?.inventory?.id}`;
     const message =
       status === 'approved'
-        ? `*Yay!! Your request has been approved* for product: ${productName}.\n *Yes, it is available for purchase.*\n\n*Now you can add it to your cart* and complete the checkout process using the following link: ${productLink}\n\nPlease Note: The checkout must be completed within 48 hours. After this period, you will need to verify the product’s availability again.\n\nThank you for your patience\n\nFrom\n*AYRU JAIPUR*`
+        ? `*Yay!! Your request has been approved* for product: ${productName}.\n *Yes, it is available for purchase.*\n\nFirstly please refresh the website page and *Now you can add it to your cart* and complete the checkout process using the following link: ${productLink}\n\nPlease Note: The checkout must be completed within 48 hours. After this period, you will need to verify the product’s availability again.\n\nThank you for your patience\n\nFrom\n*AYRU JAIPUR*`
         : `We regret to inform you that
 
 *${productName} is currently unavailable.*
