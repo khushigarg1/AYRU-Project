@@ -97,7 +97,7 @@ const CartPage = () => {
     );
     const quantityIssues = cartItems.some(item => {
       const cartSizeItem = item?.cartSizeItem;
-      console.log("hey", item?.cartSizeItem?.quantity, item?.cartSizeItem?.quantity !== 0)
+      // console.log("hey", item?.cartSizeItem?.quantity, item?.cartSizeItem?.quantity !== 0)
       return (
         (item?.quantity > (cartSizeItem?.quantity) ||
           item?.quantity < (cartSizeItem?.minQuantity))

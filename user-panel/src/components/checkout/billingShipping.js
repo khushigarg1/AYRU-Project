@@ -360,6 +360,7 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
               <Grid item xs={12} md={6}>
                 <TextField
                   required
+                  type='number'
                   label="Phone Number"
                   name="phoneNumber"
                   fullWidth
@@ -373,6 +374,7 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
+                  type='number'
                   label="Alternate Mobile Number"
                   name="alternateMobileNumber"
                   fullWidth
