@@ -376,7 +376,7 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                 />
               </Grid>
               <Grid item xs={12} md={6}>
-                <Grid container spacing={1} alignItems="center" sx={{ marginTop: isMobile ? "0px" : "8px" }}>
+                <Grid container spacing={1} alignItems="center">
                   <Grid item xs={4}>
                     {/* <FormControl fullWidth>
                       <Select
@@ -396,11 +396,11 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
 
                     <Autocomplete
                       options={phoneCodes}
-                      getOptionLabel={(option) => `${option.name} (${option.dial_code})`}
+                      getOptionLabel={(option) => option.dial_code}
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label="Country"
+                          label="Country Code"
                           fullWidth
                           margin="normal" InputProps={{
                             ...params.InputProps,
@@ -416,7 +416,7 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
 
                       renderOption={(props, option) => (
                         <li {...props} style={{ fontFamily: theme.palette.typography.fontFamily }}>
-                          {option.name} {option.dial_code}
+                          {option.dial_code}
                         </li>
                       )}
                       ListboxProps={{
@@ -430,6 +430,9 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                           target: { name: 'countrycode', value: newValue?.dial_code || '' }, // Handle the selection of country code
                         });
                       }}
+                      required
+                      helperText={errors.phoneNumber}
+
                     />
                   </Grid>
 
