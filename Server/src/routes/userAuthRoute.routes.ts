@@ -20,6 +20,9 @@ import {
   // getaccessToken,
 } from "../Controllers/userAuth.controller";
 
+const fs = require("fs").promises;
+const path = require("path");
+
 export default async function AuthRoutes(server: FastifyInstance) {
   server.get(
     "/",
@@ -74,5 +77,17 @@ export default async function AuthRoutes(server: FastifyInstance) {
   );
   server.get("/confirm-email-change", (request, reply) => {
     confirmEmailChange(server, request, reply);
+  });
+  server.get("/country-codes", async (request, reply) => {
+    try {
+      const filePath = path.join(__dirname, "../phonecodes.json");
+      const fileData = await fs.readFile(filePath, "utf8");
+      const jsonData = JSON.parse(fileData);
+
+      return reply.send(jsonData);
+    } catch (error) {
+      console.error("Error reading the file:", error);
+      return reply.code(500).send({ error: "Error reading country codes" });
+    }
   });
 }

@@ -143,7 +143,7 @@ function createOrderService(data, userId) {
                     description: `Payment for ${newOrder.orderid}`,
                     customer: {
                         name: `{${shippingAddress === null || shippingAddress === void 0 ? void 0 : shippingAddress.userName}}`,
-                        contact: `{${shippingAddress === null || shippingAddress === void 0 ? void 0 : shippingAddress.phoneNumber}}`,
+                        // contact: `{${shippingAddress?.phoneNumber}}`,
                         email: `${userdetails === null || userdetails === void 0 ? void 0 : userdetails.email}`,
                         // email: `khushigarg.64901@gmail.com`,
                     },
@@ -152,10 +152,10 @@ function createOrderService(data, userId) {
                     //   contact: `{${updateduser?.phoneNumber}}`,
                     //   email: "gaurav.kumar@example.com",
                     // },
-                    notify: {
-                        sms: true,
-                        email: true,
-                    },
+                    // notify: {
+                    //   sms: true,
+                    // email: true,
+                    // },
                     reminder_enable: false,
                     notes: {
                         policy_name: "Jeevan Bima",

@@ -57,15 +57,21 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, handleBack, ca
   // console.log("orderdaat2", orderData);
 
   const handleOrder = async () => {
+    const finalData = {
+      ...orderData,
+      phoneNumber: orderData?.countrycode + '-' + orderData?.phoneNumber
+    }
+    delete finalData.countrycode;
+    console.log("final", finalData);
+
     setPlaceOrderLoading(true);
     try {
       if (token) {
-        const response = await api.post(`/order?token=${token}`, orderData, {
+        const response = await api.post(`/order?token=${token}`, finalData, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
-
 
         const paymentUrl = response?.data?.newPayment?.short_url;
         if (paymentUrl) {
@@ -111,7 +117,7 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, handleBack, ca
                 There is some issue with the details you shared.
                 Please make Sure that the phone number is correct and try again.
               </Typography>
-              <Divider />
+              <Divider sx={{ mt: 1 }} />
               <Box sx={{ mt: 2 }}>
                 <Button
                   variant="contained"
@@ -282,7 +288,7 @@ export const ReviewAndConfirmStep = ({ user, onLogin, handleNext, handleBack, ca
               <Typography variant="body2">{orderData?.city}, {orderData?.state}</Typography>
               <Typography variant="body2">{orderData?.country}</Typography>
               <Typography variant="body2">Pin: {orderData?.pincode}</Typography>
-              <Typography variant="body2">Mobile Number: {orderData?.phoneNumber}</Typography>
+              <Typography variant="body2">Mobile Number: {orderData?.countrycode}{orderData?.phoneNumber}</Typography>
               {orderData.alternateMobileNumber &&
                 <Typography variant="body2">Alternate Mobile Number: {orderData?.alternateMobileNumber}</Typography>
               }

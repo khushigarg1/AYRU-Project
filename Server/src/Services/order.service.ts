@@ -135,7 +135,7 @@ export async function createOrderService(
         description: `Payment for ${newOrder.orderid}`,
         customer: {
           name: `{${shippingAddress?.userName}}`,
-          contact: `{${shippingAddress?.phoneNumber}}`,
+          // contact: `{${shippingAddress?.phoneNumber}}`,
           email: `${userdetails?.email}`,
           // email: `khushigarg.64901@gmail.com`,
         },
@@ -144,10 +144,10 @@ export async function createOrderService(
         //   contact: `{${updateduser?.phoneNumber}}`,
         //   email: "gaurav.kumar@example.com",
         // },
-        notify: {
-          sms: true,
-          email: true,
-        },
+        // notify: {
+        //   sms: true,
+        // email: true,
+        // },
         reminder_enable: false,
         notes: {
           policy_name: "Jeevan Bima",

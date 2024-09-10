@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Stepper, Step, StepLabel, Typography, Paper, Accordion, AccordionSummary, AccordionDetails, TextField, Checkbox, FormControlLabel, useTheme, useMediaQuery, Divider, Grid, Card, CardContent, CardMedia, Chip, IconButton, MenuItem, Snackbar, Alert, Autocomplete } from '@mui/material';
+import { Box, Button, Stepper, Step, StepLabel, Typography, Paper, Accordion, AccordionSummary, AccordionDetails, TextField, Checkbox, FormControlLabel, useTheme, useMediaQuery, Divider, Grid, Card, CardContent, CardMedia, Chip, IconButton, MenuItem, Snackbar, Alert, Autocomplete, Select, FormControl } from '@mui/material';
 import { Close, DeleteForever, Edit } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useAuth } from '@/contexts/auth';
@@ -44,7 +44,7 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
     if (!orderData.city) newErrors.city = 'This field is mandatory';
     if (!orderData.pincode) newErrors.pincode = 'This field is mandatory';
     if (!orderData.addressLine1) newErrors.addressLine1 = 'This field is mandatory';
-
+    // orderData.phoneNumber = countryCode + orderData.phoneNumber;
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
@@ -80,7 +80,11 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
 
   const [states, setStates] = useState([]);
   const [countries, setCountries] = useState([]);
-
+  const [phoneCodes, setPhoneCodes] = useState([]);
+  // const [countryCode, setCountryCode] = useState('+91');
+  // const handleCountryCodeChange = async (event) => {
+  //   setCountryCode(event.target.value);
+  // };
   useEffect(() => {
     if (currentUser) {
       setOrderData({
@@ -95,6 +99,7 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
         city: orderData?.city,
         state: orderData?.state,
         country: orderData?.country,
+        countrycode: orderData?.countrycode
         // firstName: currentUser.firstName || orderData?.firstName,
         // lastName: currentUser.lastName || orderData?.lastName,
         // email: currentUser.email || orderData?.email,
@@ -109,6 +114,18 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
       });
     }
 
+    const fetchPhoneCode = async () => {
+      try {
+        // fetch a file in public folder
+        const response = await api.get("/auth/country-codes");
+        setPhoneCodes(response.data);
+        console.log("data", response.data);
+      } catch (error) {
+        console.error('Error fetching phone codes:', error);
+      }
+    };
+
+
     const fetchCountries = async () => {
       try {
         const response = await axios.get('https://countriesnow.space/api/v0.1/countries/states');
@@ -118,6 +135,7 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
       }
     };
 
+    fetchPhoneCode();
     fetchCountries();
   }, [currentUser]);
 
@@ -358,19 +376,79 @@ export const BillingAndShippingStep = ({ user, onLogin, handleNext, cartItems, T
                 />
               </Grid>
               <Grid item xs={12} md={6}>
-                <TextField
-                  required
-                  type='number'
-                  label="Phone Number"
-                  name="phoneNumber"
-                  fullWidth
-                  margin="normal"
-                  sx={{ backgroundColor: 'white' }}
-                  value={orderData.phoneNumber}
-                  onChange={handleInputChange}
-                  error={Boolean(errors.phoneNumber)}
-                  helperText={errors.phoneNumber}
-                />
+                <Grid container spacing={1} alignItems="center" sx={{ marginTop: isMobile ? "0px" : "8px" }}>
+                  <Grid item xs={4}>
+                    {/* <FormControl fullWidth>
+                      <Select
+                        id="select-country-code"
+                        value={orderData.countrycode}
+                        name="countrycode"
+                        onChange={handleInputChange}
+                        sx={{ backgroundColor: 'white' }}
+                      >
+                        {phoneCodes.map((code) => (
+                          <MenuItem key={code.dial_code} value={code.dial_code}>
+                            {code.name} {code.dial_code}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl> */}
+
+                    <Autocomplete
+                      options={phoneCodes}
+                      getOptionLabel={(option) => `${option.name} (${option.dial_code})`}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Country"
+                          fullWidth
+                          margin="normal" InputProps={{
+                            ...params.InputProps,
+                            sx: {
+                              fontFamily: theme.palette.typography.fontFamily,
+                            },
+                          }}
+                          sx={{ backgroundColor: 'white' }}
+                          error={Boolean(errors.country)}
+                          helperText={errors.country}
+                        />
+                      )}
+
+                      renderOption={(props, option) => (
+                        <li {...props} style={{ fontFamily: theme.palette.typography.fontFamily }}>
+                          {option.name} {option.dial_code}
+                        </li>
+                      )}
+                      ListboxProps={{
+                        sx: {
+                          fontFamily: theme.palette.typography.fontFamily,
+                        },
+                      }}
+                      value={phoneCodes.find((code) => code.dial_code === orderData.countrycode) || null} // Set the value based on selected dial code
+                      onChange={(event, newValue) => {
+                        handleInputChange({
+                          target: { name: 'countrycode', value: newValue?.dial_code || '' }, // Handle the selection of country code
+                        });
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid item xs={8}>
+                    <TextField
+                      required
+                      type="number"
+                      label="Phone Number"
+                      name="phoneNumber"
+                      fullWidth
+                      margin="none"
+                      sx={{ backgroundColor: 'white' }}
+                      value={orderData.phoneNumber}
+                      onChange={handleInputChange}
+                      error={Boolean(errors.phoneNumber)}
+                      helperText={errors.phoneNumber}
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField

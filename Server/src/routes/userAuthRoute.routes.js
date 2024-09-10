@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const userAuth_controller_1 = require("../Controllers/userAuth.controller");
+const fs = require("fs").promises;
+const path = require("path");
 function AuthRoutes(server) {
     return __awaiter(this, void 0, void 0, function* () {
         server.get("/", { onRequest: [server === null || server === void 0 ? void 0 : server.authenticateAdmin] }, (request, reply) => (0, userAuth_controller_1.getAllUsers)(server, request, reply));
@@ -39,6 +41,18 @@ function AuthRoutes(server) {
         server.get("/confirm-email-change", (request, reply) => {
             (0, userAuth_controller_1.confirmEmailChange)(server, request, reply);
         });
+        server.get("/country-codes", (request, reply) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const filePath = path.join(__dirname, "../phonecodes.json");
+                const fileData = yield fs.readFile(filePath, "utf8");
+                const jsonData = JSON.parse(fileData);
+                return reply.send(jsonData);
+            }
+            catch (error) {
+                console.error("Error reading the file:", error);
+                return reply.code(500).send({ error: "Error reading country codes" });
+            }
+        }));
     });
 }
 exports.default = AuthRoutes;

@@ -60,6 +60,7 @@ const CheckoutPage = () => {
     state: '',
     country: '',
     remark: '',
+    countrycode: '+91',
     payment: {
       cardNumber: '',
       cardName: '',
